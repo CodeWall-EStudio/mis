@@ -1,0 +1,10 @@
+{
+  "name": "mis-api",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "eventproxy": "0.3.1",
+    "express": "3.4.8",
+    "underscore": "1.7.0"
+  }
+}
