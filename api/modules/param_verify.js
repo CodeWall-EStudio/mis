@@ -1,11 +1,10 @@
 var EventProxy = require('eventproxy');
 var us = require('underscore');
 
-var db = require('../../modules/db');
-var config = require('../../config');
-var ERR = require('../../errorcode');
-var Util = require('../../util');
-var Logger = require('../../logger');
+var config = require('../config');
+var ERR = require('../errorcode');
+var Util = require('../util');
+var Logger = require('../logger');
 var ParamConfig = require('./param_config');
 
 var OBJECT_ID_LENGTH = 24;
@@ -13,48 +12,48 @@ var OBJECT_ID_LENGTH = 24;
 var ARRAY_REGEXP = /\[\w+\]/;
 
 // 封装一下查询数据库的方法
-function findOne(coll, value, pcfg, callback) {
-    if (value.length !== OBJECT_ID_LENGTH) {
-        return callback(pcfg.name + '\'s length must be ' + OBJECT_ID_LENGTH);
-    }
-    db[coll].findOne({
-        _id: value
-    }, function(err, doc) {
-        if (err) {
-            return callback(err);
-        }
-        if (!doc) {
-            return callback('can\'t find ' + pcfg.name + ': ' + value, ERR.NOT_FOUND);
-        }
-        // if(doc.toJSON){
-        //     doc = doc.toJSON();
-        // }
-        callback(null, doc);
-    });
-}
+// function findOne(coll, value, pcfg, callback) {
+//     if (value.length !== OBJECT_ID_LENGTH) {
+//         return callback(pcfg.name + '\'s length must be ' + OBJECT_ID_LENGTH);
+//     }
+//     db[coll].findOne({
+//         _id: value
+//     }, function(err, doc) {
+//         if (err) {
+//             return callback(err);
+//         }
+//         if (!doc) {
+//             return callback('can\'t find ' + pcfg.name + ': ' + value, ERR.NOT_FOUND);
+//         }
+//         // if(doc.toJSON){
+//         //     doc = doc.toJSON();
+//         // }
+//         callback(null, doc);
+//     });
+// }
 
-function findArray(coll, value, pcfg, callback) {
-    if (!value.forEach) {
-        return callback(pcfg.name + ' must be an array, value: ' + value);
-    }
-    if (!value.length) {
-        return callback(null, value);
-    }
+// function findArray(coll, value, pcfg, callback) {
+//     if (!value.forEach) {
+//         return callback(pcfg.name + ' must be an array, value: ' + value);
+//     }
+//     if (!value.length) {
+//         return callback(null, value);
+//     }
 
-    value = us.compact(value);
+//     value = us.compact(value);
 
-    var ep = new EventProxy();
-    ep.fail(callback);
+//     var ep = new EventProxy();
+//     ep.fail(callback);
 
-    ep.after('getValueDone', value.length, function(list) {
-        callback(null, list);
-    });
+//     ep.after('getValueDone', value.length, function(list) {
+//         callback(null, list);
+//     });
 
-    value.forEach(function(value) {
-        findOne(coll, value, pcfg, ep.group('getValueDone'));
-    });
+//     value.forEach(function(value) {
+//         findOne(coll, value, pcfg, ep.group('getValueDone'));
+//     });
 
-}
+// }
 
 var checkers = {
     'any': function(value, pcfg, callback) {
@@ -141,22 +140,22 @@ function getChecker(type) {
     var checkMethod = checkers[type];
     if (!checkMethod) {
 
-        if (ARRAY_REGEXP.test(type)) { // 数组类型
-            var subType = type.substring(1, type.length - 1);
-            if (subType in db) { // 验证 db 的数据值
-                checkMethod = function(value, pcfg, callback) {
-                    findArray(subType, value, pcfg, callback);
-                };
-                checkers[type] = checkMethod;
-            } else {
-                checkMethod = checkers['array'];
-            }
-        } else if (type in db) {
-            checkMethod = function(value, pcfg, callback) {
-                findOne(type, value, pcfg, callback);
-            };
-            checkers[type] = checkMethod;
-        }
+        // if (ARRAY_REGEXP.test(type)) { // 数组类型
+        //     var subType = type.substring(1, type.length - 1);
+        //     if (subType in db) { // 验证 db 的数据值
+        //         checkMethod = function(value, pcfg, callback) {
+        //             findArray(subType, value, pcfg, callback);
+        //         };
+        //         checkers[type] = checkMethod;
+        //     } else {
+        //         checkMethod = checkers['array'];
+        //     }
+        // } else if (type in db) {
+        //     checkMethod = function(value, pcfg, callback) {
+        //         findOne(type, value, pcfg, callback);
+        //     };
+        //     checkers[type] = checkMethod;
+        // }
     }
     return checkMethod;
 }
@@ -203,7 +202,7 @@ function verifyParam(value, pcfg, parameter, callback) {
  * 2. 检查参数值是否正确, 查询参数所代表的数据是否在数据库中,
  *     如果有, 则取出来, 存入 parameter 替换掉原来的参数
  */
-exports.checkParams = function(req, res, next) {
+module.exports = function(req, res, next) {
     var path = req.redirectPath || req.path;
     var method = req.method;
     var cfg = ParamConfig[path];

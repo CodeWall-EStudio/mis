@@ -8,18 +8,27 @@ exports.DEBUG = true;
 exports.PORT = 7000;
 
 // 数据库
-// exports.DB_URI = 'mongodb://xzone_user:HeMHFxTAMPAjlRVH@127.0.0.1:27017/overall';
+exports.DB_SERVER = 'localhost';
 
-// exports.DB_URI = 'mongodb://xzone_user:HeMHFxTAMPAjlRVH@112.126.66.147:27017/overall';
+exports.DB_PORT = 3306;
+
+exports.DB_NAME = 'media';
+
+exports.DB_USER = 'root';
+
+exports.DB_PWD = '';
+
+
+// exports.DB_URI = 'mongodb://xzone_user:HeMHFxTAMPAjlRVH@127.0.0.1:27017/session';
 
 
 // ==== 应用自身相关的配置 ====================================================
 
 // 应用运行的域名
-exports.APP_DOMAIN = 'http://localhost:8199';
+exports.APP_DOMAIN = 'http://localhost:' + exports.PORT;
 
 // cookie 的加密key
-exports.COOKIE_SECRET= 'HeMHFxTAMPAjlRVH_secret';
+exports.COOKIE_SECRET= 'HeMHFxTAMPAjlRVH';
 
 // cookie 的有效时间
 exports.COOKIE_TIME = 3 * 24 * 60 * 60 * 1000; // 3 * 24 小时

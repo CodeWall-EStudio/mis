@@ -4,10 +4,7 @@ var EventProxy = require('eventproxy');
 var us = require('underscore');
 
 exports.AUTH_WHITE_LIST = [
-    '/api/login',
-    '/api/login/callback',
-    '/api/login/student',
-    '/api/login/logout'
+    '/cgi/account/*'
 ];
 
 exports.RULES = {

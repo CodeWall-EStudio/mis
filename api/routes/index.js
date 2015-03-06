@@ -1,8 +1,6 @@
 var path = require('path');
 var us = require('underscore');
-var ObjectID = require('mongodb').ObjectID;
 
-var db = require('../modules/db');
 var ERR = require('../errorcode');
 var config = require('../config');
 var Logger = require('../logger');
@@ -13,6 +11,10 @@ function getRouter(uri, method) {
 
     var arr = uri.split('/'),
         module;
+    if (config.DEBUG) {
+        // 测试时干掉 require.cache 方便测试(改了cgi 不用每次重启)
+        require.cache = {};
+    }
     try {
 
         module = require(path.join(__dirname, '../' + arr[1] + '/' + arr[2]));
@@ -70,5 +72,3 @@ exports.setXHR2Headers = function(req, res, next) {
         next();
     }
 };
-
-
