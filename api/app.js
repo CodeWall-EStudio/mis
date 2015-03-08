@@ -3,6 +3,7 @@
  */
 var express = require('express');
 // var MongoStore = require('connect-mongo')(express);
+var MySQLStore = require('connect-mysql')(express);
 var http = require('http');
 var path = require('path');
 // var multer = require('multer');
@@ -51,13 +52,17 @@ app.use(express.session({
     cookie: {
         maxAge: config.COOKIE_TIME, // 2 hour
         httpOnly: true
-    }
-    /*,
+    },
+    /*
         store: new MongoStore({
             url: config.DB_URI
         }, function() {
             Logger.info('session db connection open');
         })*/
+    store: new MySQLStore({
+        pool: db.pool
+    })
+
 }));
 
 app.use(app.router);
