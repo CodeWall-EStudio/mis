@@ -3,6 +3,7 @@ var co = require('co');
 var ERR = require('../errorcode');
 var Logger = require('../logger');
 var config = require('../config');
+var db = require('../modules/db');
 
 exports.create = function(req, res) {
     var params = req.parameter;
@@ -100,7 +101,7 @@ exports.create = function(req, res) {
             conn.rollback(function() {
                 res.json({
                     code: ERR.DB_ERROR,
-                    msg: '创建帖子失败',
+                    msg: '创建主题失败',
                     detail: err.message
                 });
             });

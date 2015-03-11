@@ -84,5 +84,54 @@ module.exports = {
             default: 10,
             type: 'number'
         }]
+    },
+
+    // 文章接口
+    '/cgi/article/create': {
+        method: 'POST',
+        params: [{
+            name: 'subjectId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'title'
+        }, {
+            name: 'content',
+            required: true
+        }, {
+            name: 'labels',
+            type: '[number]'
+        }, {
+            name: 'resources',
+            type: '[number]'
+        }]
+    },
+
+    '/cgi/article/info': {
+        method: 'GET',
+        params: [{
+            name: 'id',
+            required: true,
+            type: 'number'
+        }]
+    },
+
+    '/cgi/article/search': {
+        method: 'GET',
+        params: [{
+            name: 'subjectId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        },{
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        }]
     }
 };
