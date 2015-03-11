@@ -18,13 +18,13 @@ module.exports = {
         params: [{
             name: 'uid',
             required: true
-        },{
+        }, {
             name: 'pwd',
             required: true
-        },{
+        }, {
             name: 'name',
             required: true
-        },{
+        }, {
             name: 'auth',
             type: 'number'
         }]
@@ -36,29 +36,53 @@ module.exports = {
         params: [{
             name: 'title',
             required: true
-        },{
+        }, {
             name: 'private',
             type: 'boolean'
-        },{
+        }, {
             name: 'members',
             type: '[number]'
-        },{
+        }, {
             name: 'managers',
             type: '[number]'
-        },{
+        }, {
             name: 'guest',
             type: 'boolean'
-        },{
+        }, {
             name: 'subjectLabels',
             type: '[number]'
-        },{
+        }, {
             name: 'articleLabels',
             type: '[number]'
-        },{
+        }, {
             name: 'resources',
             type: '[number]'
-        },{
+        }, {
             name: 'mark'
+        }]
+    },
+
+    '/cgi/subject/info': {
+        method: 'GET',
+        params: [{
+            name: 'id',
+            required: true,
+            type: 'number'
+        }]
+    },
+
+    '/cgi/subject/search': {
+        method: 'GET',
+        params: [{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        },{
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
         }]
     }
 };

@@ -168,6 +168,12 @@ function getChecker(type) {
 function verifyParam(value, pcfg, parameter, callback) {
     var valueHasSet = typeof value !== 'undefined';
 
+    if(!valueHasSet && 'default' in pcfg){
+        value = pcfg.default;
+    }
+
+    valueHasSet = typeof value !== 'undefined';
+
     if (!valueHasSet && pcfg.required) {
         return callback(pcfg.name + ' is required');
     }

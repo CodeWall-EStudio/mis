@@ -107,5 +107,50 @@ exports.create = function(req, res) {
         });
 
     });
+};
+
+
+exports.search = function(req, res){
+    var params = req.parameter;
+    Logger.info('[do subject search: ', params);
+    co(function* (){
+        var rows = yield req.mysql('SELECT COUNT(*) AS count FROM subject');
+        var total = rows[0].count;
+
+        rows = yield req.mysql('SELECT * FROM subject limit ?, ?', [params.start, params.limit]);
+        res.json({
+            code: ERR.SUCCESS,
+            data: {
+                total: total,
+                list: rows
+            }
+        });
+    }).catch(function(err){
+        db.handleError(req, res, err.message);
+    });
+
+};
+
+exports.info = function(req, res){
+    var params = req.parameter;
+
+    co(function* (){
+        var rows = yield req.mysql('SELECT * FROM subject WHERE id = ?', params.id);
+        if(rows.length){
+            res.json({
+                code: ERR.SUCCESS,
+                data: rows[0]
+            });
+        }else{
+            res.json({
+                code: ERR.NOT_FOUND,
+                msg: '没有找到该主题'
+            });
+
+        }
+        
+    }).catch(function(err){
+        db.handleError(req, res, err.message);
+    });
 
 };
