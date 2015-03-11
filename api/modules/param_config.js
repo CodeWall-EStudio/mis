@@ -13,6 +13,24 @@ module.exports = {
         }]
     },
 
+    '/cgi/user/create': {
+        method: 'POST',
+        params: [{
+            name: 'uid',
+            required: true
+        },{
+            name: 'pwd',
+            required: true
+        },{
+            name: 'name',
+            required: true
+        },{
+            name: 'auth',
+            type: 'number'
+        }]
+    },
+
+    // 主题接口
     '/cgi/subject/create': {
         method: 'POST',
         params: [{

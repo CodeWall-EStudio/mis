@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+var wrapper = require('co-mysql');
 
 var config = require('../config');
 var ERR = require('../errorcode');
@@ -19,6 +20,7 @@ exports.connect = function(req, res, next){
             res.json({code: ERR.DB_ERROR, msg: '没有可用的数据库连接, 请联系管理员'}, 500);
         }else{
             req.conn = connection;
+            req.mysql = wrapper(connection).query;
             next();
         }
     });

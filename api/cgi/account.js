@@ -1,5 +1,6 @@
 var ERR = require('../errorcode');
 var Util = require('../util');
+var Logger = require('../logger');
 var db = require('../modules/db');
 
 
@@ -10,11 +11,12 @@ exports.login = function(req, res) {
     var uid = param.uid;
     var pwd = Util.md5(param.pwd);
 
-    var query = req.conn.query('SELECT id,uid,name FROM user WHERE uid = ? and pwd = ?', [uid, pwd], function(err, results) {
+    var query = req.conn.query('SELECT id,uid,name,auth FROM user WHERE uid = ? and pwd = ?', [uid, pwd], function(err, rows) {
         if (err) {
+            Logger.error('[login error]', err);
             return db.handleError(req, res, err);
         }
-        var user = results[0];
+        var user = rows[0];
         if (!user) {
             return res.json({
                 code: ERR.ACCOUNT_ERROR,

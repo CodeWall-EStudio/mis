@@ -108,6 +108,11 @@ var checkers = {
 
     '[number]': function(value, pcfg, callback) {
         var notAnArrayMsg = pcfg.name + ' must be a number array, value: ' + value;
+        try {
+            value = Util.jsonParse(value);
+        } catch (e) {
+            throw new Error('value parse error: ' + value);
+        }
         if (!value.forEach) {
             return callback(notAnArrayMsg);
         }
@@ -124,7 +129,7 @@ var checkers = {
     'array': function(value, pcfg, callback) {
         try {
             value = Util.jsonParse(value);
-            if(!value.forEach){
+            if (!value.forEach) {
                 throw new Error('not an array');
             }
             callback(null, value);

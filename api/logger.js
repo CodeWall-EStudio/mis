@@ -3,7 +3,7 @@ var Util = require('./util');
 
 var slice = Array.prototype.slice;
 
-exports.info = function(){
+exports.info = exports.log = function(){
     var args = slice.call(arguments);
     args.unshift('>>>', Util.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'), '\n');
     args.push('\n<<<\n');
