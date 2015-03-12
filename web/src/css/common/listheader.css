@@ -1,0 +1,33 @@
+.header-top{
+	position:relative;
+	height:60px;
+	padding:6px 12px;
+	border-bottom:1px solid #34495e;
+}
+.header-left{
+	float:left;
+	width:300px;
+}
+.header-left span{
+	display:inline-block;
+}
+.header-left .btn{
+	
+}
+.header-right{
+	position:absolute;
+	right:0;
+}
+/*
+.header-right:after {
+    content: ' ';
+    display: block;
+    width: 2px;
+    height: 6px;
+    background: #007aff;
+    position: absolute;
+    top: 8px;
+    left: 3px;
+    -webkit-transform: rotate(-45deg)	
+}
+*/
