@@ -58,8 +58,9 @@ var configs = {
 
     // path 相关
     src: './src/',
-    dist: './dist/',
-    deploy: './public/',
+	dev: './dev/',
+    dist: './dev/',
+    deploy: './dev/',
 
     // 路径配置
     // css: './css/',
@@ -140,6 +141,7 @@ configs.webServerRoot = (configs.subModule === '/') ? configs.webServer : config
 
 // global vars
 var src = configs.src,
+	dev = configs.dev,
     dist = configs.dist,
     tmp = configs.tmp,
     deploy = configs.deploy,
@@ -287,16 +289,39 @@ gulp.task('cleanmod', function(cb) {
 
 // clean all temp files
 gulp.task('cleanall', function(cb) {
-    del([dist, tmp, deploy, offlineCache, './.sass-cache'], cb);
+    del([dist,dev, tmp, deploy, offlineCache, './.sass-cache'], cb);
 });
 
 // copy js/html from src->dist
-var things2copy = ['*.{html,ico}', 'libs/**/*.*', 'img/static/**/' + configs.imgType];
+var things2copy = ['*.{html,ico}', 'js/lib/**','fonts/**', 'img/static/**/' + configs.imgType];
+var font2copy = ['*','fonts/**'];
+gulp.task('font',function(){
+    return gulp.src(font2copy, opt)
+        .pipe(newer(dist))
+        .pipe(gulpIf('*.html', extender()))
+        .pipe(gulp.dest(dist));
+});
+
+gulp.task('font-dev',function(){
+    return gulp.src(font2copy, opt)
+        .pipe(newer(dev))
+        .pipe(gulpIf('*.html', extender()))
+        .pipe(gulp.dest(dev));
+});
+
 gulp.task('copy', function() {
     return gulp.src(things2copy, opt)
         .pipe(newer(dist))
         .pipe(gulpIf('*.html', extender()))
         .pipe(gulp.dest(dist));
+});
+
+gulp.task('copy-dev', function() {
+	console.log(things2copy);
+    return gulp.src(things2copy, opt)
+        .pipe(newer(dev))
+        .pipe(gulpIf('*.html', extender()))
+        .pipe(gulp.dest(dev));
 });
 
 // copy and rev some images files [filename-md5.png style]
@@ -307,6 +332,14 @@ gulp.task('img-rev', function() {
         .pipe(newer(dist))
         .pipe(rev())
         .pipe(gulp.dest(dist));
+});
+
+gulp.task('img-rev-dev', function() {
+    // img root 
+    return gulp.src(image2copy, opt)
+        .pipe(newer(dev))
+        .pipe(rev())
+        .pipe(gulp.dest(dev));
 });
 
 // compile scss and auto spriting 
@@ -324,8 +357,22 @@ gulp.task('compass', function() {
         .pipe(gulp.dest(dist));
 });
 
+gulp.task('compass-dev', function() {
+    return gulp.src(scss2compile, opt)
+        .pipe(newer(dev))
+        .pipe(compass({
+            config_file: './config.rb',
+            css: path.join(dev, 'css'),
+            sass: path.join(src, 'css'),
+            image: path.join(src, 'img'),
+            generated_image: path.join(dev, 'img/sprite')
+        }))
+        .pipe(gulp.dest(dev));
+});
+
 // packer js using webpack
-var js2webpack = src + 'js/**/*.js';
+//var image2copy = '{img/,img/common/}' + configs.imgType;
+var js2webpack = src + 'js/**';
 var tpl2webpack = src + 'tpl/**/*.*';
 gulp.task('webpack', function() {
     !isWebpackInit && initWebpackConfig();
@@ -334,6 +381,16 @@ gulp.task('webpack', function() {
         .pipe(webpack(configs.webpack))
         .pipe(gulp.dest(dist + 'js/'));
 });
+
+gulp.task('webpack-dev', function() {
+    !isWebpackInit && initWebpackConfig();
+    setWebpackEntry();
+	console.log(js2webpack);
+    return gulp.src(js2webpack)
+        .pipe(webpack(configs.webpack))
+        .pipe(gulp.dest(dev + 'js/'));
+});
+
 
 // minify js and generate reversion files
 // stand alone cmd to make sure all js minified
@@ -522,13 +579,18 @@ gulp.task('watch', function() {
     gulp.watch(tpl2webpack, ['webpack']);
 });
 
+/*
+gulp.task('dev', function(cb) {
+    runSequence(['clean', 'watch:set'], ['copy-dev','font-dev', 'img-rev-dev', 'compass-dev', 'webpack-dev'], 'watch', 'liveproxy', cb);
+});
+*/
 gulp.task('dev', function(cb) {
     runSequence(['clean', 'watch:set'], ['copy', 'img-rev', 'compass', 'webpack'], 'watch', 'liveproxy', cb);
 });
 
 gulp.task('dist', function(cb) {
     runSequence(
-        'clean', ['copy', 'img-rev', 'compass', 'webpack', 'uglify', 'minifyCss'],
+        'clean', ['copy','font', 'img-rev', 'compass', 'webpack', 'uglify', 'minifyCss'],
         'htmlrefs',
         customMinify,
         customJBFlow,

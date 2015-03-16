@@ -1,0 +1,13 @@
+@charset "UTF-8";
+body {
+  font-family: '微软雅黑', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #ecf0f1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+section {
+  padding: 20px;
+}

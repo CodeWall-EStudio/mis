@@ -68,23 +68,33 @@ app.use(express.session({
 app.use(app.router);
 
 
-// var staticDir = path.join(__dirname, '../public');
-// if ('development' === app.get('env')) {
+var staticDir = path.join(__dirname, '../public');
+if ('development' === app.get('env')) {
 
-//     staticDir = path.join(__dirname, '../web');
+    staticDir = path.join(__dirname, '../web/dev');
 
-//     app.use(express.errorHandler());
+    app.use(express.errorHandler());
 
-// }
+}
 
-// app.use(express.static(staticDir, {
-//     maxAge: config.STATIC_FILE_EXPIRES
-// }));
+app.use(express.static(staticDir, {
+    maxAge: config.STATIC_FILE_EXPIRES
+}));
 
 
 //////////// DB ///////////////
 
 app.all('/*', db.connect);
+
+//////////// html ///////////////
+/*
+* add by horde
+* 这里调试的时候用,正式的时候使用public目录,小龙看下这里怎么改?
+
+app.use('/index.html',express.static(path.join(__dirname, '../web/dev/index.html')));
+app.use('/login.html',express.static(path.join(__dirname, '../web/dev/login.html')));
+*/
+app.use('/',express.static(path.join(__dirname, '../web/dev/')));
 
 /////////// API 相关 ///////////////
 

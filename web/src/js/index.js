@@ -1,3 +1,4 @@
+/*
 require('./common/global.js');
 
 var list = require('../tpl/index/list.hbs');
@@ -11,3 +12,4 @@ document.write(dom);
 
 console.log('test!!');
 console.log('index loaded');
+*/
