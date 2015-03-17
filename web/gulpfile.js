@@ -58,9 +58,9 @@ var configs = {
 
     // path 相关
     src: './src/',
-	dev: './dev/',
-    dist: './dev/',
-    deploy: './dev/',
+	dev: './public/',
+    dist: './public/',
+    deploy: './public/',
 
     // 路径配置
     // css: './css/',
