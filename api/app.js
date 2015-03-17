@@ -3,7 +3,9 @@
  */
 var express = require('express');
 // var MongoStore = require('connect-mongo')(express);
-var MySQLStore = require('connect-mysql')(express);
+// var MySQLStore = require('connect-mysql')(express);
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 var http = require('http');
 var path = require('path');
 // var multer = require('multer');
@@ -46,24 +48,34 @@ app.use(express.methodOverride());
 
 
 app.use(express.cookieParser());
-app.use(express.session({
+app.use(session({
     key: 'sid',
     secret: config.COOKIE_SECRET,
-    cookie: {
-        maxAge: config.COOKIE_TIME, // 2 hour
-        httpOnly: true
-    },
-    /*
-        store: new MongoStore({
-            url: config.DB_URI
-        }, function() {
-            Logger.info('session db connection open');
-        })*/
-    store: new MySQLStore({
-        pool: db.pool
+    resave: false,
+    saveUninitialized: false,
+    store: new RedisStore({
+        host: '127.0.0.1',
+        port: 6379
     })
-
 }));
+// app.use(express.session({
+//     key: 'sid',
+//     secret: config.COOKIE_SECRET,
+//     cookie: {
+//         maxAge: config.COOKIE_TIME, // 2 hour
+//         httpOnly: true
+//     },
+    
+//         store: new MongoStore({
+//             url: config.DB_URI
+//         }, function() {
+//             Logger.info('session db connection open');
+//         })
+//     store: new MySQLStore({
+//         pool: db.pool
+//     })
+
+// }));
 
 app.use(app.router);
 
