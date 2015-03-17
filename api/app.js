@@ -80,19 +80,21 @@ app.use(session({
 app.use(app.router);
 
 
-var staticDir = path.join(__dirname, '../public');
+var staticDir = path.join(__dirname, '../web/public');
 if ('development' === app.get('env')) {
 
-    console.log(__dirname,path.join(__dirname, '../web/public'));
+    //console.log(__dirname,path.join(__dirname, '../web/public'));
     staticDir = path.join(__dirname, '../web/public');
 
     app.use(express.errorHandler());
 
 }
 
-app.use(express.static(staticDir, {
-    maxAge: config.STATIC_FILE_EXPIRES
-}));
+// app.use(express.static(staticDir, {
+//     maxAge: config.STATIC_FILE_EXPIRES
+// }));
+
+app.use(express.static(staticDir));
 
 
 //////////// DB ///////////////

@@ -30,4 +30,25 @@ db.login = function(param,callback){
 	request.post(cgiList.login,param,callback);
 }
 
+db.logout = function(param,callback){
+	request.get(cgiList.logout,callback);
+}
+
+db.user = {};
+db.user.list = function(param,callback){
+	request.get(cgiList.user.list,callback);
+}
+
+db.user.info = function(callback){
+	request.get(cgiList.user.info,callback);	
+}
+
+db.user.create = function(param,callback){
+	request.get(cgiList.user.create,param,callback);
+}
+
+db.subject = {};
+
+db.article = {};
+
 module.exports = db;

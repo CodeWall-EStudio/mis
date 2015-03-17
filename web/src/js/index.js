@@ -1,3 +1,14 @@
+var user = require('./user/user'),
+	subject = require('./subject/subject'),
+	article = require('./article/article');
+
+
+function init(){
+	user.init();
+}
+
+init();
+
 /*
 require('./common/global.js');
 
