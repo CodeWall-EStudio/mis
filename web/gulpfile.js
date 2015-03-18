@@ -30,7 +30,7 @@ var async = require('async');
 var request = require('request');
 var del = require('del');
 var vinylPaths = require('vinyl-paths');
-var liveproxy = require('liveproxy');
+//var liveproxy = require('liveproxy');
 
 var compass = require('gulp-compass'),
     rev = require('gulp-rev'),
@@ -325,7 +325,7 @@ gulp.task('copy-dev', function() {
 });
 
 // copy and rev some images files [filename-md5.png style]
-var image2copy = '{img/,img/common/}' + configs.imgType;
+var image2copy = '{img/**,img/common/}' + configs.imgType;
 gulp.task('img-rev', function() {
     // img root 
     return gulp.src(image2copy, opt)
@@ -585,7 +585,8 @@ gulp.task('dev', function(cb) {
 });
 */
 gulp.task('dev', function(cb) {
-    runSequence(['clean', 'watch:set'], ['copy', 'img-rev', 'compass', 'webpack'], 'watch', 'liveproxy', cb);
+    //runSequence(['clean', 'watch:set'], ['copy', 'img-rev', 'compass', 'webpack'], 'watch', 'liveproxy', cb);
+    runSequence(['clean', 'watch:set'], ['copy', 'img-rev', 'compass', 'webpack'], 'watch', cb);
 });
 
 gulp.task('dist', function(cb) {

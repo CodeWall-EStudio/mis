@@ -40,7 +40,7 @@ db.user.list = function(param,callback){
 }
 
 db.user.info = function(callback){
-	request.get(cgiList.user.info,callback);	
+	request.get(cgiList.user.info,null,callback);	
 }
 
 db.user.create = function(param,callback){
@@ -49,6 +49,30 @@ db.user.create = function(param,callback){
 
 db.subject = {};
 
+db.subject.search = function(param,callback){
+	request.get(cgiList.subject.search,param,callback);
+}
+
+db.subject.info = function(param,callback){
+	request.get(cgiList.subject.info,param,callback);
+}
+
+db.subject.create = function(param,callback){
+	request.get(cgiList.subject.create,param,callback);
+}
+
 db.article = {};
+
+db.article.search = function(param,callback){
+	request.get(cgiList.article.search,param,callback);
+}
+
+db.article.info = function(param,callback){
+	request.get(cgiList.article.info,param,callback);
+}
+
+db.article.create = function(param,callback){
+	request.get(cgiList.article.create,param,callback);
+}
 
 module.exports = db;

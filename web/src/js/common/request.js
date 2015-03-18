@@ -36,6 +36,10 @@ function ajax(opt,callback,error){
 		url = opt.url,
 		data = opt.data;
 
+	if(typeof error !== 'function'){
+		error = callback;
+	}
+
 	$.ajax({
 		type : type,
 		url : url,

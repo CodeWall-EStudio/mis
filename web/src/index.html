@@ -19,7 +19,7 @@
     <div class="logo">
       思客 <span>Striker</span>
     </div>
-    <div class="nav">
+    <div class="nav" id="userNav">
       <span class="fui-user">张大民</span>
       <span class="fui-volume"></span>
       <span class="fui-chat"></span>
@@ -31,7 +31,7 @@
     <header class="header-top">
       <div class="header-left">
         <span class="fui-user">我创建的</span>
-        <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus">创建主题</a></span>
+        <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus"  data-toggle="modal" data-target="#createSubject">创建主题</a></span>
       </div>
 
       <div class="header-right">
@@ -156,8 +156,31 @@
     </header>
   </section>
 
+  <div class="modal fade" id="createSubject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新建主题</h4>
+      </div>
+      <div class="modal-body">
+            <div class="form-group">
+              <input type="text" class="form-control" value="" placeholder="标题" id="subjectTitle">
+            </div>
+            <div class="form-group">
+              <textarea type="text" class="form-control" value="" placeholder="备注" id="subjectMark"></textarea>
+            </div>            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>    
+  </div>
 
   <script src="js/lib/jquery.min.js"></script>
+  <script src="js/lib/bootstrap.min.js"></script>
   <script src="js/lib/flat-ui.min.js"></script>
   <script src="js/index.js"></script>  
 </body>
