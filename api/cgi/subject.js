@@ -95,6 +95,7 @@ exports.create = function(req, res) {
                     data: rows[0]
                 });
             });
+            conn.release();
         }).catch(function(err) {
             Logger.error(err.stack);
             Logger.error('error, roolback');
@@ -105,6 +106,7 @@ exports.create = function(req, res) {
                     detail: err.message
                 });
             });
+            conn.release();
         });
 
     });
@@ -126,6 +128,7 @@ exports.search = function(req, res){
                 list: rows
             }
         });
+        req.conn.release();
     }).catch(function(err){
         db.handleError(req, res, err.message);
     });
@@ -149,6 +152,7 @@ exports.info = function(req, res){
             });
 
         }
+        req.conn.release();
         
     }).catch(function(err){
         db.handleError(req, res, err.message);

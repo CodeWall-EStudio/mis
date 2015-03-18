@@ -96,7 +96,7 @@ app.use(app.router);
 
 //////////// DB ///////////////
 
-app.all('/*', db.connect);
+app.all('/cgi/*', db.connect);
 
 /////////// API 相关 ///////////////
 

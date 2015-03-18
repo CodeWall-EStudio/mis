@@ -41,9 +41,8 @@ exports.route = function(req, res, next) {
 
     var router = getRouter(path, method);
     if (router) {
-
-        router(req, res, next);
         Logger.debug('route to ', path);
+        router(req, res, next);
     } else {
         next();
     }

@@ -23,6 +23,7 @@ exports.list = function(req, res) {
             data: rows
         });
     });
+    req.conn.release();
 };
 
 exports.create = function(req, res) {
@@ -54,6 +55,7 @@ exports.create = function(req, res) {
             code: ERR.SUCCESS,
             data: rows[0]
         });
+        req.conn.release();
         
     }).catch(function(err){
         Logger.error(err);

@@ -6,6 +6,7 @@ var ERR = require('../errorcode');
 var Logger = require('../logger');
 
 var pool = exports.pool = mysql.createPool({
+    connectionLimit : 20,
     host: config.DB_SERVER,
     port: config.DB_PORT,
     database: config.DB_NAME,
@@ -14,8 +15,9 @@ var pool = exports.pool = mysql.createPool({
 });
 
 exports.connect = function(req, res, next){
-
+    Logger.debug('db.connect...');
     pool.getConnection(function(err, connection) {
+        Logger.debug('db.connect...done');
         if(err){
             res.json({code: ERR.DB_ERROR, msg: '没有可用的数据库连接, 请联系管理员'}, 500);
         }else{

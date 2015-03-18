@@ -183,6 +183,7 @@ function verifyParam(value, pcfg, parameter, callback) {
 
     var type = pcfg.type || 'string';
     var checkMethod = getChecker(type);
+    Logger.debug('[getChecker] ', !!checkMethod);
     if (!checkMethod) {
         Logger.error('[verifyParam] can\'t find checkMethod of type "', type, '" ');
         return callback();
