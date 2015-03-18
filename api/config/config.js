@@ -14,9 +14,9 @@ exports.DB_PORT = 3306;
 
 exports.DB_NAME = 'media';
 
-exports.DB_USER = 'root';
+exports.DB_USER = 'media';
 
-exports.DB_PWD = '';
+exports.DB_PWD = 'media';
 
 
 // exports.DB_URI = 'mongodb://xzone_user:HeMHFxTAMPAjlRVH@127.0.0.1:27017/session';
