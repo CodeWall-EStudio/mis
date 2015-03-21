@@ -35,14 +35,15 @@ db.logout = function(param,callback){
 }
 
 db.user = {};
-db.user.list = function(param,callback){
-	request.get(cgiList.user.list,callback);
+db.user.list = function(callback){
+	request.get(cgiList.user.list,null,callback);
 }
 
 db.user.info = function(callback){
 	request.get(cgiList.user.info,null,callback);	
 }
 
+//直接拉所有用户?
 db.user.create = function(param,callback){
 	request.get(cgiList.user.create,param,callback);
 }
@@ -58,7 +59,7 @@ db.subject.info = function(param,callback){
 }
 
 db.subject.create = function(param,callback){
-	request.get(cgiList.subject.create,param,callback);
+	request.post(cgiList.subject.create,param,callback);
 }
 
 db.article = {};
@@ -72,7 +73,7 @@ db.article.info = function(param,callback){
 }
 
 db.article.create = function(param,callback){
-	request.get(cgiList.article.create,param,callback);
+	request.post(cgiList.article.create,param,callback);
 }
 
 module.exports = db;

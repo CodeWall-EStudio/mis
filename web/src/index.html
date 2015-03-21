@@ -44,7 +44,7 @@
       </div>     
     </header>
 
-    <div class="article-list">
+    <div class="article-list" id="mySubject">
       <dl class="art-list">
         <dt>主题标题主题标题主题标题主题标题主题标题主题标题主题标题主题标题</dt>
         <dd>创建人 刘小明 创建时间 2014-02-28 最近更新 2014-03-01 主题资源 86 22个成员 209个帖子 1024个资源</dd>
@@ -62,99 +62,7 @@
     </div>
 
   </section>
-  <section>
-    <header class="header-top">
-      <div class="header-left">
-        <span class="fui-user">我创建的</span>
-        <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus">创建主题</a></span>
-      </div>
 
-      <div class="header-right">
-        共20个主题 上一页 下一页
-        <div class="btn-group">
-          <a class="btn btn-primary active" href="#fakelink">按创建时间排序</a>
-          <a class="btn btn-primary" href="#fakelink">按更新时间排序</a>
-        </div>
-        <span class="fui-triangle-down"></span>
-      </div>     
-    </header>
-
-
-  </section>
-  <section>
-    <header class="header-top">
-      <div class="header-left">
-        <span class="fui-eye">我关注的</span>
-        <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus">创建主题</a></span>
-      </div>
-
-      <div class="header-right">
-        共20个主题 上一页 下一页
-        <div class="btn-group">
-          <a class="btn btn-primary active" href="#fakelink">按创建时间排序</a>
-          <a class="btn btn-primary" href="#fakelink">按更新时间排序</a>
-        </div>
-        <span class="fui-triangle-down"></span>
-      </div>     
-    </header>
-  </section>
-
-  <section>
-    <header class="header-top">
-      <div class="header-left">
-        <span class="fui-lock">邀请我的</span>
-        <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus">创建主题</a></span>
-      </div>
-
-      <div class="header-right">
-        共20个主题 上一页 下一页
-        <div class="btn-group">
-          <a class="btn btn-primary active" href="#fakelink">按创建时间排序</a>
-          <a class="btn btn-primary" href="#fakelink">按更新时间排序</a>
-        </div>
-        <span class="fui-triangle-down"></span>
-      </div>     
-    </header>
-  </section>
-
-  <section>
-    <header class="header-top">
-      <div class="header-left">
-        <span class="fui-folder">公开主题</span>
-        <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus">创建主题</a></span>
-      </div>
-
-      <div class="header-right">
-        共20个主题 上一页 下一页
-        <div class="btn-group">
-          <a class="btn btn-primary active" href="#fakelink">按创建时间排序</a>
-          <a class="btn btn-primary" href="#fakelink">按更新时间排序</a>
-        </div>
-        <span class="fui-triangle-down"></span>
-      </div>     
-    </header>
-
-
-
-  </section>
-
-  <section>
-    <header class="header-top">
-      <div class="header-left">
-        <span class="fui-document">归档主题</span>
-        <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus">创建主题</a></span>
-      </div>
-
-      <div class="header-right">
-        共20个主题 上一页 下一页
-        <div class="btn-group">
-          <a class="btn btn-primary active" href="#fakelink">按创建时间排序</a>
-          <a class="btn btn-primary" href="#fakelink">按更新时间排序</a>
-        </div>
-        <span class="fui-triangle-down"></span>
-      </div>     
-    </header>
-  </section>
 
   <div class="modal fade" id="createSubject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -168,12 +76,37 @@
               <input type="text" class="form-control" value="" placeholder="标题" id="subjectTitle">
             </div>
             <div class="form-group">
+              公开主题 <input type="checkbox" id="subjectOpen" name="subjectOpen" value="1" />
+              访客模式 <input type="checkbox" id="subjectGuest" name="subjectGuest" value="1" />
+            </div>  
+            <div class="form-group">
+              主题管理员 <span class="tag label label-info fui-plus" data-action="user-addmanage">&nbsp;</span>
+              <div id="nowManage" class="bootstrap-tagsinput"></div>
+              <div id="addManage"></div>
+            </div>  
+            <div class="form-group">
+              主题标签 <span class="tag label label-info fui-plus" data-action="subject-label">&nbsp;</span>
+              <div id="addSubLabel"></div>
+            </div>    
+            <div class="form-group">
+              帖子标签 <span class="tag label label-info fui-plus" data-action="article-label">&nbsp;</span>
+              <div id="addartLabel"></div>
+            </div> 
+            <div class="form-group">
+              主题资源 <input type="checkbox" />
+            </div>                                                  
+            <div class="form-group">
+              <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-id-custom-switch-01 bootstrap-switch-off bootstrap-switch-animate"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-primary">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" checked="" data-toggle="switch" id="custom-switch-01"></div></div>
+            </div> 
+
+
+            <div class="form-group">
               <textarea type="text" class="form-control" value="" placeholder="备注" id="subjectMark"></textarea>
             </div>            
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" data-type="submit">确定</button>
       </div>
     </div>
   </div>    
@@ -182,6 +115,9 @@
   <script src="js/lib/jquery.min.js"></script>
   <script src="js/lib/bootstrap.min.js"></script>
   <script src="js/lib/flat-ui.min.js"></script>
+  <script>
+    window.striker = {};
+  </script>
   <script src="js/index.js"></script>  
 </body>
 </html>

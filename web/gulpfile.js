@@ -572,6 +572,7 @@ gulp.task('watch:set', function() {
 });
 
 gulp.task('watch', function() {
+	console.log(opt);
     gulp.watch(things2copy, opt, ['copy']);
     gulp.watch(image2copy, opt, ['img-rev']);
     gulp.watch(scss2compile, opt, ['compass']);
