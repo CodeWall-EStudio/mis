@@ -133,5 +133,13 @@ module.exports = {
             default: 10,
             type: 'number'
         }]
+    },
+
+    '/cgi/label/create': {
+        method: 'POST',
+        params: [{
+            name: 'name',
+            required: true
+        }]
     }
 };

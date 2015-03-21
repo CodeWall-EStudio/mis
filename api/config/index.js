@@ -8,7 +8,7 @@ us.extend(exports, require('./constants'));
 us.extend(exports, require('./config'));
 
 
-// 从上一级目录(跟 server/ 同级的config.js)读取系统的个性配置
+// 从上一级目录(跟 api/ 同级的config.js)读取系统的个性配置
 try{
     var filename = '../../config.js';
     var abspath = path.resolve(path.join(__dirname, filename));

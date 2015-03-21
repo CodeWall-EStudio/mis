@@ -4,7 +4,7 @@ var Logger = require('../logger');
 var config = require('../config');
 var db = require('../modules/db');
 
-exports.create = function (req, res) {
+exports.create = function(req, res) {
     var params = req.parameter;
 
     var loginUser = req.loginUser;
@@ -37,7 +37,8 @@ exports.create = function (req, res) {
                 for (var i in params.labels) {
                     values.push([articleId, params.labels[i]]);
                 }
-                var result = yield req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
+                var result =
+                    yield req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
 
             }
 
@@ -51,7 +52,8 @@ exports.create = function (req, res) {
                 yield req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
             }
 
-            var rows = yield req.mysql('SELECT * FROM article WHERE id = ?', articleId);
+            var rows =
+                yield req.mysql('SELECT * FROM article WHERE id = ?', articleId);
 
             // 提交事务
             conn.commit(function(err) {
@@ -82,14 +84,16 @@ exports.create = function (req, res) {
 }
 
 
-exports.search = function(req, res){
+exports.search = function(req, res) {
     var params = req.parameter;
     Logger.info('[do article search: ', params);
-    co(function* (){
-        var rows = yield req.mysql('SELECT COUNT(*) AS count FROM article WHERE subject_id = ?', params.subjectId);
+    co(function*() {
+        var rows =
+            yield req.mysql('SELECT COUNT(*) AS count FROM article WHERE subject_id = ?', params.subjectId);
         var total = rows[0].count;
 
-        rows = yield req.mysql('SELECT * FROM article  WHERE subject_id = ? limit ?, ?', [params.subjectId, params.start, params.limit]);
+        rows =
+            yield req.mysql('SELECT * FROM article  WHERE subject_id = ? limit ?, ?', [params.subjectId, params.start, params.limit]);
         res.json({
             code: ERR.SUCCESS,
             data: {
@@ -98,23 +102,24 @@ exports.search = function(req, res){
             }
         });
         req.conn.release();
-    }).catch(function(err){
+    }).catch(function(err) {
         db.handleError(req, res, err.message);
     });
 
 };
 
-exports.info = function(req, res){
+exports.info = function(req, res) {
     var params = req.parameter;
 
-    co(function* (){
-        var rows = yield req.mysql('SELECT * FROM article WHERE id = ?', params.id);
-        if(rows.length){
+    co(function*() {
+        var rows =
+            yield req.mysql('SELECT * FROM article WHERE id = ?', params.id);
+        if (rows.length) {
             res.json({
                 code: ERR.SUCCESS,
                 data: rows[0]
             });
-        }else{
+        } else {
             res.json({
                 code: ERR.NOT_FOUND,
                 msg: '没有找到该帖子'
@@ -122,8 +127,8 @@ exports.info = function(req, res){
 
         }
         req.conn.release();
-        
-    }).catch(function(err){
+
+    }).catch(function(err) {
         db.handleError(req, res, err.message);
     });
 

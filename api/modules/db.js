@@ -19,7 +19,7 @@ exports.connect = function(req, res, next){
     pool.getConnection(function(err, connection) {
         Logger.debug('db.connect...done');
         if(err){
-            res.json({code: ERR.DB_ERROR, msg: '没有可用的数据库连接, 请联系管理员'}, 500);
+            res.json({code: ERR.DB_ERROR, msg: '没有可用的数据库连接, 请联系管理员', detail: err}, 500);
         }else{
             req.conn = connection;
             req.mysql = wrapper(connection).query;

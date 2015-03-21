@@ -58,24 +58,6 @@ app.use(session({
         port: 6379
     })
 }));
-// app.use(express.session({
-//     key: 'sid',
-//     secret: config.COOKIE_SECRET,
-//     cookie: {
-//         maxAge: config.COOKIE_TIME, // 2 hour
-//         httpOnly: true
-//     },
-    
-//         store: new MongoStore({
-//             url: config.DB_URI
-//         }, function() {
-//             Logger.info('session db connection open');
-//         })
-//     store: new MySQLStore({
-//         pool: db.pool
-//     })
-
-// }));
 
 app.use(app.router);
 
@@ -83,18 +65,15 @@ app.use(app.router);
 var staticDir = path.join(__dirname, '../web/public');
 if ('development' === app.get('env')) {
 
-    //console.log(__dirname,path.join(__dirname, '../web/public'));
     staticDir = path.join(__dirname, '../web/public');
 
     app.use(express.errorHandler());
 
 }
 
-// app.use(express.static(staticDir, {
-//     maxAge: config.STATIC_FILE_EXPIRES
-// }));
-
-app.use(express.static(staticDir));
+app.use(express.static(staticDir, {
+    maxAge: config.STATIC_FILE_EXPIRES
+}));
 
 
 //////////// DB ///////////////
@@ -104,7 +83,7 @@ app.all('/cgi/*', db.connect);
 /////////// API 相关 ///////////////
 
 // 设置跨域请求头
-// app.all('/cgi/*', routes.setXHR2Headers);
+app.all('/cgi/*', routes.setXHR2Headers);
 
 // 检查是否登录, 如果登录了, 从数据库把用户信息找出; 没有登录则返回错误
 app.all('/cgi/*', AuthChecker);
