@@ -55,7 +55,6 @@ function bindAction(){
 
 			if(param.title !== '' && param.mark !== ''){
 				cgi.create(param,function(res){
-					console.log(res);
 					if(res.code === 0){
 						createDom.modal({show:false});
 					}

@@ -25,6 +25,9 @@ exports.login = function(req, res) {
                 msg: '用户名或密码错误!'
             });
         }
+        if (!req.session) {
+            req.session = {};
+        }
         req.session.user = user;
         res.json({
             code: 0,

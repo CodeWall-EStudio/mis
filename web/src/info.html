@@ -73,6 +73,39 @@
       </aside>
     </div>
 
+  <div class="post-article" id="postArticle">
+    <div class="form-group">
+      <div class="col-md-8">发贴:<input type="text" class="form-control" name="name" /></div>
+      <div class="col-md-4">
+        <a data-action="article.upload">图片</a>
+        <a data-action="article.upload">视频</a>
+        <a data-action="article.upload">文件</a>
+        <button type="button" class="btn btn-primary" data-action="article.post" data-target="#postArticle">发布</button>
+        <button type="button" class="btn btn-primary" data-action="article.reset" data-target="#postArticle">取消</button>      
+      </div>
+    </div>
+    <div>
+      <textarea class="form-control" name="content"></textarea>
+    </div>
+  </div>
+
+  <div class="modal fade" id="createSubject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新建主题</h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-action="article.post"  data-target="#createSubject">发布</button>
+        <button type="button" class="btn btn-primary" data-type="submit" data-action="article.reset" data-target="#createSubject">取消</button>
+      </div>
+    </div>        
+
+
   </section>
 
   <script src="js/lib/jquery.min.js"></script>

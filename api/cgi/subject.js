@@ -117,10 +117,10 @@ exports.search = function(req, res){
     var params = req.parameter;
     Logger.info('[do subject search: ', params);
     co(function* (){
-        var rows = yield req.mysql('SELECT COUNT(*) AS count FROM subject');
+        var rows = yield req.mysql('SELECT COUNT(s.id) AS count FROM subject s');
         var total = rows[0].count;
-
-        rows = yield req.mysql('SELECT * FROM subject limit ?, ?', [params.start, params.limit]);
+        var sql = 'SELECT s.*,u.name as creatorName FROM subject s,user u WHERE s.creator = u.id limit ?, ?';
+        rows = yield req.mysql(sql, [params.start, params.limit]);
         res.json({
             code: ERR.SUCCESS,
             data: {

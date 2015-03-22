@@ -3,7 +3,8 @@ var tmpl = {
 	list : require('../../tpl/article/list.ejs')
 };
 
-var articleList = require('./list');
+var articleList = require('./list'),
+	articlePost = require('./post');
 
 var Article = {}
 
@@ -13,8 +14,15 @@ Article.search = articleList.search;
 
 Article.loadMore = articleList.loadMore;
 
+Article.appendToList = articleList.prependToList;
+
+Article.post = articlePost.create;
+
+Article.reset = articlePost.reset;
+
 /**/
 
 Article.init = function(id){
 	articleList.init(id,cgi,tmpl);
+	articlePost.init(id,cgi,tmpl);
 }

@@ -11,7 +11,6 @@ module.exports = sList;
 sList.init = function(type,module,tmp){
 	cgi = module;
 	tmpl = tmp;
-	console.log(cgi);
 }
 
 sList.search = function(param){
@@ -19,7 +18,6 @@ sList.search = function(param){
 		start : start,
 		limit : limit
 	},function(res){
-		console.log(res);
 		if(res.code === 0){
 			var html = tmpl.list(res.data);
 			$('#mySubject').html(html);

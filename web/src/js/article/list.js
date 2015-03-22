@@ -23,6 +23,7 @@ aList.init = function(id,module,tmp){
 	})
 }
 
+//加载更多数据
 aList.loadMore = function(){
 	if(loading){
 		return;
@@ -34,6 +35,13 @@ aList.loadMore = function(){
 	})
 }
 
+//把新发布的帖子加到列表最前面
+aList.prependToList = function(param){
+		var html = tmpl.list({list:[param]});
+		listDom.prepend(html);
+}
+
+//搜索数据
 aList.search = function(param){
 	loading = true;
 	cgi.search(param,function(res){

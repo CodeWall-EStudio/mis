@@ -14,14 +14,23 @@ var nowSubId = striker.util.getParameter('id');
 function userLoadSub(e,d){
 	 subject.info(nowSubId);
 	 article.init(nowSubId);
-	 // article.search({
-	 // 	id : nowSubId
-	 // });
-	// subject.search('mySubject');
-	// subject.search('mySubject');
 }
 
 function userLoadArt(e,d){
+
+}
+//帖子发表成功
+function articlePosted(e,d){
+
+}
+
+//帖子被删除
+function articleDeled(e,d){
+
+}
+
+//帖子关注成功
+function articleFollowed(e,d){
 
 }
 
@@ -33,7 +42,8 @@ function subjectLoad(e,d){
 var handlers = {
 	'userLoadSub' : userLoadSub,
 	'userLoadArt' : userLoadArt,
-	'subjectLoad' : subjectLoad
+	'subjectLoad' : subjectLoad,
+	'articlePosted' : articlePosted
 }
 
 for(var i in handlers){
@@ -44,6 +54,14 @@ function bindAction(){
 	$('body').bind('click',function(e){
 		var target = $(e.target),
 			action = target.data('action');
+
+		if(action){
+			var actMap = action.split('.');
+			if(actMap.length === 2 && striker[actMap[0]][actMap[1]]){
+				striker[actMap[0]][actMap[1]](target);
+			}
+		}
+
 	});
 
     $(document).on('scroll',function(e){
@@ -54,7 +72,7 @@ function bindAction(){
 
         //判断是否到底了
         if(scrollTop + pageHeight >= scrollHeight){
-            console.log('end');
+            //console.log('end');
             article.loadMore();
         }                
     });
@@ -62,6 +80,11 @@ function bindAction(){
 
 function init(){
 	subject.init('info');
+
+	striker.subject = subject;
+	striker.article = article;
+	striker.user = user;
+
 	
 	user.init();
 	label.init();
