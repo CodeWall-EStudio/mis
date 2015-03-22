@@ -17,6 +17,10 @@ var cgiList = {
 		info : cgiPath+'article/info',
 		create : cgiPath+'article/create'
 	},
+	label : {
+		create : cgiPath+'label/create',
+		list : cgiPath+'label/list'
+	},
 	login : cgiPath+'account/login',
 	logout : cgiPath+'account/logout'
 }

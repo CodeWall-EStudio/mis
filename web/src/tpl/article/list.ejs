@@ -1,0 +1,26 @@
+<%for(var i =0,l=list.length;i<l;i++){
+  var item = list[i];
+%>
+  <article class="artice-one">
+    <aside class="artice-one-aside"><%-striker.util.getNowTime(item.updateTime)%></aside>
+    <div class="artice-one-info">
+      <div class="info-title">发帖 <%-item.creator%>   最后回复 <%-item.updator%></div>
+      <div class="info-action">
+        <span class="fui-check-circle">赞</span> <span class="fui-chat">回复</span>
+      </div>          
+      <dl class="artice-dl">
+        <dt><%-item.title%></dt>
+        <dl>
+          <%-item.content%>
+        </dl>
+        <div class="artice-img-list">
+          <div>
+            <img src="http://images.91160.com/upload/5/201301/13584993984023.jpg" />
+            <span>共7张</span>
+          </div>
+          <div><img src="http://images.91160.com/upload/5/201301/13584993984023.jpg" /></div>
+          <div><img src="http://images.91160.com/upload/5/201301/13584993984023.jpg" /></div>
+        </div>
+    </div>
+  </article>
+<%}%>

@@ -8,6 +8,7 @@ var cgi = require('../common/cgi').subject,
 var tmpl = {
 	manage : require('../../tpl/user/manage.ejs'),
 	list : require('../../tpl/subject/list.ejs'),
+	head : require('../../tpl/subject/head.ejs'),	
 	onemanage : require('../../tpl/user/onemanage.ejs')
 };
 
@@ -25,8 +26,12 @@ Subject.create = subjectCreate.create;
 
 Subject.info = subjectInfo.info;
 
-Subject.init = function(){
-	subjectList.init(cgi,tmpl);
-	subjectInfo.init(cgi,tmpl);
-	subjectCreate.init(cgi,tmpl);
+function bindAction(){
+
+}
+
+Subject.init = function(type){
+	subjectList.init(type,cgi,tmpl);
+	subjectInfo.init(type,cgi,tmpl);
+	subjectCreate.init(type,cgi,tmpl);
 }

@@ -8,6 +8,7 @@ article 帖子
 Data.user = {};
 Data.subject = {};
 Data.article = {};
+Data.label = {};
 
 function getData(type,key){
 	return Data[type][key] || null;

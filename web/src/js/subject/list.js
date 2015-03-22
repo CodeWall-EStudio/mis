@@ -8,7 +8,7 @@ var sList = {},
 
 module.exports = sList;
 
-sList.init = function(module,tmp){
+sList.init = function(type,module,tmp){
 	cgi = module;
 	tmpl = tmp;
 	console.log(cgi);

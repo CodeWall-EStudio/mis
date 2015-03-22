@@ -1,0 +1,29 @@
+        <dt><%-title%></dt>
+        <dd class="artice-use">创建人 <%-creator%> 创建时间 <%-striker.util.formatTime(createTime)%> 最近更新 <%-striker.util.formatTime(updateTime)%></dd>
+        <dd class="artice-use">主题资源 86 22个成员 209个帖子 1024个资源 我的发帖/回复 99/12</dd>
+        <dd class="artice-act-btn">
+          <span class="col-xs-3"><a class="btn btn-block btn-lg btn-primary fui-new" data-action="article-create">发贴</a></span>
+          <span class="col-xs-3"><a class="btn btn-block btn-lg btn-primary fui-eye" data-action="subject-follow">关注</a></span>
+          <span class="col-xs-3"><a class="btn btn-block btn-lg btn-primary fui-gear" data-action="subject-manage">管理</a></span>
+        </dd>
+        <dd class="actice-act-select">
+          <div class="select2-container form-control select select-primary" id="s2id_autogen1">
+            <a href="javascript:void(0)" class="select2-choice" tabindex="-1">   
+              <span class="select2-chosen" id="select2-chosen-2">按帖子标签筛选</span>
+              <abbr class="select2-search-choice-close"></abbr> 
+              <span class="select2-arrow" role="presentation"><b role="presentation"></b></span>
+            </a><label for="s2id_autogen2" class="select2-offscreen"></label><input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-2" id="s2id_autogen2"></div>          
+          <div class="btn-group">
+            <a class="btn btn-primary active" href="#fakelink" data-action="article-orderbytime">按创建时间排序</a>
+            <a class="btn btn-primary" href="#fakelink" data-action="article-orderbyupdate">按更新时间排序</a>
+          </div>
+        </dd>
+        <dd class="artice-auto-refuse">
+          自动刷新: <input type="checked" data-action="subject.autorefresh" />
+          <!--<div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-id-custom-switch-01 bootstrap-switch-off">
+            <div class="bootstrap-switch-container">
+              <span class="bootstrap-switch-handle-on bootstrap-switch-primary">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" checked="" data-toggle="switch" id="custom-switch-01">
+            </div>
+          </div>          
+          -->
+        </dd>

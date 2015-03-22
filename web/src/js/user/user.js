@@ -28,7 +28,8 @@ User.getMyInfo = function(cb){
 			var html = tmpl.nav(res.data);
 			$("#userNav").html(html);
 
-			striker.triggerHandler('userLoad',res.code);
+			striker.triggerHandler('userLoadSub',res.code);
+			striker.triggerHandler('userLoadArt',res.code);
 			console.log('userload');
 		}
 	});
@@ -38,7 +39,6 @@ User.getUserList = function(){
 	cgi.list(function(res){
 		if(res.code === 0){
 			data.list = res.data;
-			console.log(res.data);
 		}
 	});
 }

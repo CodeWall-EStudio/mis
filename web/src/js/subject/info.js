@@ -1,12 +1,27 @@
 //拉主题内容
 var sInfo = {};
-var cgi;
+var cgi,
+	tmpl;
 module.exports = sInfo;
 
-sInfo.init = function(module){
-	cgi = module;
+var subDom = $("#subjectHead");
+var subAsideDom = $("#subjectAside");
+
+function bindAction(){
+	
 }
 
-sInfo.info = function(param,cb){
+sInfo.init = function(type,module,tmp){
+	cgi = module;
+	tmpl = tmp;
+}
 
+//拉取一个主题的内容
+sInfo.info = function(id,cb){
+	cgi.info({id:id},function(res){
+		if(res.code === 0){
+			var html = tmpl.head(res.data);
+			subDom.html(html);
+		}
+	})
 }

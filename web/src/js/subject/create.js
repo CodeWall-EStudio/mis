@@ -65,7 +65,7 @@ function bindAction(){
 	});
 }
 
-sCreate.init = function(module,tmp){
+sCreate.init = function(type,module,tmp){
 	cgi = module;
 	tmpl = tmp;
 

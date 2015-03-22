@@ -1,13 +1,18 @@
+require('./common/global');
 var user = require('./user/user'),
 	subject = require('./subject/subject'),
-	article = require('./article/article');
+	article = require('./article/article'),
+	label = require('./label/label');
+
 
 var Striker = $(window.striker);
 
 
 //事件通知,用户资料已经加载完成
 function userLoad(e,d){
-	subject.search();
+	subject.search('mySubject');
+	// subject.search('mySubject');
+	// subject.search('mySubject');
 }
 
 //事件通知,主题已经加载完成
@@ -16,7 +21,7 @@ function subjectLoad(e,d){
 }
 
 var handlers = {
-	'userLoad' : userLoad,
+	'userLoadSub' : userLoad,
 	'subjectLoad' : subjectLoad
 }
 
@@ -25,9 +30,10 @@ for(var i in handlers){
 }
 
 function init(){
-	subject.init();
-	article.init();
+	subject.init('index');
+	article.init('index');
 	user.init();
+	label.init();
 }
 
 init();

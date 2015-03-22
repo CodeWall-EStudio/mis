@@ -11,6 +11,8 @@ exports.login = function(req, res) {
     var uid = param.uid;
     var pwd = Util.md5(param.pwd);
 
+    console.log(req.conn);
+
     req.conn.query('SELECT id,uid,name,auth FROM user WHERE uid = ? and pwd = ?', [uid, pwd], function(err, rows) {
         if (err) {
             Logger.error('[login error]', err);
