@@ -54,7 +54,6 @@ function bindAction(){
 	$('body').bind('click',function(e){
 		var target = $(e.target),
 			action = target.data('action');
-
 		if(action){
 			var actMap = action.split('.');
 			if(actMap.length === 2 && striker[actMap[0]][actMap[1]]){

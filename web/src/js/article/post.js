@@ -50,7 +50,8 @@ aPost.create = function(target){
 	if(loading){
 		return;
 	}
-	var pTarget = $(target.data('target'));
+	var pt = target.data('target');
+	var pTarget = $(pt);
 	if(pTarget.length === 0){
 		return;
 	}
@@ -58,9 +59,11 @@ aPost.create = function(target){
 		
 	cgi.create(param,function(res){
 		loading === false;
+		if(pTarget.hasClass('modal')){
+			pTarget.modal('hide');
+		}
 		if(res.code === 0){
 			striker.article.appendToList(res.data);
-			console.log('成功')
 		}
 	});
 }

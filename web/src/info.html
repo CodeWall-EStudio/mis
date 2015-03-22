@@ -19,12 +19,7 @@
     <div class="logo">
       思客 <span>Striker</span>
     </div>
-    <div class="nav">
-      <span class="fui-user">张大民</span>
-      <span class="fui-volume"></span>
-      <span class="fui-chat"></span>
-      <span class="fui-search"></span>
-      <span class="fui-list"></span>
+    <div class="nav" id="userNav">
     </div>
   </header>
 
@@ -75,7 +70,7 @@
 
   <div class="post-article" id="postArticle">
     <div class="form-group">
-      <div class="col-md-8">发贴:<input type="text" class="form-control" name="name" /></div>
+      <div class="col-md-8">发贴:<input type="text" class="form-control" name="name" placeholder="请输入帖子标题" /></div>
       <div class="col-md-4">
         <a data-action="article.upload">图片</a>
         <a data-action="article.upload">视频</a>
@@ -89,7 +84,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="createSubject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="createArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -97,11 +92,17 @@
         <h4 class="modal-title" id="myModalLabel">新建主题</h4>
       </div>
       <div class="modal-body">
-
+        <div class="form-group">
+          标题:
+          <input type="text" class="form-control" name="name" placeholder="请输入帖子标题" />
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" name="content"></textarea>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-action="article.post"  data-target="#createSubject">发布</button>
-        <button type="button" class="btn btn-primary" data-type="submit" data-action="article.reset" data-target="#createSubject">取消</button>
+        <button type="button" class="btn btn-primary" data-type="submit" data-action="article.post" data-target="#createArticle">发布</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-action="article.reset" data-target="#createArticle">取消</button>
       </div>
     </div>        
 
