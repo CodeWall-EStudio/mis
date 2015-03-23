@@ -10,7 +10,9 @@ var Striker = $(window.striker);
 
 //事件通知,用户资料已经加载完成
 function userLoad(e,d){
-	subject.search('mySubject');
+	console.log(111);
+	new subject.area('mySubject');
+	//subject.search('mySubject');
 	// subject.search('mySubject');
 	// subject.search('mySubject');
 }
@@ -29,27 +31,33 @@ for(var i in handlers){
 	Striker.bind(i,handlers[i]);
 }
 
+//全局事件绑定
+function bindAction(){
+	/*
+	$('body').bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+		if(action){
+			var actMap = action.split('.');
+			if(actMap.length === 2 && striker[actMap[0]][actMap[1]]){
+				striker[actMap[0]][actMap[1]](target);
+			}
+		}
+	});
+	*/
+}
+
 function init(){
 	subject.init('index');
-	article.init('index');
+	//article.init('index');
 	user.init();
 	label.init();
+
+	striker.subject = subject;
+	striker.article = article;
+	striker.user = user;
+
+	bindAction();
 }
 
 init();
-
-/*
-require('./common/global.js');
-
-var list = require('../tpl/index/list.hbs');
-
-var data = {
-    body: 'this is body',
-    title: 'hi title'
-};
-var dom = list(data);
-document.write(dom);
-
-console.log('test!!');
-console.log('index loaded');
-*/

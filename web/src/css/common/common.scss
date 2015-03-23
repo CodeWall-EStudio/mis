@@ -32,5 +32,14 @@ li{
   font-size: 14px;  
 }
 .form-group {
-  padding:16px 0;
+  padding:0 0;
+}
+.input-group-btn {
+  .btn{
+    height: 29px;
+    line-height: 29px;
+    text-align: center;
+    padding: 0 10px;
+    font-size: 14px;     
+  }
 }

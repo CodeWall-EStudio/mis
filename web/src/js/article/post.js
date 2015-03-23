@@ -60,7 +60,7 @@ aPost.create = function(target){
 	cgi.create(param,function(res){
 		loading === false;
 		if(pTarget.hasClass('modal')){
-			pTarget.modal('hide');
+			aPost.reset(pTarget);
 		}
 		if(res.code === 0){
 			striker.article.appendToList(res.data);

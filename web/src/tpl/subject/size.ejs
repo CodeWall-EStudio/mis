@@ -1,0 +1,19 @@
+    <header class="header-top">
+      <div class="header-left">
+        <span class="fui-user"><%-proText%></span>
+        <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus"  data-toggle="modal" data-target="#createSubject" data-action="create">创建主题</a></span>
+      </div>
+
+      <div class="header-right">
+        共<span id="<%-proName%>Num">20</span>个主题 <a class="pre-page" data-action="pre">上一页</a> <a class="next-page" data-action="next">下一页</a>
+        <div class="btn-group">
+          <a class="btn btn-primary active" data-action="orderbytime">按创建时间排序</a>
+          <a class="btn btn-primary"  data-action="orderbyupdate">按更新时间排序</a>
+        </div>
+        <span class="fui-triangle-down" data-action="close"></span>
+      </div>     
+    </header>
+
+    <div class="article-list" id="<%-proName%>">
+                 
+    </div>

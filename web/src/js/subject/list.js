@@ -13,14 +13,9 @@ sList.init = function(type,module,tmp){
 	tmpl = tmp;
 }
 
-sList.search = function(param){
+sList.search = function(param,cb){
 	cgi.search({
 		start : start,
 		limit : limit
-	},function(res){
-		if(res.code === 0){
-			var html = tmpl.list(res.data);
-			$('#mySubject').html(html);
-		}
-	});
+	},cb);
 }
