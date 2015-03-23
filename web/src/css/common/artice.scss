@@ -6,6 +6,15 @@
 	margin:10px 0;
 
 }
+.article-list {
+	a {
+		cursor:pointer;
+
+		&.disabled{
+			color:grey;
+		}
+	}
+}
 .article-list dl.art-list dt{
 	color:#7f8c8d;
 	font-size:18px;

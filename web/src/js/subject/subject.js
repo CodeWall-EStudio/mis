@@ -69,7 +69,7 @@ Subject.area = function(domname){
 
 //下一页
 Subject.area.prototype.next = function(){
-	if(this.page < this.allPage){
+	if(this.page < this.allPage-1){
 		this.page++;
 		this.getDate({
 			start : this.page*this.limit,
@@ -115,20 +115,20 @@ Subject.area.prototype.create = function(){
 
 //判断翻页是否可以点击
 Subject.area.prototype.checkPage = function(){
-	if(this.page <= 0){
-		this.prePage.prop({disabled:true});
+	if(this.page <= 1){
+		this.prePage.addClass('disabled');
 		if(this.allPage === 1){
-			this.nextPage.prop({disabled:true});	
+			this.nextPage.prop({disabled:true}).addClass('disabled');
 		}else{
-			this.nextPage.prop({disabled:false});	
+			this.nextPage.prop({disabled:false}).removeClass('disabled');	
 		}
 		
-	}else if(this.page >= this.allPage){
-		this.nextPage.prop({disabled:true});
+	}else if(this.page >= this.allPage-1){
+		this.nextPage.prop({disabled:true}).addClass('disabled');
 		if(this.allPage === 1){
-			this.prePage.prop({disabled:true});	
+			this.prePage.prop({disabled:true}).addClass('disabled');
 		}else{
-			this.prePage.prop({disabled:false});	
+			this.prePage.prop({disabled:false}).removeClass('disabled');
 		}		
 	}
 }
@@ -151,6 +151,7 @@ Subject.area.prototype.getDate = function(param){
 			var html = tmpl.list(res.data);
 			_this.listDom.html(html);
 			_this.changeNum(res.data.total);
+			_this.checkPage();
 		}
 	});
 }
