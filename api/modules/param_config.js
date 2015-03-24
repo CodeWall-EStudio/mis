@@ -83,6 +83,11 @@ module.exports = {
             required: true,
             default: 10,
             type: 'number'
+        },{
+            name: 'creator',
+            type: 'number'
+        },{
+            name: 'orderby'
         }]
     },
 

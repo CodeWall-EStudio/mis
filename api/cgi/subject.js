@@ -83,7 +83,8 @@ exports.create = function(req, res) {
                 yield req.mysql('INSERT INTO subject_resource (??) VALUES ?', [columns, values]);
             }
 
-            var rows = yield req.mysql('SELECT * FROM subject WHERE id = ?', subjectId);
+            var rows =
+                yield req.mysql('SELECT * FROM subject WHERE id = ?', subjectId);
 
             // 提交事务
             conn.commit(function(err) {
@@ -113,14 +114,35 @@ exports.create = function(req, res) {
 };
 
 
-exports.search = function(req, res){
+exports.search = function(req, res) {
     var params = req.parameter;
     Logger.info('[do subject search: ', params);
-    co(function* (){
-        var rows = yield req.mysql('SELECT COUNT(s.id) AS count FROM subject s');
+    co(function*() {
+        var sql = 'SELECT COUNT(s.id) AS count FROM subject s WHERE isArchive = 0';
+        var sqlParams = [];
+        if (params.creator) {
+            sql += ' AND ?? = ?';
+            sqlParams.push('s.creator', params.creator);
+        }
+        var rows =
+            yield req.mysql(sql, sqlParams);
         var total = rows[0].count;
-        var sql = 'SELECT s.*,u.name as creatorName FROM subject s,user u WHERE s.creator = u.id limit ?, ?';
-        rows = yield req.mysql(sql, [params.start, params.limit]);
+        sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u WHERE s.creator = u.id AND isArchive = 0';
+        if (params.creator) {
+            sql += ' AND ?? = ?';
+        }
+        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+        if (params.orderby) {
+            sqlParams.push('s.' + params.orderby);
+        } else {
+            sqlParams.push('s.updateTime');
+        }
+
+        sqlParams.push(params.start, params.limit);
+        Logger.debug(sql);
+        rows =
+            yield req.mysql(sql, sqlParams);
+
         res.json({
             code: ERR.SUCCESS,
             data: {
@@ -129,23 +151,24 @@ exports.search = function(req, res){
             }
         });
         req.conn.release();
-    }).catch(function(err){
+    }).catch(function(err) {
         db.handleError(req, res, err.message);
     });
 
 };
 
-exports.info = function(req, res){
+exports.info = function(req, res) {
     var params = req.parameter;
 
-    co(function* (){
-        var rows = yield req.mysql('SELECT * FROM subject WHERE id = ?', params.id);
-        if(rows.length){
+    co(function*() {
+        var rows =
+            yield req.mysql('SELECT * FROM subject WHERE id = ?', params.id);
+        if (rows.length) {
             res.json({
                 code: ERR.SUCCESS,
                 data: rows[0]
             });
-        }else{
+        } else {
             res.json({
                 code: ERR.NOT_FOUND,
                 msg: '没有找到该主题'
@@ -153,8 +176,8 @@ exports.info = function(req, res){
 
         }
         req.conn.release();
-        
-    }).catch(function(err){
+
+    }).catch(function(err) {
         db.handleError(req, res, err.message);
     });
 
