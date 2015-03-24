@@ -183,27 +183,86 @@ exports.info = function(req, res) {
 
 };
 
-exports.follow = function(req, res){
+exports.follow = function(req, res) {
     var params = req.parameter;
-
+    var loginUser = req.loginUser;
     co(function*() {
-        var rows =
-            yield req.mysql('SELECT id FROM subject_follow WHERE id = ?', params.id);
-        if (rows.length) {
-            res.json({
-                code: ERR.SUCCESS,
-                data: rows[0]
-            });
-        } else {
-            res.json({
-                code: ERR.NOT_FOUND,
-                msg: '没有找到该主题'
-            });
 
+        if (params.isFollow === 0) { // 取消关注
+            var result =
+                yield req.mysql('DELETE FROM subject_follow WHERE ?', {
+                    subject_id: params.subjectId,
+                    user_id: loginUser.id
+                });
+            res.json({
+                code: ERR.SUCCESS
+            });
+        } else { // 添加关注
+            var rows =
+                yield req.mysql('SELECT id FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
+            if (rows.length) {
+                res.json({
+                    code: ERR.DUPLICATE,
+                    msg: '已经关注了该主题'
+                });
+            } else {
+                var result =
+                    yield req.mysql('INSERT INTO subject_follow SET ?', {
+                        subject_id: params.subjectId,
+                        user_id: loginUser.id
+                    });
+                res.json({
+                    code: ERR.SUCCESS
+                });
+            }
         }
+
         req.conn.release();
 
     }).catch(function(err) {
         db.handleError(req, res, err.message);
     });
+};
+
+
+
+exports.following = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+    Logger.info('[do subject search: ', params);
+    co(function*() {
+        var sql = 'SELECT COUNT(s.id) AS count FROM subject_follow s WHERE user_id = ?';
+        var sqlParams = [loginUser.id];
+        var rows =
+            yield req.mysql(sql, sqlParams);
+        var total = rows[0].count;
+        sql = 'SELECT s.*, u.name AS creatorName, ' 
+            + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' 
+            + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
+
+        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+        if (params.orderby) {
+            sqlParams.push('s.' + params.orderby);
+        } else {
+            sqlParams.push('s.updateTime');
+        }
+
+        sqlParams.push(params.start, params.limit);
+        Logger.debug(sql);
+        rows =
+            yield req.mysql(sql, sqlParams);
+
+        res.json({
+            code: ERR.SUCCESS,
+            data: {
+                total: total,
+                list: rows
+            }
+        });
+        req.conn.release();
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+
 };

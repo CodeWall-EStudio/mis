@@ -96,10 +96,29 @@ module.exports = {
         method: 'POST',
         params: [{
             name: 'subjectId',
+            required: true,
             type: 'number'
         },{
             name: 'isFollow',
+            required: true,
             type: 'number'
+        }]
+    },
+
+    '/cgi/subject/following': {
+        method: 'GET',
+        params: [{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        },{
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        },{
+            name: 'orderby'
         }]
     },
 
