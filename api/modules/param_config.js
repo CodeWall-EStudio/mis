@@ -91,6 +91,18 @@ module.exports = {
         }]
     },
 
+    // 关注或者取消关注
+    '/cgi/subject/follow': {
+        method: 'POST',
+        params: [{
+            name: 'subjectId',
+            type: 'number'
+        },{
+            name: 'isFollow',
+            type: 'number'
+        }]
+    },
+
     // 文章接口
     '/cgi/article/create': {
         method: 'POST',

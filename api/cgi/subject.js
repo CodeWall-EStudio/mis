@@ -182,3 +182,28 @@ exports.info = function(req, res) {
     });
 
 };
+
+exports.follow = function(req, res){
+    var params = req.parameter;
+
+    co(function*() {
+        var rows =
+            yield req.mysql('SELECT id FROM subject_follow WHERE id = ?', params.id);
+        if (rows.length) {
+            res.json({
+                code: ERR.SUCCESS,
+                data: rows[0]
+            });
+        } else {
+            res.json({
+                code: ERR.NOT_FOUND,
+                msg: '没有找到该主题'
+            });
+
+        }
+        req.conn.release();
+
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
