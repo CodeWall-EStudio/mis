@@ -12,7 +12,7 @@ var nowSubId = striker.util.getParameter('id');
 //事件通知,用户资料已经加载完成
 //主题列表的通知事件
 function userLoadSub(e,d){
-	 subject.info(nowSubId);
+	 new subject.info(nowSubId);
 	 article.init(nowSubId);
 }
 
@@ -56,8 +56,12 @@ function bindAction(){
 			action = target.data('action');
 		if(action){
 			var actMap = action.split('.');
-			if(actMap.length === 2 && striker[actMap[0]][actMap[1]]){
-				striker[actMap[0]][actMap[1]](target);
+			var mod = actMap[0],
+				fun = actMap[1];
+				console.log(mod,fun);
+			if(actMap.length === 2 && striker[mod][fun]){
+
+				striker[mod][fun](target);
 			}
 		}
 

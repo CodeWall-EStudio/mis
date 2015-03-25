@@ -10,7 +10,6 @@ var Striker = $(window.striker);
 
 //事件通知,用户资料已经加载完成
 function userLoad(e,d){
-	console.log(111);
 	new subject.area('mySubject');
 	new subject.area('myFollow');
 	//subject.search('mySubject');

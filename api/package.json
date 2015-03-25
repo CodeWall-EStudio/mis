@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "co": "^4.4.0",
-    "co-mysql": "^1.0.0",
     "connect-mongo": "^0.7.0",
     "connect-mysql": "^2.1.1",
     "connect-redis": "^2.2.0",

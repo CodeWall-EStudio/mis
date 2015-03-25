@@ -73,7 +73,7 @@ db.subject.follow = function(param,callback){
 }
 
 db.subject.following = function(param,callback){
-	request.post(cgiList.subject.following,param,callback);	
+	request.get(cgiList.subject.following,param,callback);	
 }
 
 db.article = {};

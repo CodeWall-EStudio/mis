@@ -42,7 +42,7 @@ Subject.area = function(domname){
 	this.dom = dom;
 	this.page = 0;   //开始页码
 	this.allPage = 0;
-	this.limit = 20; //一页的条数
+	this.limit = 5; //一页的条数
 	this.order = 0;//0 按时间排序,1 按更新时间排序
 	this.listDom; //列表的位置
 	var html = tmpl.area({
@@ -182,4 +182,3 @@ Subject.init = function(type){
 	subjectInfo.init(type,cgi,tmpl);
 	subjectCreate.init(type,cgi,tmpl);
 }
-
