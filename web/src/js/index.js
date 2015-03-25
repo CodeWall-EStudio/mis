@@ -12,6 +12,7 @@ var Striker = $(window.striker);
 function userLoad(e,d){
 	new subject.area('mySubject');
 	new subject.area('myFollow');
+	new label.label('sub');
 	//subject.search('mySubject');
 	// subject.search('mySubject');
 	// subject.search('mySubject');
@@ -33,18 +34,19 @@ for(var i in handlers){
 
 //全局事件绑定
 function bindAction(){
-	/*
 	$('body').bind('click',function(e){
 		var target = $(e.target),
 			action = target.data('action');
 		if(action){
 			var actMap = action.split('.');
-			if(actMap.length === 2 && striker[actMap[0]][actMap[1]]){
-				striker[actMap[0]][actMap[1]](target);
+			var mod = actMap[0],
+				fun = actMap[1];
+			if(actMap.length === 2 && striker[mod][fun]){
+
+				striker[mod][fun](target);
 			}
 		}
 	});
-	*/
 }
 
 function init(){

@@ -58,7 +58,6 @@ function bindAction(){
 			var actMap = action.split('.');
 			var mod = actMap[0],
 				fun = actMap[1];
-				console.log(mod,fun);
 			if(actMap.length === 2 && striker[mod][fun]){
 
 				striker[mod][fun](target);

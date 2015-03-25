@@ -90,4 +90,14 @@ db.article.create = function(param,callback){
 	request.post(cgiList.article.create,param,callback);
 }
 
+db.label = {};
+
+db.label.create = function(param,callback) {
+	request.post(cgiList.label.create, param, callback);	
+}
+
+db.label.list = function(param,callback){
+	request.get(cgiList.label.list,param,callback);	
+}
+
 module.exports = db;

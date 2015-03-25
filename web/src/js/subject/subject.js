@@ -43,7 +43,7 @@ Subject.area = function(domname){
 	this.page = 0;   //开始页码
 	this.allPage = 0;
 	this.limit = 5; //一页的条数
-	this.order = 0;//0 按时间排序,1 按更新时间排序
+	this.order = 'createTime';//0 按时间排序,1 按更新时间排序
 	this.listDom; //列表的位置
 	var html = tmpl.area({
 		proText : proMap[domname],
@@ -61,7 +61,8 @@ Subject.area = function(domname){
 
 	this.getDate({
 		start : this.page*this.limit,
-		limit : this.limit
+		limit : this.limit,
+		orderby : this.order
 	});
 
 	this.bindAction();
@@ -73,7 +74,8 @@ Subject.area.prototype.next = function(){
 		this.page++;
 		this.getDate({
 			start : this.page*this.limit,
-			limit : this.limit
+			limit : this.limit,
+			orderby : this.order
 		});	
 	}
 }
@@ -84,7 +86,8 @@ Subject.area.prototype.pre = function(){
 		this.page--;
 		this.getDate({
 			start : this.page*this.limit,
-			limit : this.limit
+			limit : this.limit,
+			orderby : this.order
 		});
 	}
 }
@@ -100,12 +103,27 @@ Subject.area.prototype.close = function(e){
 
 //按发表时间排序
 Subject.area.prototype.orderbytime = function(){
-	alert('按时间排序')
+	// orderby: updateTime / createTime
+	this.order = 'createTime';
+	this.timeDom.addClass('active');
+	this.updateDom.removeClass('active');
+	this.getDate({
+		start : this.page*this.limit,
+		limit : this.limit,
+		orderby : this.order
+	});
 }
 
 //按更新时间排序
 Subject.area.prototype.orderbyupdate = function(){
-	alert('按更新时间排序')
+	this.order = 'updateTime';
+	this.updateDom.addClass('active');
+	this.timeDom.removeClass('active');	
+	this.getDate({
+		start : this.page*this.limit,
+		limit : this.limit,
+		orderby : this.order
+	});	
 }
 
 //新建主题

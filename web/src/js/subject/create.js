@@ -42,13 +42,22 @@ function bindAction(){
 				}
 			});
 
+			var llist = [];
+			$("#nowSubLabel .tag").each(function(e){
+				var target = $(e.target),
+					id = target.data('id');
+				if(id){
+					llist.push(id);
+				}				
+			})
+
 			var param = {
 				title : tit,
 				mark : mark,
 				private : open,
 				guest : guest,
 				members : mlist,
-				subjectLabels : [],
+				subjectLabels : llist,
 				articleLabels : [],
 				resources : []
 			}
