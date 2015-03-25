@@ -12,6 +12,7 @@ var Striker = $(window.striker);
 function userLoad(e,d){
 	console.log(111);
 	new subject.area('mySubject');
+	new subject.area('myFollow');
 	//subject.search('mySubject');
 	// subject.search('mySubject');
 	// subject.search('mySubject');

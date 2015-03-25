@@ -10,7 +10,9 @@ var cgiList = {
 	subject : {
 		search : cgiPath+'subject/search',
 		info : cgiPath+'subject/info',
-		create : cgiPath+'subject/create'
+		create : cgiPath+'subject/create',
+		follow : cgiPath+'subject/follow', //关注
+		following : cgiPath+'subject/following' //关注列表
 	},
 	article : {
 		search : cgiPath+'article/search',
@@ -64,6 +66,14 @@ db.subject.info = function(param,callback){
 
 db.subject.create = function(param,callback){
 	request.post(cgiList.subject.create,param,callback);
+}
+
+db.subject.follow = function(param,callback){
+	request.post(cgiList.subject.follow,param,callback);	
+}
+
+db.subject.following = function(param,callback){
+	request.post(cgiList.subject.following,param,callback);	
 }
 
 db.article = {};

@@ -145,7 +145,13 @@ Subject.area.prototype.getDate = function(param){
 	}
 	var _this = this;
 	this.loading = true;
-	cgi.search(param,function(res){
+
+	var funname = 'search';
+	if(this.proName === 'myFollow'){
+		funname = 'following';
+	}
+
+	cgi[funname](param,function(res){
 		_this.loading = false;
 		if(res.code === 0){
 			var html = tmpl.list(res.data);
@@ -176,3 +182,4 @@ Subject.init = function(type){
 	subjectInfo.init(type,cgi,tmpl);
 	subjectCreate.init(type,cgi,tmpl);
 }
+
