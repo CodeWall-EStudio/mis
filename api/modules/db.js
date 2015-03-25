@@ -1,5 +1,4 @@
 var mysql = require('mysql');
-var wrapper = require('co-mysql');
 
 var config = require('../config');
 var ERR = require('../errorcode');
@@ -36,3 +35,32 @@ exports.handleError = function(req, res, err){
         detail: err
     });
 };
+
+
+var slice = [].slice;
+
+function wrapper(client) {
+  var query = client.query;
+
+  var o = {};
+
+  o.query = function() {
+    var args = slice.call(arguments);
+    var p = new Promise(function(resolve, reject) {
+      args.push(function(err, rows) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+
+      var q = query.apply(client, args);
+      Logger.debug('[db.query]', q.sql);
+    });
+
+    return p;
+  };
+
+  return o;
+}

@@ -190,10 +190,7 @@ exports.follow = function(req, res) {
 
         if (params.isFollow === 0) { // 取消关注
             var result =
-                yield req.mysql('DELETE FROM subject_follow WHERE ?', {
-                    subject_id: params.subjectId,
-                    user_id: loginUser.id
-                });
+                yield req.mysql('DELETE FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
             res.json({
                 code: ERR.SUCCESS
             });
