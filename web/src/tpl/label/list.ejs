@@ -1,0 +1,8 @@
+<%
+	for(var i = 0,l=list.length;i<l;i++){
+		var item = list[i];
+%>
+<li data-id="<%-item.id%>" data-name="<%-item.name%>" data-action="select">
+	<%-item.name%>
+</li>
+<%}%>
