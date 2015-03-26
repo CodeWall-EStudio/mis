@@ -1,0 +1,30 @@
+$icons-layout:smart;
+@import"sprite/icons/*.png";
+@include all-icons-sprites;
+
+$icons:sprite-map("sprite/icons/*.png", $layout:smart);
+// $icons-2x:sprite-map("sprite/icons@2x/*.png", $layout:smart);
+// $icons-3x:sprite-map("sprite/icons@3x/*.png", $layout:smart);
+@mixin icons-sprite-retina($sprite) {
+    background-image: sprite-url($icons);
+    background-position: sprite-position($icons, $sprite);
+    background-repeat: no-repeat;
+    overflow: hidden;
+    display: block;
+    height: image-height(sprite-file($icons, $sprite));
+    width: image-width(sprite-file($icons, $sprite));
+    // @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    //     background-image: sprite-url($icons-2x);
+    //     background-size: (image-width(sprite-path($icons-2x)) / 2) (image-height(sprite-path($icons-2x)) / 2);
+    //     background-position: round(nth(sprite-position($icons-2x, $sprite), 1) / 2) round(nth(sprite-position($icons-2x, $sprite), 2) / 2);
+    //     height: image-height(sprite-file($icons-2x, $sprite)) / 2;
+    //     width: image-width(sprite-file($icons-2x, $sprite)) / 2;
+    // }
+    // @media (-webkit-min-device-pixel-ratio: 3), (min-resolution: 192dpi) {
+    //     background-image: sprite-url($icons-3x);
+    //     background-size: (image-width(sprite-path($icons-3x)) / 3) (image-height(sprite-path($icons-3x)) / 3);
+    //     background-position: round(nth(sprite-position($icons-3x, $sprite), 1) / 2) round(nth(sprite-position($icons-3x, $sprite), 2) / 2);
+    //     height: image-height(sprite-file($icons-3x, $sprite)) / 3;
+    //     width: image-width(sprite-file($icons-3x, $sprite)) / 3;
+    // }    
+}

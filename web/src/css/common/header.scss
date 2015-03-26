@@ -1,3 +1,4 @@
+@import"common/icons";
 .header{
 	background-color:#34495e;
 	height:50px;
@@ -20,4 +21,104 @@
 	position:absolute;
 	right:0;
 	color:#fff;
+
+	span{
+		cursor:pointer;
+		vertical-align:middle;
+	}
+
+	.user{
+		@include icons-sprite-retina("user32");
+		display:inline-block;
+	}
+	.msg{
+		@include icons-sprite-retina("msg32");
+		display:inline-block;
+	}
+	.dialog{
+		@include icons-sprite-retina("say32");
+		display:inline-block;
+	}
+	.search {
+		@include icons-sprite-retina("search32");
+		display:inline-block;
+	}		
+	.memu {
+		@include icons-sprite-retina("memu32");
+		display:inline-block;
+	}				
+}
+.header-right{
+	padding-right:20px;
+	position:relative;
+
+	span {
+
+		&.arrow-down{
+			height: 16px;
+			width: 16px;
+			position: absolute;
+			top: 50%;
+			right: 0;
+			margin-top:-10px;
+		}
+
+		&.arrow-up{
+			height: 16px;
+			width: 16px;
+			position: absolute;
+			top: 50%;
+			right: 0;
+			margin-top:-10px;
+		}
+
+	}
+
+	span.arrow-down:before,.span.arrow-down:after  {
+		content: ' ';
+		display: block;
+		width: 10px;
+		height: 4px;
+		background: grey;
+		position: absolute;
+		top: 4px;
+		left: 3px;
+		-webkit-transform: rotate(45deg);
+	}
+
+	span.arrow-down:after {
+		content: ' ';
+		display: block;
+		width: 10px;
+		height: 4px;
+		background: grey;
+		position: absolute;
+		top: 4px;
+		left: 8px;
+		-webkit-transform: rotate(135deg);
+	}
+
+	span.arrow-up:before,.span.arrow-up:after  {
+		content: ' ';
+		display: block;
+		width: 10px;
+		height: 4px;
+		background: grey;
+		position: absolute;
+		top: 4px;
+		left: 3px;
+		-webkit-transform: rotate(45deg);
+	}
+
+	span.arrow-up:after {
+		content: ' ';
+		display: block;
+		width: 10px;
+		height: 4px;
+		background: grey;
+		position: absolute;
+		top: 4px;
+		left: 8px;
+		-webkit-transform: rotate(-45deg);
+	}	
 }

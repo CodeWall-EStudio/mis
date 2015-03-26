@@ -3,7 +3,7 @@
 # set the css file encoding
 Encoding.default_external = "utf-8"
 
-dist_root = "dist/"
+dist_root = "public/"
 http_images_path = "../img/common"
 http_generated_images_path = "../../img"
 generated_images_dir = dist_root + "img"
