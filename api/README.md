@@ -9,6 +9,11 @@ Multimedia Interaction System API Server
 # 启动 server
     node --harmony app.js
 
+# POST man地址
+https://www.getpostman.com/collections/c6a2b043207964b4bd35
+
+# [API docs](./docs/二期接口列表.md)
+
 # 测试服务器
 ssh root@codewalle.com
 
