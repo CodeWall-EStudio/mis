@@ -116,32 +116,33 @@ exports.create = function(req, res) {
 
 exports.search = function(req, res) {
     var params = req.parameter;
-    Logger.info('[do subject search: ', params);
-    co(function*() {
-        var sql = 'SELECT COUNT(s.id) AS count FROM subject s WHERE isArchive = 0';
-        var sqlParams = [];
-        if (params.creator) {
-            sql += ' AND ?? = ?';
-            sqlParams.push('s.creator', params.creator);
-        }
-        var rows =
-            yield req.mysql(sql, sqlParams);
-        var total = rows[0].count;
-        sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u WHERE s.creator = u.id AND isArchive = 0';
-        if (params.creator) {
-            sql += ' AND ?? = ?';
-        }
-        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
-        if (params.orderby) {
-            sqlParams.push('s.' + params.orderby);
-        } else {
-            sqlParams.push('s.updateTime');
-        }
 
-        sqlParams.push(params.start, params.limit);
-        Logger.debug(sql);
+    co(function*() {
+
+        var sql = 'SELECT COUNT(s.id) AS count FROM subject s WHERE ';
+        var dbParams = {
+            isArchive: 0,
+            'private': params['private'] ? 1 : 0
+        };
+        if (params.creator) {
+            dbParams['s.creator'] = params.creator;
+        }
+        sql += req.dbPrepare(dbParams);
+
+        var rows =
+            yield req.mysql(sql);
+        var total = rows[0].count;
+
+        sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u WHERE ';
+
+        dbParams['s.creator'] = 'u.id';
+        sql += req.dbPrepare(dbParams);
+
+        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+
+
         rows =
-            yield req.mysql(sql, sqlParams);
+            yield req.mysql(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
 
         res.json({
             code: ERR.SUCCESS,
@@ -156,6 +157,7 @@ exports.search = function(req, res) {
     });
 
 };
+
 
 exports.info = function(req, res) {
     var params = req.parameter;
@@ -227,16 +229,14 @@ exports.following = function(req, res) {
     var params = req.parameter;
     var loginUser = req.loginUser;
 
-    Logger.info('[do subject search: ', params);
+
     co(function*() {
         var sql = 'SELECT COUNT(s.id) AS count FROM subject_follow s WHERE user_id = ?';
         var sqlParams = [loginUser.id];
         var rows =
             yield req.mysql(sql, sqlParams);
         var total = rows[0].count;
-        sql = 'SELECT s.*, u.name AS creatorName, ' 
-            + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' 
-            + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
+        sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
 
         sql += ' ORDER BY ?? DESC LIMIT ?, ?';
         if (params.orderby) {

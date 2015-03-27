@@ -88,6 +88,9 @@ module.exports = {
             type: 'number'
         },{
             name: 'orderby'
+        },{
+            name: 'private',
+            type: 'number'
         }]
     },
 
