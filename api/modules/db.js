@@ -45,8 +45,9 @@ exports.connect = function(req, res, next) {
             }, 500);
         } else {
             // connection.config.queryFormat = queryFormat;
+            connection.yieldQuery = wrapper(connection).query;
             req.conn = connection;
-            req.mysql = wrapper(connection).query;
+            req.mysql = connection.yieldQuery;
             req.dbPrepare = prepare;
             next();
         }

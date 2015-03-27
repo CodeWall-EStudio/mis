@@ -38,6 +38,7 @@ module.exports = exports = {
 
 
     IMPORT_FAILURE: 1060, // 导入失败
+    UPLOAD_FAILURE: 1070, // 上传失败
 
     SUCCESS: 0
 };

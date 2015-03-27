@@ -8,7 +8,7 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var http = require('http');
 var path = require('path');
-// var multer = require('multer');
+var multer = require('multer');
 
 var config = require('./config');
 
@@ -31,9 +31,6 @@ if (!config.DEBUG) {
 
 app.set('port', process.env.PORT || config.PORT || 3000);
 
-// app.engine('.html', require('ejs').__express);
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'html');
 
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -42,9 +39,9 @@ app.enable('trust proxy');
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
-// app.use(multer({
-//     dest: path.join(__dirname, '../uploads/')
-// }));
+app.use(multer({
+    dest: path.join(__dirname, '../uploads/')
+}));
 
 
 app.use(express.cookieParser());
@@ -63,13 +60,6 @@ app.use(app.router);
 
 
 var staticDir = path.join(__dirname, '../web/public');
-if ('development' === app.get('env')) {
-
-    staticDir = path.join(__dirname, '../web/public');
-
-    app.use(express.errorHandler());
-
-}
 
 app.use(express.static(staticDir, {
     maxAge: config.STATIC_FILE_EXPIRES

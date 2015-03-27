@@ -180,5 +180,23 @@ module.exports = {
             name: 'name',
             required: true
         }]
+    },
+
+    // 资源
+    '/cgi/resource/preview': {
+        method: 'GET',
+        params: [{
+            name: 'id',
+            type: 'number',
+            required: true
+        }]
+    },
+    '/cgi/resource/download': {
+        method: 'GET',
+        params: [{
+            name: 'id',
+            type: 'number',
+            required: true
+        }]
     }
 };

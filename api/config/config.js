@@ -18,9 +18,8 @@ exports.DB_USER = 'media';
 
 exports.DB_PWD = 'media';
 
-
-// exports.DB_URI = 'mongodb://xzone_user:HeMHFxTAMPAjlRVH@127.0.0.1:27017/session';
-
+// 上传文件保存的位置
+exports.DATA_ROOT = '/data/project_data/mis/'
 
 // ==== 应用自身相关的配置 ====================================================
 
