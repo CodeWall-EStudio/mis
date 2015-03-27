@@ -8,3 +8,18 @@ Multimedia Interaction System API Server
 
 # 启动 server
     node --harmony app.js
+
+# 测试服务器
+ssh root@codewalle.com
+
+root rZY2tADDmvF3aG2R
+
+## mysql
+root XWcNELxRFTS6UYMm
+
+## nginx
+重启： service nginx restart 
+
+## 项目路径
+/data/projects 
+
