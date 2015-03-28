@@ -76,7 +76,7 @@ app.all('/cgi/*', db.connect);
 app.all('/cgi/*', routes.setXHR2Headers);
 
 // 检查是否登录, 如果登录了, 从数据库把用户信息找出; 没有登录则返回错误
-app.all('/cgi/*', AuthChecker);
+// app.all('/cgi/*', AuthChecker);
 
 // 检查参数合法性
 app.all('/cgi/*', ParamVerifier);

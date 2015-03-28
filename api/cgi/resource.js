@@ -53,6 +53,7 @@ exports.upload = function(req, res) {
                 ext: file.extension,
                 path: dbFileDir + file.name,
                 mimetype: file.mimetype,
+                type: formatType(file.mimetype, file.extension),
                 creator: loginUser.id
             });
 
@@ -81,21 +82,15 @@ exports.download = function(req, res){
         var rows = yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
 
         if(!rows[0]){
-            return res.send('没有找到该资源', 404);
+            return res.send(404, '没有找到该资源');
         }
 
         var resource = rows[0];
         var filePath = path.join(config.DATA_ROOT, resource.path);
 
-        Logger.info('redirect to :' + filePath, 'mimes: ' + resource.mimetype);
-        res.set({
-            'Content-Type': resource.mimetype,
-            'Content-Disposition': 'attachment; filename=' + resource.name,
-            'Content-Length': resource.size,
-            'X-Accel-Redirect': filePath
-        });
-
-        res.send();
+        Logger.info('redirect to :' + filePath, 'mimes: ' + resource.mimetype, 'fileName: ', resource.name);
+        
+        res.download(filePath, encodeURIComponent(resource.name));
 
     }).catch(function(err) {
         db.handleError(req, res, err.message);
@@ -199,4 +194,48 @@ exports.download = function(req, res){
 //         db.handleError(req, res, err.message);
 //     });
 
+
+
+function formatType(mimes, ext) {
+    if (config.FILE_MIMES['image'].indexOf(mimes) > -1) {
+        return 1;
+    } else if (config.FILE_MIMES['document'].indexOf(mimes) > -1) {
+        return 2;
+    } else if (config.FILE_MIMES['pdf'].indexOf(mimes) > -1) {
+        return 2;
+    } else if (config.FILE_MIMES['audio'].indexOf(mimes) > -1) {
+        return 3;
+    } else if (config.FILE_MIMES['video'].indexOf(mimes) > -1) {
+        return 4;
+    } else if (config.FILE_MIMES['application'].indexOf(mimes) > -1) {
+        return 5;
+    } else if (config.FILE_MIMES['archive'].indexOf(mimes) > -1) {
+        return 6;
+    } else if (config.FILE_MIMES['text'].indexOf(mimes) > -1) {
+        return 8;
+    } else if (ext) {
+
+        if (config.FILE_SUFFIX['image'].indexOf(ext) > -1) {
+            return 1;
+        } else if (config.FILE_SUFFIX['document'].indexOf(ext) > -1) {
+            return 2;
+        } else if (config.FILE_SUFFIX['pdf'].indexOf(ext) > -1) {
+            return 2;
+        } else if (config.FILE_SUFFIX['audio'].indexOf(ext) > -1) {
+            return 3;
+        } else if (config.FILE_SUFFIX['video'].indexOf(ext) > -1) {
+            return 4;
+        } else if (config.FILE_SUFFIX['application'].indexOf(ext) > -1) {
+            return 5;
+        } else if (config.FILE_SUFFIX['archive'].indexOf(ext) > -1) {
+            return 6;
+        } else if (config.FILE_SUFFIX['text'].indexOf(ext) > -1) {
+            return 8;
+        } else {
+            return 7;
+        }
+    } else {
+        return 7;
+    }
+}
 // };

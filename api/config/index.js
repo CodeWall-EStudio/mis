@@ -6,6 +6,7 @@ var Logger = require('../logger');
 
 us.extend(exports, require('./constants'));
 us.extend(exports, require('./config'));
+us.extend(exports, require('./filetypes'));
 
 
 // 从上一级目录(跟 api/ 同级的config.js)读取系统的个性配置
