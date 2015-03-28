@@ -165,7 +165,7 @@ exports.preview = function(req, res) {
             case 8: //text
                 try {
                     var data = fs.readFileSync(filePath);
-                    Logger.debug(data.toString());
+
                     res.send(data.toString());
                 } catch (e) {
                     res.send(404, '没有找到该资源');
