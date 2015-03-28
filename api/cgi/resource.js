@@ -1,4 +1,5 @@
 var co = require('co');
+var fs = require('fs');
 var path = require('path');
 
 var ERR = require('../errorcode');
@@ -46,23 +47,27 @@ exports.upload = function(req, res) {
         }
 
         // 创建db记录
-        co(function*(){
-            var result = yield req.conn.yieldQuery('INSERT INTO resource SET ?', {
-                name: decodeURIComponent(file.originalname),
-                size: file.size,
-                ext: file.extension,
-                path: dbFileDir + file.name,
-                mimetype: file.mimetype,
-                type: formatType(file.mimetype, file.extension),
-                creator: loginUser.id
-            });
+        co(function*() {
+            var result =
+                yield req.conn.yieldQuery('INSERT INTO resource SET ?', {
+                    name: decodeURIComponent(file.originalname),
+                    size: file.size,
+                    ext: file.extension,
+                    path: dbFileDir + file.name,
+                    mimetype: file.mimetype,
+                    type: formatType(file.mimetype, file.extension),
+                    creator: loginUser.id
+                });
 
-            var rows = yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', result.insertId);
+            var rows =
+                yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', result.insertId);
 
             res.json({
                 code: ERR.SUCCESS,
                 data: rows[0]
             });
+
+            req.conn.release();
 
         }).catch(function(err) {
             db.handleError(req, res, err.message);
@@ -71,17 +76,18 @@ exports.upload = function(req, res) {
     });
 };
 
-exports.download = function(req, res){
+exports.download = function(req, res) {
 
     var parameter = req.parameter;
     var id = parameter.id;
     var loginUser = req.loginUser;
-    
-    co(function*(){
 
-        var rows = yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
+    co(function*() {
 
-        if(!rows[0]){
+        var rows =
+            yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
+        req.conn.release();
+        if (!rows[0]) {
             return res.send(404, '没有找到该资源');
         }
 
@@ -89,7 +95,7 @@ exports.download = function(req, res){
         var filePath = path.join(config.DATA_ROOT, resource.path);
 
         Logger.info('redirect to :' + filePath, 'mimes: ' + resource.mimetype, 'fileName: ', resource.name);
-        
+
         res.download(filePath, encodeURIComponent(resource.name));
 
     }).catch(function(err) {
@@ -99,101 +105,80 @@ exports.download = function(req, res){
 };
 
 
-// exports.preview = function(req, res){
-//     var parameter = req.parameter;
-//     var id = parameter.id;
-//     var loginUser = req.loginUser;
-    
-//     co(function*(){
+exports.preview = function(req, res) {
+    var parameter = req.parameter;
+    var id = parameter.id;
+    var loginUser = req.loginUser;
 
-//         var rows = yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
+    co(function*() {
 
-//         if(!rows[0]){
-//             return res.send('没有找到该资源', 404);
-//         }
+        var rows =
+            yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
 
-//         var resource = rows[0];
-//         var filePath = path.join(config.DATA_ROOT, resource.path);
+        req.conn.release();
+        if (!rows[0]) {
+            return res.send(404, '没有找到该资源');
+        }
 
-
-//         //1. 图片, 直接给url
-//         //2. 文档, 给出swf url
-//         //3. txt, 给出 text的文本内容
-//         //4. 音频/视频, 直接给出url
+        var resource = rows[0];
+        var filePath = path.join(config.DATA_ROOT, resource.path);
 
 
-//     if(resource.type === 8){//text
-//         var fileName = path.join(config.FILE_SAVE_ROOT, config.FILE_SAVE_DIR, resource.path);
-//         fs.readFile(fileName, function(err, data){
-//             if(!data){
-//                 res.json({ err: ERR.NOT_FOUND, msg: 'can not find this file' });
-//                 return;
-//             }
-//             res.send(data);
-//         });
+        //1. 图片, 直接给url
+        //2. 文档, 给出swf url
+        //3. txt, 给出 text的文本内容
+        //4. 音频/视频, 直接给出url
 
-//     }else{
-//         switch(resource.type){
-//         case 2:// 文档
-//             var swfFile = path.join(config.FILE_SAVE_ROOT, filePath + '.swf');
-//             if(!fs.existsSync(swfFile)){
-//                 Logger.error('can\'t find ' + swfFile + '! try to convert...');
-//                 var suffix = path.extname(filePath).slice(1);
-//                 fileHelper.convertWord(path.join(config.FILE_SAVE_ROOT, filePath), resource.mimes, suffix, function(err){
-//                     if(err){
-//                         res.json({ err: ERR.NOT_FOUND, msg: 'can not find this file and convert failure' });
-//                         return;
-//                     }
-//                     Logger.info('convert success: ' + filePath);
-//                     res.set({
-//                         'Content-Type': 'application/x-shockwave-flash',
-//                         'X-Accel-Redirect': filePath + '.swf'
-//                     });
-//                     res.send();
-//                 });
-//             }else{
-//                 res.set({
-//                     'Content-Type': 'application/x-shockwave-flash',
-//                     'X-Accel-Redirect': filePath + '.swf'
-//                 });
-//                 res.send();
-//             }
-//             break;
-//         case 1://image
-//         case 3://audio
-//         case 4://video
-//         case 5://stream
+        switch (resource.type) {
+            case 2: // 文档
+                // var swfFile = path.join(config.FILE_SAVE_ROOT, filePath + '.swf');
+                // if(!fs.existsSync(swfFile)){
+                //     Logger.error('can\'t find ' + swfFile + '! try to convert...');
+                //     var suffix = path.extname(filePath).slice(1);
+                //     fileHelper.convertWord(path.join(config.FILE_SAVE_ROOT, filePath), resource.mimes, suffix, function(err){
+                //         if(err){
+                //             res.json({ err: ERR.NOT_FOUND, msg: 'can not find this file and convert failure' });
+                //             return;
+                //         }
+                //         Logger.info('convert success: ' + filePath);
+                //         res.set({
+                //             'Content-Type': 'application/x-shockwave-flash',
+                //             'X-Accel-Redirect': filePath + '.swf'
+                //         });
+                //         res.send();
+                //     });
+                // }else{
+                //     res.set({
+                //         'Content-Type': 'application/x-shockwave-flash',
+                //         'X-Accel-Redirect': filePath + '.swf'
+                //     });
+                //     res.send();
+                // }
+                // break;
+            case 1: //image
+            case 3: //audio
+            case 4: //video
+            case 5: //stream
 
-//             res.set({
-//                 'Content-Type': resource.type,
-//                 'X-Accel-Redirect': filePath
-//             });
-//             res.send();
-//             break;
-//         default:
-//             res.json({ err: ERR.NOT_SUPPORT, msg: 'not support mimes' });
-//         }
-//     }// else
+                res.sendfile(filePath);
+                break;
+            case 8: //text
+                try {
+                    var data = fs.readFileSync(filePath);
+                    Logger.debug(data.toString());
+                    res.send(data.toString());
+                } catch (e) {
+                    res.send(404, '没有找到该资源');
+                }
+                break;
+            default:
+                res.send(405, '不支持这种类型文件的预览');
+        }
 
-
-
-
-
-
-//         Logger.info('redirect to :' + filePath, 'mimes: ' + resource.mimetype);
-//         res.set({
-//             'Content-Type': resource.mimetype,
-//             'Content-Disposition': 'attachment; filename=' + resource.name,
-//             'Content-Length': resource.size,
-//             'X-Accel-Redirect': filePath
-//         });
-
-//         res.send();
-
-//     }).catch(function(err) {
-//         db.handleError(req, res, err.message);
-//     });
-
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
 
 
 function formatType(mimes, ext) {
@@ -238,4 +223,46 @@ function formatType(mimes, ext) {
         return 7;
     }
 }
-// };
+
+
+function convert(filepath, mimes, ext, callback) {
+        Logger.info('>>>convert file: mimes', filepath, mimes, ext);
+        var cmd;
+        //doc 文档要生成 swf 格式文件
+        if (config.FILE_MIMES['document'].indexOf(mimes) > -1 || config.FILE_SUFFIX['document'].indexOf(ext) > -1) {
+            cmd = 'java -jar ' + config.JOD_CONVERTER + ' ' + filepath + ' ' + filepath + '.pdf';
+            Logger.info('>>>convert file: exec', cmd);
+            process.exec(cmd, function(err, stdout, stderr) {
+                if (!err) {
+                    cmd = 'pdf2swf ' + filepath + '.pdf -s flashversion=9 -o ' + filepath + '.swf';
+                    Logger.info('>>>convert file: exec', cmd);
+                    process.exec(cmd, function(err, stdout, stderr) {
+                        callback(err);
+                        if (err) {
+                            Logger.error('>>>file convert error: to swf: ', err, stderr, mimes, ext);
+                        } else {
+                            Logger.info('>>>convert file: done with ', cmd);
+                        }
+                    });
+                } else {
+                    callback(err);
+                    Logger.error('>>>file convert error: to pdf', err, stderr, mimes, ext);
+                }
+            });
+        } else if (config.FILE_MIMES['pdf'].indexOf(mimes) > -1 || config.FILE_SUFFIX['pdf'].indexOf(ext) > -1) {
+            cmd = 'pdf2swf ' + filepath + '.pdf -s flashversion=9 -o ' + filepath + '.swf';
+            Logger.info('>>>convert file: exec', cmd);
+            process.exec(cmd, function(err, stdout, stderr) {
+                callback(err);
+                if (err) {
+                    Logger.error('>>>file convert error2: to swf', err, stderr, mimes, ext);
+                } else {
+                    Logger.info('>>>convert file: done with ', cmd);
+                }
+            });
+
+        } else {
+            callback();
+        }
+    }
+    // };
