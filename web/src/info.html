@@ -72,11 +72,18 @@
     <div class="form-group">
       <div class="col-md-8">发贴:<input type="text" class="form-control" name="name" placeholder="请输入帖子标题" /></div>
       <div class="col-md-4">
-        <a data-action="article.upload">图片</a>
+        <div class="upload-area">
+          <form action="/cgi/resource/upload" method="post" enctype="multipart/form-data" target="uploadframe" id="fileForm">
+          <a data-action="article.upload">资源</a>
+          <input type="file" id="fileName" name="file" />
+          </form>
+        </div>
+        <!--
         <a data-action="article.upload">视频</a>
         <a data-action="article.upload">文件</a>
-        <button type="button" class="btn btn-primary" data-action="article.post" data-target="#postArticle">发布</button>
-        <button type="button" class="btn btn-primary" data-action="article.reset" data-target="#postArticle">取消</button>      
+        -->
+        <button type="button" class="btn btn-primary" data-action="post" data-target="#postArticle">发布</button>
+        <button type="button" class="btn btn-primary" data-action="reset" data-target="#postArticle">取消</button>      
       </div>
     </div>
     <div>
@@ -93,22 +100,31 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          标题:
-          <input type="text" class="form-control" name="name" placeholder="请输入帖子标题" />
+            标题:
+            <input type="text" class="form-control" name="name" placeholder="请输入帖子标题" />
+        </div>
+        <div class="form-group">
+          <div class="upload-area">
+            <form action="/cgi/resource/upload" method="post" enctype="multipart/form-data" target="uploadframe" id="cfileForm">
+            <a data-action="article.upload">资源</a>
+            <input type="file" id="cfileName" name="file" />
+            </form>
+          </div>          
         </div>
         <div class="form-group">
           <textarea class="form-control" name="content"></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-type="submit" data-action="article.post" data-target="#createArticle">发布</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-action="article.reset" data-target="#createArticle">取消</button>
+        <button type="button" class="btn btn-primary" data-type="submit" data-action="post" data-target="#createArticle">发布</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-action="reset" data-target="#createArticle">取消</button>
       </div>
+      
     </div>        
 
 
   </section>
-
+  <iframe name="uploadframe" style="display:none"></iframe>
   <script src="js/lib/jquery.min.js"></script>
   <script src="js/lib/bootstrap.min.js"></script>
   <script src="js/lib/flat-ui.min.js"></script>

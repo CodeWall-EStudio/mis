@@ -101,11 +101,14 @@ exports.moveFile = function(src, dst, callback) {
     var is = fs.createReadStream(src);
     var os = fs.createWriteStream(dst);
 
+    console.log(src,dst);
+
     is.on('end', function() {
         fs.unlinkSync(src);
         callback(null);
     });
     os.on('error', function(err) {
+        console.log(err);
         callback(err);
     });
 

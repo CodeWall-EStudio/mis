@@ -94,6 +94,44 @@ exports.search = function(req, res) {
 
         rows =
             yield req.mysql('SELECT * FROM article  WHERE subject_id = ? limit ?, ?', [params.subjectId, params.start, params.limit]);
+
+        //标签id列表,资源id列表
+        var labelMap = [],
+            resMap = [],
+            articleId = [];
+
+        for(var i in rows){
+            articleId.push(rows[i].id);
+            resMap[rows[i].id] = i;
+            labelMap[rows[i].id] = i;
+        }
+
+        //取标签
+        //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
+        if(rows.length){
+            var llist = yield req.mysql('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_label a,label b WHERE label_id IN ('+articleId.join(',')+') AND a.label_id = b.id');
+            for(var i = 0,l=llist.length;i<l;i++){
+                var item = llist[i];
+                var idx = resMap[item.aid];
+                if(!rows[idx].labels){
+                    rows[idx].labels = [];
+                }
+                rows[idx].labels.push(item);
+            }
+
+            //取资源
+            //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
+            var rlist = yield req.mysql('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_resource a,resource b WHERE article_id IN ('+articleId.join(',')+') AND a.resource_id = b.id');
+            for(var i = 0,l=rlist.length;i<l;i++){
+                var item = rlist[i];
+                var idx = resMap[item.aid];
+                if(!rows[idx].resource){
+                    rows[idx].resource = [];
+                }
+                rows[idx].resource.push(item);
+            }
+        }
+
         res.json({
             code: ERR.SUCCESS,
             data: {

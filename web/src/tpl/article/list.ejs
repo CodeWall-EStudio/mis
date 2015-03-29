@@ -13,14 +13,27 @@
         <dl>
           <%-item.content%>
         </dl>
+        <%if(item.imgnum>0){%>
         <div class="artice-img-list">
-          <div>
-            <img src="http://images.91160.com/upload/5/201301/13584993984023.jpg" />
-            <span>共7张</span>
-          </div>
-          <div><img src="http://images.91160.com/upload/5/201301/13584993984023.jpg" /></div>
-          <div><img src="http://images.91160.com/upload/5/201301/13584993984023.jpg" /></div>
+          <%
+            var first = true;
+            for(var j=0,m=item.resource.length;j<m;j++){
+              var obj = item.resource[j];
+              
+              if(obj.type === 1){
+          %>
+            <div>
+              <img src="/cgi/resource/preview?id=<%-obj.id%>" width="200" />
+              <%
+                if(first){
+                  first = false;
+              %>
+              <span>共<%-item.imgnum%>张</span>
+              <%}%>
+            </div>
+          <%}}%>
         </div>
+        <%}%>
     </div>
   </article>
 <%}%>

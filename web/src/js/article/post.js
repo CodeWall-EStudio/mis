@@ -10,11 +10,18 @@ var aPost = {},
 	striker = window.striker;
 
 module.exports = aPost;
-var listDom = $("#articleList");
+var listDom = $("#articleList"),
+	resList = [];
 
 //注册和绑定事件
 function bindAction(){
 
+
+	window.uploadComp = function(d){
+		if(d.code === 0){
+			resList.push(d.data.id);
+		}
+	}
 }
 
 //根据dom获取相关的参数.
@@ -23,11 +30,11 @@ function getParam(target){
 		content = target.find('textarea[name=content]').val();
 
 	return {
-		name : name,
+		title : name,
 		content : content,
 		subjectId : nowSubId,
 		labels : [1,2],
-		resources : [1]
+		resources : resList
 	}
 }
 
@@ -42,10 +49,99 @@ aPost.init = function(id,module,tmp){
 	cgi = module;
 	tmpl = tmp;
 
+	new aPost.post();
 	bindAction();
 }
 
+aPost.post = function(){
+	this.pDom = $("#postArticle"); //底部发表框
+	this.cDom = $("#createArticle"); //弹出发表框
+	this.loading = false;
+	this.target;
+	this.bindAction();
+}
+
+aPost.post.prototype.bindFun = function(){
+
+};
+
+
+aPost.post.prototype.bindAction = function(){
+
+	var _this = this;
+	this.pDom.bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+		if(action && _this[action]){
+			_this.target = target;
+			_this[action](e);
+		}
+	});
+
+	this.cDom.bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+		if(action && _this[action]){
+			_this.target = target;
+			_this[action](e);
+		}
+	});	
+
+	$("#fileName").bind('change',function(e){
+		var target = $(e.target);
+		console.log(target.val());
+		if(target.val() !== ''){
+			$("#fileForm").submit();
+		}
+	})	
+
+	$("#cfileName").bind('change',function(e){
+		var target = $(e.target);
+
+		if(target.val() !== ''){
+			$("#cfileForm").submit();
+		}
+	})	
+}
+
+aPost.post.prototype.clear = function(){
+	this.pDom.find('input').val('');
+	this.pDom.find('textarea').val('');
+
+	this.cDom.find('input').val('');
+	this.cDom.find('textarea').val('');	
+
+	resList = [];
+}
+
+aPost.post.prototype.post = function(){
+	if(this.loading){
+		return;
+	}
+	var pt = this.target.data('target');
+	//console.log(pTarget);
+	var pTarget = $(pt);
+	if(pTarget.length === 0){
+		return;
+	}
+	this.loading = true;
+	var param = getParam(pTarget);
+	var _this = this;
+	cgi.create(param,function(res){
+		_this.loading === false;
+		if(pTarget.hasClass('modal')){
+			aPost.reset(pTarget);
+		}
+		if(res.code === 0){
+			striker.article.appendToList(res.data);
+		}
+		_this.clear();
+	});	
+}
+
+
 //发布一个内容
+/*
 aPost.create = function(target){
 	if(loading){
 		return;
@@ -67,6 +163,7 @@ aPost.create = function(target){
 		}
 	});
 }
+*/
 
 //重置一个from
 aPost.reset = function(target){

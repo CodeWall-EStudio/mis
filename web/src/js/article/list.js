@@ -16,16 +16,126 @@ aList.init = function(id,module,tmp){
 	cgi = module;
 	tmpl = tmp;
 
-	aList.search({
-		start : start,
-		limit : limit,
-		subjectId : nowSubId
-	})
+	new article();
+
+	// aList.search({
+	// 	start : start,
+	// 	limit : limit,
+	// 	subjectId : nowSubId
+	// })
+}
+
+var article = function(){
+	this.dom = $("#articleList");
+	this.start = 0,
+	this.limit = 20;
+	this.total = 0;
+	this.length = 0;
+	this.end = false;
+	this.loading = false;
+	this.subid = nowSubId;
+
+	this.bindAction();
+	this.search();
+}
+
+//计算图片的个数
+article.prototype.getimg = function(data){
+	var num = 0;
+	for(var i =0,l=data.length;i<l;i++){
+		var item = data[i];
+		if(item.type === 1){
+			num++;
+		}
+	}
+	return num;
+}
+
+
+article.prototype.checkData = function(data){
+	var list = [];
+	for(var i = 0,l=data.list.length;i<l;i++){
+		var item = data.list[i];
+		item.imgnum = this.getimg(item.resource);
+		list.push(item);
+	}
+	data.list = list;
+	return data;
+}
+
+//绑定事件
+article.prototype.bindAction = function(){
+	var _this = this;
+    $(document).on('scroll',function(e){
+        var scrollDom = document.body;
+        var pageHeight = document.documentElement.clientHeight;
+        var scrollTop = scrollDom.scrollTop;
+        var scrollHeight = scrollDom.scrollHeight;
+
+        //判断是否到底了
+        if(scrollTop + pageHeight >= scrollHeight){
+            //console.log('end');
+            _this.loadMore();
+        }                
+    });	
+}
+
+//加载更多
+article.prototype.loadMore = function(){
+	if(this.loading || this.end){
+		return;
+	}
+	this.search({
+		start : this.start,
+		limit : this.limit,
+		subjectId : this.subid
+	});
+}
+
+//添加到前面
+article.prototype.prependToList = function(){
+	
+}
+
+//拉帖子列表
+article.prototype.search = function(param){
+	var _this = this;
+	if(this.loading){
+		return;
+	}
+	this.loading = true;
+	if(!param){
+		param = {
+			start : this.start,
+			limit : this.limit,
+			subjectId : this.subid
+		}
+	}
+
+	cgi.search(param,function(res){
+		
+		if(res.code === 0){
+			_this.total = res.data.total;
+			_this.length += res.data.list.length;
+			_this.start += _this.limit;
+			_this.loading = false;
+
+			var data = _this.checkData(res.data);
+			console.log(data);
+			var html = tmpl.list(data);
+			_this.dom.append(html);
+			if(_this.length >= _this.total){
+				_this.end = true;
+			}
+		}
+	});	
 }
 
 //加载更多数据
+/*
 aList.loadMore = function(){
-	if(loading){
+	console.log(this.end);
+	if(loading || this.end){
 		return;
 	}
 	aList.search({
@@ -45,9 +155,16 @@ aList.prependToList = function(param){
 aList.search = function(param){
 	loading = true;
 	cgi.search(param,function(res){
-		var html = tmpl.list(res.data);
-		start += limit;
-		loading = false;
-		listDom.append(html);
+		if(res.code === 0){
+			_this.total = res.total;
+			var html = tmpl.list(res.data);
+			start += limit;
+			loading = false;
+			listDom.append(html);
+		}else{
+
+		}
+
 	});
 }
+*/

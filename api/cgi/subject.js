@@ -140,7 +140,6 @@ exports.search = function(req, res) {
 
         sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
-
         rows =
             yield req.mysql(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
 

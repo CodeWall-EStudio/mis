@@ -65,19 +65,6 @@ function bindAction(){
 		}
 
 	});
-
-    $(document).on('scroll',function(e){
-        var scrollDom = document.body;
-        var pageHeight = document.documentElement.clientHeight;
-        var scrollTop = scrollDom.scrollTop;
-        var scrollHeight = scrollDom.scrollHeight;
-
-        //判断是否到底了
-        if(scrollTop + pageHeight >= scrollHeight){
-            //console.log('end');
-            article.loadMore();
-        }                
-    });
 }
 
 function init(){

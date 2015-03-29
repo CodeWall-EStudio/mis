@@ -16,9 +16,9 @@ Article.loadMore = articleList.loadMore;
 
 Article.appendToList = articleList.prependToList;
 
-Article.post = articlePost.create;
+//Article.post = articlePost.create;
 
-Article.reset = articlePost.reset;
+//Article.reset = articlePost.reset;
 
 /**/
 
