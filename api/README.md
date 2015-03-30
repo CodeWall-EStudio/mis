@@ -1,6 +1,20 @@
 # mis
 Multimedia Interaction System API Server
 
+# Requires
+- nodejs (>=0.11)
+	- express
+ 	- express-session
+ 	- connect-redis
+ 	- multer
+ 	- underscore
+ 	- mysql 
+ 	- eventproxy
+ 	- co
+- redis
+- mysql
+
+
 # 安装 & 启动 redis(MAC)
     brew install redis
 

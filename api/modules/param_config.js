@@ -145,6 +145,29 @@ module.exports = {
             type: '[number]'
         }]
     },
+    '/cgi/article/edit': {
+        method: 'POST',
+        params: [{
+            name: 'articleId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'subjectId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'title'
+        }, {
+            name: 'content',
+            required: true
+        }, {
+            name: 'labels',
+            type: '[number]'
+        }, {
+            name: 'resources',
+            type: '[number]'
+        }]
+    },
 
     '/cgi/article/info': {
         method: 'GET',

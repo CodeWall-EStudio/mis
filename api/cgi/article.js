@@ -4,6 +4,49 @@ var Logger = require('../logger');
 var config = require('../config');
 var db = require('../modules/db');
 
+
+
+
+/**
+labels: [String,String,...]
+*/
+function insertArticleLables(req,articleId,labels){
+    Logger.info("[article insertArticleLables]",labels,articleId);
+    if (!labels || !labels.length){
+        return;
+    }
+    var columns = ['article_id', 'label_id'];
+    var values = [];
+    for (var i in labels) {
+        values.push([articleId, labels[i]]);
+    }
+    return req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
+}
+
+function clearArticleLables(req,articleId){
+    Logger.info("[article clearArticleLables]",articleId);
+    return req.mysql('DELETE FROM article_label where article_id=?', articleId);
+}
+
+function insertArticleResource(req,articleId,resources){
+    if (!resources || !resources.length) {
+        return;
+    }
+    var columns = ['article_id', 'resource_id'];
+    var values = [];
+    for (var i in resources) {
+        values.push([articleId, resources[i]]);
+    }
+    return req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
+    
+}
+function clearArticleResources(req,articleId){
+    return req.mysql('DELETE FROM article_resource where article_id=?',articleId);
+}
+
+
+
+
 exports.create = function(req, res) {
     var params = req.parameter;
 
@@ -31,26 +74,30 @@ exports.create = function(req, res) {
 
 
             // 设置标签
-            if (params.labels && params.labels.length) {
-                var columns = ['article_id', 'label_id'];
-                var values = [];
-                for (var i in params.labels) {
-                    values.push([articleId, params.labels[i]]);
-                }
-                var result =
-                    yield req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
+            // if (params.labels && params.labels.length) {
+            //     var columns = ['article_id', 'label_id'];
+            //     var values = [];
+            //     for (var i in params.labels) {
+            //         values.push([articleId, params.labels[i]]);
+            //     }
+            //     var result =
+            //         yield req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
 
-            }
+            // }
+            
+            yield insertArticleLables(req,articleId,params.labels);
+            
 
             // 设置文章下关联的资源
-            if (params.resources && params.resources.length) {
-                var columns = ['article_id', 'resource_id'];
-                var values = [];
-                for (var i in params.resources) {
-                    values.push([articleId, params.resources[i]]);
-                }
-                yield req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
-            }
+            // if (params.resources && params.resources.length) {
+            //     var columns = ['article_id', 'resource_id'];
+            //     var values = [];
+            //     for (var i in params.resources) {
+            //         values.push([articleId, params.resources[i]]);
+            //     }
+            //     yield req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
+            // }
+            yield insertArticleResource(req,articleId,params.resources);
 
             var rows =
                 yield req.mysql('SELECT * FROM article WHERE id = ?', articleId);
@@ -82,6 +129,77 @@ exports.create = function(req, res) {
     });
 
 }
+
+exports.edit = function(req, res){
+    var params = req.parameter;
+    Logger.info('[do article edit]', params);
+
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+    var conn = req.conn;
+
+    // 开启一个事务, 这里涉及很多个表的修改, 因此加入事务保证
+    conn.beginTransaction(function(err) {
+        co(function*(){
+            var articleId = params.articleId;
+            var rows =
+                yield req.mysql('SELECT * FROM article WHERE id=?',articleId);
+
+            if(rows.length == 0){
+                throw new Error("无此帖子");
+            }
+
+            Logger.info('update article',articleId,params);
+            // 清除所有对应标签
+            yield clearArticleLables(req,articleId);
+            // 更新标签
+            yield insertArticleLables(req,articleId,params.labels);
+            // 清除所有对应资源
+            yield clearArticleResources(req,articleId);
+            // 更新资源
+            yield insertArticleResource(req,articleId,params.resources);
+            // 更新article
+            Logger.info(articleId);
+            
+                yield req.mysql('UPDATE article SET ? WHERE id='+articleId, {
+                    title: params.title,
+                    content: params.content,
+                    subject_id: params.subjectId,
+                    creator: loginUser.id,
+                    updator: loginUser.id
+                });
+
+            Logger.info(articleId);
+
+
+            // mysql issue: https://github.com/felixge/node-mysql/issues/867
+            // Parser.js throw err; undefined is not a function
+
+            // 提交事务
+            conn.commit(function(err) {
+                if (err) {
+                    throw err;
+                }
+                res.json({
+                    code: ERR.SUCCESS,
+                    data: rows[0]
+                });
+            });
+            conn.release();
+        }).catch(function(err){
+            Logger.error(err.stack);
+            conn.rollback(function() {
+                res.json({
+                    code: ERR.DB_ERROR,
+                    msg: '修改帖子失败',
+                    detail: err.message
+                });
+            });
+            conn.release();
+        });
+    });
+    
+};
 
 
 exports.search = function(req, res) {
