@@ -1,0 +1,169 @@
+@charset "UTF-8";
+.icons-sprite, .icons-archive, .icons-eye, .icons-eye16, .icons-file16, .icons-font16, .icons-img16, .icons-male40, .icons-manage16, .icons-memu32, .icons-menu0, .icons-msg0, .icons-msg32, .icons-post16, .icons-rectangular0, .icons-rep16, .icons-replay, .icons-say32, .icons-search0, .icons-search32, .icons-unlock, .icons-user, .icons-user0, .icons-user32, .icons-user320, .icons-user9, .icons-users13, .icons-video16 {
+  background-image: url('../../img/sprite/icons-s6a7cb49f44.png');
+  background-repeat: no-repeat;
+}
+
+.icons-archive {
+  background-position: 0 -344px;
+}
+
+.icons-eye {
+  background-position: 0 -224px;
+}
+
+.icons-eye16 {
+  background-position: 0 -48px;
+}
+
+.icons-file16 {
+  background-position: -18px -16px;
+}
+
+.icons-font16 {
+  background-position: 0 -32px;
+}
+
+.icons-img16 {
+  background-position: -16px -48px;
+}
+
+.icons-male40 {
+  background-position: 0 -200px;
+}
+
+.icons-manage16 {
+  background-position: 0 -64px;
+}
+
+.icons-memu32 {
+  background-position: 0 -464px;
+}
+
+.icons-menu0 {
+  background-position: 0 -176px;
+}
+
+.icons-msg0 {
+  background-position: 0 -104px;
+}
+
+.icons-msg32 {
+  background-position: 0 -496px;
+}
+
+.icons-post16 {
+  background-position: -16px -32px;
+}
+
+.icons-rectangular0 {
+  background-position: 0 -80px;
+}
+
+.icons-rep16 {
+  background-position: -16px -64px;
+}
+
+.icons-replay {
+  background-position: 0 -16px;
+}
+
+.icons-say32 {
+  background-position: 0 -368px;
+}
+
+.icons-search0 {
+  background-position: 0 -272px;
+}
+
+.icons-search32 {
+  background-position: 0 -528px;
+}
+
+.icons-unlock {
+  background-position: 0 -320px;
+}
+
+.icons-user {
+  background-position: 0 -296px;
+}
+
+.icons-user0 {
+  background-position: 0 -248px;
+}
+
+.icons-user32 {
+  background-position: 0 -400px;
+}
+
+.icons-user320 {
+  background-position: 0 -432px;
+}
+
+.icons-user9 {
+  background-position: 0 -152px;
+}
+
+.icons-users13 {
+  background-position: 0 -128px;
+}
+
+.icons-video16 {
+  background-position: 0 0;
+}
+
+body {
+  width: 1000px;
+  margin: 0 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: '微软雅黑', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #ecf0f1;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+section {
+  padding: 20px;
+}
+
+ul, li {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.form-control {
+  height: 29px;
+  line-height: 29px;
+  font-size: 14px;
+}
+
+.btn {
+  height: 29px;
+  line-height: 29px;
+  text-align: center;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.form-group {
+  padding: 0 0;
+}
+
+.input-group-btn .btn {
+  height: 29px;
+  line-height: 29px;
+  text-align: center;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.label-list {
+  max-height: 200px;
+  overflow-y: auto;
+}

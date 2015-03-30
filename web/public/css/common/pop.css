@@ -1,0 +1,12 @@
+.manage-area {
+  overflow-y: auto;
+  max-height: 200px;
+  padding: 10px;
+}
+.manage-area li {
+  cursor: pointer;
+}
+.manage-area li:hover {
+  color: #fff;
+  background-color: #48c9b0;
+}
