@@ -16,7 +16,7 @@ exports.DB_NAME = 'media';
 
 exports.DB_USER = 'media';
 
-exports.DB_PWD = 'media';
+exports.DB_PWD = '6wmptjj3egtq3e98';
 
 // 上传文件保存的位置
 exports.DATA_ROOT = '/data/project_data/mis/'
