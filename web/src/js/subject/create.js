@@ -65,7 +65,12 @@ function bindAction(){
 			if(param.title !== '' && param.mark !== ''){
 				cgi.create(param,function(res){
 					if(res.code === 0){
-						createDom.modal({show:false});
+						createDom.modal('hide');
+						
+						var html = tmpl.list({
+							list : [res.data]
+						});
+						$("#mySubject").prepend(html);
 					}
 				});
 			}
