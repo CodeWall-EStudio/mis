@@ -35,6 +35,7 @@ root rZY2tADDmvF3aG2R
 
 ## mysql
 root XWcNELxRFTS6UYMm
+media mLq2Zg0dzBC60s8B
 
 ## nginx
 重启： service nginx restart 

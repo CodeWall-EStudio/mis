@@ -32,6 +32,7 @@ module.exports = function(req, res, next) {
 
 
     var loginUser;
+    console.log('session',req.session,loginUser);
     if (!req.session || !(loginUser = req.session.user)) {
         res.json({
             code: ERR.NOT_LOGIN,
