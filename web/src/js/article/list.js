@@ -42,10 +42,12 @@ var article = function(){
 //计算图片的个数
 article.prototype.getimg = function(data){
 	var num = 0;
-	for(var i =0,l=data.length;i<l;i++){
-		var item = data[i];
-		if(item.type === 1){
-			num++;
+	if(data){
+		for(var i =0,l=data.length;i<l;i++){
+			var item = data[i];
+			if(item.type === 1){
+				num++;
+			}
 		}
 	}
 	return num;

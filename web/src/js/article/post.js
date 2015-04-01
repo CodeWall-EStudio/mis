@@ -29,13 +29,16 @@ function getParam(target){
 	var name = target.find('input[name=name]').val(),
 		content = target.find('textarea[name=content]').val();
 
-	return {
+	var param = {
 		title : name,
 		content : content,
 		subjectId : nowSubId,
-		labels : [1,2],
-		resources : resList
+		labels : [1,2]
 	}
+	if(resList.length > 0){
+		param.resources = resList;
+	}
+	return param;
 }
 
 //重置一个from

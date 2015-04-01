@@ -84,9 +84,9 @@ exports.create = function(req, res) {
             //         yield req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
 
             // }
-            
-            yield insertArticleLables(req,articleId,params.labels);
-            
+            if(params.labels){
+                yield insertArticleLables(req,articleId,params.labels);
+            }
 
             // 设置文章下关联的资源
             // if (params.resources && params.resources.length) {
@@ -97,7 +97,9 @@ exports.create = function(req, res) {
             //     }
             //     yield req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
             // }
-            yield insertArticleResource(req,articleId,params.resources);
+            if(params.resources){
+                yield insertArticleResource(req,articleId,params.resources);
+            }
 
             var rows =
                 yield req.mysql('SELECT * FROM article WHERE id = ?', articleId);
