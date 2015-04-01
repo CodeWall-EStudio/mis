@@ -136,6 +136,7 @@ aPost.post.prototype.post = function(){
 			aPost.reset(pTarget);
 		}
 		if(res.code === 0){
+			console.log(striker.article);
 			striker.article.appendToList(res.data);
 		}
 		_this.clear();

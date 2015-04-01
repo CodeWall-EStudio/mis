@@ -133,6 +133,12 @@ article.prototype.search = function(param){
 	});	
 }
 
+//把新发布的帖子加到列表最前面
+aList.prependToList = function(param){
+		var html = tmpl.list({list:[param]});
+		listDom.prepend(html);
+}
+
 //加载更多数据
 /*
 aList.loadMore = function(){
@@ -147,11 +153,7 @@ aList.loadMore = function(){
 	})
 }
 
-//把新发布的帖子加到列表最前面
-aList.prependToList = function(param){
-		var html = tmpl.list({list:[param]});
-		listDom.prepend(html);
-}
+
 
 //搜索数据
 aList.search = function(param){
