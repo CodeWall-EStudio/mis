@@ -122,6 +122,7 @@ aPost.post.prototype.post = function(){
 	var pt = this.target.data('target');
 	//console.log(pTarget);
 	var pTarget = $(pt);
+
 	if(pTarget.length === 0){
 		return;
 	}
@@ -129,7 +130,7 @@ aPost.post.prototype.post = function(){
 	var param = getParam(pTarget);
 	var _this = this;
 	cgi.create(param,function(res){
-		_this.loading === false;
+		_this.loading = false;
 		if(pTarget.hasClass('modal')){
 			aPost.reset(pTarget);
 		}

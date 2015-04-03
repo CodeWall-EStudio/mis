@@ -160,16 +160,32 @@ exports.search = function(req, res) {
 
 exports.info = function(req, res) {
     var params = req.parameter;
+    var loginUser = req.loginUser;
+
+    console.log(typeof loginUser.id,typeof params.id);
 
     co(function*() {
+        //SELECT s.*,u.name,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount FROM SUBJECT s,USER u WHERE s.id = 37 AND s.creator = u.id
+        var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+            sql += '(SELECT COUNT(a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM SUBJECT s,USER u WHERE s.id = ? AND s.creator = u.id';
         var rows =
-            yield req.mysql('SELECT * FROM subject WHERE id = ?', params.id);
+            yield req.mysql(sql,[loginUser.id,params.id]);
         if (rows.length) {
             res.json({
                 code: ERR.SUCCESS,
                 data: rows[0]
             });
         } else {
+
+            //查找资源
+
+            //查找标签
+
+            //查找帖子
+
+            //查找成员
+
+
             res.json({
                 code: ERR.NOT_FOUND,
                 msg: '没有找到该主题'
