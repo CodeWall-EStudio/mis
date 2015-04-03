@@ -10,7 +10,8 @@ var tmpl = {
 	manage : require('../../tpl/user/manage.ejs'),
 	list : require('../../tpl/subject/list.ejs'),
 	head : require('../../tpl/subject/head.ejs'),	
-	onemanage : require('../../tpl/user/onemanage.ejs')
+	onemanage : require('../../tpl/user/onemanage.ejs'),
+	rlist : require('../../tpl/resource/list.ejs')
 };
 
 var proMap = {
@@ -128,7 +129,14 @@ Subject.area.prototype.orderbyupdate = function(){
 
 //新建主题
 Subject.area.prototype.create = function(){
-	
+	if(!this.createSubject){
+		this.createSubject = window.striker.createSubject;
+	}
+	if(!this.label){
+		this.label = window.striker.label;
+	}
+	this.createSubject.changeType(this.proName);
+	//this.label.init();
 }
 
 //判断翻页是否可以点击

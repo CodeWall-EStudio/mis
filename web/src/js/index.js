@@ -12,7 +12,8 @@ var Striker = $(window.striker);
 function userLoad(e,d){
 	new subject.area('mySubject');
 	new subject.area('myFollow');
-	new label.label('sub');
+	window.striker.label = new label.label('labelArea');
+	window.striker.createSubject = new subject.create();
 	//subject.search('mySubject');
 	// subject.search('mySubject');
 	// subject.search('mySubject');

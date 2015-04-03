@@ -15,8 +15,6 @@ var listDom = $("#articleList"),
 
 //注册和绑定事件
 function bindAction(){
-
-
 	window.uploadComp = function(d){
 		if(d.code === 0){
 			resList.push(d.data.id);

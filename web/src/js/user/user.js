@@ -17,9 +17,10 @@ module.exports = User;
 window.striker.user = User;
 
 //管理员设置显示等等
-User.addmanage = userManage.show;
+User.manage = userManage.manage;
+// User.addmanage = userManage.show;
 
-User.addDefManage = userManage.addDefManage;
+// User.addDefManage = userManage.addDefManage;
 
 User.getMyInfo = function(cb){
 	cgi.info(function(res){
