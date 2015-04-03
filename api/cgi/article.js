@@ -28,14 +28,14 @@ function clearArticleLables(req,articleId){
     return req.mysql('DELETE FROM article_label where article_id=?', articleId);
 }
 
-function insertArticleResource(req,articleId,resources){
+function insertArticleResource(req,articleId,resources,subjectId){
     if (!resources || !resources.length) {
         return;
     }
-    var columns = ['article_id', 'resource_id'];
+    var columns = ['article_id', 'resource_id','subject_id'];
     var values = [];
     for (var i in resources) {
-        values.push([articleId, resources[i]]);
+        values.push([articleId, resources[i],subjectId]);
     }
     return req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
     
@@ -98,7 +98,7 @@ exports.create = function(req, res) {
             //     yield req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
             // }
             if(params.resources){
-                yield insertArticleResource(req,articleId,params.resources);
+                yield insertArticleResource(req,articleId,params.resources,params.subjectId);
             }
 
             var rows =

@@ -167,6 +167,8 @@ exports.info = function(req, res) {
     co(function*() {
         //SELECT s.*,u.name,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount FROM SUBJECT s,USER u WHERE s.id = 37 AND s.creator = u.id
         var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+            sql += '(SELECT COUNT(a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
+            sql += '(SELECT COUNT(ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
             sql += '(SELECT COUNT(a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM SUBJECT s,USER u WHERE s.id = ? AND s.creator = u.id';
         var rows =
             yield req.mysql(sql,[loginUser.id,params.id]);
