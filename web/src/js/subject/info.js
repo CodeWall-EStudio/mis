@@ -1,7 +1,8 @@
 //拉主题内容
 var sInfo = {};
 var cgi,
-	tmpl;
+	tmpl,
+	data = require('../data/data');
 module.exports = sInfo;
 
 var subDom = $("#subjectHead");
@@ -59,6 +60,11 @@ sInfo.info.prototype.getData = function(){
 		if(res.code === 0){
 			var html = tmpl.head(res.data);
 			_this.dom.html(html);
+
+			res.data.my = data.user.myInfo;
+			var html = tmpl.aside(res.data);
+			_this.asideDom.html(html);
+
 			_this.followBtn = _this.dom.find('.follow-btn');
 			_this.manageBtn = _this.dom.find('.manage-btn')
 			_this.timeBtn = _this.dom.find('.time-btn')

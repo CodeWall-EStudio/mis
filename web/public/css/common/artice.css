@@ -225,7 +225,7 @@
 }
 
 .artice-info {
-  padding-right: 400px;
+  padding-right: 200px;
   position: relative;
 }
 
@@ -249,12 +249,12 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 400px;
+  width: 200px;
   background-color: #fff;
 }
 
 .artice-aside .btn-toolbar {
-  width: 400px;
+  width: 200px;
 }
 
 .artice-aside .btn-toolbar .btn-group {
@@ -272,6 +272,16 @@
 
 .artice-aside-img {
   padding: 20px;
+}
+
+.artice-aside .img-list video {
+  display: inline-block;
+  width: 100%;
+}
+
+.artice-aside .img-list img {
+  display: inline-block;
+  width: 100%;
 }
 
 .artice-aside .img-list div {

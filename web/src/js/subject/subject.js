@@ -7,11 +7,12 @@ var cgi = require('../common/cgi').subject,
 //模板引用
 var tmpl = {
 	area : require('../../tpl/subject/size.ejs'),
-	manage : require('../../tpl/user/manage.ejs'),
-	list : require('../../tpl/subject/list.ejs'),
-	head : require('../../tpl/subject/head.ejs'),	
-	onemanage : require('../../tpl/user/onemanage.ejs'),
-	rlist : require('../../tpl/resource/list.ejs')
+	manage : require('../../tpl/user/manage.ejs'), //管理员
+	list : require('../../tpl/subject/list.ejs'),  //主题列表
+	head : require('../../tpl/subject/head.ejs'),  //主题详情头部
+	onemanage : require('../../tpl/user/onemanage.ejs'), //单个管理员
+	aside : require('../../tpl/subject/aside.ejs'),  //主题详情右边资源列表
+	rlist : require('../../tpl/resource/list.ejs')   //资源列表
 };
 
 var proMap = {
