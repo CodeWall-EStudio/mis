@@ -108,6 +108,7 @@ var checkers = {
 
     '[number]': function(value, pcfg, callback) {
         var notAnArrayMsg = pcfg.name + ' must be a number array, value: ' + value;
+        console.log(value,pcfg);
         try {
             value = Util.jsonParse(value);
         } catch (e) {

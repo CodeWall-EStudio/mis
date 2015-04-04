@@ -15,7 +15,7 @@ function userLoad(e,d){
 	new subject.area('myFollow');
 	window.striker.label = new label.label('labelArea');
 	window.striker.createSubject = new subject.create();
-	window.striker.msg = new msg();
+	window.striker.msg = new msg.message();
 	//subject.search('mySubject');
 	// subject.search('mySubject');
 	// subject.search('mySubject');
