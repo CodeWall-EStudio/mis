@@ -23,6 +23,10 @@ var cgiList = {
 		info : cgiPath+'article/info',
 		create : cgiPath+'article/create'
 	},
+	comment : {
+		search : cgiPath+'comment/search',
+		create : cgiPath+'comment/create'
+	},
 	label : {
 		create : cgiPath+'label/create',
 		list : cgiPath+'label/list'
@@ -118,6 +122,18 @@ db.article.info = function(param,callback){
 }
 
 db.article.create = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.article.create,param,callback);
+}
+
+db.comment = {};
+
+db.comment.search = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.article.search,param,callback);
+}
+
+db.comment.create = function(param,callback){
 	var callback = checkCallback(callback,true);
 	request.post(cgiList.article.create,param,callback);
 }

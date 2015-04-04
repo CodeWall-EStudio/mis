@@ -1,0 +1,115 @@
+@import"common/icons";
+.title{
+	background:url(../img/static/ico-1.png) no-repeat 10px center;
+	padding-left:50px;
+	margin:10px 0;	
+	font-size:18px;
+
+	.action-area{
+		font-size:14px;
+		display:inline-block;
+		float:right;
+	}
+}
+
+
+.comment-one{
+	padding:10px 10px 10px 110px;
+	position:relative;
+	background-color:#fff;
+	border:1px solid #bdc3c7;
+	border-radius:5px;
+
+	.edit{
+		span{
+			@include icons-sprite-retina("edit16");
+			display:inline-block;
+			margin-right:6px;
+			margin-top:4px;
+		}
+		width:auto;
+	}
+	.delete{
+		span{
+			@include icons-sprite-retina("del16");
+			display:inline-block;
+			margin-right:6px;
+			margin-top:4px;
+		}		
+		width:auto;
+	}
+	.post{
+		span{
+			@include icons-sprite-retina("replay");
+			display:inline-block;
+			margin-right:6px;
+			margin-top:4px;
+		}		
+		width:auto;
+	}
+	.up{
+		span{
+			@include icons-sprite-retina("font16");
+			display:inline-block;
+			margin-right:6px;
+			margin-top:4px;
+		}		
+		width:auto;
+	}
+}
+.comment-one-aside{
+	position:absolute;
+	top:20px;
+	left:0;
+	width:100px;
+	text-align:right;	
+}
+.comment-one-info{
+	padding:10px;
+	position:relative;
+}
+.info-action{
+	position:absolute;
+	top:10px;
+	right:10px;
+}
+.comment-img-list div{
+	position:relative;
+	display:inline-block;
+	margin-right:10px;
+}
+.comment-img-list div span{
+	position:absolute;
+	width:100%;
+	background-color:#7f8c8d;
+	color:#fff;
+	text-align:center;
+	bottom:10px;
+}
+.post-article{
+	border:1px solid #ecf0f1;
+	position:fixed;
+	padding:10px;
+	bottom:0;
+	width:800px;
+	height:200px;
+	background-color:#fff;
+
+	input.form-control{
+		display:inline-block;
+		width:340px;
+	}
+}
+
+.post-area{
+	position:fixed;
+	width:100%;
+	bottom:0;
+	div{
+		display:inline-block;
+
+		&.width{
+			width:75%;
+		}
+	}
+}

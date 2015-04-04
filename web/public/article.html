@@ -8,7 +8,7 @@
   <!-- build:maincss -->
   <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="./css/flat-ui.min.css" />
-  <link rel="stylesheet" type="text/css" href="./css/info.css" />
+  <link rel="stylesheet" type="text/css" href="./css/comment.css" />
   <!-- endbuild -->
 
   <meta property="qc:admins" content="124110632765637457144563757" />
@@ -24,8 +24,71 @@
   </header>
 
   <section>
+      <div class="title">
+        打开手机挂科萨的良好gas低龄化
+        <div class="action-area">
+          <a class="btn btn-primary">置顶</a>
+          <div class="btn-group">
+            <a class="btn btn-primary active time-btn" href="#fakelink" data-action="article.orderbytime">按创建时间排序</a>
+            <a class="btn btn-primary update-btn" href="#fakelink" data-action="article.orderbyupdate">按更新时间排序</a>
+          </div>        
+          <a class="return">返回</a>
+        </div>
+      </div>
+
+      <div class="comment-list">
+        <article class="comment-one">
+            <aside class="comment-one-aside">2015-04-04</aside>
+            <div class="comment-one-info">
+              <div class="info-title">发贴人</div>
+              <div class="info-action">
+                <span class="edit"><span></span>编辑</span> <span class="delete"><span></span>删除</span> <span class="up"><span></span>赞</span> <span class="post"><span></span>回复</span>
+              </div>          
+              <dl class="comment-dl">
+                <dt><a href="article.html?id=50">都是狗屎狗屎</a></dt>
+                <dd>
+                  都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎
+                </dd>
+                <div class="comment-img-list">
+                  <div>
+                    <img src="/cgi/resource/preview?id=27" width="200">
+                  </div>
+                </div>
+              </dl>
+            </div>
+          </article>
+      </div>
+      <div class="comment-list">
+          <article class="comment-one">
+              <aside class="comment-one-aside">2015-04-04</aside>
+              <div class="comment-one-info">
+                <div class="info-title">发贴人</div>
+                <div class="info-action">
+                  <span class="edit"><span></span>编辑</span> <span class="delete"><span></span>删除</span> <span class="up"><span></span>赞</span> <span class="post"><span></span>回复</span>
+                </div>          
+                <dl class="comment-dl">
+                  <dt><a href="article.html?id=50">都是狗屎狗屎</a></dt>
+                  <dd>
+                    都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎都是狗屎狗屎
+                  </dd>
+                  <div class="comment-img-list">
+                    <div>
+                      <img src="/cgi/resource/preview?id=27" width="200">
+                    </div>
+                  </div>
+                </dl>
+              </div>
+            </article>          
+      </div>
+    </section>
+
+    <div class="post-area">
       
-  </section>
+        <div>回复:</div>
+        <div class="width"><input type="text" class="form-control" name="name" placeholder="请输入帖子标题" /></div>
+        <div><button class="btn btn-primary">完成</button></div>
+    </div>
+
 
   <div class="modal fade" id="createArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -68,7 +131,7 @@
   <script>
     window.striker = {};
   </script>
-  <script src="js/article.js"></script>
+  <script src="js/comment.js"></script>
 
 </body>
 </html>

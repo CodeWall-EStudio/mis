@@ -270,8 +270,20 @@ exports.info = function(req, res) {
     var params = req.parameter;
 
     co(function*() {
+        /*
+        var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+            sql += '(SELECT COUNT(sf.subject_id) FROM subject_follow sf WHERE sf.subject_id = s.id AND sf.user_id = ?) AS follow,'
+            sql += '(SELECT COUNT(a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
+            sql += '(SELECT COUNT(ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
+            sql += '(SELECT COUNT(a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM subject s,user u WHERE s.id = ? AND s.creator = u.id';
+        */
+        var sql = 'SELECT a.*,u.name,';
+            sql += '(select count(c.id) from comment c where c.article_id =?) as commentCount ';
+            sql += 'FROM article a,user u';
+            sql += ' WHERE u.id = a.creator and a.id = ?';
+
         var rows =
-            yield req.mysql('SELECT * FROM article WHERE id = ?', params.id);
+            yield req.mysql(sql, [params.id,params.id]);
         if (rows.length) {
             res.json({
                 code: ERR.SUCCESS,

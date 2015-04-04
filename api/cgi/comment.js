@@ -141,7 +141,7 @@ exports.search = function(req,res){
 
         var total = rows[0].count;
 
-        sql = 'select * from comment where article_id =?';
+        sql = 'select c.*,u.name as creatorName from comment c,user u where c.creator = u.id and article_id =?';
         if(params.creatorId){
         	sql += ' and creator =? ORDER BY ?? DESC LIMIT ?, ?';
         	rows =
