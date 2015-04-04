@@ -1,0 +1,7 @@
+<%for(var i =0,l=list.length;i<l;i++){
+	var item = list[i];
+%>
+	<span class="tag label label-info" data-id="<%-item.id%>">
+		<%-item.name%><span data-action="removeRes"></span>
+	</span>
+<%}%>

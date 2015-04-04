@@ -166,6 +166,7 @@ exports.info = function(req, res) {
 
     co(function*() {
         //SELECT s.*,u.name,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount FROM SUBJECT s,USER u WHERE s.id = 37 AND s.creator = u.id
+        //醉了.....这数据来源太多了...by horde
         var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
             sql += '(SELECT COUNT(a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
             sql += '(SELECT COUNT(ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
@@ -173,20 +174,28 @@ exports.info = function(req, res) {
         var rows =
             yield req.mysql(sql,[loginUser.id,params.id]);
         if (rows.length) {
+            /*
+            主题的资源在这儿取...因为方正需要把资源单独拉一次...
+            */
+            var sql = 'SELECT r.* FROM resource r,subject_resource sr WHERE sr.resource_id=r.id AND sr.subject_id=?';
+            var rrows = yield req.mysql(sql,[params.id]);
+
+            var subjectResourceCount = rrows.length;
+            var resourceList = [];
+
+            if(rrows.length){
+                resourceList = rrows;
+            }
+
+            rows[0].subjectResourceCount = subjectResourceCount;
+            rows[0].resourceList = resourceList;
+
+
             res.json({
                 code: ERR.SUCCESS,
                 data: rows[0]
             });
         } else {
-
-            //查找资源
-
-            //查找标签
-
-            //查找帖子
-
-            //查找成员
-
 
             res.json({
                 code: ERR.NOT_FOUND,
