@@ -127,9 +127,9 @@ info.prototype.follow = function(){
 	cgi.follow({subjectId:id,isFollow:follow},function(res){
 		if(res.code === 0){
 			if(follow){
-				_this.followBtn.addClass('followed').html('已关注');
+				_this.followBtn.addClass('followed').html('<span class="follow"></span>已关注');
 			}else{
-				_this.followBtn.removeClass('followed').html('关注');
+				_this.followBtn.removeClass('followed').html('<span class="follow"></span>关注');
 			}
 		}
 	});

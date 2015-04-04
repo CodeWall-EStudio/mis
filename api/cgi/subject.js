@@ -168,11 +168,13 @@ exports.info = function(req, res) {
         //SELECT s.*,u.name,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount FROM SUBJECT s,USER u WHERE s.id = 37 AND s.creator = u.id
         //醉了.....这数据来源太多了...by horde
         var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+            sql += '(SELECT COUNT(sf.subject_id) FROM subject_follow sf WHERE sf.subject_id = s.id AND sf.user_id = ?) AS follow,'
             sql += '(SELECT COUNT(a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
             sql += '(SELECT COUNT(ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
             sql += '(SELECT COUNT(a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM subject s,user u WHERE s.id = ? AND s.creator = u.id';
+            console.log(sql);
         var rows =
-            yield req.mysql(sql,[loginUser.id,params.id]);
+            yield req.mysql(sql,[loginUser.id,loginUser.id,params.id]);
         if (rows.length) {
             /*
             主题的资源在这儿取...因为方正需要把资源单独拉一次...
