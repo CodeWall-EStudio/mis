@@ -85,9 +85,7 @@ function wrapper(client) {
             var q = query.apply(client, args);
             Logger.debug('[db.query]', q.sql);
         });
-
         return p;
     };
-
     return o;
 }

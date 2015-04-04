@@ -28,7 +28,7 @@ sInfo.init = function(type,module,tmp){
 // 	})
 // }
 
-sInfo.info = function(id){
+var info = function(id){
 	this.sid = id;
 	this.dom = subDom;
 	this.asideDom = subAsideDom;
@@ -38,22 +38,62 @@ sInfo.info = function(id){
 	this.manageBtn; //管理按钮
 	this.timeBtn;   //按时间排序
 	this.updateBtn; //按更新时间排序
+
+	this._selectDom;
+	this.msg = window.striker.msg;
 }
 
-sInfo.info.prototype.bindAction = function(){
+sInfo.info = info;
+
+//删除主题相关资源
+info.prototype.deleteResource = function(e){
+	var id = this._selectDom.data('id');
+	if(id){
+	var _this = this;
+		this.msg.confirm('确定要删除该资源?',null,function(){
+			var param = {
+				subjectId : _this.sid,
+				resourceId : id
+			}
+			cgi.delresource(param,function(res){
+				if(res.code === 0){
+					$(".sub-resource-"+id).remove();
+				}
+			});
+		});
+	}
+};
+
+//预览主题相关资源
+info.prototype.reviewResource = function(e){
+
+};
+
+info.prototype.bindAction = function(){
 	var _this = this;
 	this.dom.bind('click',function(e){
 		var target = $(e.target),
 			action = target.data('action');
 
+		_this._selectDom = target;
 		if(_this[action]){
 			_this[action](e);
 		}
-	});		
+	});
+
+	this.asideDom.bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+
+		_this._selectDom = target;
+		if(_this[action]){
+			_this[action](e);
+		}
+	});			
 }
 
 //拉单个帖子
-sInfo.info.prototype.getData = function(){
+info.prototype.getData = function(){
 	var id = this.sid;
 	var _this = this;
 	cgi.info({id:id},function(res){
@@ -74,7 +114,7 @@ sInfo.info.prototype.getData = function(){
 }
 
 //关注单个帖子
-sInfo.info.prototype.follow = function(){
+info.prototype.follow = function(){
 	var id = this.sid
 		follow = 1;
 	var _this = this;

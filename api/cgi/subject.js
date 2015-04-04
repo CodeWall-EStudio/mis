@@ -287,5 +287,54 @@ exports.following = function(req, res) {
     }).catch(function(err) {
         db.handleError(req, res, err.message);
     });
-
 };
+
+//从主题资源表中删除一个资源
+exports.delresource = function(req,res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+    co(function*() {
+
+         var auth = yield getAuth(req,params.subjectId);
+         if(auth.length || loginUser.auth){
+            var sql = 'delete from subject_resource where subject_id=? and resource_id=?';
+            var row = yield req.mysql(sql,[params.subjectId,params.resourceId]);
+
+            if(row.affectedRows){
+                res.json({
+                    code: ERR.SUCCESS,
+                    msg: '删除成功'
+                });
+            }else{
+                res.json({
+                    code: ERR.NOT_FOUND,
+                    msg: '没有找到资源'
+                });
+            }
+
+         }else{
+            res.json({
+                code: ERR.NOT_AUTH,
+                msg: '没有权限'
+            });            
+         }
+        /*
+        var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+            sql += '(SELECT COUNT(a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
+            sql += '(SELECT COUNT(ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
+            sql += '(SELECT COUNT(a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM SUBJECT s,USER u WHERE s.id = ? AND s.creator = u.id';
+        var rows =
+            yield req.mysql(sql,[loginUser.id,params.id]);        
+        */
+        req.conn.release();
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });    
+}
+
+//验证一个主题的权限
+function getAuth(req,subjectId){
+    Logger.info("[chacek subject auth]",subjectId);
+    return req.mysql('select creator from subject where id=?', subjectId);
+}

@@ -2,6 +2,7 @@ require('./common/global');
 var user = require('./user/user'),
 	subject = require('./subject/subject'),
 	article = require('./article/article'),
+	msg = require('./common/msg'),
 	label = require('./label/label');
 var Striker = $(window.striker),
 	striker = window.striker;	
@@ -73,6 +74,8 @@ function init(){
 	striker.subject = subject;
 	striker.article = article;
 	striker.user = user;
+	
+	window.striker.msg = new msg.message();
 
 	
 	user.init();

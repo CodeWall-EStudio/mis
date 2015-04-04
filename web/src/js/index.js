@@ -2,6 +2,7 @@ require('./common/global');
 var user = require('./user/user'),
 	subject = require('./subject/subject'),
 	article = require('./article/article'),
+	msg = require('./common/msg'),
 	label = require('./label/label');
 
 
@@ -14,6 +15,7 @@ function userLoad(e,d){
 	new subject.area('myFollow');
 	window.striker.label = new label.label('labelArea');
 	window.striker.createSubject = new subject.create();
+	window.striker.msg = new msg();
 	//subject.search('mySubject');
 	// subject.search('mySubject');
 	// subject.search('mySubject');

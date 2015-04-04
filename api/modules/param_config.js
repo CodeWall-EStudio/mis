@@ -125,6 +125,19 @@ module.exports = {
         }]
     },
 
+    '/cgi/subject/delresource': {
+        method: 'POST',
+        params: [{
+            name: 'resourceId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'subjectId',
+            required: true,
+            type: 'number'
+        }]
+    },    
+
     // 文章接口
     '/cgi/article/create': {
         method: 'POST',
