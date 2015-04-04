@@ -20,18 +20,178 @@
 		"95083cb6-0334-a90c-ec09-105f43c22ddd",
 		"e4b76dbf-a0fe-bf55-a0d0-2e03c3884118",
 		"bfaad73b-d214-f7ce-084f-701fa99b6172",
-		"a9814b02-f57e-04c6-749e-51343c6ddb2d"
+		"a9814b02-f57e-04c6-749e-51343c6ddb2d",
+		"771e6349-c023-3c5a-bf88-8d0a8afd0d83",
+		"a082b6f6-0ddc-4ede-9b34-fe0a0efe2b08",
+		"f2374da3-30ad-4db2-1be0-4fa0fe6ba9e1",
+		"6f73389a-476d-5b15-69df-0fe45ee999b7",
+		"073189e6-0c27-923a-815d-f802aad38419",
+		"22081e1a-a757-915b-7f23-09cadefdab97"
 	],
 	"folders": [],
 	"timestamp": 1425658778438,
 	"synced": false,
-	"owner": "17288",
+	"owner": "20805",
 	"sharedWithTeam": false,
 	"subscribed": false,
-	"remoteLink": "https://www.getpostman.com/collections/c6a2b043207964b4bd35",
+	"remoteLink": "https://www.getpostman.com/collections/6f75ae091070ed6bb9bb",
 	"public": false,
 	"write": true,
 	"requests": [
+		{
+			"id": "073189e6-0c27-923a-815d-f802aad38419",
+			"headers": "",
+			"url": "http://{{host}}/cgi/comment/create",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "title",
+					"value": "回复的标题",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "content",
+					"value": "回复的内容",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "labels",
+					"value": "[]",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "resources",
+					"value": "[48,49]",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "subjectId",
+					"value": "37",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "articleId",
+					"value": "50",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1428159272262,
+			"name": "comment/create",
+			"description": "回复",
+			"collectionId": "72d89e0d-972e-b53f-44a9-e87b99bdfd2b",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK",
+						"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+					},
+					"time": 96,
+					"headers": [
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "keep-alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "256",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Wed, 11 Mar 2015 17:33:47 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "Express",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\n  \"code\": 0,\n  \"data\": {\n    \"id\": 3,\n    \"title\": \"这是标题啊\",\n    \"content\": \"内容主体\",\n    \"creator\": 1,\n    \"createTime\": \"2015-03-11T17:33:47.000Z\",\n    \"updator\": 1,\n    \"updateTime\": \"2015-03-11T17:33:47.000Z\",\n    \"subject_id\": 1\n  }\n}",
+					"language": "javascript",
+					"rawDataType": "text",
+					"state": {
+						"size": "normal"
+					},
+					"previewType": "html",
+					"searchResultScrolledTo": -1,
+					"forceRaw": false,
+					"write": true,
+					"id": "971b0136-9998-5aee-a101-61bb11bfcd9f",
+					"name": "code=0",
+					"request": {
+						"url": "http://{{host}}/cgi/article/create",
+						"pathVariables": {},
+						"data": [
+							{
+								"key": "title",
+								"value": "这是标题啊",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "content",
+								"value": "内容主体",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "labels",
+								"value": "[1,2]",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "resources",
+								"value": "[1,2]",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "subjectId",
+								"value": "1",
+								"type": "text",
+								"enabled": true
+							}
+						],
+						"headers": "",
+						"dataMode": "urlencoded",
+						"method": "POST",
+						"tests": "",
+						"version": 2
+					}
+				}
+			],
+			"synced": false
+		},
 		{
 			"id": "18f5e009-c0bb-2ffc-bb4e-dcb714291c57",
 			"headers": "",
@@ -122,7 +282,8 @@
 					}
 				}
 			],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "20a95a48-83ec-503e-92ef-92c51712fe1d",
@@ -222,6 +383,124 @@
 							{
 								"key": "pwd",
 								"value": "8888",
+								"type": "text",
+								"enabled": true
+							}
+						],
+						"headers": "",
+						"dataMode": "urlencoded",
+						"method": "POST",
+						"tests": "",
+						"version": 2
+					}
+				}
+			],
+			"synced": false,
+			"owner": "20805"
+		},
+		{
+			"id": "22081e1a-a757-915b-7f23-09cadefdab97",
+			"headers": "",
+			"url": "http://{{host}}/cgi/comment/search?articleId=50&start=0&limit=10&orderby=createTime",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1428162938969,
+			"name": "comment/search",
+			"description": "回复列表",
+			"collectionId": "72d89e0d-972e-b53f-44a9-e87b99bdfd2b",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK",
+						"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+					},
+					"time": 96,
+					"headers": [
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "keep-alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "256",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Wed, 11 Mar 2015 17:33:47 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "Express",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\n  \"code\": 0,\n  \"data\": {\n    \"id\": 3,\n    \"title\": \"这是标题啊\",\n    \"content\": \"内容主体\",\n    \"creator\": 1,\n    \"createTime\": \"2015-03-11T17:33:47.000Z\",\n    \"updator\": 1,\n    \"updateTime\": \"2015-03-11T17:33:47.000Z\",\n    \"subject_id\": 1\n  }\n}",
+					"language": "javascript",
+					"rawDataType": "text",
+					"state": {
+						"size": "normal"
+					},
+					"previewType": "html",
+					"searchResultScrolledTo": -1,
+					"forceRaw": false,
+					"write": true,
+					"id": "741bb91e-96bd-bc3a-9201-cddc2d1103d7",
+					"name": "code=0",
+					"request": {
+						"url": "http://{{host}}/cgi/article/create",
+						"pathVariables": {},
+						"data": [
+							{
+								"key": "title",
+								"value": "这是标题啊",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "content",
+								"value": "内容主体",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "labels",
+								"value": "[1,2]",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "resources",
+								"value": "[1,2]",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "subjectId",
+								"value": "1",
 								"type": "text",
 								"enabled": true
 							}
@@ -334,7 +613,8 @@
 					}
 				}
 			],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "3af57efd-ceee-2133-6ed8-b9f2307a6394",
@@ -356,7 +636,8 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionOwner": 0,
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "58b0789d-d9dc-e5b6-b423-383cc357c8da",
@@ -450,6 +731,40 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionOwner": 0,
+			"synced": false,
+			"owner": "20805"
+		},
+		{
+			"id": "6f73389a-476d-5b15-69df-0fe45ee999b7",
+			"headers": "",
+			"url": "http://{{host}}/cgi/subject/delresource",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "subjectId",
+					"value": "37",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "resourceId",
+					"value": "53",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1428133043905,
+			"name": "subject/delresource",
+			"description": "删除主题资源",
+			"collectionId": "72d89e0d-972e-b53f-44a9-e87b99bdfd2b",
+			"responses": [],
 			"synced": false
 		},
 		{
@@ -472,7 +787,8 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionOwner": 0,
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "7ff25823-943d-7875-e90e-1927b8e0b72b",
@@ -492,7 +808,8 @@
 			"description": "",
 			"collectionId": "72d89e0d-972e-b53f-44a9-e87b99bdfd2b",
 			"responses": [],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "827936f7-4c07-a421-a118-f5772f7318f2",
@@ -640,7 +957,8 @@
 					}
 				}
 			],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "95083cb6-0334-a90c-ec09-105f43c22ddd",
@@ -732,7 +1050,8 @@
 					}
 				}
 			],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "a082b6f6-0ddc-4ede-9b34-fe0a0efe2b08",
@@ -789,7 +1108,8 @@
 			"description": "",
 			"collectionId": "72d89e0d-972e-b53f-44a9-e87b99bdfd2b",
 			"responses": [],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "a9814b02-f57e-04c6-749e-51343c6ddb2d",
@@ -816,7 +1136,8 @@
 			"description": "",
 			"collectionId": "72d89e0d-972e-b53f-44a9-e87b99bdfd2b",
 			"responses": [],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "aba3684d-0e4e-9636-5323-745d84d57189",
@@ -954,7 +1275,8 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionOwner": 0,
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "b450892a-9da7-8d7e-6b83-2b37b9366517",
@@ -1066,7 +1388,8 @@
 					}
 				}
 			],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "bfaad73b-d214-f7ce-084f-701fa99b6172",
@@ -1095,7 +1418,8 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionOwner": 0,
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "c87be277-1049-33ac-4063-cac1f6a40a3f",
@@ -1236,7 +1560,8 @@
 					}
 				}
 			],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "d31c7658-23e4-e487-25e1-0b8d8f020209",
@@ -1330,7 +1655,8 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionOwner": 0,
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "d3565412-45e0-5d61-b8e7-b6f2fada9800",
@@ -1350,7 +1676,8 @@
 			"description": "",
 			"collectionId": "72d89e0d-972e-b53f-44a9-e87b99bdfd2b",
 			"responses": [],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "dad7d322-40d0-f376-f288-a96a0a457642",
@@ -1442,7 +1769,8 @@
 					}
 				}
 			],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "e4b76dbf-a0fe-bf55-a0d0-2e03c3884118",
@@ -1469,7 +1797,8 @@
 			"description": "",
 			"collectionId": "72d89e0d-972e-b53f-44a9-e87b99bdfd2b",
 			"responses": [],
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "f2374da3-30ad-4db2-1be0-4fa0fe6ba9e1",
@@ -1607,7 +1936,8 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionOwner": 0,
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		},
 		{
 			"id": "f6569133-99af-0b24-cbc0-0f9047ee008c",
@@ -1701,7 +2031,8 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionOwner": 0,
-			"synced": false
+			"synced": false,
+			"owner": "20805"
 		}
 	]
 }
