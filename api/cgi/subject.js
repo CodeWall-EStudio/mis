@@ -358,6 +358,49 @@ exports.archive = function(req, res, next) {
     });
 };
 
+exports.archived = function(req, res, next){
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+    co(function*() {
+
+        // 所有自己创建的, 自己是成员的, 自己是管理员的
+        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s, subject_user su WHERE ';
+        var dbParams = {
+            's.isArchive': 1,
+            's.id': 'su.subject_id'
+        };
+
+        sql += req.dbPrepare(dbParams);
+        sql += ' AND (s.creator = ? OR su.user_id = ?)';
+
+        var rows = yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id ]);
+        var total = rows[0].count;
+
+        sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_user su WHERE ';
+
+        dbParams['s.creator'] = 'u.id';
+        sql += req.dbPrepare(dbParams);
+        sql += ' AND (s.creator = ? OR su.user_id = ?)';
+
+        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+
+        rows =
+            yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id ,params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+
+        res.json({
+            code: ERR.SUCCESS,
+            data: {
+                total: total,
+                list: rows
+            }
+        });
+        req.conn.release();
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
+
 //从主题资源表中删除一个资源
 exports.delresource = function(req,res) {
     var params = req.parameter;
