@@ -62,6 +62,40 @@ module.exports = {
         }]
     },
 
+    '/cgi/subject/edit': {
+        method: 'POST',
+        params: [{
+            name: 'subjectId',
+            type: 'number',
+            required: true
+        },{
+            name: 'title'
+        }, {
+            name: 'private',
+            type: 'boolean'
+        }, {
+            name: 'members',
+            type: '[number]'
+        }, {
+            name: 'managers',
+            type: '[number]'
+        }, {
+            name: 'guest',
+            type: 'boolean'
+        }, {
+            name: 'subjectLabels',
+            type: '[number]'
+        }, {
+            name: 'articleLabels',
+            type: '[number]'
+        }, {
+            name: 'resources',
+            type: '[number]'
+        }, {
+            name: 'mark'
+        }]
+    },
+
     '/cgi/subject/info': {
         method: 'GET',
         params: [{
