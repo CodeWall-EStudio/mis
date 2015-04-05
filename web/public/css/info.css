@@ -747,6 +747,66 @@ li {
   padding: 10px 10px 10px 110px;
   position: relative;
 }
+.artice-one .edit {
+  width: auto;
+}
+.artice-one .edit span {
+  background-image: url('../img/sprite/icons-se725b8fe85.png');
+  background-position: 0 -48px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+  margin-right: 6px;
+  margin-top: 4px;
+}
+.artice-one .delete {
+  width: auto;
+}
+.artice-one .delete span {
+  background-image: url('../img/sprite/icons-se725b8fe85.png');
+  background-position: -16px -32px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+  margin-right: 6px;
+  margin-top: 4px;
+}
+.artice-one .post {
+  width: auto;
+}
+.artice-one .post span {
+  background-image: url('../img/sprite/icons-se725b8fe85.png');
+  background-position: 0 -16px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 16px;
+  width: 18px;
+  display: inline-block;
+  margin-right: 6px;
+  margin-top: 4px;
+}
+.artice-one .up {
+  width: auto;
+}
+.artice-one .up span {
+  background-image: url('../img/sprite/icons-se725b8fe85.png');
+  background-position: 0 -64px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+  margin-right: 6px;
+  margin-top: 4px;
+}
 
 .artice-one-aside {
   position: absolute;
@@ -808,6 +868,10 @@ li {
   position: absolute;
   top: 0;
   width: 50px;
+}
+
+.post-height {
+  height: 20px;
 }
 
 /* line 4, ../../src/sass/messenger.sass */

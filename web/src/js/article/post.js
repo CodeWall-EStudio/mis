@@ -13,32 +13,6 @@ module.exports = aPost;
 var listDom = $("#articleList"),
 	resList = [];
 
-//注册和绑定事件
-function bindAction(){
-	window.uploadComp = function(d){
-		if(d.code === 0){
-			resList.push(d.data.id);
-		}
-	}
-}
-
-//根据dom获取相关的参数.
-function getParam(target){
-	var name = target.find('input[name=name]').val(),
-		content = target.find('textarea[name=content]').val();
-
-	var param = {
-		title : name,
-		content : content,
-		subjectId : nowSubId,
-		labels : [1,2]
-	}
-	if(resList.length > 0){
-		param.resources = resList;
-	}
-	return param;
-}
-
 //重置一个from
 function resetFrom(target){
 	target.find('input[name=name]').val('');
@@ -51,25 +25,112 @@ aPost.init = function(id,module,tmp){
 	tmpl = tmp;
 
 	new aPost.post();
-	bindAction();
 }
 
-aPost.post = function(){
+var post = function(){
 	this.pDom = $("#postArticle"); //底部发表框
 	this.cDom = $("#createArticle"); //弹出发表框
+	this.presDom = this.pDom.find('.post-res');/// = $("")
+	this.cresDom = this.cDom.find('.pop-res');
+	this.model = 'post';//post 底部 pop 弹出窗口
+
+	var _this = this;
+	this.cDom.on('show.bs.modal', function (e) {
+		_this.model = 'pop';
+	});
+
+	this.cDom.on('hide.bs.modal', function (e) {
+		_this.model = 'post';
+	});
+
+
+	this.resList = [];
+	this.resMap = {};
+
 	this.loading = false;
 	this.target;
 	this.bindAction();
 }
 
-aPost.post.prototype.bindFun = function(){
+post.prototype.bindFun = function(){
 
 };
 
 
-aPost.post.prototype.bindAction = function(){
+//取选择的资源
+post.prototype.getResList = function(){
+	var list = [];
+	for(var i in this.resMap){
+		list.push(this.resMap[i].id);
+	}
+	return list;
+}
 
+//根据dom获取相关的参数.
+post.prototype.getParam = function(target){
+	var name = target.find('input[name=name]').val(),
+		content = target.find('textarea[name=content]').val();
+
+	var param = {
+		title : name,
+		content : content,
+		subjectId : nowSubId,
+		labels : [],
+		resource : this.getResList()
+	}
+
+	return param;
+}
+
+post.prototype.removeRes = function(e){
 	var _this = this;
+	var target = $(e.target),
+		p = target.parent();
+
+	var id = p.data('id');
+	if(id){
+		delete this.resMap[id];
+		p.remove();
+		if(_this.model === 'pop'){
+			if(this.cresDom.find('.tag').length === 0){
+				this.cresDom.hide();
+			}
+		}else{
+			if(this.presDom.find('.tag').length === 0){
+				this.presDom.hide();
+			}
+		}	
+	}
+}
+
+
+post.prototype.bindAction = function(){
+	var _this = this;	
+	//资源上传完成的通知
+
+	window.uploadComp = function(d){
+		
+		if(window.striker.commentshow){
+			$(striker).trigger('uploadFile',d);
+			return;
+		}
+	//window.addEventListener('uploadComp',function(d){
+		if(d.code === 0){
+			_this.resList.push(d.data.id);
+			_this.resMap[d.data.id] = d.data;
+
+			var html = tmpl.rlist({
+				list : [d.data]
+			});
+			if(_this.model === 'pop'){
+				_this.cresDom.append(html).show();
+			}else{
+				_this.presDom.append(html).show();
+			}
+			
+		}
+	};
+
 	this.pDom.bind('click',function(e){
 		var target = $(e.target),
 			action = target.data('action');
@@ -90,7 +151,6 @@ aPost.post.prototype.bindAction = function(){
 
 	$("#fileName").bind('change',function(e){
 		var target = $(e.target);
-		console.log(target.val());
 		if(target.val() !== ''){
 			$("#fileForm").submit();
 		}
@@ -98,14 +158,13 @@ aPost.post.prototype.bindAction = function(){
 
 	$("#cfileName").bind('change',function(e){
 		var target = $(e.target);
-
 		if(target.val() !== ''){
 			$("#cfileForm").submit();
 		}
 	})	
 }
 
-aPost.post.prototype.clear = function(){
+post.prototype.clear = function(){
 	this.pDom.find('input').val('');
 	this.pDom.find('textarea').val('');
 
@@ -115,7 +174,7 @@ aPost.post.prototype.clear = function(){
 	resList = [];
 }
 
-aPost.post.prototype.post = function(){
+post.prototype.post = function(){
 	if(this.loading){
 		return;
 	}
@@ -127,7 +186,7 @@ aPost.post.prototype.post = function(){
 		return;
 	}
 	this.loading = true;
-	var param = getParam(pTarget);
+	var param = this.getParam(pTarget);
 	var _this = this;
 	cgi.create(param,function(res){
 		_this.loading = false;
@@ -141,33 +200,6 @@ aPost.post.prototype.post = function(){
 		_this.clear();
 	});	
 }
-
-
-//发布一个内容
-/*
-aPost.create = function(target){
-	if(loading){
-		return;
-	}
-	var pt = target.data('target');
-	var pTarget = $(pt);
-	if(pTarget.length === 0){
-		return;
-	}
-	var param = getParam(pTarget);
-		
-	cgi.create(param,function(res){
-		loading === false;
-		if(pTarget.hasClass('modal')){
-			aPost.reset(pTarget);
-		}
-		if(res.code === 0){
-			striker.article.appendToList(res.data);
-		}
-	});
-}
-*/
-
 //重置一个from
 aPost.reset = function(target){
 	var pTarget = $(target.data('target'));
@@ -176,3 +208,5 @@ aPost.reset = function(target){
 	}
 	resetFrom(pTarget);
 }
+
+aPost.post = post;

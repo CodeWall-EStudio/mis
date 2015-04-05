@@ -163,6 +163,43 @@
 .artice-one{
 	padding:10px 10px 10px 110px;
 	position:relative;
+
+	.edit{
+		span{
+			@include icons-sprite-retina("edit16");
+			display:inline-block;
+			margin-right:6px;
+			margin-top:4px;
+		}
+		width:auto;
+	}
+	.delete{
+		span{
+			@include icons-sprite-retina("del16");
+			display:inline-block;
+			margin-right:6px;
+			margin-top:4px;
+		}		
+		width:auto;
+	}
+	.post{
+		span{
+			@include icons-sprite-retina("replay");
+			display:inline-block;
+			margin-right:6px;
+			margin-top:4px;
+		}		
+		width:auto;
+	}
+	.up{
+		span{
+			@include icons-sprite-retina("font16");
+			display:inline-block;
+			margin-right:6px;
+			margin-top:4px;
+		}		
+		width:auto;
+	}	
 }
 .artice-one-aside{
 	position:absolute;
@@ -220,4 +257,7 @@
 		top: 0;
 		width: 50px;
 	}
+}
+.post-height{
+	height:20px;
 }

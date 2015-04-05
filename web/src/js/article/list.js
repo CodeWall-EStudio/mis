@@ -16,16 +16,10 @@ aList.init = function(id,module,tmp){
 	cgi = module;
 	tmpl = tmp;
 
-	new article();
-
-	// aList.search({
-	// 	start : start,
-	// 	limit : limit,
-	// 	subjectId : nowSubId
-	// })
+	//return new article();
 }
 
-var article = function(){
+function article(){
 	this.dom = $("#articleList");
 	this.start = 0,
 	this.limit = 20;
@@ -33,10 +27,16 @@ var article = function(){
 	this.length = 0;
 	this.end = false;
 	this.loading = false;
+
 	this.subid = nowSubId;
 
 	this.bindAction();
 	this.search();
+}
+
+//把回复相关的东东绑定进来
+article.prototype.bind = function(obj){
+	this.commentPost = obj.post;
 }
 
 //计算图片的个数
@@ -81,6 +81,16 @@ article.prototype.bindAction = function(){
             _this.loadMore();
         }                
     });	
+
+	this.dom.bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+
+		if(action && _this[action]){
+			_this.target = target;
+			_this[action](e);
+		}
+	})    
 }
 
 //加载更多
@@ -133,11 +143,31 @@ article.prototype.search = function(param){
 	});	
 }
 
+article.prototype.setup = function(){
+	console.log('setup');
+}
+
+article.prototype.replay = function(){
+	var id = this.target.data('id');
+	if(id){
+		this.commentPost.showPost(id);
+	}
+}
+
+//把新发布的帖子加到列表最前面
+article.prototype.prependToList = function(param){
+	var html = tmpl.list({list:[param]});
+	this.dom.prepend(html);
+}
+
+
 //把新发布的帖子加到列表最前面
 aList.prependToList = function(param){
 		var html = tmpl.list({list:[param]});
 		listDom.prepend(html);
 }
+
+aList.article = article;
 
 //加载更多数据
 /*

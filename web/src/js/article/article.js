@@ -1,6 +1,7 @@
 var cgi = require('../common/cgi').article;
 var tmpl = {
-	list : require('../../tpl/article/list.ejs')
+	list : require('../../tpl/article/list.ejs'),
+	rlist : require('../../tpl/resource/list.ejs')   //资源列表
 };
 
 var articleList = require('./list'),
@@ -10,9 +11,9 @@ var Article = {}
 
 module.exports = Article;
 
-Article.search = articleList.search;
+Article.list = articleList.article;
 
-Article.loadMore = articleList.loadMore;
+// Article.loadMore = articleList.loadMore;
 
 Article.appendToList = articleList.prependToList;
 
