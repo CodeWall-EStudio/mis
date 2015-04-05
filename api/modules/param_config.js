@@ -68,7 +68,7 @@ module.exports = {
             name: 'subjectId',
             type: 'number',
             required: true
-        },{
+        }, {
             name: 'title'
         }, {
             name: 'private',
@@ -112,17 +112,17 @@ module.exports = {
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
             type: 'number'
-        },{
+        }, {
             name: 'creator',
             type: 'number'
-        },{
+        }, {
             name: 'orderby'
-        },{
+        }, {
             name: 'private',
             type: 'number'
         }]
@@ -135,7 +135,7 @@ module.exports = {
             name: 'subjectId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'isFollow',
             required: true,
             type: 'number'
@@ -149,12 +149,12 @@ module.exports = {
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
             type: 'number'
-        },{
+        }, {
             name: 'orderby'
         }]
     },
@@ -166,12 +166,12 @@ module.exports = {
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
             type: 'number'
-        },{
+        }, {
             name: 'orderby'
         }]
     },
@@ -182,7 +182,7 @@ module.exports = {
             name: 'subjectId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'isArchive',
             required: true,
             type: 'number'
@@ -196,12 +196,12 @@ module.exports = {
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
             type: 'number'
-        },{
+        }, {
             name: 'orderby'
         }]
     },
@@ -213,12 +213,20 @@ module.exports = {
             name: 'resourceId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'subjectId',
             required: true,
             type: 'number'
         }]
-    },    
+    },
+    '/cgi/subject/delete': {
+        method: 'POST',
+        params: [{
+            name: 'subjectId',
+            required: true,
+            type: 'number'
+        }]
+    },
 
     // 文章接口
     '/cgi/article/create': {
@@ -227,7 +235,7 @@ module.exports = {
             name: 'subjectId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'title'
         }, {
             name: 'content',
@@ -246,11 +254,11 @@ module.exports = {
             name: 'articleId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'subjectId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'title'
         }, {
             name: 'content',
@@ -261,6 +269,15 @@ module.exports = {
         }, {
             name: 'resources',
             type: '[number]'
+        }]
+    },
+
+     '/cgi/article/delete': {
+        method: 'POST',
+        params: [{
+            name: 'articleId',
+            required: true,
+            type: 'number'
         }]
     },
 
@@ -279,12 +296,12 @@ module.exports = {
             name: 'subjectId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'start',
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
@@ -299,7 +316,7 @@ module.exports = {
             name: 'articleId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'isStar',
             required: true,
             type: 'number'
@@ -313,12 +330,12 @@ module.exports = {
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
             type: 'number'
-        },{
+        }, {
             name: 'orderby'
         }]
     },
@@ -329,7 +346,7 @@ module.exports = {
             name: 'articleId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'isCollect',
             required: true,
             type: 'number'
@@ -343,28 +360,28 @@ module.exports = {
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
             type: 'number'
-        },{
+        }, {
             name: 'orderby'
         }]
     },
 
     //回复接口
-    '/cgi/comment/create' : {
+    '/cgi/comment/create': {
         method: 'POST',
         params: [{
             name: 'subjectId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'articleId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'title'
         }, {
             name: 'content',
@@ -376,29 +393,29 @@ module.exports = {
             name: 'resources',
             type: '[number]'
         }]
-    }, 
-    '/cgi/comment/search' : {
+    },
+    '/cgi/comment/search': {
         method: 'GET',
         params: [{
             name: 'start',
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
             type: 'number'
-        },{
+        }, {
             name: 'articleId',
             type: 'number'
-        },{
+        }, {
             name: 'subjectId',
             type: 'number'
-        },{
+        }, {
             name: 'creator',
             type: 'number'
-        },{
+        }, {
             name: 'orderby'
         }]
     },
@@ -409,7 +426,7 @@ module.exports = {
             name: 'commentId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'isStar',
             required: true,
             type: 'number'
@@ -423,12 +440,12 @@ module.exports = {
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
             type: 'number'
-        },{
+        }, {
             name: 'orderby'
         }]
     },
@@ -439,7 +456,7 @@ module.exports = {
             name: 'commentId',
             required: true,
             type: 'number'
-        },{
+        }, {
             name: 'isCollect',
             required: true,
             type: 'number'
@@ -453,15 +470,25 @@ module.exports = {
             required: true,
             default: 0,
             type: 'number'
-        },{
+        }, {
             name: 'limit',
             required: true,
             default: 10,
             type: 'number'
-        },{
+        }, {
             name: 'orderby'
         }]
     },
+
+     '/cgi/comment/delete': {
+        method: 'POST',
+        params: [{
+            name: 'commentId',
+            required: true,
+            type: 'number'
+        }]
+    },
+
 
     //标签接口
     '/cgi/label/create': {

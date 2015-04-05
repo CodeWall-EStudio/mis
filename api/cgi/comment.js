@@ -123,6 +123,61 @@ exports.create = function(req, res) {
 
 }
 
+exports.delete = function(req, res) {
+    var params = req.parameter;
+
+    var loginUser = req.loginUser;
+
+    var conn = req.conn;
+
+    // 开启一个事务, 这里涉及很多个表的修改, 因此加入事务保证
+    conn.beginTransaction(function(err) {
+        if (err) {
+            return db.handleError(req, res, err);
+        }
+        co(function*() {
+            var commentId = params.commentId;
+
+            var result =
+                yield req.conn.yieldQuery('DELETE FROM comment WHERE id = ? ', commentId);
+            if (!result.affectedRows) {
+                res.json({
+                    code: ERR.LOGIC_FAILURE,
+                    msg: '删除失败, 没有找到该帖子'
+                });
+                req.conn.release();
+                return;
+            }
+
+            yield req.conn.yieldQuery('DELETE FROM comment_resource WHERE comment_id = ?', commentId);
+
+            // 提交事务
+            conn.commit(function(err) {
+                if (err) {
+                    throw err;
+                }
+                res.json({
+                    code: ERR.SUCCESS
+                });
+            });
+            conn.release();
+        }).catch(function(err) {
+            Logger.error(err.stack);
+            Logger.error('error, roolback');
+            conn.rollback(function() {
+                res.json({
+                    code: ERR.DB_ERROR,
+                    msg: '删除回复失败',
+                    detail: err.message
+                });
+            });
+            conn.release();
+        });
+
+    });
+
+}
+
 exports.search = function(req,res){
     var params = req.parameter;
 
