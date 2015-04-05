@@ -292,6 +292,37 @@ module.exports = {
         }]
     },
 
+
+    '/cgi/article/star': {
+        method: 'POST',
+        params: [{
+            name: 'articleId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'isStar',
+            required: true,
+            type: 'number'
+        }]
+    },
+
+    '/cgi/article/staring': {
+        method: 'GET',
+        params: [{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        },{
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        },{
+            name: 'orderby'
+        }]
+    },
+
     //回复接口
     '/cgi/comment/create' : {
         method: 'POST',
