@@ -130,12 +130,12 @@ db.comment = {};
 
 db.comment.search = function(param,callback){
 	var callback = checkCallback(callback);
-	request.get(cgiList.article.search,param,callback);
+	request.get(cgiList.comment.search,param,callback);
 }
 
 db.comment.create = function(param,callback){
 	var callback = checkCallback(callback,true);
-	request.post(cgiList.article.create,param,callback);
+	request.post(cgiList.comment.create,param,callback);
 }
 
 db.label = {};

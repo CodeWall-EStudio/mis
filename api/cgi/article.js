@@ -285,6 +285,20 @@ exports.info = function(req, res) {
         var rows =
             yield req.mysql(sql, [params.id,params.id]);
         if (rows.length) {
+
+            var sql = 'SELECT r.* FROM resource r,article_resource ar WHERE ar.resource_id=r.id AND ar.article_id=?';
+            var rrows = yield req.mysql(sql,[params.id]);
+
+            var articleResourceCount = rrows.length;
+            var resourceList = [];
+
+            if(rrows.length){
+                resourceList = rrows;
+            }
+
+            rows[0].articleResourceCount = articleResourceCount;
+            rows[0].resourceList = resourceList;
+
             res.json({
                 code: ERR.SUCCESS,
                 data: rows[0]

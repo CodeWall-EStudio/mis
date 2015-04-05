@@ -1,0 +1,39 @@
+        <div class="title">
+          <%-title%>
+          <div class="action-area">
+            <a class="btn btn-primary" data-action="up">置顶</a>
+            <div class="btn-group">
+              <a class="btn btn-primary active time-btn" href="#fakelink" data-action="orderbytime">按创建时间排序</a>
+              <a class="btn btn-primary update-btn" href="#fakelink" data-action="orderbyupdate">按更新时间排序</a>
+            </div>        
+            <a class="return" href="/info.html?id=<%-id%>&sid=<%-subject_id%>">返回</a>
+          </div>
+        </div>
+        <div class="comment-list">
+          <article class="comment-one">
+              <aside class="comment-one-aside"><%-striker.util.getNowTime(updateTime)%></aside>
+              <div class="comment-one-info">
+                <div class="info-title"><%-name%></div>
+                <div class="info-action">
+                  <span class="edit" data-action="edit"><span></span>编辑</span> <span class="delete"  data-action="delete"><span></span>删除</span> <span class="up"  data-action="setup"><span></span>赞</span> <span class="post"><span></span>回复 <%-commentCount%></span>
+                </div>          
+                <dl class="comment-dl">
+                  <dt><a href="article.html?id=50"><%-title%></a></dt>
+                  <dd>
+                    <%-content%>
+                  </dd>
+                  <div class="comment-img-list">
+                    <%for(var j=0,m=resourceList.length;j<m;j++){
+                        var obj = resourceList[j];
+                        
+                        if(obj.type === 1){
+                    %>
+                      <div>
+                        <img src="/cgi/resource/preview?id=<%-obj.id%>" width="200" />
+                      </div>
+                    <%}}%>                  
+          
+                </dl>
+              </div>
+            </article>
+        </div>

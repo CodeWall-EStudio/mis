@@ -62,6 +62,7 @@ article.prototype.checkData = function(data){
 		list.push(item);
 	}
 	data.list = list;
+	data.sid = nowSubId;
 	return data;
 }
 
@@ -123,7 +124,6 @@ article.prototype.search = function(param){
 			_this.loading = false;
 
 			var data = _this.checkData(res.data);
-			console.log(data);
 			var html = tmpl.list(data);
 			_this.dom.append(html);
 			if(_this.length >= _this.total){
