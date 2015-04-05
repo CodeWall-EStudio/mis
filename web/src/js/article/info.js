@@ -12,6 +12,8 @@ var articleInfo = function(id,sid){
 	this.subId = sid;
 	this.dom = $('#articleInfo');
 
+	this.data = {};
+
 	this.cList = window.striker.commentlist;
 	this.cpost = window.striker.commentpost;
 
@@ -26,7 +28,9 @@ articleInfo.prototype.getDate = function(){
 			res.data.sid = _this.subId;
 			var html = tmpl.info(res.data);
 			
+			_this.data = res.data;
 			_this.dom.html(html);
+			_this.cDom = $("#commentCount");
 		}
 	});
 }
@@ -67,6 +71,11 @@ articleInfo.prototype.orderbytime = function(){
 
 articleInfo.prototype.orderbyupdate = function(){
 	this.cList.orderbyupdate();
+}
+
+articleInfo.prototype.updateCount = function(){
+	this.data.commentCount++;
+	this.cDom.text(this.data.commentCount);
 }
 
 Info.info = articleInfo;

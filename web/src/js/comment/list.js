@@ -93,9 +93,13 @@ list.prototype.append = function(data){
 	var html = tmpl.list({
 		list : [data]
 	});
+	this.artInfo.updateCount();
 	this.dom.prepend(html);
 }
 
+list.prototype.bindFun = function(info){
+	this.artInfo = info;
+}
 
 list.prototype.bindAction = function(){
 	var _this = this;

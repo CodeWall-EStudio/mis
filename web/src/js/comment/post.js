@@ -46,6 +46,7 @@ post.prototype.create = function(){
 		_this.loading = true;
 		if(res.code === 0){
 			_this.cList.append(res.data);
+			_this.contentDom.val('');
 		}
 	});
 }
