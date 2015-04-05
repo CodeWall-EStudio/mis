@@ -323,6 +323,36 @@ module.exports = {
         }]
     },
 
+    '/cgi/article/collect': {
+        method: 'POST',
+        params: [{
+            name: 'articleId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'isCollect',
+            required: true,
+            type: 'number'
+        }]
+    },
+
+    '/cgi/article/collected': {
+        method: 'GET',
+        params: [{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        },{
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        },{
+            name: 'orderby'
+        }]
+    },
+
     //回复接口
     '/cgi/comment/create' : {
         method: 'POST',

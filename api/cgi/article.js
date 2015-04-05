@@ -331,7 +331,7 @@ exports.star = function(req, res) {
             res.json({
                 code: ERR.SUCCESS
             });
-        } else { // 添加关注
+        } else { // 添加
             var rows =
                 yield req.conn.yieldQuery('SELECT id FROM article_star WHERE user_id = ? AND article_id = ?', [loginUser.id, params.articleId]);
             if (rows.length) {
@@ -370,6 +370,82 @@ exports.staring = function(req, res) {
             yield req.conn.yieldQuery(sql, sqlParams);
         var total = rows[0].count;
         sql = 'SELECT a.*, u.name AS creatorName ' + 'FROM article a, user u, article_star aa WHERE aa.user_id = ? AND aa.article_id = a.id AND a.creator = u.id';
+
+        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+        if (params.orderby) {
+            sqlParams.push('a.' + params.orderby);
+        } else {
+            sqlParams.push('a.updateTime');
+        }
+
+        sqlParams.push(params.start, params.limit);
+
+        rows =
+            yield req.conn.yieldQuery(sql, sqlParams);
+
+        res.json({
+            code: ERR.SUCCESS,
+            data: {
+                total: total,
+                list: rows
+            }
+        });
+        req.conn.release();
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
+
+exports.collect = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+    co(function*() {
+
+        if (params.isCollect === 0) { // 取消
+            var result =
+                yield req.conn.yieldQuery('DELETE FROM article_collect WHERE user_id = ? AND article_id = ?', [loginUser.id, params.articleId]);
+            res.json({
+                code: ERR.SUCCESS
+            });
+        } else { // 添加
+            var rows =
+                yield req.conn.yieldQuery('SELECT id FROM article_collect WHERE user_id = ? AND article_id = ?', [loginUser.id, params.articleId]);
+            if (rows.length) {
+                res.json({
+                    code: ERR.DUPLICATE,
+                    msg: '已经收藏了该帖子'
+                });
+            } else {
+                var result =
+                    yield req.conn.yieldQuery('INSERT INTO article_collect SET ?', {
+                        article_id: params.articleId,
+                        user_id: loginUser.id
+                    });
+                res.json({
+                    code: ERR.SUCCESS
+                });
+            }
+        }
+
+        req.conn.release();
+
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
+
+exports.collected = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+
+    co(function*() {
+        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM article_collect s WHERE user_id = ?';
+        var sqlParams = [loginUser.id];
+        var rows =
+            yield req.conn.yieldQuery(sql, sqlParams);
+        var total = rows[0].count;
+        sql = 'SELECT a.*, u.name AS creatorName ' + 'FROM article a, user u, article_collect aa WHERE aa.user_id = ? AND aa.article_id = a.id AND a.creator = u.id';
 
         sql += ' ORDER BY ?? DESC LIMIT ?, ?';
         if (params.orderby) {
