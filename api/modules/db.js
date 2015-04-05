@@ -47,6 +47,8 @@ exports.connect = function(req, res, next) {
             // connection.config.queryFormat = queryFormat;
             connection.yieldQuery = wrapper(connection).query;
             req.conn = connection;
+            // 语义不好,不用这个了
+            // 换 req.conn.yieldQuery
             req.mysql = connection.yieldQuery;
             req.dbPrepare = prepare;
             next();
@@ -54,12 +56,25 @@ exports.connect = function(req, res, next) {
     });
 };
 
+exports.release = function(req, res) {
+    Logger.debug('db.release...');
+    if(req.conn){
+        try{
+            req.conn.release();
+            Logger.debug('db.release...done');
+        }catch(e){
+            Logger.debug('db.release...fail: ', e.message);
+        }
+    }
+
+};
+
 exports.handleError = function(req, res, err) {
     Logger.error('[db error]', err);
     return res.json({
         code: ERR.DB_ERROR,
         msg: '数据库错误',
-        detail: err
+        detail: err.message || err
     });
 };
 

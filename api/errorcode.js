@@ -5,7 +5,9 @@ module.exports = exports = {
 
     DB_ERROR: 102, // DB 数据库错误
 
-    MEDIA_SUCCESS: 200, // 新媒体的成功码是 200
+    LOGIC_FAILURE: 103, // 逻辑处理出错
+
+    // MEDIA_SUCCESS: 200, // 新媒体的成功码是 200
 
     NOT_LOGIN: 1001, // 没有登录
     TICKET_ERROR: 1002, // sso 登录的ticket验证出错
@@ -32,9 +34,9 @@ module.exports = exports = {
     PASSWORD_ERROR: 1042, // 密码错误
     ACCOUNT_CLOSE: 1043, // 账号被关闭了
 
-    TIME_DUPLICATE: 1050, // 创建学年时, 时间交叉了
+    // TIME_DUPLICATE: 1050, // 创建学年时, 时间交叉了
 
-    STATUS_DUPLICATE: 1051, // 已经有激活的学期了
+    // STATUS_DUPLICATE: 1051, // 已经有激活的学期了
 
 
     IMPORT_FAILURE: 1060, // 导入失败

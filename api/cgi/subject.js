@@ -20,7 +20,7 @@ exports.create = function(req, res) {
         co(function*() {
             // 插入主题
             var result =
-                yield req.mysql('INSERT INTO subject SET ? ', {
+                yield req.conn.yieldQuery('INSERT INTO subject SET ? ', {
                     title: params.title,
                     mark: params.mark,
                     'private': params['private'],
@@ -39,7 +39,7 @@ exports.create = function(req, res) {
                 for (var i in params.managers) {
                     values.push([subjectId, params.managers[i], config.ROLE_SUBJECT_MANAGER]);
                 }
-                yield req.mysql('INSERT INTO subject_user (??) VALUES ?', [columns, values]);
+                yield req.conn.yieldQuery('INSERT INTO subject_user (??) VALUES ?', [columns, values]);
             }
 
             // 设置成员, 非公开主题才有这个选项
@@ -49,7 +49,7 @@ exports.create = function(req, res) {
                 for (var i in params.members) {
                     values.push([subjectId, params.members[i], config.ROLE_SUBJECT_MEMBER]);
                 }
-                yield req.mysql('INSERT INTO subject_user (??) VALUES ?', [columns, values]);
+                yield req.conn.yieldQuery('INSERT INTO subject_user (??) VALUES ?', [columns, values]);
 
             }
 
@@ -60,7 +60,7 @@ exports.create = function(req, res) {
                 for (var i in params.subjectLabels) {
                     values.push([subjectId, params.subjectLabels[i], config.LABEL_TYPE_SUBJECT]);
                 }
-                yield req.mysql('INSERT INTO subject_label (??) VALUES ?', [columns, values]);
+                yield req.conn.yieldQuery('INSERT INTO subject_label (??) VALUES ?', [columns, values]);
             }
 
             // 设置主题下的文章标签
@@ -70,7 +70,7 @@ exports.create = function(req, res) {
                 for (var i in params.articleLabels) {
                     values.push([subjectId, params.articleLabels[i], config.LABEL_TYPE_SUBJECT_ARTICLE]);
                 }
-                yield req.mysql('INSERT INTO subject_label (??) VALUES ?', [columns, values]);
+                yield req.conn.yieldQuery('INSERT INTO subject_label (??) VALUES ?', [columns, values]);
             }
 
             // 设置主题下关联的资源
@@ -80,11 +80,11 @@ exports.create = function(req, res) {
                 for (var i in params.resources) {
                     values.push([subjectId, params.resources[i]]);
                 }
-                yield req.mysql('INSERT INTO subject_resource (??) VALUES ?', [columns, values]);
+                yield req.conn.yieldQuery('INSERT INTO subject_resource (??) VALUES ?', [columns, values]);
             }
 
             var rows =
-                yield req.mysql('SELECT * FROM subject WHERE id = ?', subjectId);
+                yield req.conn.yieldQuery('SELECT * FROM subject WHERE id = ?', subjectId);
 
             // 提交事务
             conn.commit(function(err) {
@@ -130,7 +130,7 @@ exports.search = function(req, res) {
         sql += req.dbPrepare(dbParams);
 
         var rows =
-            yield req.mysql(sql);
+            yield req.conn.yieldQuery(sql);
         var total = rows[0].count;
 
         sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u WHERE ';
@@ -141,7 +141,7 @@ exports.search = function(req, res) {
         sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
         rows =
-            yield req.mysql(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+            yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
 
         res.json({
             code: ERR.SUCCESS,
@@ -174,13 +174,13 @@ exports.info = function(req, res) {
             sql += '(SELECT COUNT(a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM subject s,user u WHERE s.id = ? AND s.creator = u.id';
             console.log(sql);
         var rows =
-            yield req.mysql(sql,[loginUser.id,loginUser.id,params.id]);
+            yield req.conn.yieldQuery(sql,[loginUser.id,loginUser.id,params.id]);
         if (rows.length) {
             /*
             主题的资源在这儿取...因为方正需要把资源单独拉一次...
             */
             var sql = 'SELECT r.* FROM resource r,subject_resource sr WHERE sr.resource_id=r.id AND sr.subject_id=?';
-            var rrows = yield req.mysql(sql,[params.id]);
+            var rrows = yield req.conn.yieldQuery(sql,[params.id]);
 
             var subjectResourceCount = rrows.length;
             var resourceList = [];
@@ -220,13 +220,13 @@ exports.follow = function(req, res) {
 
         if (params.isFollow === 0) { // 取消关注
             var result =
-                yield req.mysql('DELETE FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
+                yield req.conn.yieldQuery('DELETE FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
             res.json({
                 code: ERR.SUCCESS
             });
         } else { // 添加关注
             var rows =
-                yield req.mysql('SELECT id FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
+                yield req.conn.yieldQuery('SELECT id FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
             if (rows.length) {
                 res.json({
                     code: ERR.DUPLICATE,
@@ -234,7 +234,7 @@ exports.follow = function(req, res) {
                 });
             } else {
                 var result =
-                    yield req.mysql('INSERT INTO subject_follow SET ?', {
+                    yield req.conn.yieldQuery('INSERT INTO subject_follow SET ?', {
                         subject_id: params.subjectId,
                         user_id: loginUser.id
                     });
@@ -251,8 +251,6 @@ exports.follow = function(req, res) {
     });
 };
 
-
-
 exports.following = function(req, res) {
     var params = req.parameter;
     var loginUser = req.loginUser;
@@ -262,7 +260,7 @@ exports.following = function(req, res) {
         var sql = 'SELECT COUNT(s.id) AS count FROM subject_follow s WHERE user_id = ?';
         var sqlParams = [loginUser.id];
         var rows =
-            yield req.mysql(sql, sqlParams);
+            yield req.conn.yieldQuery(sql, sqlParams);
         var total = rows[0].count;
         sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
 
@@ -276,7 +274,7 @@ exports.following = function(req, res) {
         sqlParams.push(params.start, params.limit);
         Logger.debug(sql);
         rows =
-            yield req.mysql(sql, sqlParams);
+            yield req.conn.yieldQuery(sql, sqlParams);
 
         res.json({
             code: ERR.SUCCESS,
@@ -291,6 +289,75 @@ exports.following = function(req, res) {
     });
 };
 
+exports.invited = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+    co(function*() {
+
+        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s, subject_user su WHERE ';
+        var dbParams = {
+            's.private': 1,
+            's.id': 'su.subject_id',
+            's.creator !': loginUser.id,
+            'su.user_id': loginUser.id
+        };
+
+        sql += req.dbPrepare(dbParams);
+        // sql += ' GROUP BY s.id';
+
+        var rows = yield req.conn.yieldQuery(sql);
+        var total = rows[0].count;
+
+        sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(su.id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_user su WHERE ';
+
+        dbParams['s.creator'] = 'u.id';
+        sql += req.dbPrepare(dbParams);
+        // sql += ' GROUP BY s.id';
+        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+
+        rows =
+            yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+
+        res.json({
+            code: ERR.SUCCESS,
+            data: {
+                total: total,
+                list: rows
+            }
+        });
+        req.conn.release();
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+
+};
+
+exports.archive = function(req, res, next) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+    co(function*() {
+
+        var result =
+            yield req.conn.yieldQuery('UPDATE subject SET isArchive = ? WHERE creator = ? AND id = ?', [params.isArchive, loginUser.id, params.subjectId]);
+        if(result.affectedRows){
+            res.json({
+                code: ERR.SUCCESS
+            });
+        }else{
+            res.json({
+                code: ERR.LOGIC_FAILURE,
+                msg: '操作失败, 没有找到该主题或非法操作'
+            });
+        }
+        
+        // req.conn.release(); // next or release
+        next();
+    }).catch(function(err) {
+        db.handleError(req, res, err);
+    });
+};
+
 //从主题资源表中删除一个资源
 exports.delresource = function(req,res) {
     var params = req.parameter;
@@ -301,7 +368,7 @@ exports.delresource = function(req,res) {
          var auth = yield getAuth(req,params.subjectId);
          if(auth.length || loginUser.auth){
             var sql = 'delete from subject_resource where subject_id=? and resource_id=?';
-            var row = yield req.mysql(sql,[params.subjectId,params.resourceId]);
+            var row = yield req.conn.yieldQuery(sql,[params.subjectId,params.resourceId]);
 
             if(row.affectedRows){
                 res.json({
@@ -327,7 +394,7 @@ exports.delresource = function(req,res) {
             sql += '(SELECT COUNT(ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
             sql += '(SELECT COUNT(a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM SUBJECT s,USER u WHERE s.id = ? AND s.creator = u.id';
         var rows =
-            yield req.mysql(sql,[loginUser.id,params.id]);        
+            yield req.conn.yieldQuery(sql,[loginUser.id,params.id]);        
         */
         req.conn.release();
     }).catch(function(err) {
@@ -338,5 +405,5 @@ exports.delresource = function(req,res) {
 //验证一个主题的权限
 function getAuth(req,subjectId){
     Logger.info("[chacek subject auth]",subjectId);
-    return req.mysql('select creator from subject where id=?', subjectId);
+    return req.conn.yieldQuery('select creator from subject where id=?', subjectId);
 }

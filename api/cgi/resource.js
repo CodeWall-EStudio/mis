@@ -140,11 +140,11 @@ exports.preview = function(req, res) {
 
         switch (resource.type) {
             case 2: // 文档
-                // var swfFile = path.join(config.FILE_SAVE_ROOT, filePath + '.swf');
+                // var swfFile = filePath + '.swf';
                 // if(!fs.existsSync(swfFile)){
                 //     Logger.error('can\'t find ' + swfFile + '! try to convert...');
                 //     var suffix = path.extname(filePath).slice(1);
-                //     fileHelper.convertWord(path.join(config.FILE_SAVE_ROOT, filePath), resource.mimes, suffix, function(err){
+                //     convert(path.join(config.FILE_SAVE_ROOT, filePath), resource.mimes, suffix, function(err){
                 //         if(err){
                 //             res.json({ err: ERR.NOT_FOUND, msg: 'can not find this file and convert failure' });
                 //             return;

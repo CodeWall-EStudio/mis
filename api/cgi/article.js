@@ -20,12 +20,12 @@ function insertArticleLables(req,articleId,labels){
     for (var i in labels) {
         values.push([articleId, labels[i]]);
     }
-    return req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
+    return req.conn.yieldQuery('INSERT INTO article_label (??) VALUES ?', [columns, values]);
 }
 
 function clearArticleLables(req,articleId){
     Logger.info("[article clearArticleLables]",articleId);
-    return req.mysql('DELETE FROM article_label where article_id=?', articleId);
+    return req.conn.yieldQuery('DELETE FROM article_label where article_id=?', articleId);
 }
 
 function insertArticleResource(req,articleId,resources,subjectId){
@@ -37,11 +37,11 @@ function insertArticleResource(req,articleId,resources,subjectId){
     for (var i in resources) {
         values.push([articleId, resources[i],subjectId]);
     }
-    return req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
+    return req.conn.yieldQuery('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
     
 }
 function clearArticleResources(req,articleId){
-    return req.mysql('DELETE FROM article_resource where article_id=?',articleId);
+    return req.conn.yieldQuery('DELETE FROM article_resource where article_id=?',articleId);
 }
 
 
@@ -62,7 +62,7 @@ exports.create = function(req, res) {
         co(function*() {
             // 插入主题
             var result =
-                yield req.mysql('INSERT INTO article SET ? ', {
+                yield req.conn.yieldQuery('INSERT INTO article SET ? ', {
                     title: params.title,
                     content: params.content,
                     subject_id: params.subjectId,
@@ -81,7 +81,7 @@ exports.create = function(req, res) {
             //         values.push([articleId, params.labels[i]]);
             //     }
             //     var result =
-            //         yield req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
+            //         yield req.conn.yieldQuery('INSERT INTO article_label (??) VALUES ?', [columns, values]);
 
             // }
             if(params.labels){
@@ -95,14 +95,14 @@ exports.create = function(req, res) {
             //     for (var i in params.resources) {
             //         values.push([articleId, params.resources[i]]);
             //     }
-            //     yield req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
+            //     yield req.conn.yieldQuery('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
             // }
             if(params.resources){
                 yield insertArticleResource(req,articleId,params.resources,params.subjectId);
             }
 
             var rows =
-                yield req.mysql('SELECT * FROM article WHERE id = ?', articleId);
+                yield req.conn.yieldQuery('SELECT * FROM article WHERE id = ?', articleId);
 
             // 提交事务
             conn.commit(function(err) {
@@ -145,7 +145,7 @@ exports.edit = function(req, res){
         co(function*(){
             var articleId = params.articleId;
             var rows =
-                yield req.mysql('SELECT * FROM article WHERE id=?',articleId);
+                yield req.conn.yieldQuery('SELECT * FROM article WHERE id=?',articleId);
 
             if(rows.length == 0){
                 throw new Error("无此帖子");
@@ -163,7 +163,7 @@ exports.edit = function(req, res){
             // 更新article
             Logger.info(articleId);
             
-                yield req.mysql('UPDATE article SET ? WHERE id='+articleId, {
+                yield req.conn.yieldQuery('UPDATE article SET ? WHERE id='+articleId, {
                     title: params.title,
                     content: params.content,
                     subject_id: params.subjectId,
@@ -209,11 +209,11 @@ exports.search = function(req, res) {
     Logger.info('[do article search: ', params);
     co(function*() {
         var rows =
-            yield req.mysql('SELECT COUNT(*) AS count FROM article WHERE subject_id = ?', params.subjectId);
+            yield req.conn.yieldQuery('SELECT COUNT(*) AS count FROM article WHERE subject_id = ?', params.subjectId);
         var total = rows[0].count;
 
         rows =
-            yield req.mysql('SELECT * FROM article  WHERE subject_id = ? limit ?, ?', [params.subjectId, params.start, params.limit]);
+            yield req.conn.yieldQuery('SELECT * FROM article  WHERE subject_id = ? limit ?, ?', [params.subjectId, params.start, params.limit]);
 
         //标签id列表,资源id列表
         var labelMap = [],
@@ -229,7 +229,7 @@ exports.search = function(req, res) {
         //取标签
         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
         if(rows.length){
-            var llist = yield req.mysql('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_label a,label b WHERE label_id IN ('+articleId.join(',')+') AND a.label_id = b.id');
+            var llist = yield req.conn.yieldQuery('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_label a,label b WHERE label_id IN ('+articleId.join(',')+') AND a.label_id = b.id');
             for(var i = 0,l=llist.length;i<l;i++){
                 var item = llist[i];
                 var idx = resMap[item.aid];
@@ -241,7 +241,7 @@ exports.search = function(req, res) {
 
             //取资源
             //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
-            var rlist = yield req.mysql('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_resource a,resource b WHERE article_id IN ('+articleId.join(',')+') AND a.resource_id = b.id');
+            var rlist = yield req.conn.yieldQuery('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_resource a,resource b WHERE article_id IN ('+articleId.join(',')+') AND a.resource_id = b.id');
             for(var i = 0,l=rlist.length;i<l;i++){
                 var item = rlist[i];
                 var idx = resMap[item.aid];
@@ -283,11 +283,11 @@ exports.info = function(req, res) {
             sql += ' WHERE u.id = a.creator and a.id = ?';
 
         var rows =
-            yield req.mysql(sql, [params.id,params.id]);
+            yield req.conn.yieldQuery(sql, [params.id,params.id]);
         if (rows.length) {
 
             var sql = 'SELECT r.* FROM resource r,article_resource ar WHERE ar.resource_id=r.id AND ar.article_id=?';
-            var rrows = yield req.mysql(sql,[params.id]);
+            var rrows = yield req.conn.yieldQuery(sql,[params.id]);
 
             var articleResourceCount = rrows.length;
             var resourceList = [];

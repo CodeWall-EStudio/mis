@@ -125,6 +125,38 @@ module.exports = {
         }]
     },
 
+    '/cgi/subject/invited': {
+        method: 'GET',
+        params: [{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        },{
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        },{
+            name: 'orderby'
+        }]
+    },
+
+    '/cgi/subject/archive': {
+        method: 'POST',
+        params: [{
+            name: 'subjectId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'isArchive',
+            required: true,
+            type: 'number'
+        }]
+    },
+
+
+
     '/cgi/subject/delresource': {
         method: 'POST',
         params: [{

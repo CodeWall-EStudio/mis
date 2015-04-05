@@ -16,12 +16,12 @@ function insertArticleLables(req,articleId,labels){
     for (var i in labels) {
         values.push([articleId, labels[i]]);
     }
-    return req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
+    return req.conn.yieldQuery('INSERT INTO article_label (??) VALUES ?', [columns, values]);
 }
 
 function clearArticleLables(req,articleId){
     Logger.info("[article clearArticleLables]",articleId);
-    return req.mysql('DELETE FROM article_label where article_id=?', articleId);
+    return req.conn.yieldQuery('DELETE FROM article_label where article_id=?', articleId);
 }
 */
 
@@ -34,11 +34,11 @@ function insertCommentResource(req,resources,commentId,articleId,subjectId){
     for (var i in resources) {
         values.push([resources[i],commentId,articleId,subjectId]);
     }
-    return req.mysql('INSERT INTO comment_resource (??) VALUES ?', [columns, values]);
+    return req.conn.yieldQuery('INSERT INTO comment_resource (??) VALUES ?', [columns, values]);
     
 }
 function clearCommentResources(req,commentId){
-    return req.mysql('DELETE FROM comment_resource where comment_id=?',articleId);
+    return req.conn.yieldQuery('DELETE FROM comment_resource where comment_id=?',articleId);
 }
 
 
@@ -57,7 +57,7 @@ exports.create = function(req, res) {
         co(function*() {
             // 插入主题
             var result =
-                yield req.mysql('INSERT INTO comment SET ? ', {
+                yield req.conn.yieldQuery('INSERT INTO comment SET ? ', {
                     title: params.title,
                     content: params.content,
                     subject_id: params.subjectId,
@@ -81,17 +81,17 @@ exports.create = function(req, res) {
             //     for (var i in params.resources) {
             //         values.push([articleId, params.resources[i]]);
             //     }
-            //     yield req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
+            //     yield req.conn.yieldQuery('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
             // }
             if(params.resources){
                 yield insertCommentResource(req,params.resources,commentId,params.articleId,params.subjectId);
             }
             
             var rows =
-                yield req.mysql('SELECT c.*,u.name FROM comment c,user u WHERE u.id = c.creator and c.id = ?', commentId);
+                yield req.conn.yieldQuery('SELECT c.*,u.name FROM comment c,user u WHERE u.id = c.creator and c.id = ?', commentId);
 
             var rrows =
-            	yield req.mysql('select cr.id,r.* from comment_resource cr,resource r where cr.resource_id = r.id and comment_id = ?',commentId);
+            	yield req.conn.yieldQuery('select cr.id,r.* from comment_resource cr,resource r where cr.resource_id = r.id and comment_id = ?',commentId);
 
             rows[0].resources = rrows;
 
@@ -137,7 +137,7 @@ exports.search = function(req,res){
 
     	var sql = 'SELECT COUNT(*) FROM comment WHERE article_id = ?';
         var rows =
-            yield req.mysql(sql, articleId);
+            yield req.conn.yieldQuery(sql, articleId);
 
         var total = rows[0].count;
 
@@ -145,11 +145,11 @@ exports.search = function(req,res){
         if(params.creatorId){
         	sql += ' and creator =? ORDER BY ?? DESC LIMIT ?, ?';
         	rows =
-            	yield req.mysql(sql, [articleId,params.creatorId,params.orderby ?  params.orderby : 'updateTime', params.start, params.limit]);        	        	
+            	yield req.conn.yieldQuery(sql, [articleId,params.creatorId,params.orderby ?  params.orderby : 'updateTime', params.start, params.limit]);        	        	
         }else{
         	sql += ' ORDER BY ?? DESC LIMIT ?, ?';
         	rows =
-            	yield req.mysql(sql, [articleId,params.orderby ? params.orderby : 'updateTime', params.start, params.limit]);        	
+            	yield req.conn.yieldQuery(sql, [articleId,params.orderby ? params.orderby : 'updateTime', params.start, params.limit]);        	
     	}
 
         //标签id列表,资源id列表
@@ -166,7 +166,7 @@ exports.search = function(req,res){
         if(rows.length){
             //取资源
             //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
-            var rlist = yield req.mysql('SELECT c.comment_id as cid,b.id,b.name,b.type FROM comment_resource c,resource b WHERE comment_id IN ('+commentId.join(',')+') AND c.resource_id = b.id');
+            var rlist = yield req.conn.yieldQuery('SELECT c.comment_id as cid,b.id,b.name,b.type FROM comment_resource c,resource b WHERE comment_id IN ('+commentId.join(',')+') AND c.resource_id = b.id');
             for(var i = 0,l=rlist.length;i<l;i++){
                 var item = rlist[i];
                 var idx = resMap[item.cid];
