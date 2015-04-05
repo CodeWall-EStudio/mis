@@ -70,8 +70,30 @@ list.prototype.loadMore = function(){
 	this.getDate();
 }
 
-list.prototype.report = function(){
+list.prototype.replay = function(e){
+	var id = this.target.data('id'),
+		cname = this.target.data('cname');
 
+	this.post.replay(id,cname);
+}	
+
+list.prototype.delete = function(){
+
+}
+
+list.prototype.edit = function(){
+
+}
+
+list.prototype.up = function(){
+
+}
+
+list.prototype.append = function(data){
+	var html = tmpl.list({
+		list : [data]
+	});
+	this.dom.prepend(html);
 }
 
 

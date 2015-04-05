@@ -137,7 +137,7 @@
   background-color: #fff;
   border: 1px solid #bdc3c7;
   border-radius: 5px;
-  marign: 10px 0;
+  margin: 10px 0;
 }
 .comment-one .edit {
   width: auto;
@@ -254,6 +254,7 @@
   position: fixed;
   width: 100%;
   bottom: 0;
+  padding: 10px;
   background-color: #fff;
 }
 .post-area div {

@@ -88,7 +88,7 @@ exports.create = function(req, res) {
             }
             
             var rows =
-                yield req.mysql('SELECT * FROM comment WHERE id = ?', commentId);
+                yield req.mysql('SELECT c.*,u.name FROM comment c,user u WHERE u.id = c.creator and c.id = ?', commentId);
 
             var rrows =
             	yield req.mysql('select cr.id,r.* from comment_resource cr,resource r where cr.resource_id = r.id and comment_id = ?',commentId);

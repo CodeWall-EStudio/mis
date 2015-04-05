@@ -4,10 +4,10 @@
   <article class="comment-one">
     <aside class="comment-one-aside"><%-striker.util.getNowTime(item.updateTime)%></aside>
     <div class="comment-one-info">
-      <div class="info-title">发帖 <%-item.creatorName%>   </div>
+      <div class="info-title">发帖 <%-item.creatorName%></div>
       <div class="info-action">
           <div class="info-action">
-            <span class="edit" data-action="edit"><span></span>编辑</span> <span class="delete"  data-action="delete"><span></span>删除</span> <span class="up"  data-action="setup"><span></span>赞</span> <span class="post" data-action="report"><span></span>回复</span>
+            <span class="edit" data-action="edit" data-id="<%-item.id%>"><span></span>编辑</span> <span class="delete"  data-action="delete" data-id="<%-item.id%>"><span></span>删除</span> <span class="up" data-id="<%-item.id%>" data-action="setup"><span></span>赞</span> <span class="post" data-action="replay" data-id="<%-item.id%>" data-cname="<%-item.creatorName%>"><span></span>回复</span>
           </div> 
       </div>          
       <dl class="comment-dl">
