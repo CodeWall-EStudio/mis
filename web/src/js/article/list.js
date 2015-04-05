@@ -188,14 +188,17 @@ article.prototype.delete = function(){
 	var id = this.target.data('id');
 
 	if(id){
-		var dom = this.target;
-		var param = {
-			articleId : id
-		};
-		cgi.delete(param,function(res){
-			if(res.code === 0){
-				$('.article'+id).remove();
-			}
+
+		var _this = this;
+		this.msg.confirm('确定要删除该帖子?',null,function(){
+			var param = {
+				articleId : id
+			};
+			cgi.delete(param,function(res){
+				if(res.code === 0){
+					$(".article"+id).remove();
+				}
+			});
 		});
 	}
 }
