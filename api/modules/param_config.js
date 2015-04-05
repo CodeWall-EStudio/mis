@@ -402,6 +402,35 @@ module.exports = {
             name: 'orderby'
         }]
     },
+    '/cgi/comment/collect': {
+        method: 'POST',
+        params: [{
+            name: 'commentId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'isCollect',
+            required: true,
+            type: 'number'
+        }]
+    },
+
+    '/cgi/comment/collected': {
+        method: 'GET',
+        params: [{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        },{
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        },{
+            name: 'orderby'
+        }]
+    },
 
     //标签接口
     '/cgi/label/create': {
