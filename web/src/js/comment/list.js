@@ -17,6 +17,7 @@ var list = function(id,sid){
 
 	this.loading = false;
 	this.post = window.striker.commentpost;
+	this.msg = window.striker.msg;
 
 	// articleList.init(id,cgi,tmpl);
 	// articlePost.init(id,cgi,tmpl);
@@ -77,16 +78,71 @@ list.prototype.replay = function(e){
 	this.post.replay(id,cname);
 }	
 
+list.prototype.setup = function(){
+	var id = this.target.data('id'),
+		star = parseInt(this.target.data('status'));
+
+	if(!star){
+		star = 0;
+	}
+
+	if(id){
+		var dom = this.target;
+		var param = {
+			commentId : id,
+			isStar : star ? 0 :1
+		};
+		var text = star?'赞':'已赞';
+		cgi.star(param,function(res){
+			if(res.code === 0){
+				dom.data('status',param.isStar);
+				dom.html('<span></span>'+text);
+			}
+		});
+	}
+}
+
+list.prototype.collect = function(){
+	var id = this.target.data('id'),
+		star = parseInt(this.target.data('status'));
+
+	if(!star){
+		star = 0;
+	}
+
+	if(id){
+		var dom = this.target;
+		var param = {
+			commentId : id,
+			isCollect : star ? 0 :1
+		};
+		var text = star?'收藏':'取消收藏';
+		cgi.collect(param,function(res){
+			if(res.code === 0){
+				dom.data('status',param.isCollect);
+				dom.html('<span></span>'+text);
+			}
+		});
+	}
+}
+
 list.prototype.delete = function(){
+	var id = this.target.data('id');
 
-}
+	if(id){
 
-list.prototype.edit = function(){
-
-}
-
-list.prototype.up = function(){
-
+		var _this = this;
+		this.msg.confirm('确定要删除该回复?',null,function(){
+			var param = {
+				commentId : id
+			};
+			cgi.delete(param,function(res){
+				if(res.code === 0){
+					$(".comment"+id).remove();
+				}
+			});
+		});
+	}
 }
 
 list.prototype.append = function(data){

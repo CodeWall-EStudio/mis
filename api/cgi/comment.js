@@ -219,6 +219,28 @@ exports.search = function(req,res){
         //取标签
         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
         if(rows.length){
+            var slist = 
+                 yield req.conn.yieldQuery('select cs.id,cs.comment_id as aid from comment_star cs where cs.comment_id in (' + commentId.join(',') + ')');
+
+            for (var i = 0, l = slist.length; i < l; i++) {
+                var item = slist[i];
+                var idx = resMap[item.aid];
+                if (!rows[idx].isStar) {
+                    rows[idx].isStar = 1;
+                }
+            }
+
+            var clist = 
+                 yield req.conn.yieldQuery('select cc.id,cc.comment_id as aid from comment_collect cc where cc.comment_id in (' + commentId.join(',') + ')');
+
+            for (var i = 0, l = clist.length; i < l; i++) {
+                var item = clist[i];
+                var idx = resMap[item.aid];
+                if (!rows[idx].isCollect) {
+                    rows[idx].isCollect = 1;
+                }
+            } 
+
             //取资源
             //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
             var rlist = yield req.conn.yieldQuery('SELECT c.comment_id as cid,b.id,b.name,b.type FROM comment_resource c,resource b WHERE comment_id IN ('+commentId.join(',')+') AND c.resource_id = b.id');

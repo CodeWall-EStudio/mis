@@ -291,22 +291,32 @@ exports.search = function(req, res) {
 
         //取标签
 //         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
-// <<<<<<< HEAD
-//         if(rows.length){
-//             // var ulist = yield req.mysql('select name,id from user where id in ('+createId.join(',')+') or id in ('+updateId.join(',')+')';
-//             // for(var i = 0,l=ulist.length;i++){
-//             //     var  item = ulist[i];
-//             // }
-
-
-//             var llist = yield req.mysql('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_label a,label b WHERE label_id IN ('+articleId.join(',')+') AND a.label_id = b.id');
-//             for(var i = 0,l=llist.length;i<l;i++){
-// =======
         if (rows.length) {
+            var slist = 
+                 yield req.conn.yieldQuery('select ast.id,ast.article_id as aid from article_star ast where ast.article_id in (' + articleId.join(',') + ')');
+
+            for (var i = 0, l = slist.length; i < l; i++) {
+                var item = slist[i];
+                var idx = resMap[item.aid];
+                if (!rows[idx].isStar) {
+                    rows[idx].isStar = 1;
+                }
+            }
+
+            var clist = 
+                 yield req.conn.yieldQuery('select ac.id,ac.article_id as aid from article_collect ac where ac.article_id in (' + articleId.join(',') + ')');
+
+            for (var i = 0, l = clist.length; i < l; i++) {
+                var item = clist[i];
+                var idx = resMap[item.aid];
+                if (!rows[idx].isCollect) {
+                    rows[idx].isCollect = 1;
+                }
+            }            
+
             var llist =
                 yield req.conn.yieldQuery('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_label a,label b WHERE label_id IN (' + articleId.join(',') + ') AND a.label_id = b.id');
             for (var i = 0, l = llist.length; i < l; i++) {
-//>>>>>>> 6d55ef63bbb143e6d306143bc6f1fbd14570bd47
                 var item = llist[i];
                 var idx = resMap[item.aid];
                 if (!rows[idx].labels) {

@@ -29,6 +29,7 @@ function article(){
 	this.loading = false;
 
 	this.subid = nowSubId;
+	this.msg = window.striker.msg;
 
 	this.bindAction();
 	this.search();
@@ -144,7 +145,59 @@ article.prototype.search = function(param){
 }
 
 article.prototype.setup = function(){
-	console.log('setup');
+	var id = this.target.data('id'),
+		star = parseInt(this.target.data('status'));
+
+	if(!star){
+		star = 0;
+	}
+
+	if(id){
+		var dom = this.target;
+		var param = {
+			articleId : id,
+			isStar : star ? 0 :1
+		};
+		var text = star?'赞':'已赞';
+		cgi.star(param,function(res){
+			if(res.code === 0){
+				dom.data('status',param.isStar);
+				dom.html('<span></span>'+text);
+			}
+		});
+	}
+}
+
+article.prototype.collect = function(){
+	var id = this.target.data('id');
+
+	if(id){
+		var dom = this.target;
+		var param = {
+			articleId : id
+		};
+		cgi.collect(param,function(res){
+			if(res.code === 0){
+				dom.attr('data-id',0);
+			}
+		});
+	}
+}
+
+article.prototype.delete = function(){
+	var id = this.target.data('id');
+
+	if(id){
+		var dom = this.target;
+		var param = {
+			articleId : id
+		};
+		cgi.delete(param,function(res){
+			if(res.code === 0){
+				$('.article'+id).remove();
+			}
+		});
+	}
 }
 
 article.prototype.replay = function(){
