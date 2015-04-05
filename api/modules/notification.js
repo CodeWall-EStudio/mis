@@ -1,5 +1,5 @@
 
-
-exports.notify = function(req, res){
+// TODO
+exports.notify = function(who, atWhatTime, doWhatThing, toWho, then, message){
 
 };

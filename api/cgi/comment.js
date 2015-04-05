@@ -191,6 +191,83 @@ exports.search = function(req,res){
 }
 
 
+
+exports.star = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+    co(function*() {
+
+        if (params.isStar === 0) { // 取消赞
+            var result =
+                yield req.conn.yieldQuery('DELETE FROM comment_star WHERE user_id = ? AND comment_id = ?', [loginUser.id, params.commentId]);
+            res.json({
+                code: ERR.SUCCESS
+            });
+        } else { // 添加
+            var rows =
+                yield req.conn.yieldQuery('SELECT id FROM comment_star WHERE user_id = ? AND comment_id = ?', [loginUser.id, params.commentId]);
+            if (rows.length) {
+                res.json({
+                    code: ERR.DUPLICATE,
+                    msg: '已经赞了该帖子'
+                });
+            } else {
+                var result =
+                    yield req.conn.yieldQuery('INSERT INTO comment_star SET ?', {
+                        comment_id: params.commentId,
+                        user_id: loginUser.id
+                    });
+                res.json({
+                    code: ERR.SUCCESS
+                });
+            }
+        }
+
+        req.conn.release();
+
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
+
+exports.staring = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+
+    co(function*() {
+        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM comment_star s WHERE user_id = ?';
+        var sqlParams = [loginUser.id];
+        var rows =
+            yield req.conn.yieldQuery(sql, sqlParams);
+        var total = rows[0].count;
+        sql = 'SELECT a.*, u.name AS creatorName ' + 'FROM comment a, user u, comment_star aa WHERE aa.user_id = ? AND aa.comment_id = a.id AND a.creator = u.id';
+
+        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+        if (params.orderby) {
+            sqlParams.push('a.' + params.orderby);
+        } else {
+            sqlParams.push('a.updateTime');
+        }
+
+        sqlParams.push(params.start, params.limit);
+
+        rows =
+            yield req.conn.yieldQuery(sql, sqlParams);
+
+        res.json({
+            code: ERR.SUCCESS,
+            data: {
+                total: total,
+                list: rows
+            }
+        });
+        req.conn.release();
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
+
 exports.collect = function(req, res) {
     var params = req.parameter;
     var loginUser = req.loginUser;

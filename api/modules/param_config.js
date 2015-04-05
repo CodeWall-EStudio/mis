@@ -402,6 +402,37 @@ module.exports = {
             name: 'orderby'
         }]
     },
+
+    '/cgi/comment/star': {
+        method: 'POST',
+        params: [{
+            name: 'commentId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'isStar',
+            required: true,
+            type: 'number'
+        }]
+    },
+
+    '/cgi/comment/staring': {
+        method: 'GET',
+        params: [{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        },{
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        },{
+            name: 'orderby'
+        }]
+    },
+
     '/cgi/comment/collect': {
         method: 'POST',
         params: [{
