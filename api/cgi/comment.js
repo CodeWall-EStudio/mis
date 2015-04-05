@@ -16,12 +16,12 @@ function insertArticleLables(req,articleId,labels){
     for (var i in labels) {
         values.push([articleId, labels[i]]);
     }
-    return req.mysql('INSERT INTO article_label (??) VALUES ?', [columns, values]);
+    return req.conn.yieldQuery('INSERT INTO article_label (??) VALUES ?', [columns, values]);
 }
 
 function clearArticleLables(req,articleId){
     Logger.info("[article clearArticleLables]",articleId);
-    return req.mysql('DELETE FROM article_label where article_id=?', articleId);
+    return req.conn.yieldQuery('DELETE FROM article_label where article_id=?', articleId);
 }
 */
 
@@ -34,11 +34,11 @@ function insertCommentResource(req,resources,commentId,articleId,subjectId){
     for (var i in resources) {
         values.push([resources[i],commentId,articleId,subjectId]);
     }
-    return req.mysql('INSERT INTO comment_resource (??) VALUES ?', [columns, values]);
+    return req.conn.yieldQuery('INSERT INTO comment_resource (??) VALUES ?', [columns, values]);
     
 }
 function clearCommentResources(req,commentId){
-    return req.mysql('DELETE FROM comment_resource where comment_id=?',articleId);
+    return req.conn.yieldQuery('DELETE FROM comment_resource where comment_id=?',articleId);
 }
 
 
@@ -57,7 +57,7 @@ exports.create = function(req, res) {
         co(function*() {
             // 插入主题
             var result =
-                yield req.mysql('INSERT INTO comment SET ? ', {
+                yield req.conn.yieldQuery('INSERT INTO comment SET ? ', {
                     title: params.title,
                     content: params.content,
                     subject_id: params.subjectId,
@@ -81,17 +81,17 @@ exports.create = function(req, res) {
             //     for (var i in params.resources) {
             //         values.push([articleId, params.resources[i]]);
             //     }
-            //     yield req.mysql('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
+            //     yield req.conn.yieldQuery('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
             // }
             if(params.resources){
                 yield insertCommentResource(req,params.resources,commentId,params.articleId,params.subjectId);
             }
             
             var rows =
-                yield req.mysql('SELECT c.*,u.name FROM comment c,user u WHERE u.id = c.creator and c.id = ?', commentId);
+                yield req.conn.yieldQuery('SELECT c.*,u.name FROM comment c,user u WHERE u.id = c.creator and c.id = ?', commentId);
 
             var rrows =
-            	yield req.mysql('select cr.id,r.* from comment_resource cr,resource r where cr.resource_id = r.id and comment_id = ?',commentId);
+            	yield req.conn.yieldQuery('select cr.id,r.* from comment_resource cr,resource r where cr.resource_id = r.id and comment_id = ?',commentId);
 
             rows[0].resources = rrows;
 
@@ -123,6 +123,61 @@ exports.create = function(req, res) {
 
 }
 
+exports.delete = function(req, res) {
+    var params = req.parameter;
+
+    var loginUser = req.loginUser;
+
+    var conn = req.conn;
+
+    // 开启一个事务, 这里涉及很多个表的修改, 因此加入事务保证
+    conn.beginTransaction(function(err) {
+        if (err) {
+            return db.handleError(req, res, err);
+        }
+        co(function*() {
+            var commentId = params.commentId;
+
+            var result =
+                yield req.conn.yieldQuery('DELETE FROM comment WHERE id = ? ', commentId);
+            if (!result.affectedRows) {
+                res.json({
+                    code: ERR.LOGIC_FAILURE,
+                    msg: '删除失败, 没有找到该帖子'
+                });
+                req.conn.release();
+                return;
+            }
+
+            yield req.conn.yieldQuery('DELETE FROM comment_resource WHERE comment_id = ?', commentId);
+
+            // 提交事务
+            conn.commit(function(err) {
+                if (err) {
+                    throw err;
+                }
+                res.json({
+                    code: ERR.SUCCESS
+                });
+            });
+            conn.release();
+        }).catch(function(err) {
+            Logger.error(err.stack);
+            Logger.error('error, roolback');
+            conn.rollback(function() {
+                res.json({
+                    code: ERR.DB_ERROR,
+                    msg: '删除回复失败',
+                    detail: err.message
+                });
+            });
+            conn.release();
+        });
+
+    });
+
+}
+
 exports.search = function(req,res){
     var params = req.parameter;
 
@@ -137,7 +192,7 @@ exports.search = function(req,res){
 
     	var sql = 'SELECT COUNT(*) FROM comment WHERE article_id = ?';
         var rows =
-            yield req.mysql(sql, articleId);
+            yield req.conn.yieldQuery(sql, articleId);
 
         var total = rows[0].count;
 
@@ -145,11 +200,11 @@ exports.search = function(req,res){
         if(params.creatorId){
         	sql += ' and creator =? ORDER BY ?? DESC LIMIT ?, ?';
         	rows =
-            	yield req.mysql(sql, [articleId,params.creatorId,params.orderby ?  params.orderby : 'updateTime', params.start, params.limit]);        	        	
+            	yield req.conn.yieldQuery(sql, [articleId,params.creatorId,params.orderby ?  params.orderby : 'updateTime', params.start, params.limit]);        	        	
         }else{
         	sql += ' ORDER BY ?? DESC LIMIT ?, ?';
         	rows =
-            	yield req.mysql(sql, [articleId,params.orderby ? params.orderby : 'updateTime', params.start, params.limit]);        	
+            	yield req.conn.yieldQuery(sql, [articleId,params.orderby ? params.orderby : 'updateTime', params.start, params.limit]);        	
     	}
 
         //标签id列表,资源id列表
@@ -166,7 +221,7 @@ exports.search = function(req,res){
         if(rows.length){
             //取资源
             //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
-            var rlist = yield req.mysql('SELECT c.comment_id as cid,b.id,b.name,b.type FROM comment_resource c,resource b WHERE comment_id IN ('+commentId.join(',')+') AND c.resource_id = b.id');
+            var rlist = yield req.conn.yieldQuery('SELECT c.comment_id as cid,b.id,b.name,b.type FROM comment_resource c,resource b WHERE comment_id IN ('+commentId.join(',')+') AND c.resource_id = b.id');
             for(var i = 0,l=rlist.length;i<l;i++){
                 var item = rlist[i];
                 var idx = resMap[item.cid];
@@ -189,3 +244,157 @@ exports.search = function(req,res){
         db.handleError(req, res, err.message);
     });    
 }
+
+
+
+exports.star = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+    co(function*() {
+
+        if (params.isStar === 0) { // 取消赞
+            var result =
+                yield req.conn.yieldQuery('DELETE FROM comment_star WHERE user_id = ? AND comment_id = ?', [loginUser.id, params.commentId]);
+            res.json({
+                code: ERR.SUCCESS
+            });
+        } else { // 添加
+            var rows =
+                yield req.conn.yieldQuery('SELECT id FROM comment_star WHERE user_id = ? AND comment_id = ?', [loginUser.id, params.commentId]);
+            if (rows.length) {
+                res.json({
+                    code: ERR.DUPLICATE,
+                    msg: '已经赞了该帖子'
+                });
+            } else {
+                var result =
+                    yield req.conn.yieldQuery('INSERT INTO comment_star SET ?', {
+                        comment_id: params.commentId,
+                        user_id: loginUser.id
+                    });
+                res.json({
+                    code: ERR.SUCCESS
+                });
+            }
+        }
+
+        req.conn.release();
+
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
+
+exports.staring = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+
+    co(function*() {
+        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM comment_star s WHERE user_id = ?';
+        var sqlParams = [loginUser.id];
+        var rows =
+            yield req.conn.yieldQuery(sql, sqlParams);
+        var total = rows[0].count;
+        sql = 'SELECT a.*, u.name AS creatorName ' + 'FROM comment a, user u, comment_star aa WHERE aa.user_id = ? AND aa.comment_id = a.id AND a.creator = u.id';
+
+        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+        if (params.orderby) {
+            sqlParams.push('a.' + params.orderby);
+        } else {
+            sqlParams.push('a.updateTime');
+        }
+
+        sqlParams.push(params.start, params.limit);
+
+        rows =
+            yield req.conn.yieldQuery(sql, sqlParams);
+
+        res.json({
+            code: ERR.SUCCESS,
+            data: {
+                total: total,
+                list: rows
+            }
+        });
+        req.conn.release();
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
+
+exports.collect = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+    co(function*() {
+
+        if (params.isCollect === 0) { // 取消
+            var result =
+                yield req.conn.yieldQuery('DELETE FROM comment_collect WHERE user_id = ? AND comment_id = ?', [loginUser.id, params.commentId]);
+            res.json({
+                code: ERR.SUCCESS
+            });
+        } else { // 添加
+            var rows =
+                yield req.conn.yieldQuery('SELECT id FROM comment_collect WHERE user_id = ? AND comment_id = ?', [loginUser.id, params.commentId]);
+            if (rows.length) {
+                res.json({
+                    code: ERR.DUPLICATE,
+                    msg: '已经收藏了该帖子'
+                });
+            } else {
+                var result =
+                    yield req.conn.yieldQuery('INSERT INTO comment_collect SET ?', {
+                        comment_id: params.commentId,
+                        user_id: loginUser.id
+                    });
+                res.json({
+                    code: ERR.SUCCESS
+                });
+            }
+        }
+
+        req.conn.release();
+
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};
+
+exports.collected = function(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+
+    co(function*() {
+        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM comment_collect s WHERE user_id = ?';
+        var sqlParams = [loginUser.id];
+        var rows =
+            yield req.conn.yieldQuery(sql, sqlParams);
+        var total = rows[0].count;
+        sql = 'SELECT a.*, u.name AS creatorName ' + 'FROM comment a, user u, comment_collect aa WHERE aa.user_id = ? AND aa.comment_id = a.id AND a.creator = u.id';
+
+        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+        if (params.orderby) {
+            sqlParams.push('a.' + params.orderby);
+        } else {
+            sqlParams.push('a.updateTime');
+        }
+
+        sqlParams.push(params.start, params.limit);
+
+        rows =
+            yield req.conn.yieldQuery(sql, sqlParams);
+
+        res.json({
+            code: ERR.SUCCESS,
+            data: {
+                total: total,
+                list: rows
+            }
+        });
+        req.conn.release();
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+};

@@ -13,6 +13,8 @@ var Striker = $(window.striker);
 function userLoad(e,d){
 	new subject.area('mySubject');
 	new subject.area('myFollow');
+	new subject.area('myInvited');
+	new subject.area('myArchived');
 	window.striker.label = new label.label('labelArea');
 	window.striker.createSubject = new subject.create();
 	window.striker.msg = new msg.message();

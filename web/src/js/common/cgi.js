@@ -16,6 +16,9 @@ var cgiList = {
 		create : cgiPath+'subject/create',
 		follow : cgiPath+'subject/follow', //关注
 		following : cgiPath+'subject/following', //关注列表
+		invited : cgiPath+'subject/invited', //邀请列表
+		archived : cgiPath+'subject/archived', //关注列表
+		archive : cgiPath+'subject/archive', //关注列表
 		delresource : cgiPath + 'subject/delresource' //删除一个资源
 	},
 	article : {
@@ -102,6 +105,21 @@ db.subject.follow = function(param,callback){
 db.subject.following = function(param,callback){
 	var callback = checkCallback(callback);
 	request.get(cgiList.subject.following,param,callback);	
+}
+
+db.subject.invited = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.subject.invited,param,callback);	
+}
+
+db.subject.archived = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.subject.archived,param,callback);	
+}
+
+db.subject.archive = function(param,callback){
+	var callback = checkCallback(callback);
+	request.post(cgiList.subject.archive,param,callback);	
 }
 
 db.subject.delresource = function(param,callback){

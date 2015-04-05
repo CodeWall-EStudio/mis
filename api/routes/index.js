@@ -6,6 +6,9 @@ var config = require('../config');
 var Logger = require('../logger');
 var Util = require('../util');
 
+var db = require('../modules/db');
+
+
 
 function getRouter(uri, method) {
 

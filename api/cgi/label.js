@@ -10,13 +10,13 @@ exports.create = function(req, res) {
     var params = req.parameter;
     co(function*() {
         var result =
-            yield req.mysql('INSERT INTO label SET ? ', {
+            yield req.conn.yieldQuery('INSERT INTO label SET ? ', {
                 name: params.name,
                 creator: loginUser.id,
             });
         var labelId = result.insertId;
 
-        var rows = yield req.mysql('SELECT * FROM label WHERE id = ?', labelId);
+        var rows = yield req.conn.yieldQuery('SELECT * FROM label WHERE id = ?', labelId);
 
         res.json({
             code: ERR.SUCCESS,
@@ -31,7 +31,7 @@ exports.list = function(req, res){
     var params = req.parameter;
     co(function*() {
 
-        var rows = yield req.mysql('SELECT * FROM label');// WHERE creator = ?', loginUser.id);
+        var rows = yield req.conn.yieldQuery('SELECT * FROM label');// WHERE creator = ?', loginUser.id);
 
         res.json({
             code: ERR.SUCCESS,

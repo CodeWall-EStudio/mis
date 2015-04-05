@@ -30,7 +30,7 @@ exports.create = function(req, res) {
     var params = req.parameter;
 
     co(function*() {
-        var rows = yield req.mysql('SELECT uid FROM user WHERE uid = ?', params.uid);
+        var rows = yield req.conn.yieldQuery('SELECT uid FROM user WHERE uid = ?', params.uid);
 
         if (rows.length) {
             return res.json({
@@ -39,7 +39,7 @@ exports.create = function(req, res) {
             });
         } 
 
-        var result = yield req.mysql('INSERT INTO user SET ?', {
+        var result = yield req.conn.yieldQuery('INSERT INTO user SET ?', {
             uid: params.uid,
             pwd: Util.md5(params.pwd),
             auth: params.auth || 0,
@@ -49,7 +49,7 @@ exports.create = function(req, res) {
 
         var id = result.insertId;
         Logger.log('[create user]', result);
-        rows = yield req.mysql('SELECT id,uid,name,auth FROM user WHERE id = ?', id);
+        rows = yield req.conn.yieldQuery('SELECT id,uid,name,auth FROM user WHERE id = ?', id);
 
         res.json({
             code: ERR.SUCCESS,
