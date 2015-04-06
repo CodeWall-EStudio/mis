@@ -2,6 +2,7 @@ require('./common/global');
 var user = require('./user/user'),
 	subject = require('./subject/subject'),
 	article = require('./article/article'),
+	comment = require('./comment/post'),
 	msg = require('./common/msg'),
 	label = require('./label/label');
 var Striker = $(window.striker),
@@ -13,8 +14,21 @@ var nowSubId = striker.util.getParameter('id');
 //事件通知,用户资料已经加载完成
 //主题列表的通知事件
 function userLoadSub(e,d){
-	 new subject.info(nowSubId);
-	 article.init(nowSubId);
+	 var subInfo = new subject.info(nowSubId);
+	 var subPost = new subject.create(nowSubId);
+	 var articleList = new article.list(nowSubId);
+	 var cpost = new comment.post(0,nowSubId); 
+
+
+	 subInfo.bind({
+	 	post : subPost
+	 });
+	 cpost.bind({
+	 	list : articleList
+	 });
+	 articleList.bind({
+	 	post : cpost
+	 });
 }
 
 function userLoadArt(e,d){
@@ -74,6 +88,8 @@ function init(){
 	striker.subject = subject;
 	striker.article = article;
 	striker.user = user;
+
+	article.init(nowSubId);
 	
 	window.striker.msg = new msg.message();
 

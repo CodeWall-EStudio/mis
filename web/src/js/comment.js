@@ -18,9 +18,7 @@ function userLoadSub(e,d){
 
  	 var clist = new list.list(nowArtId,nowSubjectId);
  	 window.striker.commentlist = clist;
-
-
- 	 
+	 
 	 var artInfo = new article.info(nowArtId,nowSubjectId);
 	 cpost.bindFun(clist);
 	 clist.bindFun(artInfo);

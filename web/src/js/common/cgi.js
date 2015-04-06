@@ -13,18 +13,34 @@ var cgiList = {
 	subject : {
 		search : cgiPath+'subject/search',
 		info : cgiPath+'subject/info',
+		edit : cgiPath+'subject/edit', //修改主题
 		create : cgiPath+'subject/create',
+		delete : cgiPath+'subject/delete',
 		follow : cgiPath+'subject/follow', //关注
 		following : cgiPath+'subject/following', //关注列表
+		invited : cgiPath+'subject/invited', //邀请列表
+		archived : cgiPath+'subject/archived', //关注列表
+		archive : cgiPath+'subject/archive', //关注列表
 		delresource : cgiPath + 'subject/delresource' //删除一个资源
 	},
 	article : {
 		search : cgiPath+'article/search',
 		info : cgiPath+'article/info',
+		staring : cgiPath+'article/staring', //赞的帖子
+		collected : cgiPath+'article/collected', //搜藏的帖子
+		edit : cgiPath+'article/edit',
+		star : cgiPath+'article/star', //赞
+		collect : cgiPath+'article/collect', //收藏
+		delete : cgiPath+'article/delete', //收藏
 		create : cgiPath+'article/create'
 	},
 	comment : {
 		search : cgiPath+'comment/search',
+		staring : cgiPath+'comment/staring',
+		collected : cgiPath+'comment/collected',
+		star : cgiPath+'comment/star',
+		delete : cgiPath+'comment/delete',
+		collect : cgiPath+'comment/collect',
 		create : cgiPath+'comment/create'
 	},
 	label : {
@@ -94,6 +110,16 @@ db.subject.create = function(param,callback){
 	request.post(cgiList.subject.create,param,callback);
 }
 
+db.subject.delete = function(param,callback){
+	var callback = checkCallback(callback);
+	request.post(cgiList.subject.delete,param,callback);
+}
+
+db.subject.archive = function(param,callback){
+	var callback = checkCallback(callback);
+	request.post(cgiList.subject.archive,param,callback);
+}
+
 db.subject.follow = function(param,callback){
 	var callback = checkCallback(callback,true);
 	request.post(cgiList.subject.follow,param,callback);	
@@ -102,6 +128,21 @@ db.subject.follow = function(param,callback){
 db.subject.following = function(param,callback){
 	var callback = checkCallback(callback);
 	request.get(cgiList.subject.following,param,callback);	
+}
+
+db.subject.invited = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.subject.invited,param,callback);	
+}
+
+db.subject.archived = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.subject.archived,param,callback);	
+}
+
+db.subject.archive = function(param,callback){
+	var callback = checkCallback(callback);
+	request.post(cgiList.subject.archive,param,callback);	
 }
 
 db.subject.delresource = function(param,callback){
@@ -116,6 +157,16 @@ db.article.search = function(param,callback){
 	request.get(cgiList.article.search,param,callback);
 }
 
+db.article.staring = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.article.staring,param,callback);
+}
+
+db.article.collected = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.article.collected,param,callback);
+}
+
 db.article.info = function(param,callback){
 	var callback = checkCallback(callback);
 	request.get(cgiList.article.info,param,callback);
@@ -126,11 +177,49 @@ db.article.create = function(param,callback){
 	request.post(cgiList.article.create,param,callback);
 }
 
+db.article.delete = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.article.delete,param,callback);
+}
+
+db.article.star = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.article.star,param,callback);
+}
+
+db.article.collect = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.article.collect,param,callback);
+}
+
 db.comment = {};
 
 db.comment.search = function(param,callback){
 	var callback = checkCallback(callback);
 	request.get(cgiList.comment.search,param,callback);
+}
+db.comment.staring = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.comment.staring,param,callback);
+}
+db.comment.collected = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.comment.collected,param,callback);
+}
+
+db.comment.delete = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.comment.delete,param,callback);
+}
+
+db.comment.star = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.comment.star,param,callback);
+}
+
+db.comment.collect = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.comment.collect,param,callback);
 }
 
 db.comment.create = function(param,callback){

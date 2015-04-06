@@ -24,43 +24,17 @@
     </div>
   </header>
   <section id="mySubjectBlock"> 
-    <header class="header-top">
-      <div class="header-left">
-        <span class="fui-user">我创建的</span>
-        <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus"  data-toggle="modal" data-target="#createSubject">创建主题</a></span>
-      </div>
-
-      <div class="header-right">
-        共20个主题 上一页 下一页
-        <div class="btn-group">
-          <a class="btn btn-primary active time" href="#fakelink">按创建时间排序</a>
-          <a class="btn btn-primary update" href="#fakelink">按更新时间排序</a>
-        </div>
-        <span class="fui-triangle-down"></span>
-      </div>     
-    </header>
-
-    <div class="article-list" id="mySubject">
-      <dl class="art-list">
-        <dt>主题标题主题标题主题标题主题标题主题标题主题标题主题标题主题标题</dt>
-        <dd>创建人 刘小明 创建时间 2014-02-28 最近更新 2014-03-01 主题资源 86 22个成员 209个帖子 1024个资源</dd>
-      </dl> 
-
-      <dl class="art-list">
-        <dt>主题标题主题标题主题标题主题标题主题标题主题标题主题标题主题标题</dt>
-        <dd>创建人 刘小明 创建时间 2014-02-28 最近更新 2014-03-01 主题资源 86 22个成员 209个帖子 1024个资源</dd>
-      </dl> 
-
-      <dl class="art-list">
-        <dt>主题标题主题标题主题标题主题标题主题标题主题标题主题标题主题标题</dt>
-        <dd>创建人 刘小明 创建时间 2014-02-28 最近更新 2014-03-01 主题资源 86 22个成员 209个帖子 1024个资源</dd>
-      </dl>                  
-    </div>
 
   </section>
 
   <section id="myFollowBlock">
   </section>
+
+  <section id="myInvitedBlock">
+  </section>  
+
+  <section id="myArchivedBlock">
+  </section>    
 
 
   <div class="modal fade" id="createSubject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -96,15 +70,6 @@
                 <ul class="label-list"></ul>
               </div>
             </div>    
-            <!--
-            <div class="form-group">
-              帖子标签 <span class="tag label label-info fui-plus" data-action="label.artlabel">&nbsp;</span>
-              <div id="nowArtLabel" class="bootstrap-tagsinput"></div>
-              <div id="addArtLabel">
-
-              </div>
-            </div> 
-            -->
             <div class="form-group">
               <!--主题资源 <input type="checkbox" />-->
               <div class="form-group">
@@ -117,12 +82,6 @@
               </div>   
               <div id="nowRes" class="bootstrap-tagsinput" style="display:none"></div>           
             </div>   
-            <!--                                               
-            <div class="form-group">
-              <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-id-custom-switch-01 bootstrap-switch-off bootstrap-switch-animate"><div class="bootstrap-switch-container"><span class="bootstrap-switch-handle-on bootstrap-switch-primary">ON</span><label class="bootstrap-switch-label">&nbsp;</label><span class="bootstrap-switch-handle-off bootstrap-switch-default">OFF</span><input type="checkbox" checked="" data-toggle="switch" id="custom-switch-01"></div></div>
-            </div> 
-            -->
-
             <div class="form-group">
               <textarea type="text" class="form-control" value="" placeholder="备注" id="subjectMark"></textarea>
             </div>            

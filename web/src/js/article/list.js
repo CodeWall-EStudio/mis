@@ -16,16 +16,10 @@ aList.init = function(id,module,tmp){
 	cgi = module;
 	tmpl = tmp;
 
-	new article();
-
-	// aList.search({
-	// 	start : start,
-	// 	limit : limit,
-	// 	subjectId : nowSubId
-	// })
+	//return new article();
 }
 
-var article = function(){
+function article(){
 	this.dom = $("#articleList");
 	this.start = 0,
 	this.limit = 20;
@@ -33,10 +27,17 @@ var article = function(){
 	this.length = 0;
 	this.end = false;
 	this.loading = false;
+
 	this.subid = nowSubId;
+	this.msg = window.striker.msg;
 
 	this.bindAction();
 	this.search();
+}
+
+//把回复相关的东东绑定进来
+article.prototype.bind = function(obj){
+	this.commentPost = obj.post;
 }
 
 //计算图片的个数
@@ -81,6 +82,16 @@ article.prototype.bindAction = function(){
             _this.loadMore();
         }                
     });	
+
+	this.dom.bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+
+		if(action && _this[action]){
+			_this.target = target;
+			_this[action](e);
+		}
+	})    
 }
 
 //加载更多
@@ -133,11 +144,86 @@ article.prototype.search = function(param){
 	});	
 }
 
+article.prototype.setup = function(){
+	var id = this.target.data('id'),
+		star = parseInt(this.target.data('status'));
+
+	if(!star){
+		star = 0;
+	}
+
+	if(id){
+		var dom = this.target;
+		var param = {
+			articleId : id,
+			isStar : star ? 0 :1
+		};
+		var text = star?'赞':'已赞';
+		cgi.star(param,function(res){
+			if(res.code === 0){
+				dom.data('status',param.isStar);
+				dom.html('<span></span>'+text);
+			}
+		});
+	}
+}
+
+article.prototype.collect = function(){
+	var id = this.target.data('id');
+
+	if(id){
+		var dom = this.target;
+		var param = {
+			articleId : id
+		};
+		cgi.collect(param,function(res){
+			if(res.code === 0){
+				dom.attr('data-id',0);
+			}
+		});
+	}
+}
+
+article.prototype.delete = function(){
+	var id = this.target.data('id');
+
+	if(id){
+
+		var _this = this;
+		this.msg.confirm('确定要删除该帖子?',null,function(){
+			var param = {
+				articleId : id
+			};
+			cgi.delete(param,function(res){
+				if(res.code === 0){
+					$(".article"+id).remove();
+				}
+			});
+		});
+	}
+}
+
+article.prototype.replay = function(){
+	var id = this.target.data('id');
+	if(id){
+		this.commentPost.showPost(id);
+	}
+}
+
+//把新发布的帖子加到列表最前面
+article.prototype.prependToList = function(param){
+	var html = tmpl.list({list:[param]});
+	this.dom.prepend(html);
+}
+
+
 //把新发布的帖子加到列表最前面
 aList.prependToList = function(param){
 		var html = tmpl.list({list:[param]});
 		listDom.prepend(html);
 }
+
+aList.article = article;
 
 //加载更多数据
 /*

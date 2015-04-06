@@ -18,9 +18,9 @@ var tmpl = {
 var proMap = {
 	mySubject : '我创建的',
 	myFollow : '我关注的',
-	myInvite : '邀请我的',
+	myInvited : '邀请我的',
 	open : '公开主题',
-	file : '归档主题'
+	myArchived : '归档主题'
 }
 
 var Subject = {};
@@ -176,6 +176,10 @@ Subject.area.prototype.getDate = function(param){
 	var funname = 'search';
 	if(this.proName === 'myFollow'){
 		funname = 'following';
+	}else if (this.proName === 'myInvite'){
+		funname = 'invited';
+	}else if (this.proName === 'myArchived'){
+		funname = 'archived';
 	}
 
 	cgi[funname](param,function(res){

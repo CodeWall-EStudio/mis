@@ -101,7 +101,7 @@ exports.create = function(req, res) {
             }
 
             var rows =
-                yield req.conn.yieldQuery('SELECT * FROM article WHERE id = ?', articleId);
+                yield req.mysql('SELECT a.*,u.name as creatorName FROM article a,user u WHERE a.creator =u.id and a.id = ?', articleId);
 
             // 提交事务
             conn.commit(function(err) {
@@ -277,17 +277,43 @@ exports.search = function(req, res) {
         //标签id列表,资源id列表
         var labelMap = [],
             resMap = [],
+            createId = [],
+            updateId = [],
             articleId = [];
 
         for (var i in rows) {
             articleId.push(rows[i].id);
             resMap[rows[i].id] = i;
+            createId.push(rows[i].creator);
+            updateId.push(rows[i].updator);
             labelMap[rows[i].id] = i;
         }
 
         //取标签
-        //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
+//         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
         if (rows.length) {
+            var slist = 
+                 yield req.conn.yieldQuery('select ast.id,ast.article_id as aid from article_star ast where ast.article_id in (' + articleId.join(',') + ')');
+
+            for (var i = 0, l = slist.length; i < l; i++) {
+                var item = slist[i];
+                var idx = resMap[item.aid];
+                if (!rows[idx].isStar) {
+                    rows[idx].isStar = 1;
+                }
+            }
+
+            var clist = 
+                 yield req.conn.yieldQuery('select ac.id,ac.article_id as aid from article_collect ac where ac.article_id in (' + articleId.join(',') + ')');
+
+            for (var i = 0, l = clist.length; i < l; i++) {
+                var item = clist[i];
+                var idx = resMap[item.aid];
+                if (!rows[idx].isCollect) {
+                    rows[idx].isCollect = 1;
+                }
+            }            
+
             var llist =
                 yield req.conn.yieldQuery('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_label a,label b WHERE label_id IN (' + articleId.join(',') + ') AND a.label_id = b.id');
             for (var i = 0, l = llist.length; i < l; i++) {

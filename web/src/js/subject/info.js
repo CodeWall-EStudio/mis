@@ -39,6 +39,8 @@ var info = function(id){
 	this.timeBtn;   //按时间排序
 	this.updateBtn; //按更新时间排序
 
+	this.data = {};
+
 	this._selectDom;
 	this.msg = window.striker.msg;
 }
@@ -63,6 +65,15 @@ info.prototype.deleteResource = function(e){
 		});
 	}
 };
+
+//把其他的对象的引用传进来.
+info.prototype.bind = function(obj){
+	this.post = obj.post;
+}
+
+info.prototype.manage = function(){
+	this.post.edit(this.data);
+}
 
 //预览主题相关资源
 info.prototype.reviewResource = function(e){
@@ -103,6 +114,7 @@ info.prototype.getData = function(){
 
 			res.data.my = data.user.myInfo;
 			var html = tmpl.aside(res.data);
+			_this.data = res.data;
 			_this.asideDom.html(html);
 
 			_this.followBtn = _this.dom.find('.follow-btn');
