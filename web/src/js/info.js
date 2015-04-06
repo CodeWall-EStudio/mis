@@ -14,11 +14,15 @@ var nowSubId = striker.util.getParameter('id');
 //事件通知,用户资料已经加载完成
 //主题列表的通知事件
 function userLoadSub(e,d){
-	 var subinfo = new subject.info(nowSubId);
-
+	 var subInfo = new subject.info(nowSubId);
+	 var subPost = new subject.create(nowSubId);
 	 var articleList = new article.list(nowSubId);
 	 var cpost = new comment.post(0,nowSubId); 
 
+
+	 subInfo.bind({
+	 	post : subPost
+	 });
 	 cpost.bind({
 	 	list : articleList
 	 });

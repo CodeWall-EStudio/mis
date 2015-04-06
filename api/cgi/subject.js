@@ -371,10 +371,15 @@ exports.info = function(req, res) {
         sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
         sql += '(SELECT COUNT(DISTINCT ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
         sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM subject s,user u WHERE s.id = ? AND s.creator = u.id';
-        console.log(sql);
+
         var rows =
             yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.id]);
         if (rows.length) {
+            //标签..
+            var sql = 'select sl.*,l.name from subject_label sl,label l where sl.label_id = l.id and sl.subject_id=?';
+            var lrows = yield req.conn.yieldQuery(sql,[params.id]);
+            rows[0].labels = lrows;
+
             /*
             主题的资源在这儿取...因为方正需要把资源单独拉一次...
             */

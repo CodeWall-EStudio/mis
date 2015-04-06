@@ -53,6 +53,21 @@ sCreate.create.prototype.changeType = function(type){
 	this.type = 'type'
 }
 
+sCreate.create.prototype.edit = function(data){
+	//this.type = 'type';
+	//把管理员显示出来,貌似数据不支持?
+
+
+	//把标签显示出来
+
+	//把资源加进来
+	var html = tmpl.rlist({
+		list : data.resourceList
+	});
+	this.resDom.append(html).show();	
+}
+
+
 sCreate.create.prototype.removeRes = function(e){
 	var target = $(e.target),
 		p = target.parent();
@@ -85,8 +100,6 @@ sCreate.create.prototype.getLabelList = function(){
 sCreate.create.prototype.getManageList = function(){
 	return this.manage.getManageList();
 }
-
-
 
 sCreate.create.prototype.bindAction = function(param,cb){
 	var _this = this;
@@ -132,24 +145,6 @@ sCreate.create.prototype.bindAction = function(param,cb){
 				mark = $("#subjectMark").val(),
 				open = $("#subjectOpen").prop('checked')?1:0,
 				guest = $("#subjectGuest").prop('checked')?1:0;
-
-			// var mlist = [];
-			// $("#nowManage .tag").each(function(e){
-			// 	var target = $(e.target),
-			// 		id = target.data('id');
-			// 	if(id){
-			// 		mlist.push(id);
-			// 	}
-			// });
-
-			// var llist = [];
-			// $("#nowSubLabel .tag").each(function(e){
-			// 	var target = $(e.target),
-			// 		id = target.data('id');
-			// 	if(id){
-			// 		llist.push(id);
-			// 	}				
-			// })
 
 			if(tit == ''){
 				alert('还没有填写标题');
