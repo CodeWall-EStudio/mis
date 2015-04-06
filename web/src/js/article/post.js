@@ -12,6 +12,14 @@ var aPost = {},
 module.exports = aPost;
 var listDom = $("#articleList"),
 	resList = [];
+var striker = $(window.striker);	
+
+var cgi = require('../common/cgi').article;
+var tmpl = {
+	list : require('../../tpl/article/list.ejs'),
+	rlist : require('../../tpl/resource/list.ejs')   //资源列表
+};
+
 
 //重置一个from
 function resetFrom(target){
@@ -32,10 +40,18 @@ var post = function(){
 	this.cDom = $("#createArticle"); //弹出发表框
 	this.presDom = this.pDom.find('.post-res');/// = $("")
 	this.cresDom = this.cDom.find('.pop-res');
+	this.ctitDom = this.cDom.find('.modal-title');
 	this.model = 'post';//post 底部 pop 弹出窗口
+
+	this.isEdit = false;
 
 	var _this = this;
 	this.cDom.on('show.bs.modal', function (e) {
+		if(_this.isEdit){
+			_this.ctitDom.text('修改帖子');
+		}else{
+			_this.ctitDom.text('新建帖子');
+		}
 		_this.model = 'pop';
 	});
 
@@ -43,7 +59,7 @@ var post = function(){
 		_this.model = 'post';
 	});
 
-
+	this.data = {};
 	this.resList = [];
 	this.resMap = {};
 
@@ -103,10 +119,36 @@ post.prototype.removeRes = function(e){
 	}
 }
 
+post.prototype.edit = function(d){
+	this.isEdit = true;
+	this.data = d;
+	this.cDom.modal('show');
+	this.cDom.find('input[name=name]').val(d.title);
+	this.cDom.find('textarea[name=content]').val(d.content);
+
+	if(d.resourceList.length){
+		this.resList = [];
+		this.resMap = {};
+		for(var i in d.resourceList){
+			var item = d.resourceList[i];
+			this.resList.push(item.id);
+			this.resMap[item.id] = item;
+		}
+		var html = tmpl.rlist({
+			list : d.resourceList
+		});
+		this.cresDom.append(html).show();	
+	}
+}
+
 
 post.prototype.bindAction = function(){
 	var _this = this;	
 	//资源上传完成的通知
+
+	striker.bind('editArticle',function(e,d){
+		_this.edit(d);
+	});
 
 	window.uploadComp = function(d){
 		
@@ -114,7 +156,6 @@ post.prototype.bindAction = function(){
 			$(striker).trigger('uploadFile',d);
 			return;
 		}
-	//window.addEventListener('uploadComp',function(d){
 		if(d.code === 0){
 			_this.resList.push(d.data.id);
 			_this.resMap[d.data.id] = d.data;
@@ -188,17 +229,36 @@ post.prototype.post = function(){
 	this.loading = true;
 	var param = this.getParam(pTarget);
 	var _this = this;
-	cgi.create(param,function(res){
-		_this.loading = false;
-		if(pTarget.hasClass('modal')){
-			aPost.reset(pTarget);
-		}
-		if(res.code === 0){
-			console.log(striker.article);
-			striker.article.appendToList(res.data);
-		}
-		_this.clear();
-	});	
+
+	if(this.isEdit){
+		param.subjectId = this.data.subject_id;
+		param.articleId = this.data.id;
+		cgi.edit(param,function(res){
+			_this.loading = false;
+			if(pTarget.hasClass('modal')){
+				aPost.reset(pTarget);
+			}
+			if(res.code === 0){
+				this.cDom.modal('hide');
+				striker.trigger('articleEdited',res.data);
+				//striker.article.appendToList(res.data);
+			}
+			_this.clear();
+		});	
+	}else{
+		cgi.create(param,function(res){
+			_this.loading = false;
+			if(pTarget.hasClass('modal')){
+				aPost.reset(pTarget);
+
+			}
+			if(res.code === 0){
+				console.log(striker.article);
+				striker.article.appendToList(res.data);
+			}
+			_this.clear();
+		});	
+	}
 }
 //重置一个from
 aPost.reset = function(target){

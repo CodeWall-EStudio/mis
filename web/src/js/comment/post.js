@@ -13,6 +13,8 @@ var post = function(id,sid){
 	this.popContentDom = this.popDom.find('textarea[name=content]');
 	this.popTitleDom = this.popDom.find('input[name=name]');
 	this.cresDom = this.popDom.find('.pop-res');
+	this.ctitDom = this.popDom.find('.modal-title');
+	console.log(this.ctitDom);
 
 	this.artId = id;
 	this.subId = sid;	
@@ -22,6 +24,7 @@ var post = function(id,sid){
 
 	this.bindAction();
 	this.loading = false;
+	this.isEdit = false;
 	// articleList.init(id,cgi,tmpl);
 	// articlePost.init(id,cgi,tmpl);
 }
@@ -76,6 +79,26 @@ post.prototype.create = function(){
 	});
 }
 
+post.prototype.edit = function(d){
+	this.isEdit = true;
+	this.popContentDom.val(d.content);
+	this.popTitleDom.val(d.title);
+	this.data = d;
+
+	if(d.resource){
+		for(var i in d.resource){
+			var item = d.resource[i];
+			this.resList.push(item.id);
+			this.resMap[item.id] = item;
+		}
+		var html = tmpl.rlist({
+			list : d.resource
+		});
+		this.cresDom.append(html).show();	
+	}
+	this.popDom.modal('show');
+}
+
 post.prototype.post = function(){
 
 	var content = this.popContentDom.val();
@@ -94,17 +117,33 @@ post.prototype.post = function(){
 		resources : this.getResList()
 	};
 
-	cgi.create(param,function(res){
-		_this.loading = true;
-		if(res.code === 0){
-			if(_this.cList){
-				_this.cList.append(res.data);
+	if(this.isEdit){
+		param.commentId = this.data.id;
+
+		cgi.edit(param,function(res){
+			_this.loading = true;
+			if(res.code === 0){
+				if(_this.cList){
+					_this.cList.update(res.data);
+				}
+				_this.popContentDom.val('');
+				_this.popTitleDom.val('');
+				_this.popDom.modal('hide');
 			}
-			_this.popContentDom.val('');
-			_this.popTitleDom.val('');
-			_this.popDom.modal('hide');
-		}
-	});
+		});
+	}else{
+		cgi.create(param,function(res){
+			_this.loading = true;
+			if(res.code === 0){
+				if(_this.cList){
+					_this.cList.append(res.data);
+				}
+				_this.popContentDom.val('');
+				_this.popTitleDom.val('');
+				_this.popDom.modal('hide');
+			}
+		});
+	}
 }
 
 post.prototype.reset = function(){
@@ -167,11 +206,17 @@ post.prototype.bindAction = function(id,name){
 	})	
 
 	this.popDom.on('show.bs.modal', function (e) {
+		if(_this.isEdit){
+			_this.ctitDom.text('修改回复');
+		}else{
+			_this.ctitDom.text('新建回复');
+		}
 		window.striker.commentshow = true;
 	});
 
 	this.popDom.on('hide.bs.modal', function (e) {
 		window.striker.commentshow = false;
+		_this.isEdit = false;
 	});	
 
 	this.dom.bind('click',function(e){

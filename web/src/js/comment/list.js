@@ -19,11 +19,29 @@ var list = function(id,sid){
 	this.post = window.striker.commentpost;
 	this.msg = window.striker.msg;
 
+	this.map = {};
 	// articleList.init(id,cgi,tmpl);
 	// articlePost.init(id,cgi,tmpl);
 	this.target;
 	this.bindAction();
 	this.getDate();
+}
+
+list.prototype.saveData = function(data){
+	for(var i in data.list){
+		var item = data.list[i];
+		this.map[item.id] = item;
+	}
+}
+
+list.prototype.update = function(data){
+	if(data){
+		var html = tmpl.list({
+			list : [data]
+		});	
+		$(".comment"+data.id).replaceWith(html);
+	}
+	
 }
 
 list.prototype.getDate = function(){
@@ -40,10 +58,18 @@ list.prototype.getDate = function(){
 		this.loading = false;
 		if(res.code === 0){
 			_this.start += _this.limit;
+			_this.saveData(res.data);
 			var html = tmpl.list(res.data);
 			_this.dom.append(html);
 		}
 	});
+}
+
+list.prototype.edit = function(){
+	var id = this.target.data('id');	
+	if(this.map[id]){
+		this.post.edit(this.map[id]);
+	}
 }
 
 list.prototype.orderbycreate = function(){
@@ -153,8 +179,8 @@ list.prototype.append = function(data){
 	this.dom.prepend(html);
 }
 
-list.prototype.bindFun = function(info){
-	this.artInfo = info;
+list.prototype.bind = function(obj){
+	this.artInfo = obj.info;
 }
 
 list.prototype.bindAction = function(){

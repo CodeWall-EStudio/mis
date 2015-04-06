@@ -151,14 +151,18 @@ exports.edit = function(req, res) {
             }
 
             Logger.info('update article', articleId, params);
-            // 清除所有对应标签
-            yield clearArticleLables(req, articleId);
-            // 更新标签
-            yield insertArticleLables(req, articleId, params.labels);
-            // 清除所有对应资源
-            yield clearArticleResources(req, articleId);
-            // 更新资源
-            yield insertArticleResource(req, articleId, params.resources);
+            if(params.lables){
+                // 清除所有对应标签
+                yield clearArticleLables(req, articleId);
+                // 更新标签
+                yield insertArticleLables(req, articleId, params.labels);
+            }
+            if(params.resources){
+                // 清除所有对应资源
+                yield clearArticleResources(req, articleId);
+                // 更新资源
+                yield insertArticleResource(req, articleId, params.resources);
+            }
             // 更新article
             Logger.info(articleId);
 
@@ -171,6 +175,42 @@ exports.edit = function(req, res) {
             });
 
             Logger.info(articleId);
+
+
+            var sql = 'SELECT a.*,u.name,';
+            sql += '(select count(c.id) from comment c where c.article_id =?) as commentCount ';
+            sql += 'FROM article a,user u';
+            sql += ' WHERE u.id = a.creator and a.id = ?';
+
+            var rows =
+                yield req.conn.yieldQuery(sql, [params.articleId, params.articleId]);
+            if (rows.length) {
+
+                var sql = 'SELECT r.* FROM resource r,article_resource ar WHERE ar.resource_id=r.id AND ar.article_id=?';
+                var rrows =
+                    yield req.conn.yieldQuery(sql, [params.articleId]);
+
+                var articleResourceCount = rrows.length;
+                var resourceList = [];
+
+                if (rrows.length) {
+                    resourceList = rrows;
+                }
+
+                rows[0].articleResourceCount = articleResourceCount;
+                rows[0].resourceList = resourceList;
+
+                res.json({
+                    code: ERR.SUCCESS,
+                    data: rows[0]
+                });
+            } else {
+                res.json({
+                    code: ERR.NOT_FOUND,
+                    msg: '没有找到该帖子'
+                });
+
+            }
 
 
             // mysql issue: https://github.com/felixge/node-mysql/issues/867

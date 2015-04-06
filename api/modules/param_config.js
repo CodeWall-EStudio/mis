@@ -394,6 +394,33 @@ module.exports = {
             type: '[number]'
         }]
     },
+    '/cgi/comment/edit': {
+        method: 'POST',
+        params: [{
+            name: 'commentId',
+            required: true,
+            type: 'number'
+        }, {
+            name: 'subjectId',
+            required: true,
+            type: 'number'
+        }, {
+            name: 'articleId',
+            required: true,
+            type: 'number'
+        }, {
+            name: 'title'
+        }, {
+            name: 'content',
+            required: true
+        }, {
+            name: 'labels',
+            type: '[number]'
+        }, {
+            name: 'resources',
+            type: '[number]'
+        }]
+    },    
     '/cgi/comment/search': {
         method: 'GET',
         params: [{

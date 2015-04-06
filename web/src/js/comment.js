@@ -1,6 +1,7 @@
 require('./common/global');
 var user = require('./user/user'),
 	article = require('./article/info'),
+	articlepost = require('./article/post'),
 	list = require('./comment/list'),
 	post = require('./comment/post'),
 	msg = require('./common/msg'),
@@ -18,10 +19,18 @@ function userLoadSub(e,d){
 
  	 var clist = new list.list(nowArtId,nowSubjectId);
  	 window.striker.commentlist = clist;
+
+ 	 var apost = new articlepost.post(nowArtId,nowSubjectId);
 	 
 	 var artInfo = new article.info(nowArtId,nowSubjectId);
 	 cpost.bindFun(clist);
-	 clist.bindFun(artInfo);
+	 clist.bind({
+	 	info:artInfo
+	 });
+
+	 artInfo.bind({
+	 	post: apost
+	 })
 }
 
 var handlers = {

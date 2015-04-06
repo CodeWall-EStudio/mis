@@ -5,6 +5,7 @@ var tmpl = {
 
 var Info = {}
 module.exports = Info;
+var striker = $(window.striker);
 
 var articleInfo = function(id,sid){
 
@@ -35,13 +36,24 @@ articleInfo.prototype.getDate = function(){
 	});
 }
 
+articleInfo.prototype.bind = function(){
+
+}
+
 articleInfo.prototype.bindAction = function(){
 	var _this = this;
+	striker.bind('articleEdited',function(e,d){
+		d.sid = _this.subId;
+		_this.data = d;
+		console.log(d);
+		var html = tmpl.info(d);
+		_this.dom.html(html);
+	});
+
 	this.dom.bind('click',function(e){
 		var target = $(e.target),
 			action = target.data('action');
 
-		_this._selectDom = target;
 		if(action && _this[action]){
 			_this.target = target;
 			_this[action](e);
@@ -58,7 +70,7 @@ articleInfo.prototype.setup = function(){
 }
 
 articleInfo.prototype.edit = function(){
-	console.log('edit');	
+	striker.trigger('editArticle',this.data);
 }
 
 articleInfo.prototype.delete = function(){

@@ -40,7 +40,7 @@ function insertCommentResource(req, resources, commentId, articleId, subjectId) 
 }
 
 function clearCommentResources(req, commentId) {
-    return req.conn.yieldQuery('DELETE FROM comment_resource where comment_id=?', articleId);
+    return req.conn.yieldQuery('DELETE FROM comment_resource where comment_id=?', commentId);
 }
 
 
@@ -146,6 +146,115 @@ exports.create = function(req, res) {
     });
 
 }
+
+exports.edit = function(req, res) {
+    var params = req.parameter;
+    Logger.info('[do comment edit]', params);
+
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+    var conn = req.conn;
+
+    // 开启一个事务, 这里涉及很多个表的修改, 因此加入事务保证
+    conn.beginTransaction(function(err) {
+        co(function*() {
+            var commentId = params.commentId;
+            console.log(params);
+            var rows =
+                yield req.conn.yieldQuery('select * from comment WHERE id=?', commentId);
+
+            if (rows.length == 0) {
+                throw new Error("无此帖子");
+            }
+
+            Logger.info('update comment', commentId, params);
+            if(params.resources){
+                // 清除所有对应资源
+                yield clearCommentResources(req, commentId);
+                // 更新资源
+                yield insertCommentResource(req, params.resources, commentId, params.articleId,params.subjectId);
+            }
+            // 更新article
+            Logger.info(commentId);
+
+            yield req.conn.yieldQuery('UPDATE comment SET ? WHERE id=' + commentId, {
+                title: params.title,
+                content: params.content,
+                subject_id: params.subjectId,
+                article_id: params.articleId,
+                creator: loginUser.id,
+                updator: loginUser.id
+            });
+
+            Logger.info(commentId);
+
+
+            var sql = 'SELECT a.*,u.name ';
+            sql += 'FROM comment a,user u';
+            sql += ' WHERE u.id = a.creator and a.id = ?';
+
+            console.log(sql,commentId);
+
+            var rows =
+                yield req.conn.yieldQuery(sql, commentId);
+
+            if (rows.length) {
+
+                var sql = 'SELECT r.* FROM resource r,comment_resource ar WHERE ar.resource_id=r.id AND ar.comment_id=?';
+                var rrows =
+                    yield req.conn.yieldQuery(sql, [params.commentId]);
+
+                var articleResourceCount = rrows.length;
+                var resourceList = [];
+
+                if (rrows.length) {
+                    resourceList = rrows;
+                }
+
+                rows[0].articleResourceCount = articleResourceCount;
+                rows[0].resource = resourceList;
+
+                res.json({
+                    code: ERR.SUCCESS,
+                    data: rows[0]
+                });
+            } else {
+                res.json({
+                    code: ERR.NOT_FOUND,
+                    msg: '没有找到该帖子'
+                });
+
+            }
+
+
+            // mysql issue: https://github.com/felixge/node-mysql/issues/867
+            // Parser.js throw err; undefined is not a function
+
+            // 提交事务
+            conn.commit(function(err) {
+                if (err) {
+                    throw err;
+                }
+                res.json({
+                    code: ERR.SUCCESS,
+                    data: rows[0]
+                });
+            });
+            conn.release();
+        }).catch(function(err) {
+            Logger.error(err.stack);
+            conn.rollback(function() {
+                res.json({
+                    code: ERR.DB_ERROR,
+                    msg: '修改帖子失败',
+                    detail: err.message
+                });
+            });
+            conn.release();
+        });
+    });
+
+};
 
 exports.delete = function(req, res) {
     var params = req.parameter;

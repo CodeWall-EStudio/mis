@@ -20,7 +20,8 @@ sCreate.create = function(){
 
 	//这里考虑下要不要传参指定dom;
 	this.dom = $("#createSubject");
-
+	this.titleDom = this.dom.find('.modal-title');
+	
 	//固定的id
 	this.resDom = $("#nowRes");
 
@@ -32,6 +33,7 @@ sCreate.create = function(){
 
 	this.dom.on('show.bs.modal', function (e) {
 		//striker.user.addDefManage();
+		_this.titleDom.text('新建帖子');
 		manage.init();
 	});
 
@@ -59,8 +61,7 @@ sCreate.create.prototype.changeType = function(type){
 
 sCreate.create.prototype.edit = function(data){
 	//this.type = 'type';
-	console.log(data);
-
+	this.titleDom.text('修改帖子');
 	$("#subjectTitle").val(data.title),
 	$("#subjectMark").val(data.mark),
 	$("#subjectOpen").prop('checked',data.private);

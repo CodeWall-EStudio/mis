@@ -645,6 +645,13 @@ li {
   margin-top: 4px;
 }
 
+.upload-area input {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 50px;
+}
+
 .comment-one-aside {
   position: absolute;
   top: 20px;

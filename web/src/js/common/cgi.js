@@ -40,6 +40,7 @@ var cgiList = {
 		collected : cgiPath+'comment/collected',
 		star : cgiPath+'comment/star',
 		delete : cgiPath+'comment/delete',
+		edit : cgiPath+'comment/edit',
 		collect : cgiPath+'comment/collect',
 		create : cgiPath+'comment/create'
 	},
@@ -181,6 +182,10 @@ db.article.create = function(param,callback){
 	var callback = checkCallback(callback,true);
 	request.post(cgiList.article.create,param,callback);
 }
+db.article.edit = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.article.edit,param,callback);
+}
 
 db.article.delete = function(param,callback){
 	var callback = checkCallback(callback,true);
@@ -230,6 +235,11 @@ db.comment.collect = function(param,callback){
 db.comment.create = function(param,callback){
 	var callback = checkCallback(callback,true);
 	request.post(cgiList.comment.create,param,callback);
+}
+
+db.comment.edit = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.comment.edit,param,callback);
 }
 
 db.label = {};
