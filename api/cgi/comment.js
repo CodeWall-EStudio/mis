@@ -3,6 +3,7 @@ var ERR = require('../errorcode');
 var Logger = require('../logger');
 var config = require('../config');
 var db = require('../modules/db');
+var notification = require('../modules/notification');
 
 /*
 暂时不用.
@@ -25,20 +26,21 @@ function clearArticleLables(req,articleId){
 }
 */
 
-function insertCommentResource(req,resources,commentId,articleId,subjectId){
+function insertCommentResource(req, resources, commentId, articleId, subjectId) {
     if (!resources || !resources.length) {
         return;
     }
-    var columns = ['resource_id','comment_id','article_id', 'subject_id'];
+    var columns = ['resource_id', 'comment_id', 'article_id', 'subject_id'];
     var values = [];
     for (var i in resources) {
-        values.push([resources[i],commentId,articleId,subjectId]);
+        values.push([resources[i], commentId, articleId, subjectId]);
     }
     return req.conn.yieldQuery('INSERT INTO comment_resource (??) VALUES ?', [columns, values]);
-    
+
 }
-function clearCommentResources(req,commentId){
-    return req.conn.yieldQuery('DELETE FROM comment_resource where comment_id=?',articleId);
+
+function clearCommentResources(req, commentId) {
+    return req.conn.yieldQuery('DELETE FROM comment_resource where comment_id=?', articleId);
 }
 
 
@@ -55,6 +57,19 @@ exports.create = function(req, res) {
             return db.handleError(req, res, err);
         }
         co(function*() {
+
+            var rows =
+                yield req.conn.yieldQuery('SELECT * FROM article WHERE id = ?', [params.articleId]);
+            if (!rows.length) {
+                res.json({
+                    code: ERR.NOT_FOUND,
+                    msg: '找不到该帖子'
+                });
+                req.conn.release();
+                return;
+            }
+            var article = rows[0];
+
             // 插入主题
             var result =
                 yield req.conn.yieldQuery('INSERT INTO comment SET ? ', {
@@ -83,17 +98,26 @@ exports.create = function(req, res) {
             //     }
             //     yield req.conn.yieldQuery('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
             // }
-            if(params.resources){
-                yield insertCommentResource(req,params.resources,commentId,params.articleId,params.subjectId);
+            if (params.resources) {
+                yield insertCommentResource(req, params.resources, commentId, params.articleId, params.subjectId);
             }
-            
+
             var rows =
                 yield req.conn.yieldQuery('SELECT c.*,u.name FROM comment c,user u WHERE u.id = c.creator and c.id = ?', commentId);
 
             var rrows =
-            	yield req.conn.yieldQuery('select cr.id,r.* from comment_resource cr,resource r where cr.resource_id = r.id and comment_id = ?',commentId);
+                yield req.conn.yieldQuery('select cr.id,r.* from comment_resource cr,resource r where cr.resource_id = r.id and comment_id = ?', commentId);
 
             rows[0].resources = rrows;
+
+            // 放入通知
+            yield notification.notify(req.conn, loginUser.id, config.NOTIFY_REPLY, article.creator, {
+                articleId: article.id,
+                articleTitle: article.title,
+                commentId: commentId,
+                commentTitle: params.title
+            }, loginUser.name + '回复了你的帖子"' + article.title + '"');
+
 
             // 提交事务
             conn.commit(function(err) {
@@ -178,7 +202,7 @@ exports.delete = function(req, res) {
 
 }
 
-exports.search = function(req,res){
+exports.search = function(req, res) {
     var params = req.parameter;
 
     var loginUser = req.loginUser;
@@ -187,37 +211,38 @@ exports.search = function(req,res){
 
     Logger.info('[do comment search: ', params);
     co(function*() {
-    	var articleId = params.articleId,
-    		subjectId = params.subjectId;
+        var articleId = params.articleId,
+            subjectId = params.subjectId;
 
-    	var sql = 'SELECT COUNT(*) FROM comment WHERE article_id = ?';
+        var sql = 'SELECT COUNT(*) FROM comment WHERE article_id = ?';
         var rows =
             yield req.conn.yieldQuery(sql, articleId);
 
         var total = rows[0].count;
 
         sql = 'select c.*,u.name as creatorName from comment c,user u where c.creator = u.id and article_id =?';
-        if(params.creatorId){
-        	sql += ' and creator =? ORDER BY ?? DESC LIMIT ?, ?';
-        	rows =
-            	yield req.conn.yieldQuery(sql, [articleId,params.creatorId,params.orderby ?  params.orderby : 'updateTime', params.start, params.limit]);        	        	
-        }else{
-        	sql += ' ORDER BY ?? DESC LIMIT ?, ?';
-        	rows =
-            	yield req.conn.yieldQuery(sql, [articleId,params.orderby ? params.orderby : 'updateTime', params.start, params.limit]);        	
-    	}
+        if (params.creatorId) {
+            sql += ' and creator =? ORDER BY ?? DESC LIMIT ?, ?';
+            rows =
+                yield req.conn.yieldQuery(sql, [articleId, params.creatorId, params.orderby ? params.orderby : 'updateTime', params.start, params.limit]);
+        } else {
+            sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+            rows =
+                yield req.conn.yieldQuery(sql, [articleId, params.orderby ? params.orderby : 'updateTime', params.start, params.limit]);
+        }
 
         //标签id列表,资源id列表
         var resMap = [],
             commentId = [];
 
-        for(var i in rows){
+        for (var i in rows) {
             commentId.push(rows[i].id);
             resMap[rows[i].id] = i;
         }
 
         //取标签
         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
+
         if(rows.length){
             var slist = 
                  yield req.conn.yieldQuery('select cs.id,cs.comment_id as aid from comment_star cs where cs.comment_id in (' + commentId.join(',') + ')');
@@ -243,11 +268,12 @@ exports.search = function(req,res){
 
             //取资源
             //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
-            var rlist = yield req.conn.yieldQuery('SELECT c.comment_id as cid,b.id,b.name,b.type FROM comment_resource c,resource b WHERE comment_id IN ('+commentId.join(',')+') AND c.resource_id = b.id');
-            for(var i = 0,l=rlist.length;i<l;i++){
+            var rlist =
+                yield req.conn.yieldQuery('SELECT c.comment_id as cid,b.id,b.name,b.type FROM comment_resource c,resource b WHERE comment_id IN (' + commentId.join(',') + ') AND c.resource_id = b.id');
+            for (var i = 0, l = rlist.length; i < l; i++) {
                 var item = rlist[i];
                 var idx = resMap[item.cid];
-                if(!rows[idx].resource){
+                if (!rows[idx].resource) {
                     rows[idx].resource = [];
                 }
                 rows[idx].resource.push(item);
@@ -264,7 +290,7 @@ exports.search = function(req,res){
         req.conn.release();
     }).catch(function(err) {
         db.handleError(req, res, err.message);
-    });    
+    });
 }
 
 
@@ -273,6 +299,18 @@ exports.star = function(req, res) {
     var params = req.parameter;
     var loginUser = req.loginUser;
     co(function*() {
+        var rows =
+            yield req.conn.yieldQuery('SELECT * FROM comment WHERE id = ?', [params.commentId]);
+
+        if (!rows.length) {
+            res.json({
+                code: ERR.NOT_FOUND,
+                msg: '找不到该评论'
+            });
+            req.conn.release();
+            return;
+        }
+        var comment = rows[0];
 
         if (params.isStar === 0) { // 取消赞
             var result =
@@ -294,6 +332,12 @@ exports.star = function(req, res) {
                         comment_id: params.commentId,
                         user_id: loginUser.id
                     });
+                // 放入通知
+                yield notification.notify(req.conn, loginUser.id, config.NOTIFY_STAR, comment.creator, {
+                    commentId: comment.id,
+                    commentTitle: comment.title
+                }, loginUser.name + '赞了你的评论"' + (comment.title || comment.id) + '"');
+
                 res.json({
                     code: ERR.SUCCESS
                 });

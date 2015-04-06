@@ -3,7 +3,7 @@ var ERR = require('../errorcode');
 var Logger = require('../logger');
 var config = require('../config');
 var db = require('../modules/db');
-
+var notification = require('../modules/notification');
 
 
 /**
@@ -409,6 +409,16 @@ exports.star = function(req, res) {
     var params = req.parameter;
     var loginUser = req.loginUser;
     co(function*() {
+        var rows = yield req.conn.yieldQuery('SELECT * FROM article WHERE id = ?', [params.articleId]);
+        if(!rows.length){
+            res.json({
+                    code: ERR.NOT_FOUND,
+                    msg: '找不到该帖子'
+                });
+            req.conn.release();
+            return;
+        }
+        var article = rows[0];
 
         if (params.isStar === 0) { // 取消赞
             var result =
@@ -430,6 +440,13 @@ exports.star = function(req, res) {
                         article_id: params.articleId,
                         user_id: loginUser.id
                     });
+
+                // 放入通知
+                yield notification.notify(req.conn, loginUser.id, config.NOTIFY_STAR, article.creator, {
+                    articleId: article.id,
+                    articleTitle: article.title
+                }, loginUser.name + '赞了你的帖子"' + article.title + '"');
+
                 res.json({
                     code: ERR.SUCCESS
                 });

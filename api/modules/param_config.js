@@ -515,5 +515,32 @@ module.exports = {
             type: 'number',
             required: true
         }]
+    },
+
+    // 通知
+    '/cgi/notification/search': {
+        method: 'GET',
+        params: [{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        }, {
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        },{
+            name: 'hasRead',
+            type: 'boolean'
+        }]
+    },
+    '/cgi/notification/read': {
+        method: 'POST',
+        params: [{
+            name: 'notifyId',
+            type: 'number',
+            required: true
+        }]
     }
 };

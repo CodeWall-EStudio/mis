@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.23)
 # Database: media
-# Generation Time: 2015-04-05 17:38:52 +0000
+# Generation Time: 2015-04-06 06:52:44 +0000
 # ************************************************************
 
 
@@ -355,7 +355,9 @@ LOCK TABLES `article_star` WRITE;
 
 INSERT INTO `article_star` (`id`, `article_id`, `user_id`, `createTime`)
 VALUES
-	(3,2,1,'2015-04-06 00:17:37');
+	(5,2,1,'2015-04-06 14:28:53'),
+	(6,3,1,'2015-04-06 14:29:23'),
+	(7,4,1,'2015-04-06 14:30:13');
 
 /*!40000 ALTER TABLE `article_star` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -388,7 +390,8 @@ VALUES
 	(3,'回复的标题1','回复的内容45',2,'2015-04-04 22:36:47','2015-04-04 22:36:47',50,37,2),
 	(6,'回复的标题','2123124421',2,'2015-04-04 22:56:05','2015-04-04 22:56:05',50,37,2),
 	(7,'回复的标题','回复的内容445436',2,'2015-04-04 22:58:24','2015-04-04 22:58:24',50,37,2),
-	(8,'tet1','回复的内容445436',2,'2015-04-04 22:59:32','2015-04-04 22:59:32',50,37,2);
+	(8,'tet1','回复的内容445436',2,'2015-04-04 22:59:32','2015-04-04 22:59:32',50,37,2),
+	(10,'回复的标题','回复的内容',1,'2015-04-06 14:31:48','2015-04-06 14:31:48',2,37,1);
 
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -444,7 +447,9 @@ VALUES
 	(3,48,7,50,37,'2015-04-06 01:32:05'),
 	(4,49,7,50,37,'2015-04-06 01:32:05'),
 	(5,48,8,50,37,'2015-04-06 01:32:05'),
-	(6,49,8,50,37,'2015-04-06 01:32:05');
+	(6,49,8,50,37,'2015-04-06 01:32:05'),
+	(9,48,10,2,37,'2015-04-06 14:31:48'),
+	(10,49,10,2,37,'2015-04-06 14:31:48');
 
 /*!40000 ALTER TABLE `comment_resource` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -468,7 +473,8 @@ LOCK TABLES `comment_star` WRITE;
 
 INSERT INTO `comment_star` (`id`, `comment_id`, `user_id`, `createTime`)
 VALUES
-	(1,2,1,'2015-04-06 01:18:50');
+	(1,2,1,'2015-04-06 01:18:50'),
+	(2,3,1,'2015-04-06 14:30:51');
 
 /*!40000 ALTER TABLE `comment_star` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -511,6 +517,37 @@ VALUES
 	(22,'标签1',0,1,'2015-03-25 10:00:43');
 
 /*!40000 ALTER TABLE `label` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table notification
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `notification`;
+
+CREATE TABLE `notification` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `who` int(11) DEFAULT NULL,
+  `doWhat` int(11) DEFAULT NULL,
+  `toWho` int(11) DEFAULT NULL,
+  `atTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `withData` varchar(500) DEFAULT NULL,
+  `message` varchar(500) DEFAULT NULL,
+  `hasRead` int(11) DEFAULT '0',
+  `readTime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `notification` WRITE;
+/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
+
+INSERT INTO `notification` (`id`, `who`, `doWhat`, `toWho`, `atTime`, `withData`, `message`, `hasRead`, `readTime`)
+VALUES
+	(3,1,1,1,'2015-04-06 14:30:13','{\"articleId\":4,\"articleTitle\":\"这是标题啊\"}','龙福康赞了你的帖子\"这是标题啊\"',1,'2015-04-06 14:46:52'),
+	(4,1,1,2,'2015-04-06 14:30:51','{\"commentId\":3,\"commentTitle\":\"回复的标题1\"}','龙福康赞了你的评论\"回复的标题1\"',0,NULL),
+	(5,1,4,1,'2015-04-06 14:31:48','{\"articleId\":2,\"articleTitle\":\"这是标题啊\",\"commentId\":10,\"commentTitle\":\"回复的标题\"}','龙福康回复了你的帖子\"这是标题啊\"',0,NULL);
+
+/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
