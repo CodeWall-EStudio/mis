@@ -1,7 +1,9 @@
     <header class="header-top">
       <div class="header-left">
         <span class="fui-user"><%-proText%></span>
+        <%if(proText==='我创建的'){%>
         <span class=""><a class="btn btn-block btn-lg btn-primary fui-plus"  data-toggle="modal" data-target="#createSubject" data-action="create">创建主题</a></span>
+        <%}%>
       </div>
 
       <div class="header-right">

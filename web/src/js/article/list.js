@@ -184,7 +184,7 @@ article.prototype.collect = function(){
 	}
 }
 
-article.prototype.delete = function(){
+article.prototype['delete'] = function(){
 	var id = this.target.data('id');
 
 	if(id){
@@ -194,7 +194,7 @@ article.prototype.delete = function(){
 			var param = {
 				articleId : id
 			};
-			cgi.delete(param,function(res){
+			cgi['delete'](param,function(res){
 				if(res.code === 0){
 					$(".article"+id).remove();
 				}

@@ -15,7 +15,7 @@ var cgiList = {
 		info : cgiPath+'subject/info',
 		edit : cgiPath+'subject/edit', //修改主题
 		create : cgiPath+'subject/create',
-		delete : cgiPath+'subject/delete',
+		'delete' : cgiPath+'subject/delete',
 		follow : cgiPath+'subject/follow', //关注
 		following : cgiPath+'subject/following', //关注列表
 		invited : cgiPath+'subject/invited', //邀请列表
@@ -31,7 +31,7 @@ var cgiList = {
 		edit : cgiPath+'article/edit',
 		star : cgiPath+'article/star', //赞
 		collect : cgiPath+'article/collect', //收藏
-		delete : cgiPath+'article/delete', //收藏
+		'delete' : cgiPath+'article/delete', //收藏
 		create : cgiPath+'article/create'
 	},
 	comment : {
@@ -39,7 +39,7 @@ var cgiList = {
 		staring : cgiPath+'comment/staring',
 		collected : cgiPath+'comment/collected',
 		star : cgiPath+'comment/star',
-		delete : cgiPath+'comment/delete',
+		'delete' : cgiPath+'comment/delete',
 		edit : cgiPath+'comment/edit',
 		collect : cgiPath+'comment/collect',
 		create : cgiPath+'comment/create'
@@ -116,9 +116,9 @@ db.subject.edit = function(param,callback){
 	request.post(cgiList.subject.edit,param,callback);
 }
 
-db.subject.delete = function(param,callback){
+db.subject['delete'] = function(param,callback){
 	var callback = checkCallback(callback);
-	request.post(cgiList.subject.delete,param,callback);
+	request.post(cgiList.subject['delete'],param,callback);
 }
 
 db.subject.archive = function(param,callback){
@@ -187,9 +187,9 @@ db.article.edit = function(param,callback){
 	request.post(cgiList.article.edit,param,callback);
 }
 
-db.article.delete = function(param,callback){
+db.article['delete'] = function(param,callback){
 	var callback = checkCallback(callback,true);
-	request.post(cgiList.article.delete,param,callback);
+	request.post(cgiList.article['delete'],param,callback);
 }
 
 db.article.star = function(param,callback){
@@ -217,9 +217,9 @@ db.comment.collected = function(param,callback){
 	request.get(cgiList.comment.collected,param,callback);
 }
 
-db.comment.delete = function(param,callback){
+db.comment['delete'] = function(param,callback){
 	var callback = checkCallback(callback,true);
-	request.post(cgiList.comment.delete,param,callback);
+	request.post(cgiList.comment['delete'],param,callback);
 }
 
 db.comment.star = function(param,callback){

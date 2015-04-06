@@ -1,8 +1,8 @@
 <%for(var i =0,l=list.length;i<l;i++){
   var item = list[i];
 %>
-  <article class="artice-one article<%-item.id%>">
-    <aside class="artice-one-aside"><%-striker.util.getNowTime(item.updateTime)%></aside>
+  <div class="artice-one article<%-item.id%>">
+    <div class="artice-one-aside"><%-striker.util.getNowTime(item.updateTime)%></div>
     <div class="artice-one-info">
       <div class="info-title">发帖 <%-item.creatorName%>   最后回复 <%-item.updator%></div>
       <div class="info-action">
@@ -35,5 +35,5 @@
         </div>
         <%}%>
     </div>
-  </article>
+  </div>
 <%}%>
