@@ -5,13 +5,11 @@ var cgi,
 	data = require('../data/data');
 module.exports = sInfo;
 
+var striker = $(window.striker);
+
 var subDom = $("#subjectHead");
 var subAsideDom = $("#subjectAside");
 var postArea = $("#postArticle");
-
-function bindAction(){
-	
-}
 
 sInfo.init = function(type,module,tmp){
 	cgi = module;
@@ -82,6 +80,18 @@ info.prototype.reviewResource = function(e){
 
 info.prototype.bindAction = function(){
 	var _this = this;
+	striker.bind('subjectUpdate',function(e,d){
+		_this.data = d;
+		var html = tmpl.head(d);
+		_this.dom.html(html);
+
+		res.data.my = data.user.myInfo;
+		var html = tmpl.aside(d);
+		
+		_this.asideDom.html(html);			
+	});
+
+	
 	this.dom.bind('click',function(e){
 		var target = $(e.target),
 			action = target.data('action');

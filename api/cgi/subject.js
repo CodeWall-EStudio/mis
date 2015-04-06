@@ -223,6 +223,47 @@ exports.edit = function(req, res) {
             var rows =
                 yield req.conn.yieldQuery('SELECT * FROM subject WHERE id = ?', params.subjectId);
 
+            var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+            sql += '(SELECT COUNT(DISTINCT sf.user_id) FROM subject_follow sf WHERE sf.subject_id = s.id AND sf.user_id = ?) AS follow,'
+            sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
+            sql += '(SELECT COUNT(DISTINCT ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
+            sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM subject s,user u WHERE s.id = ? AND s.creator = u.id';
+
+            var rows =
+                yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.subjectId]);
+            if (rows.length) {
+                //标签..
+                var sql = 'select sl.*,l.name from subject_label sl,label l where sl.label_id = l.id and sl.subject_id=?';
+                var lrows = yield req.conn.yieldQuery(sql,[params.subjectId]);
+                rows[0].labels = lrows;
+
+                /*
+                主题的资源在这儿取...因为方正需要把资源单独拉一次...
+                */
+                var sql = 'SELECT r.* FROM resource r,subject_resource sr WHERE sr.resource_id=r.id AND sr.subject_id=?';
+                var rrows =
+                    yield req.conn.yieldQuery(sql, [params.subjectId]);
+
+                var subjectResourceCount = rrows.length;
+                var resourceList = [];
+
+                if (rrows.length) {
+                    resourceList = rrows;
+                }
+
+                rows[0].subjectResourceCount = subjectResourceCount;
+                rows[0].resourceList = resourceList;
+
+            } else {
+
+                res.json({
+                    code: ERR.NOT_FOUND,
+                    msg: '没有找到该主题'
+                });
+
+            }
+
+
             // 提交事务
             conn.commit(function(err) {
                 if (err) {

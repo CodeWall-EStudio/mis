@@ -110,6 +110,11 @@ db.subject.create = function(param,callback){
 	request.post(cgiList.subject.create,param,callback);
 }
 
+db.subject.edit = function(param,callback){
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.subject.edit,param,callback);
+}
+
 db.subject.delete = function(param,callback){
 	var callback = checkCallback(callback);
 	request.post(cgiList.subject.delete,param,callback);

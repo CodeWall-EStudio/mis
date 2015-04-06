@@ -4,6 +4,7 @@ var sCreate = {};
 var cgi,
 	tmpl;
 module.exports = sCreate;
+var striker = $(window.striker);
 
 sCreate.init = function(type,module,tmp){
 	cgi = module;
@@ -14,6 +15,8 @@ sCreate.create = function(){
 	var _this = this;
 	//默认使用我的主题
 	this.type = 'mySubject';
+	this.isedit = false;
+	this.editData = {};
 
 	//这里考虑下要不要传参指定dom;
 	this.dom = $("#createSubject");
@@ -23,7 +26,7 @@ sCreate.create = function(){
 
 	//把用户列表哪儿创建一下.
 	//console.log(striker.user);	
-	var manage = new striker.user.manage('manageArea');
+	var manage = new window.striker.user.manage('manageArea');
 	this.manage = manage;
 	this.label = window.striker.label;
 
@@ -37,6 +40,7 @@ sCreate.create = function(){
 		_this.resDom.html('').hide();
 		_this.manage.clear();
 		_this.label.clear();
+		this.isedit = false;
 	});	
 
 	//资源列表
@@ -55,10 +59,19 @@ sCreate.create.prototype.changeType = function(type){
 
 sCreate.create.prototype.edit = function(data){
 	//this.type = 'type';
-	//把管理员显示出来,貌似数据不支持?
+	console.log(data);
 
+	$("#subjectTitle").val(data.title),
+	$("#subjectMark").val(data.mark),
+	$("#subjectOpen").prop('checked',data.private);
+	$("#subjectGuest").prop('checked',data.guest);
+	this.editData = data;
+
+	//把管理员显示出来,貌似数据不支持?
+	this.isedit = true;
 
 	//把标签显示出来
+	this.label.showEdit(data.labels);
 
 	//把资源加进来
 	var html = tmpl.rlist({
@@ -117,7 +130,6 @@ sCreate.create.prototype.bindAction = function(param,cb){
 		}
 	}
 
-
 	//触发上传
 	$("#cfileName").bind('change',function(e){
 		var target = $(e.target);
@@ -160,19 +172,34 @@ sCreate.create.prototype.bindAction = function(param,cb){
 				subjectLabels : _this.getLabelList(),
 				articleLabels : [],
 				resources : _this.getResList()
+			}		
+			
+			if(_this.isedit){
+				param.subjectId = _this.editData.id;
 			}
 
 			if(param.title !== '' && param.mark !== ''){
-				cgi.create(param,function(res){
-					if(res.code === 0){
-						_this.dom.modal('hide');
-						
-						var html = tmpl.list({
-							list : [res.data]
-						});
-						$("#mySubject").prepend(html);
-					}
-				});
+				if(_this.isedit){
+					cgi.edit(param,function(res){
+						if(res.code === 0){
+							_this.dom.modal('hide');
+
+							striker.trigger('subjectUpdate',res.data);
+						}
+					});					
+				}else{
+					cgi.create(param,function(res){
+						if(res.code === 0){
+							_this.dom.modal('hide');
+							
+							var html = tmpl.list({
+								list : [res.data]
+							});
+							$("#mySubject").prepend(html);
+						}
+					});					
+				}
+
 			}
 		}
 

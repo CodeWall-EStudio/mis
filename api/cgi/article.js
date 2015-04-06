@@ -290,7 +290,6 @@ exports.search = function(req, res) {
         }
 
         //取标签
-//         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
         if (rows.length) {
             var slist = 
                  yield req.conn.yieldQuery('select ast.id,ast.article_id as aid from article_star ast where ast.article_id in (' + articleId.join(',') + ')');

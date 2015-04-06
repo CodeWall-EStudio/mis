@@ -120,6 +120,11 @@ Label.label.prototype.getData = function(){
 	});
 }
 
+Label.label.prototype.showEdit = function(data){
+	 var html = tmpl.one({list:data});
+	 this.nowDom.html(html).show();
+}
+
 Label.label.prototype.select = function(e){
 	var id = this._selectDom.data('id');
 	var param = {
