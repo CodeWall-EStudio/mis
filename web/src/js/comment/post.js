@@ -24,6 +24,7 @@ var post = function(id,sid){
 
 	this.bindAction();
 	this.loading = false;
+	this.fileupload = false;
 	this.isEdit = false;
 	// articleList.init(id,cgi,tmpl);
 	// articlePost.init(id,cgi,tmpl);

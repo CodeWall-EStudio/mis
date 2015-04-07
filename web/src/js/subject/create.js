@@ -18,6 +18,9 @@ sCreate.create = function(){
 	this.isedit = false;
 	this.editData = {};
 
+	this.loading = false;
+	this.fileupload = false;
+
 	//这里考虑下要不要传参指定dom;
 	this.dom = $("#createSubject");
 	this.titleDom = this.dom.find('.modal-title');

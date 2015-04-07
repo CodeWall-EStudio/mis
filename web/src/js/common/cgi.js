@@ -44,6 +44,10 @@ var cgiList = {
 		collect : cgiPath+'comment/collect',
 		create : cgiPath+'comment/create'
 	},
+	notify : {
+		search : cgiPath+'notification/search',
+		read : cgiPath+'notification/read',
+	},
 	label : {
 		create : cgiPath+'label/create',
 		list : cgiPath+'label/list'
@@ -240,6 +244,18 @@ db.comment.create = function(param,callback){
 db.comment.edit = function(param,callback){
 	var callback = checkCallback(callback,true);
 	request.post(cgiList.comment.edit,param,callback);
+}
+
+db.notify = {};
+
+db.notify.search = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.notify.search,param,callback);		
+}
+
+db.notify.read = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.notify.read,param,callback);		
 }
 
 db.label = {};

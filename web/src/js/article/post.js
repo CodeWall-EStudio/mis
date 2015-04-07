@@ -64,6 +64,7 @@ var post = function(){
 	this.resMap = {};
 
 	this.loading = false;
+	this.fileupload = false;
 	this.target;
 	this.bindAction();
 }
