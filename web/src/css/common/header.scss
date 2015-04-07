@@ -32,8 +32,27 @@
 		display:inline-block;
 	}
 	.msg{
-		@include icons-sprite-retina("msg32");
-		display:inline-block;
+		position:relative;
+		span{
+			@include icons-sprite-retina("msg32");
+			display:inline-block;
+		}
+		div {
+			display:none;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			background-color: red;
+			width: 20px;
+			height: 20px;
+			border-radius: 20px;
+			line-height: 20px;
+			font-size: 8px;
+			text-overflow: ellipsis;
+			text-align: center;
+			white-space: nowrap;
+			overflow: hidden;
+		}
 	}
 	.dialog{
 		@include icons-sprite-retina("say32");
@@ -121,4 +140,24 @@
 		left: 8px;
 		-webkit-transform: rotate(-45deg);
 	}	
+}
+#notifyList{
+	position: absolute;
+	right: 20px;
+	z-index: 100;
+	background: #fff;
+	padding: 10px;
+	border-radius: 5px;
+	width: 150px;
+	max-height: 300px;
+	overflow-y: auto;
+	display:none;
+
+	li{
+		width:100%;
+		text-overflow: ellipsis;
+		text-align: center;
+		white-space: nowrap;
+		overflow: hidden;
+	}
 }

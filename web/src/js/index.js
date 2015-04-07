@@ -3,6 +3,7 @@ var user = require('./user/user'),
 	subject = require('./subject/subject'),
 	article = require('./article/article'),
 	msg = require('./common/msg'),
+	notify = require('./notify/notify'),
 	label = require('./label/label');
 
 
@@ -15,6 +16,7 @@ function userLoad(e,d){
 	new subject.area('myFollow');
 	new subject.area('myInvited');
 	new subject.area('myArchived');
+	new notify.notify();
 	window.striker.label = new label.label('labelArea');
 	window.striker.createSubject = new subject.create();
 	window.striker.msg = new msg.message();

@@ -338,6 +338,9 @@ li {
   display: inline-block;
 }
 .header .nav .msg {
+  position: relative;
+}
+.header .nav .msg span {
   background-image: url('../img/sprite/icons-se725b8fe85.png');
   background-position: 0 -512px;
   background-repeat: no-repeat;
@@ -346,6 +349,22 @@ li {
   height: 32px;
   width: 32px;
   display: inline-block;
+}
+.header .nav .msg div {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: red;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  line-height: 20px;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .header .nav .dialog {
   background-image: url('../img/sprite/icons-se725b8fe85.png');
@@ -441,6 +460,26 @@ li {
   top: 4px;
   left: 8px;
   -webkit-transform: rotate(-45deg);
+}
+
+#notifyList {
+  position: absolute;
+  right: 20px;
+  z-index: 100;
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  width: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+  display: none;
+}
+#notifyList li {
+  width: 100%;
+  text-overflow: ellipsis;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .icons-sprite, .icons-archive, .icons-del16, .icons-edit16, .icons-eye, .icons-eye16, .icons-file16, .icons-font16, .icons-img16, .icons-male40, .icons-manage16, .icons-memu32, .icons-menu0, .icons-msg0, .icons-msg32, .icons-post16, .icons-rectangular0, .icons-rep16, .icons-replay, .icons-say32, .icons-search0, .icons-search32, .icons-unlock, .icons-user, .icons-user0, .icons-user32, .icons-user320, .icons-user9, .icons-users13, .icons-video16 {

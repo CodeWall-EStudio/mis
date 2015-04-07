@@ -152,7 +152,7 @@ post.prototype.bindAction = function(){
 	});
 
 	window.uploadComp = function(d){
-		
+		_this.fileupload = false;
 		if(window.striker.commentshow){
 			$(striker).trigger('uploadFile',d);
 			return;
@@ -194,6 +194,7 @@ post.prototype.bindAction = function(){
 	$("#fileName").bind('change',function(e){
 		var target = $(e.target);
 		if(target.val() !== ''){
+			_this.fileupload = true;
 			$("#fileForm").submit();
 		}
 	})	
@@ -201,6 +202,7 @@ post.prototype.bindAction = function(){
 	$("#cfileName").bind('change',function(e){
 		var target = $(e.target);
 		if(target.val() !== ''){
+			_this.fileupload = true;
 			$("#cfileForm").submit();
 		}
 	})	
@@ -255,7 +257,7 @@ post.prototype.post = function(){
 			}
 			if(res.code === 0){
 				console.log(striker.article);
-				striker.article.appendToList(res.data);
+				striker.trigger('newarticle',res.data);
 			}
 			_this.clear();
 		});	

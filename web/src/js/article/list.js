@@ -10,6 +10,7 @@ var aList = {},
 
 module.exports = aList;
 var listDom = $("#articleList");
+var striker = $(window.striker);
 
 aList.init = function(id,module,tmp){
 	nowSubId = id;
@@ -70,6 +71,10 @@ article.prototype.checkData = function(data){
 //绑定事件
 article.prototype.bindAction = function(){
 	var _this = this;
+	striker.bind('newarticle',function(e,d){
+		_this.prependToList(d);
+	})
+
     $(document).on('scroll',function(e){
         var scrollDom = document.body;
         var pageHeight = document.documentElement.clientHeight;
@@ -106,10 +111,6 @@ article.prototype.loadMore = function(){
 	});
 }
 
-//添加到前面
-article.prototype.prependToList = function(){
-	
-}
 
 //拉帖子列表
 article.prototype.search = function(param){

@@ -123,6 +123,7 @@ sCreate.create.prototype.bindAction = function(param,cb){
 
 	//资源上传完成的通知
 	window.uploadComp = function(d){
+		_this.fileupload = false;
 		if(d.code === 0){
 			_this.resList.push(d.data.id);
 			_this.resMap[d.data.id] = d.data;
@@ -139,6 +140,7 @@ sCreate.create.prototype.bindAction = function(param,cb){
 		var target = $(e.target);
 
 		if(target.val() !== ''){
+			_this.fileupload = true;
 			$("#cfileForm").submit();
 		}
 	})	
@@ -182,12 +184,17 @@ sCreate.create.prototype.bindAction = function(param,cb){
 				param.subjectId = _this.editData.id;
 			}
 
+			if(this.loading){
+				return;
+			}
+
 			if(param.title !== '' && param.mark !== ''){
+				this.loading = true;
 				if(_this.isedit){
 					cgi.edit(param,function(res){
 						if(res.code === 0){
 							_this.dom.modal('hide');
-
+							_this.loading = false;
 							striker.trigger('subjectUpdate',res.data);
 						}
 					});					
@@ -195,7 +202,7 @@ sCreate.create.prototype.bindAction = function(param,cb){
 					cgi.create(param,function(res){
 						if(res.code === 0){
 							_this.dom.modal('hide');
-							
+							_this.loading = false;
 							var html = tmpl.list({
 								list : [res.data]
 							});

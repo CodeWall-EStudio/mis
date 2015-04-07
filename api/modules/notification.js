@@ -8,7 +8,7 @@ var db = require('../modules/db');
 
 
 exports.notify = function(connection, who, doWhat, toWho, withData, message){
-
+    console.log(withData);
     return connection.yieldQuery('INSERT INTO notification SET ?', {
         who: who,
         doWhat: doWhat,

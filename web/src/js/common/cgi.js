@@ -255,7 +255,7 @@ db.notify.search = function(param,callback){
 
 db.notify.read = function(param,callback){
 	var callback = checkCallback(callback);
-	request.get(cgiList.notify.read,param,callback);		
+	request.post(cgiList.notify.read,param,callback);		
 }
 
 db.label = {};

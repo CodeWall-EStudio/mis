@@ -72,7 +72,7 @@ post.prototype.create = function(){
 	};
 
 	cgi.create(param,function(res){
-		_this.loading = true;
+		_this.loading = false;
 		if(res.code === 0){
 			_this.cList.append(res.data);
 			_this.contentDom.val('');
@@ -120,9 +120,9 @@ post.prototype.post = function(){
 
 	if(this.isEdit){
 		param.commentId = this.data.id;
-
+		this.loading = true;
 		cgi.edit(param,function(res){
-			_this.loading = true;
+			_this.loading = false;
 			if(res.code === 0){
 				if(_this.cList){
 					_this.cList.update(res.data);
@@ -133,8 +133,9 @@ post.prototype.post = function(){
 			}
 		});
 	}else{
+		this.loading = true;
 		cgi.create(param,function(res){
-			_this.loading = true;
+			_this.loading = false;
 			if(res.code === 0){
 				if(_this.cList){
 					_this.cList.append(res.data);
@@ -176,7 +177,7 @@ post.prototype.bindAction = function(id,name){
 	var _this = this;
 
 	var uploadComp  = function(d){
-			console.log('comment ');
+		_this.fileupload = false;
 		if(d.code === 0){
 			_this.resList.push(d.data.id);
 			_this.resMap[d.data.id] = d.data;
@@ -189,19 +190,17 @@ post.prototype.bindAction = function(id,name){
 	}
 
 	if(window.uploadComp){
-		console.log('have camp');
 		$(striker).bind('uploadFile',function(e,d){
-			console.log(d);
 			uploadComp(d);
 		});
 	}else{
-		console.log('no camp');
 		window.uploadComp = uploadComp;
 	}
 
 	$("#ccfileName").bind('change',function(e){
 		var target = $(e.target);
 		if(target.val() !== ''){
+			_this.fileupload = true;
 			$("#ccfileForm").submit();
 		}
 	})	
