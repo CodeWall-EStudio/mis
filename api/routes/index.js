@@ -49,6 +49,7 @@ exports.route = function(req, res, next) {
     } else {
         next();
     }
+    db.release(req, res);
 };
 
 exports.setXHR2Headers = function(req, res, next) {

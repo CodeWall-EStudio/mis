@@ -87,9 +87,6 @@ app.all('/cgi/*', ParamVerifier);
 // 路由请求
 app.all('/cgi/*', routes.route);
 
-//////////// DB ///////////////
-
-app.all('/cgi/*', db.release);
 
 
 http.createServer(app).listen(app.get('port'), function() {

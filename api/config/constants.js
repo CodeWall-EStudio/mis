@@ -25,3 +25,6 @@ exports.NOTIFY_REPLY = 4;
 exports.NOTIFY_MSG = 8;
 // 主题邀请
 exports.NOTIFY_SUBJ_INVITE = 16;
+
+// 帖子状态
+exports.ARTICLE_STATUS_TOP = 100;

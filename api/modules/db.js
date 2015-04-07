@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+var co = require('co');
 
 var config = require('../config');
 var ERR = require('../errorcode');
@@ -15,8 +16,8 @@ var pool = exports.pool = mysql.createPool({
 
 function prepare(obj) {
     var arr = [];
-    for(var i in obj){
-        if(obj.hasOwnProperty(i)){
+    for (var i in obj) {
+        if (obj.hasOwnProperty(i)) {
             arr.push(i + '=' + obj[i]);
         }
     }
@@ -33,8 +34,10 @@ function prepare(obj) {
 //     }.bind(this));
 // };
 
+
 exports.connect = function(req, res, next) {
     Logger.debug('db.connect...');
+
     pool.getConnection(function(err, connection) {
         Logger.debug('db.connect...done');
         if (err) {
@@ -58,11 +61,11 @@ exports.connect = function(req, res, next) {
 
 exports.release = function(req, res) {
     Logger.debug('db.release...');
-    if(req.conn){
-        try{
+    if (req.conn) {
+        try {
             req.conn.release();
             Logger.debug('db.release...done');
-        }catch(e){
+        } catch (e) {
             Logger.debug('db.release...fail: ', e.message);
         }
     }
