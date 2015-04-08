@@ -27,4 +27,7 @@ exports.NOTIFY_MSG = 8;
 exports.NOTIFY_SUBJ_INVITE = 16;
 
 // 帖子状态
+// 置顶帖
 exports.ARTICLE_STATUS_TOP = 100;
+// 普通帖
+exports.ARTICLE_STATUS_NORMAL = 0;
