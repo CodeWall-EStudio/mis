@@ -272,7 +272,7 @@ exports.search = function(req, res) {
         var total = rows[0].count;
 
         rows =
-            yield req.conn.yieldQuery('SELECT * FROM article  WHERE subject_id = ? limit ?, ?  ORDER BY status DESC', [params.subjectId, params.start, params.limit]);
+            yield req.conn.yieldQuery('SELECT * FROM article  WHERE subject_id = ? ORDER BY status DESC limit ?, ? ', [params.subjectId, params.start, params.limit]);
 
         //标签id列表,资源id列表
         var labelMap = [],
@@ -288,6 +288,7 @@ exports.search = function(req, res) {
             updateId.push(rows[i].updator);
             labelMap[rows[i].id] = i;
         }
+
 
         //取标签
 //         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
@@ -337,6 +338,7 @@ exports.search = function(req, res) {
                 }
                 rows[idx].resource.push(item);
             }
+            //console.log(rows);
         }
 
         res.json({

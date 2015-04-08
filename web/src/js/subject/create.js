@@ -11,8 +11,11 @@ sCreate.init = function(type,module,tmp){
 	tmpl = tmp;
 }
 
-sCreate.create = function(){
+sCreate.create = function(id){
 	var _this = this;
+
+	this.subId = id;
+
 	//默认使用我的主题
 	this.type = 'mySubject';
 	this.isedit = false;
@@ -123,6 +126,11 @@ sCreate.create.prototype.bindAction = function(param,cb){
 
 	//资源上传完成的通知
 	window.uploadComp = function(d){
+		if(_this.subId && !_this.isedit){
+			striker.trigger('uploadArticle',d);
+			return;
+		}
+
 		_this.fileupload = false;
 		if(d.code === 0){
 			_this.resList.push(d.data.id);

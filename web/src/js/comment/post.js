@@ -177,6 +177,7 @@ post.prototype.bindAction = function(id,name){
 	var _this = this;
 
 	var uploadComp  = function(d){
+		console.log('comment',d);
 		_this.fileupload = false;
 		if(d.code === 0){
 			_this.resList.push(d.data.id);
@@ -191,6 +192,7 @@ post.prototype.bindAction = function(id,name){
 
 	if(window.uploadComp){
 		$(striker).bind('uploadFile',function(e,d){
+			console.log('trigger',d);
 			uploadComp(d);
 		});
 	}else{

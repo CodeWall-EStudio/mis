@@ -151,6 +151,29 @@ post.prototype.bindAction = function(){
 		_this.edit(d);
 	});
 
+	striker.bind('uploadArticle',function(e,d){
+		_this.fileupload = false;
+		console.log(3333,d);
+		if(window.striker.commentshow){
+			$(striker).trigger('uploadFile',d);
+			return;
+		}
+		if(d.code === 0){
+			_this.resList.push(d.data.id);
+			_this.resMap[d.data.id] = d.data;
+
+			var html = tmpl.rlist({
+				list : [d.data]
+			});
+			if(_this.model === 'pop'){
+				_this.cresDom.append(html).show();
+			}else{
+				_this.presDom.append(html).show();
+			}
+			
+		}
+	});
+
 	window.uploadComp = function(d){
 		_this.fileupload = false;
 		if(window.striker.commentshow){
@@ -193,6 +216,9 @@ post.prototype.bindAction = function(){
 
 	$("#fileName").bind('change',function(e){
 		var target = $(e.target);
+		if(_this.fileupload){
+			return;
+		}
 		if(target.val() !== ''){
 			_this.fileupload = true;
 			$("#fileForm").submit();
@@ -201,6 +227,9 @@ post.prototype.bindAction = function(){
 
 	$("#cfileName").bind('change',function(e){
 		var target = $(e.target);
+		if(_this.fileupload){
+			return;
+		}		
 		if(target.val() !== ''){
 			_this.fileupload = true;
 			$("#cfileForm").submit();
@@ -232,6 +261,10 @@ post.prototype.post = function(){
 	this.loading = true;
 	var param = this.getParam(pTarget);
 	var _this = this;
+
+	if(param.title === '' || param.content === ''){
+		return;
+	}
 
 	if(this.isEdit){
 		param.subjectId = this.data.subject_id;
