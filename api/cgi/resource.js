@@ -23,7 +23,7 @@ var Util = require('../util');
 //     "buffer": null
 //     }
 // }
-exports.upload = function(req, res) {
+exports.upload = function*(req, res) {
     var file = req.files.file;
     var loginUser = req.loginUser;
     if (!file || !file.path) {
@@ -64,11 +64,11 @@ exports.upload = function(req, res) {
                 yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', result.insertId);
 
             var data = {
-                code : ERR.SUCCESS,
-                data : rows[0]
+                code: ERR.SUCCESS,
+                data: rows[0]
             };
 
-            res.write('<script>top.uploadComp('+JSON.stringify(data)+')</script>');
+            res.write('<script>top.uploadComp(' + JSON.stringify(data) + ')</script>');
             res.end();
 
             // res.json({
@@ -76,7 +76,7 @@ exports.upload = function(req, res) {
             //     data: rows[0]
             // });
 
-            req.conn.release();
+            // req.conn.release();
 
         }).catch(function(err) {
             db.handleError(req, res, err.message);
@@ -85,108 +85,98 @@ exports.upload = function(req, res) {
     });
 };
 
-exports.download = function(req, res) {
+exports.download = function*(req, res) {
 
     var parameter = req.parameter;
     var id = parameter.id;
     var loginUser = req.loginUser;
 
-    co(function*() {
 
-        var rows =
-            yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
-        req.conn.release();
-        if (!rows[0]) {
-            return res.send(404, '没有找到该资源');
-        }
+    var rows =
+        yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
 
-        var resource = rows[0];
-        var filePath = path.join(config.DATA_ROOT, resource.path);
+    if (!rows[0]) {
+        return res.send(404, '没有找到该资源');
+    }
 
-        Logger.info('redirect to :' + filePath, 'mimes: ' + resource.mimetype, 'fileName: ', resource.name);
+    var resource = rows[0];
+    var filePath = path.join(config.DATA_ROOT, resource.path);
 
-        res.download(filePath, encodeURIComponent(resource.name));
+    Logger.info('redirect to :' + filePath, 'mimes: ' + resource.mimetype, 'fileName: ', resource.name);
 
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
-    });
+    res.download(filePath, encodeURIComponent(resource.name));
+
 
 };
 
 
-exports.preview = function(req, res) {
+exports.preview = function*(req, res) {
     var parameter = req.parameter;
     var id = parameter.id;
     var loginUser = req.loginUser;
 
-    co(function*() {
 
-        var rows =
-            yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
+    var rows =
+        yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
 
-        req.conn.release();
-        if (!rows[0]) {
-            return res.send(404, '没有找到该资源');
-        }
+    if (!rows[0]) {
+        return res.send(404, '没有找到该资源');
+    }
 
-        var resource = rows[0];
-        var filePath = path.join(config.DATA_ROOT, resource.path);
+    var resource = rows[0];
+    var filePath = path.join(config.DATA_ROOT, resource.path);
 
 
-        //1. 图片, 直接给url
-        //2. 文档, 给出swf url
-        //3. txt, 给出 text的文本内容
-        //4. 音频/视频, 直接给出url
+    //1. 图片, 直接给url
+    //2. 文档, 给出swf url
+    //3. txt, 给出 text的文本内容
+    //4. 音频/视频, 直接给出url
 
-        switch (resource.type) {
-            case 2: // 文档
-                // var swfFile = filePath + '.swf';
-                // if(!fs.existsSync(swfFile)){
-                //     Logger.error('can\'t find ' + swfFile + '! try to convert...');
-                //     var suffix = path.extname(filePath).slice(1);
-                //     convert(path.join(config.FILE_SAVE_ROOT, filePath), resource.mimes, suffix, function(err){
-                //         if(err){
-                //             res.json({ err: ERR.NOT_FOUND, msg: 'can not find this file and convert failure' });
-                //             return;
-                //         }
-                //         Logger.info('convert success: ' + filePath);
-                //         res.set({
-                //             'Content-Type': 'application/x-shockwave-flash',
-                //             'X-Accel-Redirect': filePath + '.swf'
-                //         });
-                //         res.send();
-                //     });
-                // }else{
-                //     res.set({
-                //         'Content-Type': 'application/x-shockwave-flash',
-                //         'X-Accel-Redirect': filePath + '.swf'
-                //     });
-                //     res.send();
-                // }
-                // break;
-            case 1: //image
-            case 3: //audio
-            case 4: //video
-            case 5: //stream
+    switch (resource.type) {
+        case 2: // 文档
+            // var swfFile = filePath + '.swf';
+            // if(!fs.existsSync(swfFile)){
+            //     Logger.error('can\'t find ' + swfFile + '! try to convert...');
+            //     var suffix = path.extname(filePath).slice(1);
+            //     convert(path.join(config.FILE_SAVE_ROOT, filePath), resource.mimes, suffix, function(err){
+            //         if(err){
+            //             res.json({ err: ERR.NOT_FOUND, msg: 'can not find this file and convert failure' });
+            //             return;
+            //         }
+            //         Logger.info('convert success: ' + filePath);
+            //         res.set({
+            //             'Content-Type': 'application/x-shockwave-flash',
+            //             'X-Accel-Redirect': filePath + '.swf'
+            //         });
+            //         res.send();
+            //     });
+            // }else{
+            //     res.set({
+            //         'Content-Type': 'application/x-shockwave-flash',
+            //         'X-Accel-Redirect': filePath + '.swf'
+            //     });
+            //     res.send();
+            // }
+            // break;
+        case 1: //image
+        case 3: //audio
+        case 4: //video
+        case 5: //stream
 
-                res.sendfile(filePath);
-                break;
-            case 8: //text
-                try {
-                    var data = fs.readFileSync(filePath);
+            res.sendfile(filePath);
+            break;
+        case 8: //text
+            try {
+                var data = fs.readFileSync(filePath);
 
-                    res.send(data.toString());
-                } catch (e) {
-                    res.send(404, '没有找到该资源');
-                }
-                break;
-            default:
-                res.send(405, '不支持这种类型文件的预览');
-        }
-
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
-    });
+                res.send(data.toString());
+            } catch (e) {
+                res.send(404, '没有找到该资源');
+            }
+            break;
+        default:
+            res.send(405, '不支持这种类型文件的预览');
+    }
 };
 
 

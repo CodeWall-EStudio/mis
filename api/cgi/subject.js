@@ -5,7 +5,7 @@ var Logger = require('../logger');
 var config = require('../config');
 var db = require('../modules/db');
 
-exports.create = function(req, res) {
+exports.create = function*(req, res) {
     var params = req.parameter;
 
     var loginUser = req.loginUser;
@@ -96,7 +96,7 @@ exports.create = function(req, res) {
                     data: rows[0]
                 });
             });
-            conn.release();
+
         }).catch(function(err) {
             Logger.error(err.stack);
             Logger.error('error, roolback');
@@ -107,13 +107,13 @@ exports.create = function(req, res) {
                     detail: err.message
                 });
             });
-            conn.release();
+
         });
 
     });
 };
 
-exports.edit = function(req, res) {
+exports.edit = function*(req, res) {
     var params = req.parameter;
 
     var loginUser = req.loginUser;
@@ -234,7 +234,8 @@ exports.edit = function(req, res) {
             if (rows.length) {
                 //标签..
                 var sql = 'select sl.*,l.name from subject_label sl,label l where sl.label_id = l.id and sl.subject_id=?';
-                var lrows = yield req.conn.yieldQuery(sql,[params.subjectId]);
+                var lrows =
+                    yield req.conn.yieldQuery(sql, [params.subjectId]);
                 rows[0].labels = lrows;
 
                 /*
@@ -274,7 +275,7 @@ exports.edit = function(req, res) {
                     data: rows[0]
                 });
             });
-            conn.release();
+
         }).catch(function(err) {
             Logger.error(err.stack);
             Logger.error('error, roolback');
@@ -285,13 +286,13 @@ exports.edit = function(req, res) {
                     detail: err.message
                 });
             });
-            conn.release();
+
         });
 
     });
 };
 
-exports.delete = function(req, res) {
+exports.delete = function*(req, res) {
     var params = req.parameter;
 
     var loginUser = req.loginUser;
@@ -315,7 +316,7 @@ exports.delete = function(req, res) {
                     code: ERR.LOGIC_FAILURE,
                     msg: '删除失败, 没有找到该主题'
                 });
-                req.conn.release();
+
                 return;
             }
 
@@ -337,7 +338,7 @@ exports.delete = function(req, res) {
                     code: ERR.SUCCESS
                 });
             });
-            conn.release();
+
         }).catch(function(err) {
             Logger.error(err.stack);
             Logger.error('error, roolback');
@@ -348,343 +349,306 @@ exports.delete = function(req, res) {
                     detail: err.message
                 });
             });
-            conn.release();
+
         });
 
     });
 };
 
-exports.search = function(req, res) {
+exports.search = function*(req, res) {
     var params = req.parameter;
 
-    co(function*() {
 
-        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s WHERE ';
-        var dbParams = {
-            isArchive: 0,
-            'private': params['private'] ? 1 : 0
-        };
-        if (params.creator) {
-            dbParams['s.creator'] = params.creator;
+    var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s WHERE ';
+    var dbParams = {
+        isArchive: 0,
+        'private': params['private'] ? 1 : 0
+    };
+    if (params.creator) {
+        dbParams['s.creator'] = params.creator;
+    }
+    sql += req.dbPrepare(dbParams);
+
+    var rows =
+        yield req.conn.yieldQuery(sql);
+    var total = rows[0].count;
+
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u WHERE ';
+
+    dbParams['s.creator'] = 'u.id';
+    sql += req.dbPrepare(dbParams);
+
+    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+
+    rows =
+        yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+
+    res.json({
+        code: ERR.SUCCESS,
+        data: {
+            total: total,
+            list: rows
         }
-        sql += req.dbPrepare(dbParams);
-
-        var rows =
-            yield req.conn.yieldQuery(sql);
-        var total = rows[0].count;
-
-        sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u WHERE ';
-
-        dbParams['s.creator'] = 'u.id';
-        sql += req.dbPrepare(dbParams);
-
-        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
-
-        rows =
-            yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
-
-        res.json({
-            code: ERR.SUCCESS,
-            data: {
-                total: total,
-                list: rows
-            }
-        });
-        req.conn.release();
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
     });
+
 
 };
 
 
-exports.info = function(req, res) {
+exports.info = function*(req, res) {
     var params = req.parameter;
     var loginUser = req.loginUser;
 
     // console.log(typeof loginUser.id,typeof params.id);
 
-    co(function*() {
-        //SELECT s.*,u.name,(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount FROM SUBJECT s,USER u WHERE s.id = 37 AND s.creator = u.id
-        //醉了.....这数据来源太多了...by horde
-        var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
-        sql += '(SELECT COUNT(DISTINCT sf.user_id) FROM subject_follow sf WHERE sf.subject_id = s.id AND sf.user_id = ?) AS follow,'
-        sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
-        sql += '(SELECT COUNT(DISTINCT ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
-        sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM subject s,user u WHERE s.id = ? AND s.creator = u.id';
+    //SELECT s.*,u.name,(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount FROM SUBJECT s,USER u WHERE s.id = 37 AND s.creator = u.id
+    //醉了.....这数据来源太多了...by horde
+    var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+    sql += '(SELECT COUNT(DISTINCT sf.user_id) FROM subject_follow sf WHERE sf.subject_id = s.id AND sf.user_id = ?) AS follow,'
+    sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
+    sql += '(SELECT COUNT(DISTINCT ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
+    sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.creator = ? AND a.subject_id = s.id) AS articleCreateCount FROM subject s,user u WHERE s.id = ? AND s.creator = u.id';
 
-        var rows =
-            yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.id]);
-        if (rows.length) {
-            //标签..
-            var sql = 'select sl.*,l.name from subject_label sl,label l where sl.label_id = l.id and sl.subject_id=?';
-            var lrows = yield req.conn.yieldQuery(sql,[params.id]);
-            rows[0].labels = lrows;
+    var rows =
+        yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.id]);
+    if (rows.length) {
+        //标签..
+        var sql = 'select sl.*,l.name from subject_label sl,label l where sl.label_id = l.id and sl.subject_id=?';
+        var lrows =
+            yield req.conn.yieldQuery(sql, [params.id]);
+        rows[0].labels = lrows;
 
-            /*
-            主题的资源在这儿取...因为方正需要把资源单独拉一次...
-            */
-            var sql = 'SELECT r.* FROM resource r,subject_resource sr WHERE sr.resource_id=r.id AND sr.subject_id=?';
-            var rrows =
-                yield req.conn.yieldQuery(sql, [params.id]);
+        /*
+        主题的资源在这儿取...因为方正需要把资源单独拉一次...
+        */
+        var sql = 'SELECT r.* FROM resource r,subject_resource sr WHERE sr.resource_id=r.id AND sr.subject_id=?';
+        var rrows =
+            yield req.conn.yieldQuery(sql, [params.id]);
 
-            var subjectResourceCount = rrows.length;
-            var resourceList = [];
+        var subjectResourceCount = rrows.length;
+        var resourceList = [];
 
-            if (rrows.length) {
-                resourceList = rrows;
-            }
-
-            rows[0].subjectResourceCount = subjectResourceCount;
-            rows[0].resourceList = resourceList;
-
-
-            res.json({
-                code: ERR.SUCCESS,
-                data: rows[0]
-            });
-        } else {
-
-            res.json({
-                code: ERR.NOT_FOUND,
-                msg: '没有找到该主题'
-            });
-
-        }
-        req.conn.release();
-
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
-    });
-
-};
-
-exports.follow = function(req, res) {
-    var params = req.parameter;
-    var loginUser = req.loginUser;
-    co(function*() {
-
-        if (params.isFollow === 0) { // 取消关注
-            var result =
-                yield req.conn.yieldQuery('DELETE FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
-            res.json({
-                code: ERR.SUCCESS
-            });
-        } else { // 添加关注
-            var rows =
-                yield req.conn.yieldQuery('SELECT id FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
-            if (rows.length) {
-                res.json({
-                    code: ERR.DUPLICATE,
-                    msg: '已经关注了该主题'
-                });
-            } else {
-                var result =
-                    yield req.conn.yieldQuery('INSERT INTO subject_follow SET ?', {
-                        subject_id: params.subjectId,
-                        user_id: loginUser.id
-                    });
-                res.json({
-                    code: ERR.SUCCESS
-                });
-            }
+        if (rrows.length) {
+            resourceList = rrows;
         }
 
-        req.conn.release();
+        rows[0].subjectResourceCount = subjectResourceCount;
+        rows[0].resourceList = resourceList;
 
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
-    });
-};
-
-exports.following = function(req, res) {
-    var params = req.parameter;
-    var loginUser = req.loginUser;
-
-
-    co(function*() {
-        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject_follow s WHERE user_id = ?';
-        var sqlParams = [loginUser.id];
-        var rows =
-            yield req.conn.yieldQuery(sql, sqlParams);
-        var total = rows[0].count;
-        sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
-
-        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
-        if (params.orderby) {
-            sqlParams.push('s.' + params.orderby);
-        } else {
-            sqlParams.push('s.updateTime');
-        }
-
-        sqlParams.push(params.start, params.limit);
-        Logger.debug(sql);
-        rows =
-            yield req.conn.yieldQuery(sql, sqlParams);
 
         res.json({
             code: ERR.SUCCESS,
-            data: {
-                total: total,
-                list: rows
-            }
+            data: rows[0]
         });
-        req.conn.release();
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
-    });
-};
-
-exports.invited = function(req, res) {
-    var params = req.parameter;
-    var loginUser = req.loginUser;
-
-    co(function*() {
-
-        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s, subject_user su WHERE ';
-        var dbParams = {
-            's.private': 1,
-            's.id': 'su.subject_id',
-            's.creator !': loginUser.id,
-            'su.user_id': loginUser.id
-        };
-
-        sql += req.dbPrepare(dbParams);
-        // sql += ' GROUP BY s.id';
-
-        var rows =
-            yield req.conn.yieldQuery(sql);
-        var total = rows[0].count;
-
-        sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_user su WHERE ';
-
-        dbParams['s.creator'] = 'u.id';
-        sql += req.dbPrepare(dbParams);
-        // sql += ' GROUP BY s.id';
-        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
-
-        rows =
-            yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+    } else {
 
         res.json({
-            code: ERR.SUCCESS,
-            data: {
-                total: total,
-                list: rows
-            }
+            code: ERR.NOT_FOUND,
+            msg: '没有找到该主题'
         });
-        req.conn.release();
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
-    });
+
+    }
 
 };
 
-exports.archive = function(req, res, next) {
+exports.follow = function*(req, res) {
     var params = req.parameter;
     var loginUser = req.loginUser;
-    co(function*() {
 
+    if (params.isFollow === 0) { // 取消关注
         var result =
-            yield req.conn.yieldQuery('UPDATE subject SET isArchive = ? WHERE creator = ? AND id = ?', [params.isArchive, loginUser.id, params.subjectId]);
-        if (result.affectedRows) {
+            yield req.conn.yieldQuery('DELETE FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
+        res.json({
+            code: ERR.SUCCESS
+        });
+    } else { // 添加关注
+        var rows =
+            yield req.conn.yieldQuery('SELECT id FROM subject_follow WHERE user_id = ? AND subject_id = ?', [loginUser.id, params.subjectId]);
+        if (rows.length) {
+            res.json({
+                code: ERR.DUPLICATE,
+                msg: '已经关注了该主题'
+            });
+        } else {
+            var result =
+                yield req.conn.yieldQuery('INSERT INTO subject_follow SET ?', {
+                    subject_id: params.subjectId,
+                    user_id: loginUser.id
+                });
             res.json({
                 code: ERR.SUCCESS
             });
-        } else {
-            res.json({
-                code: ERR.LOGIC_FAILURE,
-                msg: '操作失败, 没有找到该主题或非法操作'
-            });
         }
+    }
 
-        // req.conn.release(); // next or release
-        next();
-    }).catch(function(err) {
-        db.handleError(req, res, err);
-    });
 };
 
-exports.archived = function(req, res, next) {
+exports.following = function*(req, res) {
     var params = req.parameter;
     var loginUser = req.loginUser;
 
-    co(function*() {
 
-        // 所有自己创建的, 自己是成员的, 自己是管理员的
-        var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s, subject_user su WHERE ';
-        var dbParams = {
-            's.isArchive': 1,
-            's.id': 'su.subject_id'
-        };
 
-        sql += req.dbPrepare(dbParams);
-        sql += ' AND (s.creator = ? OR su.user_id = ?)';
+    var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject_follow s WHERE user_id = ?';
+    var sqlParams = [loginUser.id];
+    var rows =
+        yield req.conn.yieldQuery(sql, sqlParams);
+    var total = rows[0].count;
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
 
-        var rows =
-            yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id]);
-        var total = rows[0].count;
+    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+    if (params.orderby) {
+        sqlParams.push('s.' + params.orderby);
+    } else {
+        sqlParams.push('s.updateTime');
+    }
 
-        sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_user su WHERE ';
+    sqlParams.push(params.start, params.limit);
+    Logger.debug(sql);
+    rows =
+        yield req.conn.yieldQuery(sql, sqlParams);
 
-        dbParams['s.creator'] = 'u.id';
-        sql += req.dbPrepare(dbParams);
-        sql += ' AND (s.creator = ? OR su.user_id = ?)';
+    res.json({
+        code: ERR.SUCCESS,
+        data: {
+            total: total,
+            list: rows
+        }
+    });
 
-        sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+};
 
-        rows =
-            yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+exports.invited = function*(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
 
+
+    var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s, subject_user su WHERE ';
+    var dbParams = {
+        's.private': 1,
+        's.id': 'su.subject_id',
+        's.creator !': loginUser.id,
+        'su.user_id': loginUser.id
+    };
+
+    sql += req.dbPrepare(dbParams);
+    // sql += ' GROUP BY s.id';
+
+    var rows =
+        yield req.conn.yieldQuery(sql);
+    var total = rows[0].count;
+
+    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_user su WHERE ';
+
+    dbParams['s.creator'] = 'u.id';
+    sql += req.dbPrepare(dbParams);
+    // sql += ' GROUP BY s.id';
+    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+
+    rows =
+        yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+
+    res.json({
+        code: ERR.SUCCESS,
+        data: {
+            total: total,
+            list: rows
+        }
+    });
+
+};
+
+exports.archive = function*(req, res, next) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+
+    var result =
+        yield req.conn.yieldQuery('UPDATE subject SET isArchive = ? WHERE creator = ? AND id = ?', [params.isArchive, loginUser.id, params.subjectId]);
+    if (result.affectedRows) {
         res.json({
-            code: ERR.SUCCESS,
-            data: {
-                total: total,
-                list: rows
-            }
+            code: ERR.SUCCESS
         });
-        req.conn.release();
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
+    } else {
+        res.json({
+            code: ERR.LOGIC_FAILURE,
+            msg: '操作失败, 没有找到该主题或非法操作'
+        });
+    }
+
+};
+
+exports.archived = function*(req, res, next) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+
+    // 所有自己创建的, 自己是成员的, 自己是管理员的
+    var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s, subject_user su WHERE ';
+    var dbParams = {
+        's.isArchive': 1,
+        's.id': 'su.subject_id'
+    };
+
+    sql += req.dbPrepare(dbParams);
+    sql += ' AND (s.creator = ? OR su.user_id = ?)';
+
+    var rows =
+        yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id]);
+    var total = rows[0].count;
+
+    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_user su WHERE ';
+
+    dbParams['s.creator'] = 'u.id';
+    sql += req.dbPrepare(dbParams);
+    sql += ' AND (s.creator = ? OR su.user_id = ?)';
+
+    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+
+    rows =
+        yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+
+    res.json({
+        code: ERR.SUCCESS,
+        data: {
+            total: total,
+            list: rows
+        }
     });
 };
 
 //从主题资源表中删除一个资源
-exports.delresource = function(req, res) {
+exports.delresource = function*(req, res) {
     var params = req.parameter;
     var loginUser = req.loginUser;
 
-    co(function*() {
 
-        var auth =
-            yield getAuth(req, params.subjectId);
-        if (auth.length || loginUser.auth) {
-            var sql = 'delete from subject_resource where subject_id=? and resource_id=?';
-            var row =
-                yield req.conn.yieldQuery(sql, [params.subjectId, params.resourceId]);
+    var auth =
+        yield getAuth(req, params.subjectId);
+    if (auth.length || loginUser.auth) {
+        var sql = 'delete from subject_resource where subject_id=? and resource_id=?';
+        var row =
+            yield req.conn.yieldQuery(sql, [params.subjectId, params.resourceId]);
 
-            if (row.affectedRows) {
-                res.json({
-                    code: ERR.SUCCESS,
-                    msg: '删除成功'
-                });
-            } else {
-                res.json({
-                    code: ERR.NOT_FOUND,
-                    msg: '没有找到资源'
-                });
-            }
-
+        if (row.affectedRows) {
+            res.json({
+                code: ERR.SUCCESS,
+                msg: '删除成功'
+            });
         } else {
             res.json({
-                code: ERR.NOT_AUTH,
-                msg: '没有权限'
+                code: ERR.NOT_FOUND,
+                msg: '没有找到资源'
             });
         }
-        req.conn.release();
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
-    });
+
+    } else {
+        res.json({
+            code: ERR.NOT_AUTH,
+            msg: '没有权限'
+        });
+    }
+
 }
 
 //验证一个主题的权限

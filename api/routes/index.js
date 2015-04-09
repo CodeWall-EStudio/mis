@@ -1,5 +1,6 @@
 var path = require('path');
 var us = require('underscore');
+var co = require('co');
 
 var ERR = require('../errorcode');
 var config = require('../config');
@@ -45,7 +46,15 @@ exports.route = function(req, res, next) {
     var router = getRouter(path, method);
     if (router) {
         Logger.debug('route to ', path);
-        router(req, res, next);
+        // router(req, res, next);
+        co(router(req, res, next))
+            .then(function() {
+                process.nextTick(function() {
+                    db.release(req, res);
+                });
+            }).catch(function(err) {
+                db.handleError(req, res, err.message);
+            });
     } else {
         next();
     }
