@@ -273,6 +273,7 @@ exports.search = function(req, res) {
 
         rows =
             yield req.conn.yieldQuery('SELECT * FROM article  WHERE subject_id = ? ORDER BY status DESC limit ?, ? ', [params.subjectId, params.start, params.limit]);
+            
 
         //标签id列表,资源id列表
         var labelMap = [],
@@ -575,4 +576,29 @@ exports.collected = function(req, res) {
     }).catch(function(err) {
         db.handleError(req, res, err.message);
     });
+};
+
+exports.setTop = function(req, res, next){
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+    co(function*() {
+
+        var status = params.isTop ? config.ARTICLE_STATUS_TOP : config.ARTICLE_STATUS_NORMAL;
+        var result = yield req.conn.yieldQuery('UPDATE article SET status = ? WHERE id = ?', [status, params.articleId ]);
+        if(result.affectedRows){
+            res.json({
+                code: ERR.SUCCESS
+            });
+        }else{
+            res.json({
+                code: ERR.NOT_FOUND,
+                msg: '找不到该帖子'
+            });
+        }
+
+    }).catch(function(err) {
+        db.handleError(req, res, err.message);
+    });
+
+
 };

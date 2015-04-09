@@ -319,7 +319,7 @@ module.exports = {
         }, {
             name: 'isStar',
             required: true,
-            type: 'number'
+            type: 'boolean'
         }]
     },
 
@@ -349,7 +349,7 @@ module.exports = {
         }, {
             name: 'isCollect',
             required: true,
-            type: 'number'
+            type: 'boolean'
         }]
     },
 
@@ -367,6 +367,19 @@ module.exports = {
             type: 'number'
         }, {
             name: 'orderby'
+        }]
+    },
+
+    '/cgi/article/setTop': {
+        method: 'POST',
+        params: [{
+            name: 'articleId',
+            required: true,
+            type: 'number'
+        }, {
+            name: 'isTop',
+            required: true,
+            type: 'boolean'
         }]
     },
 
