@@ -137,6 +137,13 @@ article.prototype.search = function(param){
 
 			var data = _this.checkData(res.data);
 			var html = tmpl.list(data);
+
+			if(res.data.top.length){
+				var html1 = tmpl.top({
+					list : res.data.top
+				})
+				$("#articleTop").html(html1);
+			}
 			_this.dom.append(html);
 			if(_this.length >= _this.total){
 				_this.end = true;
@@ -144,6 +151,7 @@ article.prototype.search = function(param){
 		}
 	});	
 }
+
 
 article.prototype.setup = function(){
 	var id = this.target.data('id'),

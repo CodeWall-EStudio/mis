@@ -283,6 +283,11 @@ exports.search = function*(req, res) {
         labelMap[rows[i].id] = i;
     }
 
+    srows = [];
+    if(params.start === 0){
+        srows = yield req.conn.yieldQuery('select * from article where status = 100');
+    }
+
     //取标签
     //         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
     if (rows.length) {
@@ -337,7 +342,8 @@ exports.search = function*(req, res) {
         code: ERR.SUCCESS,
         data: {
             total: total,
-            list: rows
+            list: rows,
+            top : srows
         }
     });
 
