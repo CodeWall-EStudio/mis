@@ -37,7 +37,7 @@
 
 	.artice-act-btn a{
 		span{
-			
+			cursor:pointer;
 
 			&.post{
 				@include icons-sprite-retina("post16");

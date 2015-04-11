@@ -16,7 +16,6 @@ function getNowTime(str){
     var atime = new Date(str).getTime();
 
     var c = Math.ceil((now - atime)/1000);
-    console.log(c,str);
     if(c<60){
         return '1分钟以内';
     }else if(c<3600){
