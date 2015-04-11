@@ -24,7 +24,7 @@ Multimedia Interaction System API Server
     node --harmony app.js
 
 # POST man地址
-https://www.getpostman.com/collections/ea288dd688e60adf9387
+    https://www.getpostman.com/collections/ea288dd688e60adf9387
 
 # [API docs](./docs/二期接口列表.md)
 
