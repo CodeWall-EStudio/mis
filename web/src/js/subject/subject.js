@@ -4,6 +4,8 @@ var cgi = require('../common/cgi').subject,
 	subjectInfo = require('./info'),
 	subjectCreate = require('./create');
 
+var striker = $(window.striker);	
+
 //模板引用
 var tmpl = {
 	area : require('../../tpl/subject/size.ejs'),
@@ -58,7 +60,7 @@ Subject.area = function(domname){
 	this.nextPage = dom.find('.next-page');	
 	this.timeDom = dom.find('.time');
 	this.updateDom = dom.find('.update');
-
+	this.allNum = 0;
 	this.loading = false;
 
 	this.getDate({
@@ -163,6 +165,7 @@ Subject.area.prototype.checkPage = function(){
 //修改总数
 Subject.area.prototype.changeNum = function(num){
 	this.allPage = Math.ceil(num/this.limit);
+	this.allNum = num;
 	this.numDom.text(num);
 }
 
@@ -206,6 +209,13 @@ Subject.area.prototype.bindAction = function(){
 			_this[action](e);
 		}
 	});	
+
+	striker.bind('subjectCreated',function(){
+		if('mySubject' === _this.proName){
+			_this.allNum++;
+			_this.changeNum(_this.allNum);
+		}
+	});
 }
 
 Subject.init = function(type){

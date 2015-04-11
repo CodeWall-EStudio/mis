@@ -214,6 +214,7 @@ sCreate.create.prototype.bindAction = function(param,cb){
 							var html = tmpl.list({
 								list : [res.data]
 							});
+							striker.trigger('subjectCreated');
 							$("#mySubject").prepend(html);
 						}
 					});					

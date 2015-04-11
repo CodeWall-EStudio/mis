@@ -286,10 +286,9 @@ post.prototype.post = function(){
 			_this.loading = false;
 			if(pTarget.hasClass('modal')){
 				aPost.reset(pTarget);
-
 			}
+			_this.cDom.modal('hide');
 			if(res.code === 0){
-				console.log(striker.article);
 				striker.trigger('newarticle',res.data);
 			}
 			_this.clear();

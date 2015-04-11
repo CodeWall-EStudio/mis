@@ -96,7 +96,8 @@ article.prototype.loadMore = function(){
 	this.search({
 		start : this.start,
 		limit : this.limit,
-		subjectId : this.subid
+		subjectId : this.subid,
+		orderby : 'createTime'
 	});
 }
 
@@ -124,7 +125,8 @@ article.prototype.search = function(param){
 		param = {
 			start : this.start,
 			limit : this.limit,
-			subjectId : this.subid
+			subjectId : this.subid,
+			orderby : 'createTime'
 		}
 	}
 
