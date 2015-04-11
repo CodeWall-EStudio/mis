@@ -1364,6 +1364,9 @@ td i.s {
   background-color: #fff;
   padding-bottom: 10px;
 }
+.artice-title .artice-act-btn a span {
+  cursor: pointer;
+}
 .artice-title .artice-act-btn a span.post {
   background-image: url('../img/sprite/icons-sf346881448.png');
   background-position: -16px 0;
@@ -1513,6 +1516,7 @@ td i.s {
   position: relative;
 }
 .artice-one .edit {
+  cursor: pointer;
   width: auto;
 }
 .artice-one .edit span {
@@ -1528,6 +1532,7 @@ td i.s {
   margin-top: 4px;
 }
 .artice-one .delete {
+  cursor: pointer;
   width: auto;
 }
 .artice-one .delete span {
@@ -1543,6 +1548,7 @@ td i.s {
   margin-top: 4px;
 }
 .artice-one .post {
+  cursor: pointer;
   width: auto;
 }
 .artice-one .post span {
@@ -1558,6 +1564,7 @@ td i.s {
   margin-top: 4px;
 }
 .artice-one .up {
+  cursor: pointer;
   width: auto;
 }
 .artice-one .up span {
