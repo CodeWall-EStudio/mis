@@ -106,7 +106,7 @@ exports.create = function*(req, res) {
                 yield req.conn.yieldQuery('SELECT c.*,u.name FROM comment c,user u WHERE u.id = c.creator and c.id = ?', commentId);
 
             var rrows =
-                yield req.conn.yieldQuery('select cr.id,r.* from comment_resource cr,resource r where cr.resource_id = r.id and comment_id = ?', commentId);
+                yield req.conn.yieldQuery('select cr.id as cid,r.* from comment_resource cr,resource r where cr.resource_id = r.id and comment_id = ?', commentId);
 
             rows[0].resources = rrows;
 

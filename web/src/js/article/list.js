@@ -32,6 +32,8 @@ function article(){
 	this.subid = nowSubId;
 	this.msg = window.striker.msg;
 
+	this.rdata = {};
+
 	this.bindAction();
 	this.search();
 }
@@ -53,19 +55,6 @@ article.prototype.getimg = function(data){
 		}
 	}
 	return num;
-}
-
-
-article.prototype.checkData = function(data){
-	var list = [];
-	for(var i = 0,l=data.list.length;i<l;i++){
-		var item = data.list[i];
-		item.imgnum = this.getimg(item.resource);
-		list.push(item);
-	}
-	data.list = list;
-	data.sid = nowSubId;
-	return data;
 }
 
 //绑定事件
@@ -111,6 +100,18 @@ article.prototype.loadMore = function(){
 	});
 }
 
+article.prototype.checkData = function(data){
+	var list = [];
+	for(var i = 0,l=data.list.length;i<l;i++){
+		var item = data.list[i];
+		item.imgnum = this.getimg(item.resource);
+		this.rdata[item.id] = item.resource;
+		list.push(item);
+	}
+	data.list = list;
+	data.sid = nowSubId;
+	return data;
+}
 
 //拉帖子列表
 article.prototype.search = function(param){
@@ -151,7 +152,6 @@ article.prototype.search = function(param){
 		}
 	});	
 }
-
 
 article.prototype.setup = function(){
 	var id = this.target.data('id'),
@@ -225,6 +225,19 @@ article.prototype.prependToList = function(param){
 	this.dom.prepend(html);
 }
 
+//预览主题相关资源
+article.prototype.review = function(e){
+	var target = $(e.target),
+		pid = target.data('pid'),
+		id = target.data('id');
+
+	if(id){
+		striker.trigger('review',{
+			id : id,
+			list : this.rdata[pid]
+		})
+	}
+};
 
 //把新发布的帖子加到列表最前面
 aList.prependToList = function(param){

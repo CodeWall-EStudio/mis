@@ -70,7 +70,6 @@ articleInfo.prototype.up = function(e){
 			isTop : !status
 		}
 		cgi.settop(param,function(res){
-			console.log(res);
 			if(res.code === 0){
 				var text = param.isTop?'取消置顶':'置顶',
 					st = param.status?0:100;
@@ -78,8 +77,6 @@ articleInfo.prototype.up = function(e){
 			}
 		})		
 	}
-
-	console.log(id,'up');
 }
 
 articleInfo.prototype.setup = function(e){
@@ -108,5 +105,18 @@ articleInfo.prototype.updateCount = function(){
 	this.data.commentCount++;
 	this.cDom.text(this.data.commentCount);
 }
+
+//预览主题相关资源
+articleInfo.prototype.review = function(e){
+	var target = $(e.target),
+		id = target.data('id');
+
+	if(id){
+		striker.trigger('review',{
+			id : id,
+			list : this.data.resourceList
+		})
+	}
+};
 
 Info.info = articleInfo;

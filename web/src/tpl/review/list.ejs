@@ -1,19 +1,23 @@
-	<div class="al-arrow-p"></div>
+	<div class="al-arrow-p" data-action="showPre"></div>
 	<div class="review-list-block">
 		<ul id="reviewFileList">
 
 		<%
+		var idx = 0;
 		for(var i in list){
 		var item = list[i];
 		%>
-			<li id="review<%+item.id%>" data-id="<%+item.id%>" <%if(item.id === id){%>class="selected"<%}%> title="<%+item.name%>">
+			<li id="review<%-item.id%>"  data-idx="<%-idx%>" data-action="showFile" data-id="<%-item.id%>" <%if(item.id === id){%>class="selected"<%}%> title="<%-item.name%>">
 			<%if(item.type===1){%>
-				<img src="/api/file/preview?<%if(mail){%>messageId<%}else{%>fileId<%}%>=<%+item.id%>&size=40_40" />
+				<img src="/cgi/resource/preview?id=<%-item.id%>" data-idx="<%-idx%>" data-action="showFile" data-id="<%-item.id%>" />
 			<%}else{%>
-				<i class="fdname<%+item.id%> icon-type" data-fid="<%+item.fid%>" data-id="<%+item.id%>"></i>
+				<i class="fdname<%-item.id%> icon-type" data-idx="<%-idx%>" data-action="showFile" data-id="<%-item.id%>"></i>
 			<%}%>
 			</li>
-		<%}%>
+		<%
+				idx++;
+			}
+		%>
 		</ul>
 	</div>
-	<div class="ar-arrow-p"></div>
+	<div class="ar-arrow-p" data-action="showNext"></div>

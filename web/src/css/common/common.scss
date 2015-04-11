@@ -64,7 +64,7 @@ li{
 #reviewWin{
   position:absolute;
   z-index:201;
-  width:100%;
+  width:1000px;
   height:100%;
   display:none;
   top:0;
@@ -77,13 +77,13 @@ li{
   position:absolute;
   top:10px;
   right:10px;
-  background:url(imgs/close1.png) no-repeat;
+  @include icons-sprite-retina("close1");
   z-index:202;
   cursor:pointer;
 }
 
     #reviewDiv div.al-arrow{
-      background:url(/css/imgs/icon-prev.png) no-repeat;
+      @include icons-sprite-retina("icon-prev");
       width:36px;
       height:54px;
       position:absolute;
@@ -92,7 +92,7 @@ li{
       cursor:pointer;
     }
     #reviewDiv div.ar-arrow{
-      background:url(/css/imgs/icon-next.png) no-repeat;
+      @include icons-sprite-retina("icon-next");      
       width:36px;
       height:54px; 
       top:50%;    
@@ -168,24 +168,20 @@ li{
       margin:0 auto;
     }
     .to-left{
-
-      background:url(/css/imgs/ll.png) no-repeat right;
+      @include icons-sprite-retina("ll");
     }
     .to-right{
-
-      background:url(/css/imgs/rl.png) no-repeat right;     
+      @include icons-sprite-retina("rl");
     }
     .zoom-in{
- 
-      background:url(/css/imgs/jjj.png) no-repeat;        
+      @include icons-sprite-retina("jjj");
     }
     .zoom-out{
-  
-      background:url(/css/imgs/jj.png) no-repeat;
+      @include icons-sprite-retina("jj");
     }  
 
     .text-review{
-      width:90%;
+      width:900px;
       height:500px;
       overflow-y:auto;
       background-color:#fff;
@@ -196,7 +192,7 @@ li{
     .file-select-block{
       position:fixed;
       bottom:6px;
-      width:90%;
+      width:900px;
       height:54px;
       margin:0 -20px;
       z-index:10;
@@ -209,7 +205,7 @@ li{
     .review-bg{
       position:fixed;
       bottom:6px;
-      width:90%;
+      width:900px;
       height:54px;
       background:#000;
       padding:0 60px;
@@ -243,7 +239,7 @@ li{
       
     }    
     .file-select-block div.al-arrow-p{
-      background:url(/css/imgs/page-prev.png) no-repeat;
+      @include icons-sprite-retina("page-prev");
       width:60px;
       height:54px;
       position:absolute;
@@ -251,7 +247,7 @@ li{
       left:0;
     }
     .file-select-block div.ar-arrow-p{
-      background:url(/css/imgs/page-next.png) no-repeat;
+      @include icons-sprite-retina("page-next");      
       width:60px;
       height:54px; 
       float:right;     
@@ -294,5 +290,87 @@ li{
     max-height:100%;
   }
   .review-img-block img{}
+
+
+.dis-list-type .td2 i.icon-type1,i.icon-type1{
+  display:inline-block;
+  float:left;
+  @include icons-sprite-retina("type-img");
+}
+
+.dis-list-type .td2 i.icon-type2,i.icon-type2{
+  display:inline-block;
+  float:left;
+  @include icons-sprite-retina("type-doc");
+}
+
+.dis-list-type .td2 i.icon-type3,i.icon-type3{
+  display:inline-block;
+  float:left;
+  @include icons-sprite-retina("type-music");
+}
+
+.dis-list-type .td2 i.icon-type4,i.icon-type4{
+  display:inline-block;
+  float:left;
+  @include icons-sprite-retina("type-vedio");
+}
+
+.dis-list-type .td2 i.icon-type5,i.icon-type5{
+  display:inline-block;
+  float:left;
+  @include icons-sprite-retina("type-exe");
+}
+
+.dis-list-type .td2 i.icon-type6,i.icon-type6{
+  display:inline-block;
+  float:left;
+  @include icons-sprite-retina("type-zip");
+}
+
+.dis-list-type .td2 i.icon-type,i.icon-type,i.icon-type0{
+  display:inline-block;
+  float:left;
+  @include icons-sprite-retina("type-other");
+}
+i.fold{
+  display:inline-block;
+  width:32px;
+  height:32px;
+  float:left;
+  /*margin:19px 0 0 15px;*/
+  background:url(imgs/folder.png) 0 2px no-repeat;
+}
+i.fold-read{
+  display:inline-block;
+  width:32px;
+  height:32px;
+  float:left;
+  /*margin:19px 0 0 15px;*/
+  background:url(imgs/folder_noedit.png) 0 2px no-repeat;
+}
+i.fold-open{
+  display:inline-block;
+  width:32px;
+  height:32px;
+  float:left;
+  /*margin:19px 0 0 15px;*/
+  background:url(imgs/folder_edit.png) 0 2px no-repeat;
+}
+
+i.colls{
+  cursor:pointer;
+  display:inline-block;
+/*  position:absolute;*/
+  top:20px;
+  right:10px;
+  width:16px;
+  height:15px;
+  background:url(imgs/star.png) no-repeat;
+}
+td i.s{
+  height:16px;
+  background:url(imgs/star1.png) no-repeat;
+}
 
   /**/

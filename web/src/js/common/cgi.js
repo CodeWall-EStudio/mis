@@ -77,9 +77,10 @@ db.login = function(param,callback){
 	request.post(cgiList.login,param,callback);
 }
 
-db.logout = function(param,callback){
+db.logout = function(callback){
+
 	var callback = checkCallback(callback);
-	request.get(cgiList.logout,callback);
+	request.post(cgiList.logout,{},callback);
 }
 
 db.user = {};

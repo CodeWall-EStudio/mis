@@ -74,8 +74,16 @@ info.prototype.manage = function(){
 }
 
 //预览主题相关资源
-info.prototype.reviewResource = function(e){
+info.prototype.review = function(e){
+	var target = $(e.target),
+		id = target.data('id');
 
+	if(id){
+		striker.trigger('review',{
+			id : id,
+			list : this.data.resourceList
+		})
+	}
 };
 
 info.prototype.bindAction = function(){

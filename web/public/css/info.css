@@ -1,123 +1,215 @@
 @charset "UTF-8";
-.icons-sprite, .icons-archive, .icons-del16, .icons-edit16, .icons-eye, .icons-eye16, .icons-file16, .icons-font16, .icons-img16, .icons-male40, .icons-manage16, .icons-memu32, .icons-menu0, .icons-msg0, .icons-msg32, .icons-post16, .icons-rectangular0, .icons-rep16, .icons-replay, .icons-say32, .icons-search0, .icons-search32, .icons-unlock, .icons-user, .icons-user0, .icons-user32, .icons-user320, .icons-user9, .icons-users13, .icons-video16 {
-  background-image: url('../img/sprite/icons-s117c3a5715.png');
+.icons-sprite, .icons-archive, .icons-close1, .icons-del16, .icons-edit16, .icons-eye, .icons-eye16, .icons-file16, .icons-font16, .icons-icon-next, .icons-icon-prev, .icons-img16, .icons-jj, .icons-jjj, .icons-ll, .icons-male40, .icons-manage16, .icons-memu32, .icons-menu0, .icons-msg0, .icons-msg32, .icons-page-next, .icons-page-prev, .icons-post16, .icons-rectangular0, .icons-rep16, .icons-replay, .icons-rl, .icons-say32, .icons-search0, .icons-search32, .icons-type-doc, .icons-type-doc1, .icons-type-exe, .icons-type-exe1, .icons-type-img, .icons-type-img1, .icons-type-music, .icons-type-music1, .icons-type-other, .icons-type-other1, .icons-type-vedio, .icons-type-vedio1, .icons-type-zip, .icons-type-zip1, .icons-unlock, .icons-user, .icons-user0, .icons-user32, .icons-user320, .icons-user9, .icons-users13, .icons-video16 {
+  background-image: url('../img/sprite/icons-s7c30815c09.png');
   background-repeat: no-repeat;
 }
 
 .icons-archive {
-  background-position: 0 -96px;
+  background-position: -48px -128px;
+}
+
+.icons-close1 {
+  background-position: -60px -278px;
 }
 
 .icons-del16 {
-  background-position: -16px -32px;
+  background-position: -66px -24px;
 }
 
 .icons-edit16 {
-  background-position: 0 -48px;
+  background-position: -34px -24px;
 }
 
 .icons-eye {
-  background-position: 0 -240px;
+  background-position: 0 -128px;
 }
 
 .icons-eye16 {
-  background-position: 0 -32px;
+  background-position: -18px -24px;
 }
 
 .icons-file16 {
-  background-position: -18px -16px;
+  background-position: -48px 0;
 }
 
 .icons-font16 {
-  background-position: 0 -64px;
+  background-position: -32px 0;
+}
+
+.icons-icon-next {
+  background-position: -84px -278px;
+}
+
+.icons-icon-prev {
+  background-position: -83px -224px;
 }
 
 .icons-img16 {
-  background-position: -16px -64px;
+  background-position: -82px -24px;
+}
+
+.icons-jj {
+  background-position: -24px -128px;
+}
+
+.icons-jjj {
+  background-position: -84px 0;
+}
+
+.icons-ll {
+  background-position: -98px -24px;
 }
 
 .icons-male40 {
-  background-position: 0 -168px;
+  background-position: 0 -72px;
 }
 
 .icons-manage16 {
-  background-position: 0 -80px;
+  background-position: 0 0;
 }
 
 .icons-memu32 {
-  background-position: 0 -544px;
+  background-position: -72px -128px;
 }
 
 .icons-menu0 {
-  background-position: 0 -216px;
+  background-position: -72px -72px;
 }
 
 .icons-msg0 {
-  background-position: 0 -120px;
+  background-position: 0 -48px;
 }
 
 .icons-msg32 {
-  background-position: 0 -512px;
+  background-position: -32px -160px;
+}
+
+.icons-page-next {
+  background-position: 0 -278px;
+}
+
+.icons-page-prev {
+  background-position: 0 -224px;
 }
 
 .icons-post16 {
-  background-position: -16px -80px;
+  background-position: -16px 0;
 }
 
 .icons-rectangular0 {
-  background-position: 0 -192px;
+  background-position: -96px -72px;
 }
 
 .icons-rep16 {
-  background-position: -16px -48px;
+  background-position: -50px -24px;
 }
 
 .icons-replay {
-  background-position: 0 -16px;
+  background-position: 0 -24px;
+}
+
+.icons-rl {
+  background-position: -60px 0;
 }
 
 .icons-say32 {
-  background-position: 0 -480px;
+  background-position: 0 -96px;
 }
 
 .icons-search0 {
-  background-position: 0 -360px;
+  background-position: -96px -48px;
 }
 
 .icons-search32 {
-  background-position: 0 -384px;
+  background-position: -32px -96px;
+}
+
+.icons-type-doc {
+  background-position: -64px -96px;
+}
+
+.icons-type-doc1 {
+  background-position: 0 -1100px;
+}
+
+.icons-type-exe {
+  background-position: -96px -96px;
+}
+
+.icons-type-exe1 {
+  background-position: 0 -716px;
+}
+
+.icons-type-img {
+  background-position: -32px -192px;
+}
+
+.icons-type-img1 {
+  background-position: 0 -588px;
+}
+
+.icons-type-music {
+  background-position: 0 -160px;
+}
+
+.icons-type-music1 {
+  background-position: 0 -332px;
+}
+
+.icons-type-other {
+  background-position: -64px -160px;
+}
+
+.icons-type-other1 {
+  background-position: 0 -972px;
+}
+
+.icons-type-vedio {
+  background-position: -96px -192px;
+}
+
+.icons-type-vedio1 {
+  background-position: 0 -460px;
+}
+
+.icons-type-zip {
+  background-position: -96px -160px;
+}
+
+.icons-type-zip1 {
+  background-position: 0 -844px;
 }
 
 .icons-unlock {
-  background-position: 0 -336px;
+  background-position: -72px -48px;
 }
 
 .icons-user {
-  background-position: 0 -288px;
+  background-position: -48px -48px;
 }
 
 .icons-user0 {
-  background-position: 0 -312px;
+  background-position: -24px -48px;
 }
 
 .icons-user32 {
-  background-position: 0 -416px;
+  background-position: -64px -192px;
 }
 
 .icons-user320 {
-  background-position: 0 -448px;
+  background-position: 0 -192px;
 }
 
 .icons-user9 {
-  background-position: 0 -264px;
+  background-position: -48px -72px;
 }
 
 .icons-users13 {
-  background-position: 0 -144px;
+  background-position: -24px -72px;
 }
 
 .icons-video16 {
-  background-position: 0 0;
+  background-position: -60px -224px;
 }
 
 body {
@@ -191,7 +283,7 @@ li {
 #reviewWin {
   position: absolute;
   z-index: 201;
-  width: 100%;
+  width: 1000px;
   height: 100%;
   display: none;
   top: 0;
@@ -204,13 +296,25 @@ li {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: url(imgs/close1.png) no-repeat;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -60px -278px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 24px;
+  width: 24px;
   z-index: 202;
   cursor: pointer;
 }
 
 #reviewDiv div.al-arrow {
-  background: url(/css/imgs/icon-prev.png) no-repeat;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -83px -224px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 54px;
+  width: 36px;
   width: 36px;
   height: 54px;
   position: absolute;
@@ -220,7 +324,13 @@ li {
 }
 
 #reviewDiv div.ar-arrow {
-  background: url(/css/imgs/icon-next.png) no-repeat;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -84px -278px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 54px;
+  width: 36px;
   width: 36px;
   height: 54px;
   top: 50%;
@@ -306,23 +416,47 @@ li {
 }
 
 .to-left {
-  background: url(/css/imgs/ll.png) no-repeat right;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -98px -24px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 24px;
+  width: 24px;
 }
 
 .to-right {
-  background: url(/css/imgs/rl.png) no-repeat right;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -60px 0;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 24px;
+  width: 24px;
 }
 
 .zoom-in {
-  background: url(/css/imgs/jjj.png) no-repeat;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -84px 0;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 24px;
+  width: 24px;
 }
 
 .zoom-out {
-  background: url(/css/imgs/jj.png) no-repeat;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -24px -128px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 24px;
+  width: 24px;
 }
 
 .text-review {
-  width: 90%;
+  width: 900px;
   height: 500px;
   overflow-y: auto;
   background-color: #fff;
@@ -334,7 +468,7 @@ li {
 .file-select-block {
   position: fixed;
   bottom: 6px;
-  width: 90%;
+  width: 900px;
   height: 54px;
   margin: 0 -20px;
   z-index: 10;
@@ -387,7 +521,13 @@ li {
 }
 
 .file-select-block div.al-arrow-p {
-  background: url(/css/imgs/page-prev.png) no-repeat;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: 0 -224px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 54px;
+  width: 60px;
   width: 60px;
   height: 54px;
   position: absolute;
@@ -396,7 +536,13 @@ li {
 }
 
 .file-select-block div.ar-arrow-p {
-  background: url(/css/imgs/page-next.png) no-repeat;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: 0 -278px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 54px;
+  width: 60px;
   width: 60px;
   height: 54px;
   float: right;
@@ -440,126 +586,345 @@ li {
   max-height: 100%;
 }
 
+.dis-list-type .td2 i.icon-type1, i.icon-type1 {
+  display: inline-block;
+  float: left;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -32px -192px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 32px;
+  width: 32px;
+}
+
+.dis-list-type .td2 i.icon-type2, i.icon-type2 {
+  display: inline-block;
+  float: left;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -64px -96px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 32px;
+  width: 32px;
+}
+
+.dis-list-type .td2 i.icon-type3, i.icon-type3 {
+  display: inline-block;
+  float: left;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: 0 -160px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 32px;
+  width: 32px;
+}
+
+.dis-list-type .td2 i.icon-type4, i.icon-type4 {
+  display: inline-block;
+  float: left;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -96px -192px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 32px;
+  width: 32px;
+}
+
+.dis-list-type .td2 i.icon-type5, i.icon-type5 {
+  display: inline-block;
+  float: left;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -96px -96px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 32px;
+  width: 32px;
+}
+
+.dis-list-type .td2 i.icon-type6, i.icon-type6 {
+  display: inline-block;
+  float: left;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -96px -160px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 32px;
+  width: 32px;
+}
+
+.dis-list-type .td2 i.icon-type, i.icon-type, i.icon-type0 {
+  display: inline-block;
+  float: left;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -64px -160px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: block;
+  height: 32px;
+  width: 32px;
+}
+
+i.fold {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  float: left;
+  /*margin:19px 0 0 15px;*/
+  background: url(imgs/folder.png) 0 2px no-repeat;
+}
+
+i.fold-read {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  float: left;
+  /*margin:19px 0 0 15px;*/
+  background: url(imgs/folder_noedit.png) 0 2px no-repeat;
+}
+
+i.fold-open {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  float: left;
+  /*margin:19px 0 0 15px;*/
+  background: url(imgs/folder_edit.png) 0 2px no-repeat;
+}
+
+i.colls {
+  cursor: pointer;
+  display: inline-block;
+  /*  position:absolute;*/
+  top: 20px;
+  right: 10px;
+  width: 16px;
+  height: 15px;
+  background: url(imgs/star.png) no-repeat;
+}
+
+td i.s {
+  height: 16px;
+  background: url(imgs/star1.png) no-repeat;
+}
+
 /**/
-.icons-sprite, .icons-archive, .icons-del16, .icons-edit16, .icons-eye, .icons-eye16, .icons-file16, .icons-font16, .icons-img16, .icons-male40, .icons-manage16, .icons-memu32, .icons-menu0, .icons-msg0, .icons-msg32, .icons-post16, .icons-rectangular0, .icons-rep16, .icons-replay, .icons-say32, .icons-search0, .icons-search32, .icons-unlock, .icons-user, .icons-user0, .icons-user32, .icons-user320, .icons-user9, .icons-users13, .icons-video16 {
-  background-image: url('../img/sprite/icons-s117c3a5715.png');
+.icons-sprite, .icons-archive, .icons-close1, .icons-del16, .icons-edit16, .icons-eye, .icons-eye16, .icons-file16, .icons-font16, .icons-icon-next, .icons-icon-prev, .icons-img16, .icons-jj, .icons-jjj, .icons-ll, .icons-male40, .icons-manage16, .icons-memu32, .icons-menu0, .icons-msg0, .icons-msg32, .icons-page-next, .icons-page-prev, .icons-post16, .icons-rectangular0, .icons-rep16, .icons-replay, .icons-rl, .icons-say32, .icons-search0, .icons-search32, .icons-type-doc, .icons-type-doc1, .icons-type-exe, .icons-type-exe1, .icons-type-img, .icons-type-img1, .icons-type-music, .icons-type-music1, .icons-type-other, .icons-type-other1, .icons-type-vedio, .icons-type-vedio1, .icons-type-zip, .icons-type-zip1, .icons-unlock, .icons-user, .icons-user0, .icons-user32, .icons-user320, .icons-user9, .icons-users13, .icons-video16 {
+  background-image: url('../img/sprite/icons-s7c30815c09.png');
   background-repeat: no-repeat;
 }
 
 .icons-archive {
-  background-position: 0 -96px;
+  background-position: -48px -128px;
+}
+
+.icons-close1 {
+  background-position: -60px -278px;
 }
 
 .icons-del16 {
-  background-position: -16px -32px;
+  background-position: -66px -24px;
 }
 
 .icons-edit16 {
-  background-position: 0 -48px;
+  background-position: -34px -24px;
 }
 
 .icons-eye {
-  background-position: 0 -240px;
+  background-position: 0 -128px;
 }
 
 .icons-eye16 {
-  background-position: 0 -32px;
+  background-position: -18px -24px;
 }
 
 .icons-file16 {
-  background-position: -18px -16px;
+  background-position: -48px 0;
 }
 
 .icons-font16 {
-  background-position: 0 -64px;
+  background-position: -32px 0;
+}
+
+.icons-icon-next {
+  background-position: -84px -278px;
+}
+
+.icons-icon-prev {
+  background-position: -83px -224px;
 }
 
 .icons-img16 {
-  background-position: -16px -64px;
+  background-position: -82px -24px;
+}
+
+.icons-jj {
+  background-position: -24px -128px;
+}
+
+.icons-jjj {
+  background-position: -84px 0;
+}
+
+.icons-ll {
+  background-position: -98px -24px;
 }
 
 .icons-male40 {
-  background-position: 0 -168px;
+  background-position: 0 -72px;
 }
 
 .icons-manage16 {
-  background-position: 0 -80px;
+  background-position: 0 0;
 }
 
 .icons-memu32 {
-  background-position: 0 -544px;
+  background-position: -72px -128px;
 }
 
 .icons-menu0 {
-  background-position: 0 -216px;
+  background-position: -72px -72px;
 }
 
 .icons-msg0 {
-  background-position: 0 -120px;
+  background-position: 0 -48px;
 }
 
 .icons-msg32 {
-  background-position: 0 -512px;
+  background-position: -32px -160px;
+}
+
+.icons-page-next {
+  background-position: 0 -278px;
+}
+
+.icons-page-prev {
+  background-position: 0 -224px;
 }
 
 .icons-post16 {
-  background-position: -16px -80px;
+  background-position: -16px 0;
 }
 
 .icons-rectangular0 {
-  background-position: 0 -192px;
+  background-position: -96px -72px;
 }
 
 .icons-rep16 {
-  background-position: -16px -48px;
+  background-position: -50px -24px;
 }
 
 .icons-replay {
-  background-position: 0 -16px;
+  background-position: 0 -24px;
+}
+
+.icons-rl {
+  background-position: -60px 0;
 }
 
 .icons-say32 {
-  background-position: 0 -480px;
+  background-position: 0 -96px;
 }
 
 .icons-search0 {
-  background-position: 0 -360px;
+  background-position: -96px -48px;
 }
 
 .icons-search32 {
-  background-position: 0 -384px;
+  background-position: -32px -96px;
+}
+
+.icons-type-doc {
+  background-position: -64px -96px;
+}
+
+.icons-type-doc1 {
+  background-position: 0 -1100px;
+}
+
+.icons-type-exe {
+  background-position: -96px -96px;
+}
+
+.icons-type-exe1 {
+  background-position: 0 -716px;
+}
+
+.icons-type-img {
+  background-position: -32px -192px;
+}
+
+.icons-type-img1 {
+  background-position: 0 -588px;
+}
+
+.icons-type-music {
+  background-position: 0 -160px;
+}
+
+.icons-type-music1 {
+  background-position: 0 -332px;
+}
+
+.icons-type-other {
+  background-position: -64px -160px;
+}
+
+.icons-type-other1 {
+  background-position: 0 -972px;
+}
+
+.icons-type-vedio {
+  background-position: -96px -192px;
+}
+
+.icons-type-vedio1 {
+  background-position: 0 -460px;
+}
+
+.icons-type-zip {
+  background-position: -96px -160px;
+}
+
+.icons-type-zip1 {
+  background-position: 0 -844px;
 }
 
 .icons-unlock {
-  background-position: 0 -336px;
+  background-position: -72px -48px;
 }
 
 .icons-user {
-  background-position: 0 -288px;
+  background-position: -48px -48px;
 }
 
 .icons-user0 {
-  background-position: 0 -312px;
+  background-position: -24px -48px;
 }
 
 .icons-user32 {
-  background-position: 0 -416px;
+  background-position: -64px -192px;
 }
 
 .icons-user320 {
-  background-position: 0 -448px;
+  background-position: 0 -192px;
 }
 
 .icons-user9 {
-  background-position: 0 -264px;
+  background-position: -48px -72px;
 }
 
 .icons-users13 {
-  background-position: 0 -144px;
+  background-position: -24px -72px;
 }
 
 .icons-video16 {
-  background-position: 0 0;
+  background-position: -60px -224px;
 }
 
 .header {
@@ -593,8 +958,8 @@ li {
   vertical-align: middle;
 }
 .header .nav .user {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -416px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -64px -192px;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -606,8 +971,8 @@ li {
   position: relative;
 }
 .header .nav .msg span {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -512px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -32px -160px;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -632,8 +997,8 @@ li {
   overflow: hidden;
 }
 .header .nav .dialog {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -480px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: 0 -96px;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -642,8 +1007,8 @@ li {
   display: inline-block;
 }
 .header .nav .search {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -384px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -32px -96px;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -652,8 +1017,8 @@ li {
   display: inline-block;
 }
 .header .nav .memu {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -544px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -72px -128px;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -747,125 +1112,217 @@ li {
   overflow: hidden;
 }
 
-.icons-sprite, .icons-archive, .icons-del16, .icons-edit16, .icons-eye, .icons-eye16, .icons-file16, .icons-font16, .icons-img16, .icons-male40, .icons-manage16, .icons-memu32, .icons-menu0, .icons-msg0, .icons-msg32, .icons-post16, .icons-rectangular0, .icons-rep16, .icons-replay, .icons-say32, .icons-search0, .icons-search32, .icons-unlock, .icons-user, .icons-user0, .icons-user32, .icons-user320, .icons-user9, .icons-users13, .icons-video16 {
-  background-image: url('../img/sprite/icons-s117c3a5715.png');
+.icons-sprite, .icons-archive, .icons-close1, .icons-del16, .icons-edit16, .icons-eye, .icons-eye16, .icons-file16, .icons-font16, .icons-icon-next, .icons-icon-prev, .icons-img16, .icons-jj, .icons-jjj, .icons-ll, .icons-male40, .icons-manage16, .icons-memu32, .icons-menu0, .icons-msg0, .icons-msg32, .icons-page-next, .icons-page-prev, .icons-post16, .icons-rectangular0, .icons-rep16, .icons-replay, .icons-rl, .icons-say32, .icons-search0, .icons-search32, .icons-type-doc, .icons-type-doc1, .icons-type-exe, .icons-type-exe1, .icons-type-img, .icons-type-img1, .icons-type-music, .icons-type-music1, .icons-type-other, .icons-type-other1, .icons-type-vedio, .icons-type-vedio1, .icons-type-zip, .icons-type-zip1, .icons-unlock, .icons-user, .icons-user0, .icons-user32, .icons-user320, .icons-user9, .icons-users13, .icons-video16 {
+  background-image: url('../img/sprite/icons-s7c30815c09.png');
   background-repeat: no-repeat;
 }
 
 .icons-archive {
-  background-position: 0 -96px;
+  background-position: -48px -128px;
+}
+
+.icons-close1 {
+  background-position: -60px -278px;
 }
 
 .icons-del16 {
-  background-position: -16px -32px;
+  background-position: -66px -24px;
 }
 
 .icons-edit16 {
-  background-position: 0 -48px;
+  background-position: -34px -24px;
 }
 
 .icons-eye {
-  background-position: 0 -240px;
+  background-position: 0 -128px;
 }
 
 .icons-eye16 {
-  background-position: 0 -32px;
+  background-position: -18px -24px;
 }
 
 .icons-file16 {
-  background-position: -18px -16px;
+  background-position: -48px 0;
 }
 
 .icons-font16 {
-  background-position: 0 -64px;
+  background-position: -32px 0;
+}
+
+.icons-icon-next {
+  background-position: -84px -278px;
+}
+
+.icons-icon-prev {
+  background-position: -83px -224px;
 }
 
 .icons-img16 {
-  background-position: -16px -64px;
+  background-position: -82px -24px;
+}
+
+.icons-jj {
+  background-position: -24px -128px;
+}
+
+.icons-jjj {
+  background-position: -84px 0;
+}
+
+.icons-ll {
+  background-position: -98px -24px;
 }
 
 .icons-male40 {
-  background-position: 0 -168px;
+  background-position: 0 -72px;
 }
 
 .icons-manage16 {
-  background-position: 0 -80px;
+  background-position: 0 0;
 }
 
 .icons-memu32 {
-  background-position: 0 -544px;
+  background-position: -72px -128px;
 }
 
 .icons-menu0 {
-  background-position: 0 -216px;
+  background-position: -72px -72px;
 }
 
 .icons-msg0 {
-  background-position: 0 -120px;
+  background-position: 0 -48px;
 }
 
 .icons-msg32 {
-  background-position: 0 -512px;
+  background-position: -32px -160px;
+}
+
+.icons-page-next {
+  background-position: 0 -278px;
+}
+
+.icons-page-prev {
+  background-position: 0 -224px;
 }
 
 .icons-post16 {
-  background-position: -16px -80px;
+  background-position: -16px 0;
 }
 
 .icons-rectangular0 {
-  background-position: 0 -192px;
+  background-position: -96px -72px;
 }
 
 .icons-rep16 {
-  background-position: -16px -48px;
+  background-position: -50px -24px;
 }
 
 .icons-replay {
-  background-position: 0 -16px;
+  background-position: 0 -24px;
+}
+
+.icons-rl {
+  background-position: -60px 0;
 }
 
 .icons-say32 {
-  background-position: 0 -480px;
+  background-position: 0 -96px;
 }
 
 .icons-search0 {
-  background-position: 0 -360px;
+  background-position: -96px -48px;
 }
 
 .icons-search32 {
-  background-position: 0 -384px;
+  background-position: -32px -96px;
+}
+
+.icons-type-doc {
+  background-position: -64px -96px;
+}
+
+.icons-type-doc1 {
+  background-position: 0 -1100px;
+}
+
+.icons-type-exe {
+  background-position: -96px -96px;
+}
+
+.icons-type-exe1 {
+  background-position: 0 -716px;
+}
+
+.icons-type-img {
+  background-position: -32px -192px;
+}
+
+.icons-type-img1 {
+  background-position: 0 -588px;
+}
+
+.icons-type-music {
+  background-position: 0 -160px;
+}
+
+.icons-type-music1 {
+  background-position: 0 -332px;
+}
+
+.icons-type-other {
+  background-position: -64px -160px;
+}
+
+.icons-type-other1 {
+  background-position: 0 -972px;
+}
+
+.icons-type-vedio {
+  background-position: -96px -192px;
+}
+
+.icons-type-vedio1 {
+  background-position: 0 -460px;
+}
+
+.icons-type-zip {
+  background-position: -96px -160px;
+}
+
+.icons-type-zip1 {
+  background-position: 0 -844px;
 }
 
 .icons-unlock {
-  background-position: 0 -336px;
+  background-position: -72px -48px;
 }
 
 .icons-user {
-  background-position: 0 -288px;
+  background-position: -48px -48px;
 }
 
 .icons-user0 {
-  background-position: 0 -312px;
+  background-position: -24px -48px;
 }
 
 .icons-user32 {
-  background-position: 0 -416px;
+  background-position: -64px -192px;
 }
 
 .icons-user320 {
-  background-position: 0 -448px;
+  background-position: 0 -192px;
 }
 
 .icons-user9 {
-  background-position: 0 -264px;
+  background-position: -48px -72px;
 }
 
 .icons-users13 {
-  background-position: 0 -144px;
+  background-position: -24px -72px;
 }
 
 .icons-video16 {
-  background-position: 0 0;
+  background-position: -60px -224px;
 }
 
 .article-list dl.art-list {
@@ -904,8 +1361,8 @@ li {
   padding-bottom: 10px;
 }
 .artice-title .artice-act-btn a span.post {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: -16px -80px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -16px 0;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -916,8 +1373,8 @@ li {
   top: 2px;
 }
 .artice-title .artice-act-btn a span.follow {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -32px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -18px -24px;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -928,8 +1385,8 @@ li {
   top: 2px;
 }
 .artice-title .artice-act-btn a span.manage {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -80px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: 0 0;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -1055,8 +1512,8 @@ li {
   width: auto;
 }
 .artice-one .edit span {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -48px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -34px -24px;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -1070,8 +1527,8 @@ li {
   width: auto;
 }
 .artice-one .delete span {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: -16px -32px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -66px -24px;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -1085,8 +1542,8 @@ li {
   width: auto;
 }
 .artice-one .post span {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -16px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: 0 -24px;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;
@@ -1100,8 +1557,8 @@ li {
   width: auto;
 }
 .artice-one .up span {
-  background-image: url('../img/sprite/icons-se725b8fe85.png');
-  background-position: 0 -64px;
+  background-image: url('../img/sprite/icons-sf346881448.png');
+  background-position: -32px 0;
   background-repeat: no-repeat;
   overflow: hidden;
   display: block;

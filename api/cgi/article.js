@@ -327,7 +327,7 @@ exports.search = function*(req, res) {
         //取资源
         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
         var rlist =
-            yield req.conn.yieldQuery('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_resource a,resource b WHERE article_id IN (' + articleId.join(',') + ') AND a.resource_id = b.id');
+            yield req.conn.yieldQuery('SELECT a.article_id as aid,b.* FROM article_resource a,resource b WHERE article_id IN (' + articleId.join(',') + ') AND a.resource_id = b.id');
         for (var i = 0, l = rlist.length; i < l; i++) {
             var item = rlist[i];
             var idx = resMap[item.aid];

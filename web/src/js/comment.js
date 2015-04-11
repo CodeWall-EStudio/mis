@@ -5,6 +5,7 @@ var user = require('./user/user'),
 	list = require('./comment/list'),
 	post = require('./comment/post'),
 	msg = require('./common/msg'),
+	review = require('./resource/review'),
 	label = require('./label/label');
 var Striker = $(window.striker),
 	striker = window.striker;	

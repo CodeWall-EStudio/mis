@@ -7,6 +7,8 @@ var Logger = require('../logger');
 var config = require('../config');
 var db = require('../modules/db');
 var Util = require('../util');
+var iconv = require('iconv-lite');
+
 
 
 // {
@@ -167,9 +169,10 @@ exports.preview = function*(req, res) {
             break;
         case 8: //text
             try {
-                var data = fs.readFileSync(filePath);
-
-                res.send(data.toString());
+                var data = fs.readFileSync(filePath,{encoding:'binary'});
+                var buf = new Buffer(data, 'binary');
+                var str = iconv.decode(buf, 'GBK');
+                res.send(str);
             } catch (e) {
                 res.send(404, '没有找到该资源');
             }

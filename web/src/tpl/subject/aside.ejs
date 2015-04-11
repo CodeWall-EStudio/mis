@@ -20,8 +20,8 @@
             %>
             <div class="sub-resource-<%-item.id%>">
             <%if(item.type === 1){%>
-              <img width="100%" height="100" src="/cgi/resource/preview?id=<%-item.id%>" title="<%-item.name%>" />
-              <a data-action="reviewResource" data-id="<%-item.id%>">预览</a>  <a href="/cgi/resource/download?id=<%-item.id%>" target="_blank">下载</a>  
+              <img width="100%" height="100" src="/cgi/resource/preview?id=<%-item.id%>" title="<%-item.name%>"  data-id="<%-item.id%>"  data-action="review" />
+              <a data-id="<%-item.id%>"  data-action="review">预览</a>  <a href="/cgi/resource/download?id=<%-item.id%>" target="_blank">下载</a>  
               <%if(my.auth || my.id === creator){ %>
                 <a data-action="deleteResource"  data-id="<%-item.id%>">删除</a>
               <%}%>
@@ -29,7 +29,7 @@
               <video src="/cgi/resource/preview?id=<%-item.id%>" controls="controls">
               您的浏览器不支持 video 标签。
               </video>
-              <a data-action="reviewResource" data-id="<%-item.id%>">预览</a>  <a href="/cgi/resource/download?id=<%-item.id%>" target="_blank">下载</a>
+              <a data-id="<%-item.id%>"  data-action="review">预览</a>  <a href="/cgi/resource/download?id=<%-item.id%>" target="_blank">下载</a>
               <%if(my.auth || my.id === creator){ %>
                 <a data-action="deleteResource"  data-id="<%-item.id%>">删除</a>
               <%}%>
