@@ -15,13 +15,14 @@ function getNowTime(str){
     var now = new Date().getTime();
     var atime = new Date(str).getTime();
 
-    var c = Math.floor((now - atime)/1000);
+    var c = Math.ceil((now - atime)/1000);
+    console.log(c,str);
     if(c<60){
         return '1分钟以内';
     }else if(c<3600){
-        return Math.floor(c/3600)+'分钟前';
+        return Math.ceil(c/3600)+'分钟前';
     }else if(c<3600*24){
-        return Math.floor(c/(3600*24))+'天前';
+        return Math.ceil(c/(3600*24))+'天前';
     }else{
         return formatTime(str);
     }
