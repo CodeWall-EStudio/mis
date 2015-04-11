@@ -155,7 +155,7 @@ exports.edit = function*(req, res) {
                 dbValues.guest = params.guest;
             }
 
-            yield req.conn.yieldQuery('UPDATE subject SET ? ', dbValues);
+            yield req.conn.yieldQuery('UPDATE subject SET ? WHERE id = ?', [dbValues, params.subjectId]);
 
             // 设置管理员
             if (params.managers && params.managers.length) {
