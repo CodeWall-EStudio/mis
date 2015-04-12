@@ -121,6 +121,11 @@ sCreate.create.prototype.getManageList = function(){
 	return this.manage.getManageList();
 }
 
+sCreate.create.prototype.clear = function(){
+	$("#subjectTitle").val('');
+	$("#subjectMark").val('')
+}
+
 sCreate.create.prototype.bindAction = function(param,cb){
 	var _this = this;
 
@@ -197,12 +202,13 @@ sCreate.create.prototype.bindAction = function(param,cb){
 			}
 
 			if(param.title !== '' && param.mark !== ''){
-				this.loading = true;
+				_this.loading = true;
 				if(_this.isedit){
 					cgi.edit(param,function(res){
 						if(res.code === 0){
 							_this.dom.modal('hide');
 							_this.loading = false;
+							_this.clear();
 							striker.trigger('subjectUpdate',res.data);
 						}
 					});					
@@ -214,6 +220,7 @@ sCreate.create.prototype.bindAction = function(param,cb){
 							var html = tmpl.list({
 								list : [res.data]
 							});
+							_this.clear();
 							striker.trigger('subjectCreated');
 							$("#mySubject").prepend(html);
 						}

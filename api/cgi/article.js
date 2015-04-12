@@ -103,6 +103,21 @@ exports.create = function*(req, res) {
             var rows =
                 yield req.mysql('SELECT a.*,u.name as creatorName FROM article a,user u WHERE a.creator =u.id and a.id = ?', articleId);
 
+
+            var sql = 'SELECT r.* FROM resource r,article_resource ar WHERE ar.resource_id=r.id AND ar.article_id=?';
+            var rrows =
+                yield req.conn.yieldQuery(sql, [articleId]);
+
+            var articleResourceCount = rrows.length;
+            var resource = [];
+
+            if (rrows.length) {
+                resource = rrows;
+            }
+
+            rows[0].articleResourceCount = articleResourceCount;
+            rows[0].resource = resource;                
+
             // 提交事务
             conn.commit(function(err) {
                 if (err) {

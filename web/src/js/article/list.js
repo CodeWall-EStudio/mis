@@ -223,7 +223,9 @@ article.prototype.replay = function(){
 
 //把新发布的帖子加到列表最前面
 article.prototype.prependToList = function(param){
-	var html = tmpl.list({list:[param]});
+	var data = this.checkData({list:[param]});
+	var html = tmpl.list(data);
+
 	this.dom.prepend(html);
 }
 
@@ -241,11 +243,11 @@ article.prototype.review = function(e){
 	}
 };
 
-//把新发布的帖子加到列表最前面
-aList.prependToList = function(param){
-		var html = tmpl.list({list:[param]});
-		listDom.prepend(html);
-}
+// //把新发布的帖子加到列表最前面
+// aList.prependToList = function(param){
+// 		var html = tmpl.list({list:[param]});
+// 		listDom.prepend(html);
+// }
 
 aList.article = article;
 

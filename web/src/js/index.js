@@ -16,6 +16,7 @@ function userLoad(e,d){
 	new subject.area('myFollow');
 	new subject.area('myInvited');
 	new subject.area('myArchived');
+	new subject.area('open');
 	new notify.notify();
 	window.striker.label = new label.label('labelArea');
 	window.striker.createSubject = new subject.create();

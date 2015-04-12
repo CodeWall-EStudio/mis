@@ -4,6 +4,7 @@ var user = require('./user/user'),
 	article = require('./article/article'),
 	comment = require('./comment/post'),
 	msg = require('./common/msg'),
+	notify = require('./notify/notify'),
 	review = require('./resource/review'),
 	label = require('./label/label');
 var Striker = $(window.striker),
@@ -21,7 +22,7 @@ function userLoadSub(e,d){
 	var articleList = new article.list(nowSubId);
 	var cpost = new comment.post(0,nowSubId); 
 
-
+	new notify.notify();
 
 	subInfo.bind({
 		post : subPost

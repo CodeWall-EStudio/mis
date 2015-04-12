@@ -5,6 +5,7 @@ var user = require('./user/user'),
 	list = require('./comment/list'),
 	post = require('./comment/post'),
 	msg = require('./common/msg'),
+	notify = require('./notify/notify'),
 	review = require('./resource/review'),
 	label = require('./label/label');
 var Striker = $(window.striker),
@@ -15,6 +16,7 @@ var nowArtId = striker.util.getParameter('id'),
 
 
 function userLoadSub(e,d){
+	new notify.notify();
 	 var cpost = new post.post(nowArtId,nowSubjectId); 
 	 window.striker.commentpost = cpost;
 

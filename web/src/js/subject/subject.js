@@ -183,6 +183,8 @@ Subject.area.prototype.getDate = function(param){
 		funname = 'invited';
 	}else if (this.proName === 'myArchived'){
 		funname = 'archived';
+	}else if (this.proName === 'open'){
+		param.private = 1;
 	}
 
 	cgi[funname](param,function(res){

@@ -93,7 +93,7 @@ post.prototype.getParam = function(target){
 		content : content,
 		subjectId : nowSubId,
 		labels : [],
-		resource : this.getResList()
+		resources : this.getResList()
 	}
 
 	return param;
@@ -153,7 +153,6 @@ post.prototype.bindAction = function(){
 
 	striker.bind('uploadArticle',function(e,d){
 		_this.fileupload = false;
-		console.log(3333,d);
 		if(window.striker.commentshow){
 			$(striker).trigger('uploadFile',d);
 			return;
