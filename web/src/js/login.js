@@ -28,7 +28,7 @@ function bindAction(){
 		}
 	})
 
-	$("#loginPass").bind('keyup',function(){
+	$("#loginPass").bind('keyup',function(e){
 		if(e.keyCode === 13){
 			sub();
 		}		
