@@ -26,7 +26,6 @@ notifyObj.prototype.get = function(){
 				_this.msgNum = res.data.list.length;
 				_this.tipsDom.text(_this.msgNum).show();
 				var html = tmpl.list(res.data);
-				console.log(html);
 				_this.dom.html(html);
 			}
 		}

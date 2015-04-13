@@ -280,21 +280,27 @@ exports.search = function*(req, res) {
         yield req.conn.yieldQuery('SELECT COUNT(*) AS count FROM article WHERE subject_id = ? ORDER BY status DESC', params.subjectId);
     var total = rows[0].count;
 
+    var sql = 'SELECT a.*,';
+        sql += '(select name from user where id = a.creator) as creatorName,',
+        sql += '(select name from user where id = a.updator) as updatorName ',
+        sql +=' FROM article a WHERE subject_id = ? ORDER BY status DESC LIMIT ?, ?';
+
     rows =
-        yield req.conn.yieldQuery('SELECT * FROM article  WHERE subject_id = ? ORDER BY status DESC LIMIT ?, ?', [params.subjectId, params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.subjectId, params.start, params.limit]);
 
     //标签id列表,资源id列表
     var labelMap = [],
         resMap = [],
-        createId = [],
-        updateId = [],
+        userId = [],
         articleId = [];
 
     for (var i in rows) {
         articleId.push(rows[i].id);
         resMap[rows[i].id] = i;
-        createId.push(rows[i].creator);
-        updateId.push(rows[i].updator);
+        userId.push(rows[i].creator);
+        if(rows[i].createor !== rows[i].updator){
+            userId.push(rows[i].updator);
+        }
         labelMap[rows[i].id] = i;
     }
 
@@ -306,6 +312,8 @@ exports.search = function*(req, res) {
     //取标签
     //         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
     if (rows.length) {
+
+
         var slist =
             yield req.conn.yieldQuery('select ast.id,ast.article_id as aid from article_star ast where ast.article_id in (' + articleId.join(',') + ')');
 
