@@ -40,6 +40,10 @@ sCreate.create = function(id){
 	this.dom.on('show.bs.modal', function (e) {
 		//striker.user.addDefManage();
 		_this.titleDom.text('新建帖子');
+		setTimeout(function(){
+			$("#subjectTitle").focus();	
+		},1000)
+		
 		manage.init();
 	});
 

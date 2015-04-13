@@ -241,6 +241,10 @@ a {
   cursor: pointer;
 }
 
+dd {
+  word-wrap: break-word;
+}
+
 .form-control {
   height: 29px;
   line-height: 29px;

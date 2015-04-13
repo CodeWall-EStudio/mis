@@ -52,6 +52,10 @@ var post = function(){
 		}else{
 			_this.ctitDom.text('新建帖子');
 		}
+		
+		setTimeout(function(){
+			_this.cDom.find('input[name=name]').focus();
+		},1000)	
 		_this.model = 'pop';
 	});
 

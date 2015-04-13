@@ -213,6 +213,10 @@ post.prototype.bindAction = function(id,name){
 		}else{
 			_this.ctitDom.text('新建回复');
 		}
+		
+		setTimeout(function(){
+			_this.popTitleDom.focus();
+		},1000)		
 		window.striker.commentshow = true;
 	});
 
