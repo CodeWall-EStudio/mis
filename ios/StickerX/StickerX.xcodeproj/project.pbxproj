@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD6064D558A44398BAD3C416 /* Pods_StickerX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF43EC23B6BD14C2CFD15975 /* Pods_StickerX.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D418B7DF1AD6CB9500601DCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418B7DE1AD6CB9500601DCB /* AppDelegate.swift */; };
-		D418B7E11AD6CB9500601DCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418B7E01AD6CB9500601DCB /* ViewController.swift */; };
+		D418B7E11AD6CB9500601DCB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418B7E01AD6CB9500601DCB /* MainViewController.swift */; };
 		D418B7E41AD6CB9500601DCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D418B7E21AD6CB9500601DCB /* Main.storyboard */; };
 		D418B7E61AD6CB9600601DCB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D418B7E51AD6CB9500601DCB /* Images.xcassets */; };
 		D418B7E91AD6CB9600601DCB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D418B7E71AD6CB9600601DCB /* LaunchScreen.xib */; };
 		D418B7F51AD6CB9600601DCB /* StickerXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418B7F41AD6CB9600601DCB /* StickerXTests.swift */; };
+		D43772BC1ADC9CE000355A11 /* STUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43772BB1ADC9CE000355A11 /* STUser.swift */; };
+		D4AB335A1ADD831B00074665 /* Subjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB33591ADD831B00074665 /* Subjects.swift */; };
+		D4B671711AD93C7800A3777F /* StickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B671701AD93C7800A3777F /* StickerViewController.swift */; };
+		D4B671731AD96B1500A3777F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B671721AD96B1500A3777F /* User.swift */; };
+		D4B735C91AD6DEFD00D18A0D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4B735C81AD6DEFD00D18A0D /* Login.storyboard */; };
+		D4B735CB1AD746D800D18A0D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B735CA1AD746D800D18A0D /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,16 +33,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D2C366CA588E8832E95DB66C /* Pods-StickerX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StickerX.release.xcconfig"; path = "Pods/Target Support Files/Pods-StickerX/Pods-StickerX.release.xcconfig"; sourceTree = "<group>"; };
 		D418B7D91AD6CB9500601DCB /* StickerX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StickerX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D418B7DD1AD6CB9500601DCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D418B7DE1AD6CB9500601DCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D418B7E01AD6CB9500601DCB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D418B7E01AD6CB9500601DCB /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D418B7E31AD6CB9500601DCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D418B7E51AD6CB9500601DCB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D418B7E81AD6CB9600601DCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		D418B7EE1AD6CB9600601DCB /* StickerXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StickerXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D418B7F31AD6CB9600601DCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D418B7F41AD6CB9600601DCB /* StickerXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerXTests.swift; sourceTree = "<group>"; };
+		D43772BB1ADC9CE000355A11 /* STUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STUser.swift; sourceTree = "<group>"; };
+		D4AB33591ADD831B00074665 /* Subjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subjects.swift; sourceTree = "<group>"; };
+		D4B671701AD93C7800A3777F /* StickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerViewController.swift; sourceTree = "<group>"; };
+		D4B671721AD96B1500A3777F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		D4B735C81AD6DEFD00D18A0D /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		D4B735CA1AD746D800D18A0D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		F74CADCC75A47DBD218CEA34 /* Pods-StickerX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StickerX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StickerX/Pods-StickerX.debug.xcconfig"; sourceTree = "<group>"; };
+		FF43EC23B6BD14C2CFD15975 /* Pods_StickerX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StickerX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD6064D558A44398BAD3C416 /* Pods_StickerX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,12 +73,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05608844663551C98011B713 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F74CADCC75A47DBD218CEA34 /* Pods-StickerX.debug.xcconfig */,
+				D2C366CA588E8832E95DB66C /* Pods-StickerX.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C17EAD87C902B580D94198BA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FF43EC23B6BD14C2CFD15975 /* Pods_StickerX.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D418B7D01AD6CB9500601DCB = {
 			isa = PBXGroup;
 			children = (
 				D418B7DB1AD6CB9500601DCB /* StickerX */,
 				D418B7F11AD6CB9600601DCB /* StickerXTests */,
 				D418B7DA1AD6CB9500601DCB /* Products */,
+				05608844663551C98011B713 /* Pods */,
+				C17EAD87C902B580D94198BA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,9 +113,14 @@
 		D418B7DB1AD6CB9500601DCB /* StickerX */ = {
 			isa = PBXGroup;
 			children = (
+				D4B735CD1AD74DB500D18A0D /* Global */,
+				D4B735CC1AD74DA400D18A0D /* Models */,
 				D418B7DE1AD6CB9500601DCB /* AppDelegate.swift */,
-				D418B7E01AD6CB9500601DCB /* ViewController.swift */,
+				D418B7E01AD6CB9500601DCB /* MainViewController.swift */,
 				D418B7E21AD6CB9500601DCB /* Main.storyboard */,
+				D4B735C81AD6DEFD00D18A0D /* Login.storyboard */,
+				D4B735CA1AD746D800D18A0D /* LoginViewController.swift */,
+				D4B671701AD93C7800A3777F /* StickerViewController.swift */,
 				D418B7E51AD6CB9500601DCB /* Images.xcassets */,
 				D418B7E71AD6CB9600601DCB /* LaunchScreen.xib */,
 				D418B7DC1AD6CB9500601DCB /* Supporting Files */,
@@ -112,6 +153,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D4B735CC1AD74DA400D18A0D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D4B671721AD96B1500A3777F /* User.swift */,
+				D4AB33591ADD831B00074665 /* Subjects.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		D4B735CD1AD74DB500D18A0D /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				D43772BB1ADC9CE000355A11 /* STUser.swift */,
+			);
+			name = Global;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -119,9 +177,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D418B7F81AD6CB9600601DCB /* Build configuration list for PBXNativeTarget "StickerX" */;
 			buildPhases = (
+				6F0FAE29B5448AC8DFE6E77D /* Check Pods Manifest.lock */,
 				D418B7D51AD6CB9500601DCB /* Sources */,
 				D418B7D61AD6CB9500601DCB /* Frameworks */,
 				D418B7D71AD6CB9500601DCB /* Resources */,
+				359994FF09B395BD0B620E61 /* Embed Pods Frameworks */,
+				8FFB29F95F893C70AE44D39A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -161,6 +222,7 @@
 				TargetAttributes = {
 					D418B7D81AD6CB9500601DCB = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = RP5426Y4V9;
 					};
 					D418B7ED1AD6CB9600601DCB = {
 						CreatedOnToolsVersion = 6.3;
@@ -192,6 +254,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4B735C91AD6DEFD00D18A0D /* Login.storyboard in Resources */,
 				D418B7E41AD6CB9500601DCB /* Main.storyboard in Resources */,
 				D418B7E91AD6CB9600601DCB /* LaunchScreen.xib in Resources */,
 				D418B7E61AD6CB9600601DCB /* Images.xcassets in Resources */,
@@ -207,12 +270,65 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		359994FF09B395BD0B620E61 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StickerX/Pods-StickerX-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6F0FAE29B5448AC8DFE6E77D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8FFB29F95F893C70AE44D39A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StickerX/Pods-StickerX-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D418B7D51AD6CB9500601DCB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D418B7E11AD6CB9500601DCB /* ViewController.swift in Sources */,
+				D4AB335A1ADD831B00074665 /* Subjects.swift in Sources */,
+				D4B671711AD93C7800A3777F /* StickerViewController.swift in Sources */,
+				D4B735CB1AD746D800D18A0D /* LoginViewController.swift in Sources */,
+				D43772BC1ADC9CE000355A11 /* STUser.swift in Sources */,
+				D4B671731AD96B1500A3777F /* User.swift in Sources */,
+				D418B7E11AD6CB9500601DCB /* MainViewController.swift in Sources */,
 				D418B7DF1AD6CB9500601DCB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,21 +456,31 @@
 		};
 		D418B7F91AD6CB9600601DCB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F74CADCC75A47DBD218CEA34 /* Pods-StickerX.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StickerX/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		D418B7FA1AD6CB9600601DCB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2C366CA588E8832E95DB66C /* Pods-StickerX.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = StickerX/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -411,6 +537,7 @@
 				D418B7FA1AD6CB9600601DCB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D418B7FB1AD6CB9600601DCB /* Build configuration list for PBXNativeTarget "StickerXTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +546,7 @@
 				D418B7FD1AD6CB9600601DCB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

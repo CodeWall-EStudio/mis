@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+class STUser {
+    class var shared: STUser {
+        return Inner.instance
+    }
+    
+    struct Inner {
+        static let instance = STUser()
+    }
+    
+    var user: User?
+}
