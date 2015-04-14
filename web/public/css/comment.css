@@ -241,8 +241,25 @@ a {
   cursor: pointer;
 }
 
+dt a {
+  text-overflow: ellipsis;
+  width: 630px;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+}
+
 dd {
   word-wrap: break-word;
+}
+
+textarea {
+  resize: none;
+}
+
+.ie input.form-control {
+  height: 30px;
+  padding: 0 8px;
 }
 
 .form-control {
@@ -1473,7 +1490,7 @@ td i.s {
 
 .post-area {
   position: fixed;
-  width: 100%;
+  width: 1000px;
   bottom: 0;
   padding: 10px;
   background-color: #fff;

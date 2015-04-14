@@ -1,5 +1,9 @@
 // keep it if using url md5 rev replacement in javascript
 console.log('global is load');
+var msie = /msie/.test(navigator.userAgent.toLowerCase()); 
+if ( msie ){
+    $('body').addClass('ie');
+}
 
 function formatTime(str){
 	var date = new Date(str);
