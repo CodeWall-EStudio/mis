@@ -1,7 +1,7 @@
         <div class="title">
           <%-title%>
           <div class="action-area">
-            <a class="btn btn-primary" data-action="up">置顶</a>
+            <a class="btn btn-primary" data-action="up" data-id="<%-id%>" data-status="<%-status%>"><%if(status){%>取消置顶<%}else{%>置顶<%}%></a>
             <div class="btn-group">
               <a class="btn btn-primary active time-btn" href="#fakelink" data-action="orderbytime">按创建时间排序</a>
               <a class="btn btn-primary update-btn" href="#fakelink" data-action="orderbyupdate">按更新时间排序</a>
@@ -15,10 +15,10 @@
               <div class="comment-one-info">
                 <div class="info-title"><%-name%></div>
                 <div class="info-action">
-                  <span class="edit" data-action="edit"><span></span>编辑</span> <span class="delete"  data-action="delete"><span></span>删除</span> <span class="up"  data-action="setup"><span></span>赞</span> <span class="post"><span></span>回复 <font id="commentCount"><%-commentCount%></font></span>
+                  <span class="edit" data-action="edit"><span></span>编辑</span> <span class="delete"  data-action="delete"><span></span>删除</span> <span class="up"  data-action="setup"  data-id="<%-id%>"><span></span>赞</span> <span class="post"><span></span>回复 <font id="commentCount"><%-commentCount%></font></span>
                 </div>          
                 <dl class="comment-dl">
-                  <dt><a href="article.html?id=50"><%-title%></a></dt>
+                  <dt><a href="article.html?id=<%-subject_id%>"><%-title%></a></dt>
                   <dd>
                     <%-content%>
                   </dd>
@@ -29,7 +29,7 @@
                         if(obj.type === 1){
                     %>
                       <div>
-                        <img src="/cgi/resource/preview?id=<%-obj.id%>" width="200" />
+                        <img src="/cgi/resource/preview?id=<%-obj.id%>"  data-id="<%-obj.id%>" data-action="review" width="200" />
                       </div>
                     <%}}%>                  
           

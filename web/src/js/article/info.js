@@ -45,7 +45,6 @@ articleInfo.prototype.bindAction = function(){
 	striker.bind('articleEdited',function(e,d){
 		d.sid = _this.subId;
 		_this.data = d;
-		console.log(d);
 		var html = tmpl.info(d);
 		_this.dom.html(html);
 	});
@@ -61,12 +60,29 @@ articleInfo.prototype.bindAction = function(){
 	})
 }
 
-articleInfo.prototype.up = function(){
-	console.log('up');
+articleInfo.prototype.up = function(e){
+	var target = $(e.target),
+		id = target.data('id'),
+		status = target.data('status');
+	if(id){
+		var param = {
+			articleId : id,
+			isTop : !status
+		}
+		cgi.settop(param,function(res){
+			if(res.code === 0){
+				var text = param.isTop?'取消置顶':'置顶',
+					st = param.status?0:100;
+				target.text(text).data('status',st);
+			}
+		})		
+	}
 }
 
-articleInfo.prototype.setup = function(){
-	console.log('setup');
+articleInfo.prototype.setup = function(e){
+	var target = $(e.target),
+		id = target.data('id');
+	console.log(id,'setup');
 }
 
 articleInfo.prototype.edit = function(){
@@ -89,5 +105,18 @@ articleInfo.prototype.updateCount = function(){
 	this.data.commentCount++;
 	this.cDom.text(this.data.commentCount);
 }
+
+//预览主题相关资源
+articleInfo.prototype.review = function(e){
+	var target = $(e.target),
+		id = target.data('id');
+
+	if(id){
+		striker.trigger('review',{
+			id : id,
+			list : this.data.resourceList
+		})
+	}
+};
 
 Info.info = articleInfo;

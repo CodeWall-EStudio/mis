@@ -1,10 +1,14 @@
 var cgi = require('./common/cgi');
 
 function bindAction(){
-	$('#loginBtn').click(function(e){
+
+	var sub = function(){
 		var name = $("#loginName").val(),
 			pwd = $("#loginPass").val();
 
+		if(name === '' && pwd === ''){
+			return;
+		}
 
 		cgi.login({
 			uid : name,
@@ -16,6 +20,22 @@ function bindAction(){
 				alert('出错了');
 			}
 		})
+	}
+
+	$("#loginName").bind('keyup',function(e){
+		if(e.keyCode === 13){
+			sub();
+		}
+	})
+
+	$("#loginPass").bind('keyup',function(e){
+		if(e.keyCode === 13){
+			sub();
+		}		
+	})	
+
+	$('#loginBtn').click(function(e){
+		sub();
 	});
 }
 

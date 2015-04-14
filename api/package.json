@@ -13,6 +13,12 @@
     "mongodb": "^1.4.33",
     "multer": "^0.1.8",
     "mysql": "^2.5.5",
-    "underscore": "1.7.0"
+    "underscore": "1.7.0",
+    "fluent-ffmpeg": "^2.0.0-rc3",
+    "iconv-lite": "^0.4.7"
+  },
+  "devDependencies": {
+    "fluent-ffmpeg": "^2.0.0-rc3",
+    "iconv-lite": "^0.4.7"
   }
 }

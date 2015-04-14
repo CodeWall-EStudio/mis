@@ -11,8 +11,11 @@ sCreate.init = function(type,module,tmp){
 	tmpl = tmp;
 }
 
-sCreate.create = function(){
+sCreate.create = function(id){
 	var _this = this;
+
+	this.subId = id;
+
 	//默认使用我的主题
 	this.type = 'mySubject';
 	this.isedit = false;
@@ -36,7 +39,11 @@ sCreate.create = function(){
 
 	this.dom.on('show.bs.modal', function (e) {
 		//striker.user.addDefManage();
-		_this.titleDom.text('新建帖子');
+		_this.titleDom.text('新建主题');
+		setTimeout(function(){
+			$("#subjectTitle").focus();	
+		},1000)
+		
 		manage.init();
 	});
 
@@ -118,11 +125,21 @@ sCreate.create.prototype.getManageList = function(){
 	return this.manage.getManageList();
 }
 
+sCreate.create.prototype.clear = function(){
+	$("#subjectTitle").val('');
+	$("#subjectMark").val('')
+}
+
 sCreate.create.prototype.bindAction = function(param,cb){
 	var _this = this;
 
 	//资源上传完成的通知
 	window.uploadComp = function(d){
+		if(_this.subId && !_this.isedit){
+			striker.trigger('uploadArticle',d);
+			return;
+		}
+
 		_this.fileupload = false;
 		if(d.code === 0){
 			_this.resList.push(d.data.id);
@@ -189,12 +206,13 @@ sCreate.create.prototype.bindAction = function(param,cb){
 			}
 
 			if(param.title !== '' && param.mark !== ''){
-				this.loading = true;
+				_this.loading = true;
 				if(_this.isedit){
 					cgi.edit(param,function(res){
 						if(res.code === 0){
 							_this.dom.modal('hide');
 							_this.loading = false;
+							_this.clear();
 							striker.trigger('subjectUpdate',res.data);
 						}
 					});					
@@ -206,6 +224,8 @@ sCreate.create.prototype.bindAction = function(param,cb){
 							var html = tmpl.list({
 								list : [res.data]
 							});
+							_this.clear();
+							striker.trigger('subjectCreated');
 							$("#mySubject").prepend(html);
 						}
 					});					

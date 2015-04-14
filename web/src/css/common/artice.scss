@@ -37,7 +37,7 @@
 
 	.artice-act-btn a{
 		span{
-			
+			cursor:pointer;
 
 			&.post{
 				@include icons-sprite-retina("post16");
@@ -164,7 +164,9 @@
 	padding:10px 10px 10px 110px;
 	position:relative;
 
+
 	.edit{
+		cursor:pointer;
 		span{
 			@include icons-sprite-retina("edit16");
 			display:inline-block;
@@ -174,6 +176,7 @@
 		width:auto;
 	}
 	.delete{
+		cursor:pointer;
 		span{
 			@include icons-sprite-retina("del16");
 			display:inline-block;
@@ -183,6 +186,7 @@
 		width:auto;
 	}
 	.post{
+		cursor:pointer;
 		span{
 			@include icons-sprite-retina("replay");
 			display:inline-block;
@@ -192,6 +196,7 @@
 		width:auto;
 	}
 	.up{
+		cursor:pointer;
 		span{
 			@include icons-sprite-retina("font16");
 			display:inline-block;

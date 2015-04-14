@@ -1,6 +1,7 @@
 var cgi = require('../common/cgi').article;
 var tmpl = {
 	list : require('../../tpl/article/list.ejs'),
+	top : require('../../tpl/article/top.ejs'),
 	rlist : require('../../tpl/resource/list.ejs')   //资源列表
 };
 

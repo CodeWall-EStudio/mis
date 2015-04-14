@@ -32,6 +32,8 @@ function article(){
 	this.subid = nowSubId;
 	this.msg = window.striker.msg;
 
+	this.rdata = {};
+
 	this.bindAction();
 	this.search();
 }
@@ -53,19 +55,6 @@ article.prototype.getimg = function(data){
 		}
 	}
 	return num;
-}
-
-
-article.prototype.checkData = function(data){
-	var list = [];
-	for(var i = 0,l=data.list.length;i<l;i++){
-		var item = data.list[i];
-		item.imgnum = this.getimg(item.resource);
-		list.push(item);
-	}
-	data.list = list;
-	data.sid = nowSubId;
-	return data;
 }
 
 //绑定事件
@@ -107,10 +96,23 @@ article.prototype.loadMore = function(){
 	this.search({
 		start : this.start,
 		limit : this.limit,
-		subjectId : this.subid
+		subjectId : this.subid,
+		orderby : 'createTime'
 	});
 }
 
+article.prototype.checkData = function(data){
+	var list = [];
+	for(var i = 0,l=data.list.length;i<l;i++){
+		var item = data.list[i];
+		item.imgnum = this.getimg(item.resource);
+		this.rdata[item.id] = item.resource;
+		list.push(item);
+	}
+	data.list = list;
+	data.sid = nowSubId;
+	return data;
+}
 
 //拉帖子列表
 article.prototype.search = function(param){
@@ -123,7 +125,8 @@ article.prototype.search = function(param){
 		param = {
 			start : this.start,
 			limit : this.limit,
-			subjectId : this.subid
+			subjectId : this.subid,
+			orderby : 'createTime'
 		}
 	}
 
@@ -137,6 +140,13 @@ article.prototype.search = function(param){
 
 			var data = _this.checkData(res.data);
 			var html = tmpl.list(data);
+
+			if(res.data.top.length){
+				var html1 = tmpl.top({
+					list : res.data.top
+				})
+				$("#articleTop").html(html1);
+			}
 			_this.dom.append(html);
 			if(_this.length >= _this.total){
 				_this.end = true;
@@ -213,16 +223,31 @@ article.prototype.replay = function(){
 
 //把新发布的帖子加到列表最前面
 article.prototype.prependToList = function(param){
-	var html = tmpl.list({list:[param]});
+	var data = this.checkData({list:[param]});
+	var html = tmpl.list(data);
+
 	this.dom.prepend(html);
 }
 
+//预览主题相关资源
+article.prototype.review = function(e){
+	var target = $(e.target),
+		pid = target.data('pid'),
+		id = target.data('id');
 
-//把新发布的帖子加到列表最前面
-aList.prependToList = function(param){
-		var html = tmpl.list({list:[param]});
-		listDom.prepend(html);
-}
+	if(id){
+		striker.trigger('review',{
+			id : id,
+			list : this.rdata[pid]
+		})
+	}
+};
+
+// //把新发布的帖子加到列表最前面
+// aList.prependToList = function(param){
+// 		var html = tmpl.list({list:[param]});
+// 		listDom.prepend(html);
+// }
 
 aList.article = article;
 

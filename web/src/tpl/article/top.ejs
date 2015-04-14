@@ -1,0 +1,5 @@
+<%for(var i = 0;i<list.length;i++){
+var item = list[i];
+%>
+<li><span class="fui-heart"></span>置顶：<a href="/article.html?id=<%-item.id%>"><%-item.title%></a></li>
+<%}%>

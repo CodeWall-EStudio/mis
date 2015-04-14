@@ -3,6 +3,7 @@ var tmpl = {
 	list : require('../../tpl/comment/list.ejs')
 };
 
+var striker = $(window.striker);
 var Comment = {}
 
 var list = function(id,sid){
@@ -20,6 +21,7 @@ var list = function(id,sid){
 	this.msg = window.striker.msg;
 
 	this.map = {};
+	this.rdata = {};
 	// articleList.init(id,cgi,tmpl);
 	// articlePost.init(id,cgi,tmpl);
 	this.target;
@@ -211,6 +213,19 @@ list.prototype.bindAction = function(){
     });		
 }
 
+//预览主题相关资源
+list.prototype.review = function(e){
+	var target = $(e.target),
+		pid = target.data('pid'),
+		id = target.data('id');
+
+	if(id){
+		striker.trigger('review',{
+			id : id,
+			list : this.map[pid].resource
+		})
+	}
+};
 
 Comment.list = list;
 

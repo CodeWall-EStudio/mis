@@ -556,6 +556,46 @@ module.exports = {
             required: true
         }]
     },
+    //资源标注
+    '/cgi/resource/mark': {
+        method: 'POST',
+        params: [{
+            name: 'id',
+            type: 'number',
+            required: true
+        },{
+            name : 'startTime',
+            type : 'number',
+            required : true
+        },{
+            name : 'endTime',
+            type : 'number',
+            required : true
+        },{
+            name : 'mark',
+            type : 'string',
+            required : true
+        }]
+    },
+    //分割资源
+    '/cgi/resource/split': {
+        method: 'POST',
+        params: [{
+            name: 'id',
+            type: 'number',
+            required: true
+        },{
+            name : 'startTime',
+            type : 'number',
+            required : true
+        },{
+            name : 'endTime',
+            type : 'number',
+            required : true
+        }]
+    },
+
+
 
     // 通知
     '/cgi/notification/search': {

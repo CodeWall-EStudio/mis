@@ -1,4 +1,5 @@
 var cgi = require('../common/cgi').user,
+	logout = require('../common/cgi').logout,
 	data = require('../data/data').user,
 	userManage = require('./manage'),
 	striker = $(window.striker);
@@ -32,8 +33,32 @@ User.getMyInfo = function(cb){
 			striker.triggerHandler('userLoadSub',res.code);
 			striker.triggerHandler('userLoadArt',res.code);
 			console.log('userload');
+			bindAction();
 		}
 	});
+}
+
+var myAct = {
+	'logout' : function(){
+		logout(function(res){
+			if(res.code === 0){
+				window.location.href = '/login.html';
+			}
+		});
+	}
+}
+
+var bindAction = function(){
+	$("#userNav").bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+
+		if(action){
+			if(myAct[action]){
+				myAct[action]();
+			}
+		}
+	})
 }
 
 User.getUserList = function(){

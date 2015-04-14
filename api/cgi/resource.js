@@ -7,23 +7,12 @@ var Logger = require('../logger');
 var config = require('../config');
 var db = require('../modules/db');
 var Util = require('../util');
+var iconv = require('iconv-lite');
+//视频处理
+//需要安装ffmpeg客户端 window下需要配置ffmpeg的bin目录地址到path变量中.
+var ffmpeg = require('fluent-ffmpeg');
 
-
-// {
-//     "file": {
-//     "fieldname": "file",
-//     "originalname": "3-10%E4%BE%8B%E4%BC%9A%E7%BA%AA%E8%A6%81.md",
-//     "name": "2908371a1c7535977b64b111ea20f17f.md",
-//     "encoding": "7bit",
-//     "mimetype": "application/octet-stream",
-//     "path": "/Users/azrael/Documents/工作室项目/sources/mis/uploads/2908371a1c7535977b64b111ea20f17f.md",
-//     "extension": "md",
-//     "size": 218,
-//     "truncated": false,
-//     "buffer": null
-//     }
-// }
-exports.upload = function(req, res) {
+exports.upload = function*(req, res) {
     var file = req.files.file;
     var loginUser = req.loginUser;
     if (!file || !file.path) {
@@ -64,11 +53,11 @@ exports.upload = function(req, res) {
                 yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', result.insertId);
 
             var data = {
-                code : ERR.SUCCESS,
-                data : rows[0]
+                code: ERR.SUCCESS,
+                data: rows[0]
             };
 
-            res.write('<script>top.uploadComp('+JSON.stringify(data)+')</script>');
+            res.write('<script>top.uploadComp(' + JSON.stringify(data) + ')</script>');
             res.end();
 
             // res.json({
@@ -76,7 +65,7 @@ exports.upload = function(req, res) {
             //     data: rows[0]
             // });
 
-            req.conn.release();
+            // req.conn.release();
 
         }).catch(function(err) {
             db.handleError(req, res, err.message);
@@ -85,109 +74,161 @@ exports.upload = function(req, res) {
     });
 };
 
-exports.download = function(req, res) {
-
+exports.download = function*(req, res) {
     var parameter = req.parameter;
     var id = parameter.id;
     var loginUser = req.loginUser;
 
-    co(function*() {
 
-        var rows =
-            yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
-        req.conn.release();
-        if (!rows[0]) {
-            return res.send(404, '没有找到该资源');
-        }
+    var rows =
+        yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
 
-        var resource = rows[0];
-        var filePath = path.join(config.DATA_ROOT, resource.path);
+    if (!rows[0]) {
+        return res.send(404, '没有找到该资源');
+    }
 
-        Logger.info('redirect to :' + filePath, 'mimes: ' + resource.mimetype, 'fileName: ', resource.name);
+    var resource = rows[0];
+    var filePath = path.join(config.DATA_ROOT, resource.path);
 
-        res.download(filePath, encodeURIComponent(resource.name));
+    Logger.info('redirect to :' + filePath, 'mimes: ' + resource.mimetype, 'fileName: ', resource.name);
 
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
-    });
-
+    res.download(filePath, encodeURIComponent(resource.name));
 };
 
 
-exports.preview = function(req, res) {
+exports.preview = function*(req, res) {
     var parameter = req.parameter;
     var id = parameter.id;
     var loginUser = req.loginUser;
 
-    co(function*() {
 
-        var rows =
-            yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
+    var rows =
+        yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);
 
-        req.conn.release();
-        if (!rows[0]) {
-            return res.send(404, '没有找到该资源');
-        }
+    if (!rows[0]) {
+        return res.send(404, '没有找到该资源');
+    }
 
-        var resource = rows[0];
-        var filePath = path.join(config.DATA_ROOT, resource.path);
+    var resource = rows[0];
+    var filePath = path.join(config.DATA_ROOT, resource.path);
 
 
-        //1. 图片, 直接给url
-        //2. 文档, 给出swf url
-        //3. txt, 给出 text的文本内容
-        //4. 音频/视频, 直接给出url
+    //1. 图片, 直接给url
+    //2. 文档, 给出swf url
+    //3. txt, 给出 text的文本内容
+    //4. 音频/视频, 直接给出url
 
-        switch (resource.type) {
-            case 2: // 文档
-                // var swfFile = filePath + '.swf';
-                // if(!fs.existsSync(swfFile)){
-                //     Logger.error('can\'t find ' + swfFile + '! try to convert...');
-                //     var suffix = path.extname(filePath).slice(1);
-                //     convert(path.join(config.FILE_SAVE_ROOT, filePath), resource.mimes, suffix, function(err){
-                //         if(err){
-                //             res.json({ err: ERR.NOT_FOUND, msg: 'can not find this file and convert failure' });
-                //             return;
-                //         }
-                //         Logger.info('convert success: ' + filePath);
-                //         res.set({
-                //             'Content-Type': 'application/x-shockwave-flash',
-                //             'X-Accel-Redirect': filePath + '.swf'
-                //         });
-                //         res.send();
-                //     });
-                // }else{
-                //     res.set({
-                //         'Content-Type': 'application/x-shockwave-flash',
-                //         'X-Accel-Redirect': filePath + '.swf'
-                //     });
-                //     res.send();
-                // }
-                // break;
-            case 1: //image
-            case 3: //audio
-            case 4: //video
-            case 5: //stream
+    switch (resource.type) {
+        case 2: // 文档
+            // var swfFile = filePath + '.swf';
+            // if(!fs.existsSync(swfFile)){
+            //     Logger.error('can\'t find ' + swfFile + '! try to convert...');
+            //     var suffix = path.extname(filePath).slice(1);
+            //     convert(path.join(config.FILE_SAVE_ROOT, filePath), resource.mimes, suffix, function(err){
+            //         if(err){
+            //             res.json({ err: ERR.NOT_FOUND, msg: 'can not find this file and convert failure' });
+            //             return;
+            //         }
+            //         Logger.info('convert success: ' + filePath);
+            //         res.set({
+            //             'Content-Type': 'application/x-shockwave-flash',
+            //             'X-Accel-Redirect': filePath + '.swf'
+            //         });
+            //         res.send();
+            //     });
+            // }else{
+            //     res.set({
+            //         'Content-Type': 'application/x-shockwave-flash',
+            //         'X-Accel-Redirect': filePath + '.swf'
+            //     });
+            //     res.send();
+            // }
+            // break;
+        case 1: //image
+        case 3: //audio
+        case 4: //video
+        case 5: //stream
 
-                res.sendfile(filePath);
-                break;
-            case 8: //text
-                try {
-                    var data = fs.readFileSync(filePath);
-
-                    res.send(data.toString());
-                } catch (e) {
-                    res.send(404, '没有找到该资源');
-                }
-                break;
-            default:
-                res.send(405, '不支持这种类型文件的预览');
-        }
-
-    }).catch(function(err) {
-        db.handleError(req, res, err.message);
-    });
+            res.sendfile(filePath);
+            break;
+        case 8: //text
+            try {
+                var data = fs.readFileSync(filePath,{encoding:'binary'});
+                var buf = new Buffer(data, 'binary');
+                var str = iconv.decode(buf, 'GBK');
+                res.send(str);
+            } catch (e) {
+                res.send(404, '没有找到该资源');
+            }
+            break;
+        default:
+            res.send(405, '不支持这种类型文件的预览');
+    }
 };
+
+//分割视频文件
+exports.mark = function*(req,res){
+    var parameter = req.parameter;
+    var id = parameter.id,
+        start = parameter.startTime,
+        end = parameter.endTime,
+        mark = parameter.mark;
+}
+
+//分割视频文件
+exports.split = function*(req,res){
+
+    var parameter = req.parameter;
+    var id = parameter.id,
+        start = parameter.startTime,
+        end = parameter.endTime;
+
+    var rows =
+        yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);    
+
+    if(!rows[0]){
+        return res.send(404, '没有找到该资源');   
+    }
+
+    var dbFileDir = Util.formatDate(new Date(), 'yyyy/MM/dd/hhmm/');
+    var saveDir = path.join(config.DATA_ROOT, dbFileDir);
+    Util.mkdirsSync(saveDir);
+
+    var filePath = saveDir + '/mark'+new Date().getTime()+Math.random()+'.mp4';    
+
+    var scorePath = path.join(config.DATA_ROOT, rows[0].path);
+
+    var proc = new ffmpeg({ source: scorePath })
+        .withAspect('4:3')
+        .withSize('100%')
+        //这里是生成截图的代码.
+        // .screenshots({
+        //     count : 1,
+        //     folder: './',
+        //     size: '320x240'
+        // })        
+        .setStartTime(start)
+        .duration(end)
+        .applyAutopadding(true, 'white')
+        .on('error', function(err) {
+            res.json({
+                code: err.message
+            });            
+        })
+        .on('end', function() {
+            res.download(filePath, encodeURIComponent(Math.random()+'.mp4'));
+            // res.json({
+            //     code: 0
+            // });
+        })        
+        .saveToFile(filePath, function(retcode, error) {
+            console.log('file has been converted succesfully');
+
+            res.json({
+                code: 0
+            });
+        });    
+}
 
 
 function formatType(mimes, ext) {
