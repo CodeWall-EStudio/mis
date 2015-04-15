@@ -86,6 +86,19 @@ info.prototype.review = function(e){
 	}
 };
 
+//预览主题相关资源
+info.prototype.mark = function(e){
+	var target = $(e.target),
+		id = target.data('id');
+
+	if(id){
+		striker.trigger('review',{
+			id : id,
+			list : this.data.resourceList
+		})
+	}
+};
+
 info.prototype.bindAction = function(){
 	var _this = this;
 	striker.bind('subjectUpdate',function(e,d){
