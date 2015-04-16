@@ -390,10 +390,44 @@ exports.search = function*(req, res) {
             list: rows
         }
     });
-
-
 };
 
+/**
+ 我创建的主题
+ */
+exports.list = function*(req, res) {
+    var params = req.parameter;
+    var loginUser = req.loginUser;
+
+    var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s WHERE ';
+    var dbParams = {
+        isArchive: 0,
+        's.creator': loginUser.id
+    };
+    sql += req.dbPrepare(dbParams);
+
+    var rows =
+        yield req.conn.yieldQuery(sql);
+    var total = rows[0].count;
+
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u WHERE ';
+
+    dbParams['s.creator'] = 'u.id';
+    sql += req.dbPrepare(dbParams);
+
+    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+
+    rows =
+        yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+
+    res.json({
+        code: ERR.SUCCESS,
+        data: {
+            total: total,
+            list: rows
+        }
+    });
+};
 
 exports.info = function*(req, res) {
     var params = req.parameter;

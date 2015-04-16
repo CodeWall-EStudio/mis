@@ -11,6 +11,7 @@ var cgiList = {
 		create : cgiPath+'user/create'
 	},
 	subject : {
+		list : cgiPath+'subject/list', // 我的列表
 		search : cgiPath+'subject/search',
 		info : cgiPath+'subject/info',
 		edit : cgiPath+'subject/edit', //修改主题
@@ -105,6 +106,11 @@ db.subject = {};
 db.subject.search = function(param,callback){
 	var callback = checkCallback(callback);
 	request.get(cgiList.subject.search,param,callback);
+}
+
+db.subject.list = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.subject.list,param,callback);
 }
 
 db.subject.info = function(param,callback){
