@@ -53,6 +53,11 @@ var cgiList = {
 		create : cgiPath+'label/create',
 		list : cgiPath+'label/list'
 	},
+	resource : {
+		mark : cgiPath + 'resource/mark',
+		split : cgiPath + 'resource/split',
+		list : cgiPath + 'resource/list'
+	},
 	login : cgiPath+'account/login',
 	logout : cgiPath+'account/logout'
 }
@@ -275,6 +280,23 @@ db.label.create = function(param,callback) {
 db.label.list = function(param,callback){
 	var callback = checkCallback(callback);
 	request.get(cgiList.label.list,param,callback);	
+}
+
+db.resource = {};
+
+db.resource.mark = function(param,callback) {
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.resource.create, param, callback);	
+}
+
+db.resource.split = function(param,callback) {
+	var callback = checkCallback(callback,true);
+	request.post(cgiList.resource.create, param, callback);	
+}
+
+db.resource.list = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.resource.list,param,callback);	
 }
 
 module.exports = db;

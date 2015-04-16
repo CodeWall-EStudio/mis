@@ -92,9 +92,8 @@ info.prototype.mark = function(e){
 		id = target.data('id');
 
 	if(id){
-		striker.trigger('review',{
-			id : id,
-			list : this.data.resourceList
+		striker.trigger('mark',{
+			id : id
 		})
 	}
 };

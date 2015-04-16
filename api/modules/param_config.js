@@ -577,6 +577,24 @@ module.exports = {
             required : true
         }]
     },
+    '/cgi/resource/list': {
+        method: 'GET',
+        params: [{
+            name: 'id',
+            type: 'number',
+            required: true
+        },{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        }, {
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        }]
+    },    
     //分割资源
     '/cgi/resource/split': {
         method: 'POST',

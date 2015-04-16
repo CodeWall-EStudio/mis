@@ -6,6 +6,7 @@ var user = require('./user/user'),
 	msg = require('./common/msg'),
 	notify = require('./notify/notify'),
 	review = require('./resource/review'),
+	mark = require('./resource/mark'),
 	label = require('./label/label');
 var Striker = $(window.striker),
 	striker = window.striker;	

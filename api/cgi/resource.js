@@ -148,8 +148,16 @@ exports.preview = function*(req, res) {
         case 3: //audio
         case 4: //video
         case 5: //stream
-
-            res.sendfile(filePath);
+            // res.set({
+            //     'Content-Type': resource.type,
+            //     'X-Accel-Redirect': filePath
+            // });
+            res.set({
+                'Content-Type': resource.type,
+                'X-Accel-Redirect': filePath
+            });
+            res.send();
+            //res.sendfile(filePath);
             break;
         case 8: //text
             try {
@@ -228,6 +236,29 @@ exports.split = function*(req,res){
                 code: 0
             });
         });    
+}
+
+exports.list = function*(req,res){
+   var params = req.parameter;
+   var id = params.id;
+
+    var rows =
+        yield req.conn.yieldQuery('SELECT COUNT(*) AS count FROM resource_mark WHERE resource_id = ?', id);
+    var total = rows[0].count;
+
+    var sql = 'select m.*,u.name from resource_mark m,user u where u.id = m.creator and m.resource_id =?';
+
+    rows =
+        yield req.conn.yieldQuery(sql, [id, params.start, params.limit]);   
+
+    res.json({
+        code: ERR.SUCCESS,
+        data: {
+            total: total,
+            list: rows
+        }
+    });        
+
 }
 
 

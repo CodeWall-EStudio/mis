@@ -293,7 +293,7 @@ textarea {
   overflow-y: auto;
 }
 
-#reviewBgs {
+#reviewBgs, #markBgs {
   display: none;
   background: #000;
   opacity: 0.5;
@@ -736,6 +736,12 @@ i.colls {
 td i.s {
   height: 16px;
   background: url(imgs/star1.png) no-repeat;
+}
+
+.mark-area {
+  position: absolute;
+  top: 0;
+  z-index: 2000;
 }
 
 /**/
