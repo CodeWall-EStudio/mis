@@ -116,7 +116,7 @@ exports.create = function*(req, res) {
             }
 
             rows[0].articleResourceCount = articleResourceCount;
-            rows[0].resource = resource;                
+            rows[0].resource = resource;
 
             // 提交事务
             conn.commit(function(err) {
@@ -277,16 +277,16 @@ exports.search = function*(req, res) {
     var params = req.parameter;
     Logger.info('[do article search: ', params);
     var rows =
-        yield req.conn.yieldQuery('SELECT COUNT(*) AS count FROM article WHERE subject_id = ? ORDER BY status DESC', params.subjectId);
+        yield req.conn.yieldQuery('SELECT COUNT(*) AS count FROM article WHERE subject_id = ?', params.subjectId);
     var total = rows[0].count;
 
     var sql = 'SELECT a.*,';
-        sql += '(select name from user where id = a.creator) as creatorName,',
+    sql += '(select name from user where id = a.creator) as creatorName,',
         sql += '(select name from user where id = a.updator) as updatorName ',
-        sql +=' FROM article a WHERE subject_id = ? ORDER BY status DESC LIMIT ?, ?';
+        sql += ' FROM article a WHERE subject_id = ? ORDER BY status,?? DESC LIMIT ?, ?';
 
     rows =
-        yield req.conn.yieldQuery(sql, [params.subjectId, params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.subjectId, params.orderby ? ('a.' + params.orderby) : 'a.updateTime', params.start, params.limit]);
 
     //标签id列表,资源id列表
     var labelMap = [],
@@ -298,15 +298,16 @@ exports.search = function*(req, res) {
         articleId.push(rows[i].id);
         resMap[rows[i].id] = i;
         userId.push(rows[i].creator);
-        if(rows[i].createor !== rows[i].updator){
+        if (rows[i].createor !== rows[i].updator) {
             userId.push(rows[i].updator);
         }
         labelMap[rows[i].id] = i;
     }
 
     srows = [];
-    if(params.start === 0){
-        srows = yield req.conn.yieldQuery('select * from article where status = 100');
+    if (params.start === 0) {
+        srows =
+            yield req.conn.yieldQuery('select * from article where status = 100');
     }
 
     //取标签
@@ -366,7 +367,7 @@ exports.search = function*(req, res) {
         data: {
             total: total,
             list: rows,
-            top : srows
+            top: srows
         }
     });
 
