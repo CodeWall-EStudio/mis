@@ -127,6 +127,22 @@ module.exports = {
             type: 'number'
         }]
     },
+    '/cgi/subject/list': {
+        method: 'GET',
+        params: [{
+            name: 'start',
+            required: true,
+            default: 0,
+            type: 'number'
+        }, {
+            name: 'limit',
+            required: true,
+            default: 10,
+            type: 'number'
+        }, {
+            name: 'orderby'
+        }]
+    },
 
     // 关注或者取消关注
     '/cgi/subject/follow': {

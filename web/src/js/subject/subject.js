@@ -176,6 +176,7 @@ Subject.area.prototype.getDate = function(param){
 	var _this = this;
 	this.loading = true;
 
+	console.log(this.proName);
 	var funname = 'search';
 	if(this.proName === 'myFollow'){
 		funname = 'following';
@@ -185,6 +186,8 @@ Subject.area.prototype.getDate = function(param){
 		funname = 'archived';
 	}else if (this.proName === 'open'){
 		param.private = 1;
+	}else if(this.proName === 'mySubject'){
+		funname = 'list';
 	}
 
 	cgi[funname](param,function(res){
