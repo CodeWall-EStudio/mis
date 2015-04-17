@@ -180,7 +180,7 @@ Subject.area.prototype.getDate = function(param){
 	var funname = 'search';
 	if(this.proName === 'myFollow'){
 		funname = 'following';
-	}else if (this.proName === 'myInvite'){
+	}else if (this.proName === 'myInvited'){
 		funname = 'invited';
 	}else if (this.proName === 'myArchived'){
 		funname = 'archived';

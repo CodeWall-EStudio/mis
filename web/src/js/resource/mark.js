@@ -1,4 +1,5 @@
 require('../lib/player/video.dev');
+videojs.options.flash.swf = "../lib/player/video-js.swf";
 
 var cgi = require('../common/cgi').resource;
 
@@ -15,8 +16,6 @@ var striker = $(window.striker);
 
 
 function mark(data){
-	console.log(data);
-
 	this.bg = $('<div id="markBgs"></div>');
 	this.dom = $('<div id="markWin"></div>');
 	this.data = {};
@@ -36,8 +35,27 @@ function mark(data){
 	this.play.src('/cgi/resource/preview?id='+this.rid);
 	//this.play.play();
 	console.log(this.play);
+
+	this.bindAction();
 }
 
+mark.prototype.bindAction = function(){
+	var _this = this;
+	this.dom.bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+
+		if(action && _this[action]){
+			_this.target = target;
+			_this[action](e);
+		}
+	})
+};
+
+
+mark.prototype.close = function(){
+	this.hide();	
+}
 
 mark.prototype.changeData = function(d){
 	this.rid = d.id;
