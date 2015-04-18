@@ -410,7 +410,7 @@ exports.list = function*(req, res) {
         yield req.conn.yieldQuery(sql);
     var total = rows[0].count;
 
-    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u WHERE ';
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u WHERE ';
 
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
@@ -528,7 +528,7 @@ exports.following = function*(req, res) {
     var rows =
         yield req.conn.yieldQuery(sql, sqlParams);
     var total = rows[0].count;
-    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
 
     sql += ' ORDER BY ?? DESC LIMIT ?, ?';
     if (params.orderby) {
@@ -572,7 +572,7 @@ exports.invited = function*(req, res) {
         yield req.conn.yieldQuery(sql);
     var total = rows[0].count;
 
-    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_user su WHERE ';
+    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_user su WHERE ';
 
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
@@ -631,7 +631,7 @@ exports.archived = function*(req, res, next) {
         yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id]);
     var total = rows[0].count;
 
-    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount ' + 'FROM subject s, user u, subject_user su WHERE ';
+    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_user su WHERE ';
 
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
