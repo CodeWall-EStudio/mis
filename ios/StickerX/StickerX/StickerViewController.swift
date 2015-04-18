@@ -140,6 +140,10 @@ class StickerViewController: UIViewController {
         }
         //create an HTTPTask
         var request = HTTPTask()
+        if let sid = STUser.shared.sid {
+            request.requestSerializer = HTTPRequestSerializer()
+            request.requestSerializer.headers["Cookie"] = "sid=\"\(sid)\""
+        }
         request.responseSerializer = JSONResponseSerializer()
         //using the create method, an HTTPOperation is returned.
         var opt = request.create(
@@ -169,7 +173,7 @@ class StickerViewController: UIViewController {
         }
         //create an HTTPTask
         var request = HTTPTask()
-        if let sid = STUser.shared.user?.sid {
+        if let sid = STUser.shared.sid {
             request.requestSerializer = HTTPRequestSerializer()
             request.requestSerializer.headers["Cookie"] = "sid=\"\(sid)\""
         }

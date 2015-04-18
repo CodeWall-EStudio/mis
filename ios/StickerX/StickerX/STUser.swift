@@ -18,4 +18,7 @@ class STUser {
     }
     
     var user: User?
+    var sid: String?
+    var selectedSubjectId: Int?
+    var selectedArticleId: Int?
 }
