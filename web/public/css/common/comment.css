@@ -217,6 +217,13 @@
   margin: 10px 0;
   font-size: 18px;
 }
+.title span {
+  width: 600px;
+  text-overflow: ellipsis;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .title .action-area {
   font-size: 14px;
   display: inline-block;
