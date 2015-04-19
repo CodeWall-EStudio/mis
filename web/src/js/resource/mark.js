@@ -115,7 +115,7 @@ mark.prototype.toplay = function(d){
 	}
 
 	var lay = this.getLay(d);
-	this.playmark = $('<div class="select-marktime"><div class="mark-block" style="margin-left:'+lay.s+'%;width:'+lay.l+'%"></div></div>');
+	this.playmark = $('<div class="select-marktime"><div class="mark-block" style="margin-left:'+lay.s+'%;width:'+lay.l+'px"></div></div>');
 
 	this.pdom.append(this.playmark);
 
