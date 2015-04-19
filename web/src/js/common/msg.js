@@ -77,10 +77,10 @@ message.prototype.confirm = function(msg,label,cb){
 }
 
 message.prototype.error = function(d){
-	// if(d == 1001){
-	// 	window.location = config.cgi.gotologin;
-	// 	return;
-	// }
+	if(d == 1001){
+		window.location = '/login.html';
+		return;
+	}
 
 	var obj = {
 		'message' : msg[d] || '出错拉!'

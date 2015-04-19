@@ -11,6 +11,7 @@ var list = function(id,dom){
 	this.id = id;
 
 	this.dom = dom;
+	dom.html('');
 	this.loading = false;
 	this.getData();
 	this.bindAction();

@@ -137,10 +137,19 @@ mark.prototype.close = function(){
 
 mark.prototype.changeData = function(d){
 	this.rid = d.id;
-	var html = tmpl.body({
-		id : this.rid
+
+	this.show();
+
+	this.list = new list(this.rid,$("#markList"));
+
+	this.play = videojs("markPlay",{
+		"preload": "auto",
+		"controls": true,
+		"width": 640,
+		"height" : 320
 	});
-	this.dom.html(html);	
+	//this.play.src('/kp.mp4');
+	this.play.src('/cgi/resource/download?id='+this.rid);	
 }
 
 mark.prototype.show = function(){
