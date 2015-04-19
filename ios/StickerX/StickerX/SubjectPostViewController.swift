@@ -1,15 +1,17 @@
 //
-//  ActionViewController.swift
-//  Sticker
+//  SubjectPostViewController.swift
+//  StickerX
 //
-//  Created by Joey Chow on 3/30/15.
+//  Created by Joey Chow on 4/18/15.
 //  Copyright (c) 2015 Code Wall-E Studio. All rights reserved.
 //
 
 import UIKit
 
-class ActionViewController: UIViewController {
+class SubjectPostViewController: StickerViewController {
 
+    @IBOutlet weak var subjectTitle: UITextField!
+    @IBOutlet weak var subjectMark: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
 

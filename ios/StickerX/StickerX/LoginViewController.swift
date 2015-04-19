@@ -100,17 +100,12 @@ class LoginViewController: StickerViewController {
                                     id: data["id"].integer!,
                                     uid: data["uid"].string!,
                                     name: data["name"].string!,
-                                    auth: data["auth"].integer!,
-                                    sid: sid
+                                    auth: data["auth"].integer!
                                 )
-                                //保存用户数据至NSDefaults
+                                STUser.shared.sid = sid
+                                //保存session至NSDefaults
                                 let defaults = NSUserDefaults.standardUserDefaults()
-                                defaults.setObject(STUser.shared.user?.id, forKey: "id")
-                                defaults.setObject(STUser.shared.user?.uid, forKey: "uid")
-                                defaults.setObject(STUser.shared.user?.name, forKey: "name")
-                                defaults.setObject(STUser.shared.user?.auth, forKey: "auth")
                                 defaults.setObject(sid, forKey: "sid")
-                                println("sid: \(sid)")
                                 self.present()
                             }
                         }
@@ -138,15 +133,8 @@ class LoginViewController: StickerViewController {
         changeUserInterFace()
         
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.integerForKey("id")
         if let sid = defaults.stringForKey("sid") {
-            STUser.shared.user = User(
-                id: defaults.integerForKey("id"),
-                uid: defaults.stringForKey("uid")!,
-                name: defaults.stringForKey("name")!,
-                auth: defaults.integerForKey("auth"),
-                sid: sid
-            )
+            STUser.shared.sid = sid
             var uri = "http://mis.codewalle.com/cgi/user/info"
             self.getHTTP(
                 uri,
@@ -155,8 +143,23 @@ class LoginViewController: StickerViewController {
                         let resp = JSONDecoder(response.responseObject!)
                         NSOperationQueue.mainQueue().addOperationWithBlock({
                             self.resume()
-                            if (resp["code"].integer == 0) {
-                                self.present()
+                            if (resp["code"].integer != 0) {
+                                //self.error(resp["msg"].string!)
+                            } else {
+                                if (response.headers != nil) {
+                                    let sid = self.getSid(response.headers!)
+                                    let data = resp["data"]
+                                    STUser.shared.user = User(
+                                        id: data["id"].integer!,
+                                        uid: data["uid"].string!,
+                                        name: data["name"].string!,
+                                        auth: data["auth"].integer!
+                                    )
+                                    //保存session至NSDefaults 是否需要每次更新？
+                                    /*let defaults = NSUserDefaults.standardUserDefaults()
+                                    defaults.setObject(sid, forKey: "sid")*/
+                                    self.present()
+                                }
                             }
                         })
                     } else {
@@ -175,6 +178,8 @@ class LoginViewController: StickerViewController {
                 }
             )
 
+        } else {
+            resume()
         }
     }
     

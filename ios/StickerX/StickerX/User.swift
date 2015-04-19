@@ -14,14 +14,12 @@ class User {
     var uid: String
     var name: String
     var auth: Int
-    var sid: String
     
-    init(id: Int, uid: String, name: String, auth: Int, sid: String) {
+    init(id: Int, uid: String, name: String, auth: Int) {
         self.id = id
         self.uid = uid
         self.name = name
         self.auth = auth
-        self.sid = sid
     }
     
 }
