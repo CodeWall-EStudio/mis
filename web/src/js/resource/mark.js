@@ -30,9 +30,10 @@ function mark(data){
 
 	this.show();
 
-	console.log(videojs);
 	this.play = videojs("markPlay");
-	this.play.src('/cgi/resource/preview?id='+this.rid);
+	this.play.src('/kp.mp4');
+	console.log(222);
+	//this.play.src('/cgi/resource/preview?id='+this.rid);
 	//this.play.play();
 	console.log(this.play);
 
