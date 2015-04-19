@@ -246,7 +246,7 @@ exports.list = function*(req,res){
         yield req.conn.yieldQuery('SELECT COUNT(*) AS count FROM resource_mark WHERE resource_id = ?', id);
     var total = rows[0].count;
 
-    var sql = 'select m.*,u.name from resource_mark m,user u where u.id = m.creator and m.resource_id =?';
+    var sql = 'select m.*,u.name from resource_mark m,user u where u.id = m.creator and m.resource_id =? order by m.id desc';
 
     rows =
         yield req.conn.yieldQuery(sql, [id, params.start, params.limit]);   

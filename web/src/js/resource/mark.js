@@ -10,6 +10,8 @@ var tmpl = {
 	list : require('../../tpl/resource/marklist.ejs')
 }
 
+var striker = $(window.striker);
+
 var db = {}
 module.exports = db;
 
@@ -85,7 +87,48 @@ mark.prototype.bindAction = function(){
 			_this[action](e);
 		}
 	});
+
+	striker.bind('toplay',function(e,d){
+		_this.toplay(d);
+	})
 };
+
+mark.prototype.getLay = function(d){
+	var alltime = this.play.duration();
+	var width = 360;
+	var s = Math.ceil(d.st/alltime*100);
+		e = Math.ceil(d.et/alltime*100);
+	var l = (e-s)/100*360;
+
+	return {
+		s : s,
+		l : l
+	}
+}
+
+mark.prototype.toplay = function(d){
+	var _this = this;
+	var time = d.et-d.st;
+	clearTimeout(this.loptime);
+	if(this.playmark){
+		this.playmark.remove();
+	}
+
+	var lay = this.getLay(d);
+	this.playmark = $('<div class="select-marktime"><div class="mark-block" style="margin-left:'+lay.s+'%;width:'+lay.l+'%"></div></div>');
+
+	this.pdom.append(this.playmark);
+
+	var lop = d.et - d.st;
+
+	this.loptime = setTimeout(function(){
+		_this.playmark.remove();	
+		_this.play.pause();
+	},lop*1000);
+
+	this.play.currentTime(d.st);
+	this.play.play();
+}
 
 
 mark.prototype.close = function(){
@@ -154,18 +197,10 @@ mark.prototype.submit = function(){
 
 	cgi.mark(param,function(res){
 		if(res.code === 0){
+			self.content.val('');
 			self.list.addOne(res.data);
 		}
 	});
-	/*
-	this.play.duration() 总长度
-	*/
-
-	// console.log(this.play.currentTime());
-	// console.log(this.play.bufferedPercent());
-	// console.log(this.play.duration());
-	// console.log(this.mark.get());
-	//this.play.addTextTrack('descriptions','testdtest');
 }
 
 mark.prototype.startmark = function(){

@@ -3,6 +3,8 @@ var tmpl = {
 	list : require('../../tpl/resource/marklist.ejs')
 }
 
+var striker = $(window.striker);
+
 var list = function(id,dom){
 	this.start = 0,
 	this.limit = 10;
@@ -56,16 +58,32 @@ list.prototype.getTime = function(time){
 
 list.prototype.addOne = function(data){
 	if(data){
-			var html = tmpl.list({
-				list : [data],
-				time : this.getTime
-			});
-			this.dom.prepend(html);		
+		var html = tmpl.list({
+			list : [data],
+			time : this.getTime
+		});
+		this.dom.prepend(html);		
 	}
 }
 
 list.prototype.bindAction = function(){
+	this.dom.bind('click',function(e){
+		var target = $(e.target);
+		if(e.target.nodeName != 'LI'){
+			target = target.parents('li.item');
+		}
+		var st = target.data('start'),
+			et = target.data('end');
+		striker.trigger('toplay',{
+			st : st,
+			et : et
+		})
 
+	});
+
+	this.dom.on('scroll',function(){
+		console.log(1);
+	});
 }
 
 list.prototype.loadMore = function(){
