@@ -250,6 +250,4 @@ striker.bind('review',function(e,d){
 	}else{
 		rv.changeData(d);
 	}
-	console.log(d);
-
 });

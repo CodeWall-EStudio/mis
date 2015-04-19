@@ -189,7 +189,7 @@ exports.split = function*(req,res){
     var parameter = req.parameter;
     var id = parameter.id,
         start = parameter.startTime,
-        end = parameter.endTime;
+        length = parameter.length;
 
     var rows =
         yield req.conn.yieldQuery('SELECT * FROM resource WHERE id = ?', id);    
@@ -216,7 +216,7 @@ exports.split = function*(req,res){
         //     size: '320x240'
         // })        
         .setStartTime(start)
-        .duration(end)
+        .duration(length)
         .applyAutopadding(true, 'white')
         .on('error', function(err) {
             res.json({
@@ -257,7 +257,36 @@ exports.list = function*(req,res){
             total: total,
             list: rows
         }
-    });        
+    });
+}
+
+exports.mark = function*(req,res){
+   var params = req.parameter;
+   var loginUser = req.loginUser;
+   var id = params.id,
+       mark = params.mark,
+       startTime = params.startTime,
+       endTime = params.endTime;
+
+
+    var result =
+        yield req.conn.yieldQuery('INSERT INTO resource_mark SET ?', {
+            start: params.startTime,
+            end: params.endTime,
+            creator: loginUser.id,
+            mark: params.mark,
+            resource_id : params.id
+        });
+
+    var id = result.insertId;
+
+    rows =
+        yield req.conn.yieldQuery('SELECT rm.*,u.name FROM resource_mark rm,user u WHERE rm.creator = u.id and rm.id = ?', id);
+
+    res.json({
+        code: ERR.SUCCESS,
+        data: rows[0]
+    });    
 
 }
 

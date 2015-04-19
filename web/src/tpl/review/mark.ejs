@@ -12,14 +12,21 @@
 						</div>
 
 						<div class="mark-post">
-							<textarea></textarea>
-							<div class="mark-action1">
+							<textarea id="markContent"></textarea>
+							<div class="mark-action1" id="markAction1">
+								<button type="button" class="btn btn-primary" data-action="showmark">开始标记</button>
 							</div>
-							<div class="mark-action2">
+							<div class="mark-action2" id="markAction2">
+								<button type="button" class="btn btn-primary" data-action="cut">剪切视频</button>
+								<button type="button" class="btn btn-primary" data-action="startmark">选择标记段</button>
+								<button type="button" class="btn btn-primary" data-action="submit">提交标记</button>
+								<button type="button" class="btn btn-primary" data-action="hidemark">取消</button>
 							</div>							
 						</div>
 					</div>
 					<div class="mark-aside">
+						<ul id="markList">
+						</ul>
 					</div>					
 				</div>
 			</div>

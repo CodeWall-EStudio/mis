@@ -175,8 +175,6 @@ Subject.area.prototype.getDate = function(param){
 	}
 	var _this = this;
 	this.loading = true;
-
-	console.log(this.proName);
 	var funname = 'search';
 	if(this.proName === 'myFollow'){
 		funname = 'following';
