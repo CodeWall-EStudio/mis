@@ -118,7 +118,22 @@ mark.prototype.showmark = function(){
 }
 
 mark.prototype.cut = function(){
-	
+	var rid = this.rid;	
+	var times = this.mark.get();
+	if(this.mark){
+		var param = {
+			id : rid,
+			startTime : times.st,
+			length : times.et - times.st
+		}
+		cgi.split(param,function(res){
+			if(res.code === 0){
+
+			}
+		});
+	}else{
+
+	}
 }
 
 mark.prototype.submit = function(){
@@ -139,7 +154,7 @@ mark.prototype.submit = function(){
 
 	cgi.mark(param,function(res){
 		if(res.code === 0){
-			self.list.addOne(red.data);
+			self.list.addOne(res.data);
 		}
 	});
 	/*

@@ -58,9 +58,9 @@ list.prototype.addOne = function(data){
 	if(data){
 			var html = tmpl.list({
 				list : [data],
-				time : _this.getTime
+				time : this.getTime
 			});
-			_this.dom.append(html);		
+			this.dom.prepend(html);		
 	}
 }
 
@@ -94,8 +94,6 @@ list.prototype.getData = function(){
 			_this.dom.append(html);
 		}
 	});
-
-	console.log(3333);
 
 }
 
