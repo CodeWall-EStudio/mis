@@ -1,0 +1,13 @@
+<%for(var i =0,l=list.length;i<l;i++){
+	var item = list[i];
+%>
+<li>
+	<div>
+		<%-time(item.start)%>
+		-
+		<%-time(item.end)%>
+		 <%-item.name%>
+	</div>	
+	<p><%-item.mark%></p>
+</li>
+<%}%>
