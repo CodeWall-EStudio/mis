@@ -52,6 +52,8 @@ function mark(data){
 		this.pdom = this.dom.find('.vjs-control-bar');
 		this.content = $("#markContent");
 
+		this.videoFrom = $("#cutVideo");
+
 		this.list = new list(this.rid,$("#markList"));
 
 		this.bindAction();
@@ -170,6 +172,10 @@ mark.prototype.showmark = function(){
 }
 
 mark.prototype.cut = function(){
+	this.videoFrom;
+
+
+
 	var rid = this.rid;	
 	var times = this.mark.get();
 	if(this.mark){
@@ -178,11 +184,9 @@ mark.prototype.cut = function(){
 			startTime : times.st,
 			length : times.et - times.st
 		}
-		cgi.split(param,function(res){
-			if(res.code === 0){
-
-			}
-		});
+		var url = '/cgi/resource/split?id='+rid+'&startTime='+param.startTime+'&length='+param.length;
+		this.videoFrom.attr('action',url);
+		this.videoFrom.submit();
 	}else{
 
 	}
