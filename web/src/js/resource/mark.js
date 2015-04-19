@@ -70,7 +70,8 @@ function mark(data){
 			"width": 640,
 			"height" : 320
 		});
-		this.play.src('/kp.mp4');
+		//this.play.src('/kp.mp4');
+		this.play.src('/cgi/resource/download?id='+this.rid);
 	}
 }
 
