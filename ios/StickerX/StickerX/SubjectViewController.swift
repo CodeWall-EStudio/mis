@@ -21,6 +21,8 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
     
     @IBOutlet weak var mainTableView: UITableView!
     
+    var refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -32,6 +34,15 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
         let subjectId = STUser.shared.selectedSubjectId!
         getSubjectx("http://mis.codewalle.com/cgi/subject/info?id=\(subjectId)")
         getArticles("http://mis.codewalle.com/cgi/article/search?start=0&limit=100&subjectId=\(subjectId)")
+        
+        refreshControl.addTarget(self, action: "refreshData", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "松手刷新")
+        mainTableView.addSubview(refreshControl)
+    }
+    
+    func refreshData() {
+        getArticles("http://mis.codewalle.com/cgi/article/search?start=0&limit=100&subjectId=\(STUser.shared.selectedSubjectId!)")
+        refreshControl.endRefreshing()
     }
     
     override func didReceiveMemoryWarning() {
@@ -122,19 +133,20 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
         }
     }
 
-    @IBAction func unwindToSubject(segue:UIStoryboardSegue, sender: AnyObject?) {
+    @IBAction func unwindToSubject(segue:UIStoryboardSegue) {
+    }
+    
+    @IBAction func postToSubject(segue:UIStoryboardSegue) {
         if (segue.sourceViewController.isKindOfClass(ArticlePostViewController)) {
-            if let tag = sender?.tag {
-                if (tag == 2) {
-                    var svc = segue.sourceViewController as! ArticlePostViewController
-                    let title = svc.articleTitle.text
-                    let content = svc.articleContent.text
-                    postArticle(title, content: content)
-                }
+            var svc = segue.sourceViewController as! ArticlePostViewController
+            let title = svc.articleTitle.text
+            let content = svc.articleContent.text
+            if (!title.isEmpty) {
+                postArticle(title, content: content)
             }
         }
-        println(sender?.tag)
     }
+
     
     func postArticle(title: String, content: String) {
         let subjectId = STUser.shared.selectedSubjectId!

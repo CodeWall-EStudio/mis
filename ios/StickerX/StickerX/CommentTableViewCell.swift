@@ -8,8 +8,10 @@
 
 import UIKit
 
-class ReplyTableViewCell: UITableViewCell {
+class CommentTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var commenter: UILabel!
+    @IBOutlet weak var comment: UITextView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

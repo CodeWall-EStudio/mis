@@ -9,8 +9,20 @@
 import Foundation
 import JSONJoy
 
+/*
+"id": 50,
+"title": "",
+"content": "tttt",
+"creator": 1,
+"createTime": "2015-04-19T01:35:36.000Z",
+"updateTime": "2015-04-19T01:35:36.000Z",
+"article_id": 107,
+"subject_id": 63,
+"updator": 1,
+"creatorName": "龙福康"
+*/
 
-struct Reply : JSONJoy {
+struct Comment : JSONJoy {
     var id: Int?
     var title: String?
     var content: String?
@@ -19,11 +31,8 @@ struct Reply : JSONJoy {
     var createTime: String?
     var updateTime: String?
     var updator: Int?
-    var updatorName: String?
     var subject_id: Int?
-    var status: Int?
-    var isStar: Int?
-    var isCollect: Int?
+    var article_id: Int?
     
     init() {
         
@@ -33,31 +42,28 @@ struct Reply : JSONJoy {
         subject_id = decoder["subject_id"].integer
         creator = decoder["creator"].integer
         updator = decoder["updator"].integer
-        status = decoder["status"].integer
-        isStar = decoder["isStar"].integer
-        isCollect = decoder["isCollect"].integer
+        article_id = decoder["article_id"].integer
         
         title = decoder["title"].string
         content = decoder["content"].string
         createTime = decoder["createTime"].string
         updateTime = decoder["updateTime"].string
         creatorName = decoder["creatorName"].string
-        updatorName = decoder["updatorName"].string
         
     }
 }
 
 
-struct Replies : JSONJoy {
-    var replies: Array<Reply>?
+struct Comments : JSONJoy {
+    var comments: Array<Comment>?
     init() {
     }
     init(_ decoder: JSONDecoder) {
         //we check if the array is valid then alloc our array and loop through it, creating the new address objects.
         if let addrs = decoder["list"].array {
-            replies = Array<Reply>()
+            comments = Array<Comment>()
             for addrDecoder in addrs {
-                replies?.append(Reply(addrDecoder))
+                comments?.append(Comment(addrDecoder))
             }
         }
     }

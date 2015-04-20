@@ -95,7 +95,7 @@ class StickerViewController: UIViewController {
         let minusValue = viewHeight/2 - activeTextFieldOriginY! - activeTextFieldHeight!/2 - keyboardSize.height
         
         if (minusValue < 0) {
-            UIView.animateWithDuration(0.5, animations: {self.view.frame.origin.y = minusValue
+            UIView.animateWithDuration(0.5, animations: {self.view.frame.origin.y = minusValue/2 - activeTextFieldHeight!
             })
         }
     }
