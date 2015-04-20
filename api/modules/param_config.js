@@ -623,13 +623,11 @@ module.exports = {
             type : 'number',
             required : true
         },{
-            name : 'endTime',
+            name : 'length',
             type : 'number',
             required : true
         }]
     },
-
-
 
     // 通知
     '/cgi/notification/search': {

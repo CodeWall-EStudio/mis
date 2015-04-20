@@ -292,12 +292,12 @@ db.resource = {};
 
 db.resource.mark = function(param,callback) {
 	var callback = checkCallback(callback,true);
-	request.post(cgiList.resource.create, param, callback);	
+	request.post(cgiList.resource.mark, param, callback);	
 }
 
 db.resource.split = function(param,callback) {
 	var callback = checkCallback(callback,true);
-	request.post(cgiList.resource.create, param, callback);	
+	request.post(cgiList.resource.split, param, callback);	
 }
 
 db.resource.list = function(param,callback){
