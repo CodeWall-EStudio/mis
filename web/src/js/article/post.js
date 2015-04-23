@@ -281,7 +281,7 @@ post.prototype.post = function(){
 				resetFrom(pTarget);
 			}
 			if(res.code === 0){
-				this.cDom.modal('hide');
+				_this.cDom.modal('hide');
 				striker.trigger('articleEdited',res.data);
 				//striker.article.appendToList(res.data);
 			}
