@@ -28,6 +28,7 @@ function article(){
 	this.length = 0;
 	this.end = false;
 	this.loading = false;
+	this.orderby = 'createTime';
 
 	this.subid = nowSubId;
 	this.msg = window.striker.msg;
@@ -99,21 +100,25 @@ article.prototype.bindAction = function(){
 //按更新时间排序
 article.prototype.orderByUpdate = function(){
 	this.start = 0;
+	this.orderby = 'updateTime';
+	this.dom.html('');
 	this.search({
 		start : this.start,
 		limit : this.limit,
 		subjectId : this.subid,
-		orderby : 'updatetime'
+		orderby : this.orderby
 	});
 }
 //按发表时间排序
 article.prototype.orderByCreate = function(){
 	this.start = 0;
+	this.orderby = 'createTime';
+	this.dom.html('');
 	this.search({
 		start : this.start,
 		limit : this.limit,
 		subjectId : this.subid,
-		orderby : 'createTime'
+		orderby : this.orderby
 	});	
 }
 
@@ -127,7 +132,7 @@ article.prototype.loadMore = function(){
 		start : this.start,
 		limit : this.limit,
 		subjectId : this.subid,
-		orderby : 'createTime'
+		orderby : this.orderby
 	});
 }
 
@@ -157,7 +162,7 @@ article.prototype.search = function(param){
 			start : this.start,
 			limit : this.limit,
 			subjectId : this.subid,
-			orderby : 'createTime'
+			orderby : this.orderby
 		}
 	}
 

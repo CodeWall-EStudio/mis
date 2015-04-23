@@ -378,10 +378,16 @@ exports.search = function*(req, res) {
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
 
-    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+    if(params.orderby){
+        sql += ' ORDER BY s.'+params.orderby+'';    
+    }
+    
+    sql += ' DESC LIMIT ?, ?';
+
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
     rows =
-        yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.start, params.limit]);
 
     res.json({
         code: ERR.SUCCESS,
@@ -415,12 +421,18 @@ exports.list = function*(req, res) {
     //dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
 
-    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+    if(params.orderby){
+        sql += ' ORDER BY s.'+params.orderby+'';    
+    }
+    
+    sql += ' DESC LIMIT ?, ?';
+
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
 
 
     rows =
-        yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.start, params.limit]);
 
     console.log(req.dbPrepare(dbParams),dbParams);
     console.log(loginUser);
@@ -581,10 +593,17 @@ exports.invited = function*(req, res) {
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
     // sql += ' GROUP BY s.id';
-    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+
+    if(params.orderby){
+        sql += ' ORDER BY s.'+params.orderby+'';    
+    }
+    
+    sql += ' DESC LIMIT ?, ?';
+
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
     rows =
-        yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.start, params.limit]);
 
     res.json({
         code: ERR.SUCCESS,
@@ -641,10 +660,16 @@ exports.archived = function*(req, res, next) {
     sql += req.dbPrepare(dbParams);
     sql += ' AND (s.creator = ? OR su.user_id = ?)';
 
-    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+    if(params.orderby){
+        sql += ' ORDER BY s.'+params.orderby+'';    
+    }
+    
+    sql += ' DESC LIMIT ?, ?';
+
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
     rows =
-        yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.start, params.limit]);
 
     res.json({
         code: ERR.SUCCESS,

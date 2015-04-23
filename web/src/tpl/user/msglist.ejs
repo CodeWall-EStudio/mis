@@ -2,7 +2,6 @@
 	for(var i in list){
 	var item = list[i];
 	var obj = JSON.parse(item.withData);
-	console.log(obj);
 %>
 <li title="<%-item.message%>"><a data-href="article.html?id=<%-obj.articleId%>" data-id="<%-item.id%>" data-read="<%-item.read%>"><%-item.message%></a></li>
 <%}%>

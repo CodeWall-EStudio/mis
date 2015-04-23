@@ -288,12 +288,17 @@ exports.search = function*(req, res) {
     var sql = 'SELECT a.*,';
     sql += '(select name from user where id = a.creator) as creatorName,',
         sql += '(select name from user where id = a.updator) as updatorName ',
-        sql += ' FROM article a WHERE subject_id = ? ORDER BY status,?? DESC LIMIT ?, ?';
+        sql += ' FROM article a WHERE subject_id = ? ORDER BY status ';
 
+    if(params.orderby){
+        sql += ', a.'+params.orderby+'';    
+    }
+    
+    sql += ' DESC LIMIT ?, ?';
     //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
     rows =
-        yield req.conn.yieldQuery(sql, [params.subjectId, params.orderby ? ('a.' + params.orderby) : 'a.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.subjectId, params.start, params.limit]);
 
     //标签id列表,资源id列表
     var labelMap = [],
