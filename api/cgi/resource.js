@@ -152,12 +152,12 @@ exports.preview = function*(req, res) {
             //     'Content-Type': resource.type,
             //     'X-Accel-Redirect': filePath
             // });
-            res.set({
-                'Content-Type': resource.type,
-                'X-Accel-Redirect': filePath
-            });
-            res.send();
-            //res.sendfile(filePath);
+            // res.set({
+            //     'Content-Type': resource.type,
+            //     'X-Accel-Redirect': filePath
+            // });
+            // res.send();
+            res.sendfile(filePath);
             break;
         case 8: //text
             try {

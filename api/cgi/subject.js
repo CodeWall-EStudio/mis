@@ -20,7 +20,7 @@ exports.create = function*(req, res) {
         co(function*() {
             // 插入主题
             var result =
-                yield req.conn.yieldQuery('INSERT INTO subject SET ? ', {
+                yield req.conn.yieldQuery('INSERT INTO subject SET ? ,createTime = CURRENT_TIME', {
                     title: params.title,
                     mark: params.mark,
                     'private': params['private'],
