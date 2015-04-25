@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="Activity_Alpha_Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/alpha_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/alpha_close_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/alpha_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/alpha_close_exit</item>
+        <item name="android:taskOpenEnterAnimation">@anim/activity_push_left_in</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_push_left_out</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_push_right_in</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_push_right_out</item>
+        <item name="android:taskToFrontEnterAnimation">@anim/activity_push_left_in</item>
+        <item name="android:taskToFrontExitAnimation">@anim/activity_push_left_out</item>
+        <item name="android:taskToBackEnterAnimation">@anim/activity_push_right_in</item>
+        <item name="android:taskToBackExitAnimation">@anim/activity_push_right_out</item>
+        <item name="android:wallpaperCloseEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:wallpaperCloseExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:wallpaperOpenEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:wallpaperOpenExitAnimation">@anim/activity_close_exit</item>
+    </style>
+
+    <style name="Activity_Scale_Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+        <item name="android:taskOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_close_exit</item>
+        <item name="android:taskToFrontEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:taskToFrontExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:taskToBackEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:taskToBackExitAnimation">@anim/activity_close_exit</item>
+        <item name="android:wallpaperCloseEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:wallpaperCloseExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:wallpaperOpenEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:wallpaperOpenExitAnimation">@anim/activity_close_exit</item>
+    </style>
+
+    <style name="Activity_PushLeftRight_Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_push_left_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_push_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_push_right_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_push_right_out</item>
+        <item name="android:taskOpenEnterAnimation">@anim/activity_push_left_in</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_push_left_out</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_push_right_in</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_push_right_out</item>
+        <item name="android:taskToFrontEnterAnimation">@anim/activity_push_left_in</item>
+        <item name="android:taskToFrontExitAnimation">@anim/activity_push_left_out</item>
+        <item name="android:taskToBackEnterAnimation">@anim/activity_push_right_in</item>
+        <item name="android:taskToBackExitAnimation">@anim/activity_push_right_out</item>
+    </style>
+
+    <style name="No_Animation_with_push_right_in">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_push_right_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_push_right_out</item>
+        <item name="android:taskOpenEnterAnimation">@null</item>
+        <item name="android:taskOpenExitAnimation">@null</item>
+        <item name="android:taskCloseEnterAnimation">@null</item>
+        <item name="android:taskCloseExitAnimation">@null</item>
+        <item name="android:taskToFrontEnterAnimation">@null</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@null</item>
+        <item name="android:wallpaperOpenEnterAnimation">@null</item>
+        <item name="android:wallpaperOpenExitAnimation">@null</item>
+        <item name="android:wallpaperCloseEnterAnimation">@null</item>
+        <item name="android:wallpaperCloseExitAnimation">@null</item>
+    </style>
+
+    <style name="no_animation">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+        <item name="android:taskOpenEnterAnimation">@null</item>
+        <item name="android:taskOpenExitAnimation">@null</item>
+        <item name="android:taskCloseEnterAnimation">@null</item>
+        <item name="android:taskCloseExitAnimation">@null</item>
+        <item name="android:taskToFrontEnterAnimation">@null</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@null</item>
+        <item name="android:wallpaperOpenEnterAnimation">@null</item>
+        <item name="android:wallpaperOpenExitAnimation">@null</item>
+        <item name="android:wallpaperCloseEnterAnimation">@null</item>
+        <item name="android:wallpaperCloseExitAnimation">@null</item>
+    </style>
+
+
+
+    <style name="splash_theme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:windowAnimationStyle">@style/Activity_PushLeftRight_Animation</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+    <style name="buttonBlue"></style>
+</resources>
