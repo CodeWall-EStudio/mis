@@ -1,4 +1,4 @@
-package com.codewalle.mis;
+package com.codewalle.mis.controller;
 
 import com.codewalle.mis.model.UserInfo;
 

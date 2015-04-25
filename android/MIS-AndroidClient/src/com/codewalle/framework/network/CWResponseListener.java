@@ -10,7 +10,7 @@ import org.json.JSONObject;
 /**
  * Created by xiangzhipan on 15/4/25.
  */
-public abstract class CWReponseListener implements CWNetWorkCallback{
+public abstract class CWResponseListener implements CWNetWorkCallback{
     protected Response.Listener<String> responseListener = new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
