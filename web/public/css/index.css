@@ -738,12 +738,6 @@ td i.s {
   background: url(imgs/star1.png) no-repeat;
 }
 
-.mark-area {
-  position: absolute;
-  top: 0;
-  z-index: 2000;
-}
-
 /**/
 .icons-sprite, .icons-archive, .icons-close1, .icons-del16, .icons-edit16, .icons-eye, .icons-eye16, .icons-file16, .icons-font16, .icons-icon-next, .icons-icon-prev, .icons-img16, .icons-jj, .icons-jjj, .icons-ll, .icons-male40, .icons-manage16, .icons-memu32, .icons-menu0, .icons-msg0, .icons-msg32, .icons-page-next, .icons-page-prev, .icons-post16, .icons-rectangular0, .icons-rep16, .icons-replay, .icons-rl, .icons-say32, .icons-search0, .icons-search32, .icons-type-doc, .icons-type-doc1, .icons-type-exe, .icons-type-exe1, .icons-type-img, .icons-type-img1, .icons-type-music, .icons-type-music1, .icons-type-other, .icons-type-other1, .icons-type-vedio, .icons-type-vedio1, .icons-type-zip, .icons-type-zip1, .icons-unlock, .icons-user, .icons-user0, .icons-user32, .icons-user320, .icons-user9, .icons-users13, .icons-video16 {
   background-image: url('../img/sprite/icons-s7c30815c09.png');

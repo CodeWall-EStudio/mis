@@ -14,7 +14,6 @@ var post = function(id,sid){
 	this.popTitleDom = this.popDom.find('input[name=name]');
 	this.cresDom = this.popDom.find('.pop-res');
 	this.ctitDom = this.popDom.find('.modal-title');
-	console.log(this.ctitDom);
 
 	this.artId = id;
 	this.subId = sid;	
@@ -177,7 +176,6 @@ post.prototype.bindAction = function(id,name){
 	var _this = this;
 
 	var uploadComp  = function(d){
-		console.log('comment',d);
 		_this.fileupload = false;
 		if(d.code === 0){
 			_this.resList.push(d.data.id);
@@ -192,7 +190,6 @@ post.prototype.bindAction = function(id,name){
 
 	if(window.uploadComp){
 		$(striker).bind('uploadFile',function(e,d){
-			console.log('trigger',d);
 			uploadComp(d);
 		});
 	}else{

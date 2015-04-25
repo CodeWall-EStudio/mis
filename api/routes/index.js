@@ -49,9 +49,9 @@ exports.route = function(req, res, next) {
         // router(req, res, next);
         co(router(req, res, next))
             .then(function() {
-                process.nextTick(function() {
+                setTimeout(function() {
                     db.release(req, res);
-                });
+                }, 1000); // 等待1s, 没执行完也释放db连接, 很挫, 目前没有其他好法子
             }).catch(function(err) {
                 db.handleError(req, res, err.message);
             });

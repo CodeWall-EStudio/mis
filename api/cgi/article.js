@@ -61,7 +61,7 @@ exports.create = function*(req, res) {
         co(function*() {
             // 插入主题
             var result =
-                yield req.conn.yieldQuery('INSERT INTO article SET ? ', {
+                yield req.conn.yieldQuery('INSERT INTO article SET ? ,createTime = CURRENT_TIME', {
                     title: params.title,
                     content: params.content,
                     subject_id: params.subjectId,
@@ -164,14 +164,19 @@ exports.edit = function*(req, res) {
             }
 
             Logger.info('update article', articleId, params);
-            // 清除所有对应标签
-            yield clearArticleLables(req, articleId);
-            // 更新标签
-            yield insertArticleLables(req, articleId, params.labels);
-            // 清除所有对应资源
-            yield clearArticleResources(req, articleId);
-            // 更新资源
-            yield insertArticleResource(req, articleId, params.resources);
+
+            if(params.labels){
+                // 清除所有对应标签
+                yield clearArticleLables(req, articleId);
+                // 更新标签
+                yield insertArticleLables(req, articleId, params.labels);
+            }
+            if(params.resources){
+                // 清除所有对应资源
+                yield clearArticleResources(req, articleId);
+                // 更新资源
+                yield insertArticleResource(req, articleId, params.resources);
+            }
             // 更新article
             Logger.info(articleId);
 
@@ -283,10 +288,17 @@ exports.search = function*(req, res) {
     var sql = 'SELECT a.*,';
     sql += '(select name from user where id = a.creator) as creatorName,',
         sql += '(select name from user where id = a.updator) as updatorName ',
-        sql += ' FROM article a WHERE subject_id = ? ORDER BY status,?? DESC LIMIT ?, ?';
+        sql += ' FROM article a WHERE subject_id = ? ORDER BY status ';
+
+    if(params.orderby){
+        sql += ', a.'+params.orderby+'';    
+    }
+    
+    sql += ' DESC LIMIT ?, ?';
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
     rows =
-        yield req.conn.yieldQuery(sql, [params.subjectId, params.orderby ? ('a.' + params.orderby) : 'a.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.subjectId, params.start, params.limit]);
 
     //标签id列表,资源id列表
     var labelMap = [],

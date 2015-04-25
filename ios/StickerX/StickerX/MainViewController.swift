@@ -13,6 +13,8 @@ import JSONJoy
 class MainViewController: StickerViewController, UITableViewDelegate, UITableViewDataSource, UITabBarDelegate {
     
     var subjects = [Subject]()
+    var tag:Int = 1
+    var refreshControl = UIRefreshControl()
     
     @IBOutlet weak var mainNavigationItem: UINavigationItem!
     
@@ -39,6 +41,10 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
         mainTabBar.selectedItem = mainTabBarItem1
         mainTabBar.delegate = self
         getSubjects("http://mis.codewalle.com/cgi/subject/search?start=0&limit=100&private=1")
+        
+        refreshControl.addTarget(self, action: "refreshData", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "松手刷新")
+        mainTableView.addSubview(refreshControl)
     }
 
     override func didReceiveMemoryWarning() {
@@ -156,10 +162,30 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
         switch (item.tag) {
         case 2:
             uri = "http://mis.codewalle.com/cgi/subject/invited?start=0&limit=100"
+            tag = 2
         case 3:
-            let user = STUser.shared.user! as User
-            let id: Int = user.id as Int
-            uri = "http://mis.codewalle.com/cgi/subject/search?start=0&limit=100&creator=\(id)"
+            uri = "http://mis.codewalle.com/cgi/subject/list?start=0&limit=100"
+            tag = 3
+        case 4:
+            uri = "http://mis.codewalle.com/cgi/subject/following?start=0&limit=100"
+            tag = 4
+        case 5:
+            uri = "http://mis.codewalle.com/cgi/subject/archived?start=0&limit=100"
+            tag = 5
+        default:
+            uri = "http://mis.codewalle.com/cgi/subject/search?start=0&limit=100&private=1"
+            tag = 1
+        }
+        getSubjects(uri)
+    }
+    
+    func refreshData() {
+        var uri: String
+        switch (tag) {
+        case 2:
+            uri = "http://mis.codewalle.com/cgi/subject/invited?start=0&limit=100"
+        case 3:
+            uri = "http://mis.codewalle.com/cgi/subject/list?start=0&limit=100"
         case 4:
             uri = "http://mis.codewalle.com/cgi/subject/following?start=0&limit=100"
         case 5:
@@ -168,6 +194,7 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
             uri = "http://mis.codewalle.com/cgi/subject/search?start=0&limit=100&private=1"
         }
         getSubjects(uri)
+        refreshControl.endRefreshing()
     }
     
     func presentLogin() {
@@ -189,27 +216,29 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    @IBAction func unwindToSubjects(segue:UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.sourceViewController.isKindOfClass(SubjectPostViewController)) {
-            if let tag = sender?.tag {
-                if (tag == 2) {
-                    var svc = segue.sourceViewController as! SubjectPostViewController
-                    let title = svc.subjectTitle.text
-                    let mark = svc.subjectMark.text
-                    postSubject(title, mark: mark)
-                }
-            }
-        }
-        println(sender?.tag)
+    @IBAction func unwindToSubjects(segue:UIStoryboardSegue) {
     }
     
-    func postSubject(title: String, mark: String) {
+    @IBAction func postToSubjects(segue:UIStoryboardSegue) {
+        if (segue.sourceViewController.isKindOfClass(SubjectPostViewController)) {
+            var svc = segue.sourceViewController as! SubjectPostViewController
+            let title = svc.subjectTitle.text
+            let mark = svc.subjectMark.text
+            let priv = svc.subjectPrivate.on ? 1 : 1
+            let guest = svc.subjectGuest.on ? 1 : 0
+            if (!title.isEmpty) {
+                postSubject(title, mark: mark, priv: priv, guest: guest)
+            }
+        }
+    }
+    
+    func postSubject(title: String, mark: String, priv: Int, guest: Int) {
         var uri = "http://mis.codewalle.com/cgi/subject/create"
         var params: Dictionary<String, AnyObject> = [
             "title": title,
             "mark": mark,
-            "private": 1,
-            "guest": 1
+            "private": priv,
+            "guest": guest
             //"labels": "[]",
             //"resources": "[]",
         ]
@@ -230,7 +259,6 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
             }
         )
     }
-
 
 }
 

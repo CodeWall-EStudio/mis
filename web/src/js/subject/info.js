@@ -98,6 +98,22 @@ info.prototype.mark = function(e){
 	}
 };
 
+info.prototype.articleorderbyupdate = function(e){
+	var target = $(e.target),
+		pdom = target.parent('.btn-group');
+	pdom.find('a').removeClass('active');
+	target.addClass('active');
+	striker.trigger('article:orderbyupdate');
+}
+
+info.prototype.articleorderbytime = function(e){
+	var target = $(e.target),
+		pdom = target.parent('.btn-group');	
+	pdom.find('a').removeClass('active');
+	target.addClass('active');
+	striker.trigger('article:orderbycreate');
+}
+
 info.prototype.bindAction = function(){
 	var _this = this;
 	striker.bind('subjectUpdate',function(e,d){

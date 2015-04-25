@@ -25,6 +25,7 @@ var tmpl = {
 function resetFrom(target){
 	target.find('input[name=name]').val('');
 	target.find('textarea[name=content]').val('');
+	target.find('.pop-res').html('').hide();
 };
 
 aPost.init = function(id,module,tmp){
@@ -43,6 +44,7 @@ var post = function(){
 	this.ctitDom = this.cDom.find('.modal-title');
 	this.model = 'post';//post 底部 pop 弹出窗口
 
+	console.log(this.cresDom);
 	this.isEdit = false;
 
 	var _this = this;
@@ -269,16 +271,17 @@ post.prototype.post = function(){
 		return;
 	}
 
+
 	if(this.isEdit){
 		param.subjectId = this.data.subject_id;
 		param.articleId = this.data.id;
 		cgi.edit(param,function(res){
 			_this.loading = false;
 			if(pTarget.hasClass('modal')){
-				aPost.reset(pTarget);
+				resetFrom(pTarget);
 			}
 			if(res.code === 0){
-				this.cDom.modal('hide');
+				_this.cDom.modal('hide');
 				striker.trigger('articleEdited',res.data);
 				//striker.article.appendToList(res.data);
 			}
@@ -287,8 +290,9 @@ post.prototype.post = function(){
 	}else{
 		cgi.create(param,function(res){
 			_this.loading = false;
+
 			if(pTarget.hasClass('modal')){
-				aPost.reset(pTarget);
+				resetFrom(pTarget);
 			}
 			_this.cDom.modal('hide');
 			if(res.code === 0){

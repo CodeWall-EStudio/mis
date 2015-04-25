@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import SwiftHTTP
+import JSONJoy
 
 class SubjectPostViewController: StickerViewController {
 
     @IBOutlet weak var subjectTitle: UITextField!
     @IBOutlet weak var subjectMark: UITextField!
+    @IBOutlet weak var subjectPrivate: UISwitch!
+    @IBOutlet weak var subjectGuest: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,8 +34,10 @@ class SubjectPostViewController: StickerViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        // Pass the selected object to the new view controlle
+
     }
     */
+    
 
 }
