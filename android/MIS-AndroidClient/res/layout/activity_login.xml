@@ -31,8 +31,10 @@
                 android:hint="请输入帐号"
                 android:singleLine="true"
                 android:background="@android:color/white"
+                android:textColor="@android:color/black"
                 android:padding="10dp"
-                android:text=""/>
+                android:textCursorDrawable="@null"
+                android:text="az"/>
         <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
@@ -49,12 +51,14 @@
                 android:id="@+id/password"
                 android:background="@android:color/white"
                 android:padding="10dp"
-                android:text=""
+                android:text="8888"
                 android:singleLine="true"
                 android:hint="请输入密码"
+                android:textColor="@android:color/black"
                 android:layout_alignRight="@+id/username"
                 android:layout_alignLeft="@+id/username"
                 android:layout_below="@+id/username"
+                android:textCursorDrawable="@null"
                 android:layout_centerHorizontal="true"/>
 
     </LinearLayout>

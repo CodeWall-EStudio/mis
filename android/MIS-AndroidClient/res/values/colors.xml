@@ -4,5 +4,8 @@
     <color name="primary_color">#7BDFA3</color>
 
     <color name="login_bg">@color/primary_color</color>
+    <color name="title_bg">#6777a7</color>
+    <color name="default_bg">#f8f8f8</color>
+    <color name="subject_header">#e8ebee</color>
 
 </resources>

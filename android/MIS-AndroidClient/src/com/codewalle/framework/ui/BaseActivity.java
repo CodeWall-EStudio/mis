@@ -3,12 +3,13 @@ package com.codewalle.framework.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.codewalle.framework.CWApplication;
 
 /**
  * Created by xiangzhipan on 15/4/21.
  */
-public class BaseActivity extends Activity{
+public class BaseActivity extends SherlockActivity {
 
     protected CWApplication app;
 
@@ -22,6 +23,7 @@ public class BaseActivity extends Activity{
     protected ProgressDialog mDialog;
     protected String progressMessage = "";
     protected void showProgress() {
+        if(isFinishing())return;
         mDialog  = new ProgressDialog(this);
         mDialog.setMessage(progressMessage);
         mDialog.show();

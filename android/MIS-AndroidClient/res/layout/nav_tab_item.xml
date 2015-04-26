@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Medium Text"
             android:id="@+id/textView"
             android:textColor="@color/nav_text"

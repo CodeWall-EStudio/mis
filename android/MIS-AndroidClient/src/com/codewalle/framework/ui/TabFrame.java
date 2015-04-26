@@ -3,10 +3,10 @@ package com.codewalle.framework.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
-import com.swall.tra.model.AccountInfo;
-import com.swall.tra.network.ServiceManager;
+import com.codewalle.framework.CWApplication;
 
 import java.lang.ref.WeakReference;
 
@@ -18,27 +18,26 @@ import java.lang.ref.WeakReference;
 public abstract class TabFrame {
 
     protected String TAG;
-    protected AccountInfo currentAccount;
-    private View mTitleView;
     protected Bundle defaultRequestData;
 
     protected WeakReference<BaseFragmentActivity> mActivityRef;
-    protected TRAApplication app;
+    protected CWApplication app;
     protected View mView;
+    protected int type;
+    protected WeakReference<Handler> mHandlerRef;
+
     protected BaseFragmentActivity getActivity(){
         return mActivityRef.get();
     }
 
 
-    public void setActivity(BaseFragmentActivity activity){
+    public void setActivity(BaseFragmentActivity activity,Handler handler){
         mActivityRef = new WeakReference<BaseFragmentActivity>(activity);
+        mHandlerRef = new WeakReference<Handler>(handler);
         app = activity.app;
 
         TAG = getClass().getName();
-        //Log.i("SWall",TAG+":onCreate");
-        currentAccount = app.getCachedAccount();
-        defaultRequestData = new Bundle();
-        defaultRequestData.putString(ServiceManager.Constants.KEY_USER_NAME,currentAccount.userName);
+
     }
     public void startActivityForResult(Intent i,int reqCode){
         getActivity().startActivityForResult(i,reqCode);
@@ -66,4 +65,7 @@ public abstract class TabFrame {
     }
     public abstract View onCreateView(LayoutInflater inflater);
 
+    public void setType(int type) {
+        this.type = type;
+    }
 }

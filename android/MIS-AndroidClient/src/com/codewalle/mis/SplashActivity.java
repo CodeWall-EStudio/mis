@@ -1,35 +1,37 @@
 package com.codewalle.mis;
 
-import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
-import android.widget.TextView;
 import com.codewalle.framework.ui.BaseActivity;
+import com.codewalle.mis.controller.LoginCallback;
 import com.codewalle.mis.model.UserInfo;
 
 public class SplashActivity extends BaseActivity implements LoginCallback {
-    private ActionBar mActionBar;
-    private TextView mUnreadConvCount;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.splash);
 
-        // 检查是否可自动更新
-        if(!app.doAutoLogin(this)){
-            gotoLogin();
-        }else{
-            showProgress();
-        }
     }
 
-
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // 检查是否可自动更新
+                if(!app.doAutoLogin(SplashActivity.this)){
+                    gotoLogin();
+                }else{
+                    showProgress();
+                }
+            }
+        },1500);
+    }
 
     private void gotoLogin() {
         startActivity(new Intent(this, LoginActivity.class));
@@ -39,6 +41,11 @@ public class SplashActivity extends BaseActivity implements LoginCallback {
     @Override
     public void onLoginSuccess(UserInfo user) {
         dismissProgressDialog();
+        if(TextUtils.isEmpty(user.auth)){
+            gotoLogin();
+        }else{
+            gotoMain();
+        }
     }
 
     @Override
@@ -58,5 +65,7 @@ public class SplashActivity extends BaseActivity implements LoginCallback {
 
     private void gotoMain() {
         startActivity(new Intent(this,MainActivity.class));
+        finish();
     }
+
 }

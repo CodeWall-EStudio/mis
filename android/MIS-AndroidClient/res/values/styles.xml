@@ -95,7 +95,7 @@
 
 
 
-    <style name="splash_theme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="splash_theme" parent="android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowAnimationStyle">@style/Activity_PushLeftRight_Animation</item>
         <item name="android:windowBackground">@null</item>
     </style>

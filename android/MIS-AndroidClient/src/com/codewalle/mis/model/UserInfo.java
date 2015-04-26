@@ -9,13 +9,12 @@ import java.io.Serializable;
  * Created by xiangzhipan on 15/4/21.
  */
 public class UserInfo implements Parcelable {
-    public String uid;
+    public String id;// id 是存储用的
+    public String uid;// uid 为用户登录名
     public String name;
     public String auth;
-    public UserInfo(){
-
-    }
-    public UserInfo(String uid,String name,String auth){
+    public UserInfo(String id, String uid, String s, String auth){
+        this.id = id;
         this.uid = uid;
         this.name = name;
         this.auth = auth;
@@ -23,6 +22,7 @@ public class UserInfo implements Parcelable {
 
     public UserInfo(UserInfo other) {
         if(other != null) {
+            id = other.id;
             uid = other.uid;
             name = other.name;
             auth = other.auth;
@@ -33,6 +33,7 @@ public class UserInfo implements Parcelable {
     }
 
     public UserInfo(Parcel in) {
+        id = in.readString();
         uid = in.readString();
         name = in.readString();
         auth = in.readString();
@@ -45,6 +46,7 @@ public class UserInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(id);
         parcel.writeString(uid);
         parcel.writeString(name);
         parcel.writeString(auth);

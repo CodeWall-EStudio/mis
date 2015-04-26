@@ -1,19 +1,8 @@
 package com.codewalle.framework.network;
 
-import android.graphics.Bitmap;
 import com.android.volley.*;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
-import com.codewalle.framework.CWApplication;
-import org.apache.http.HttpEntity;
-import org.apache.http.protocol.HTTP;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +13,7 @@ public abstract class CWRequestBuilder {
     public abstract String getBaseUrl();
     public abstract String getLoginPath();
 
-    public Request getLoginRequest(CWReponseListener listener,String... args){
+    public Request getLoginRequest(CWResponseListener listener,String... args){
         return getSimpleStringRequest(getBaseUrl() + getLoginPath(),Request.Method.POST,listener.getResponseListener(),listener.getErrorListener(), args);
     }
 

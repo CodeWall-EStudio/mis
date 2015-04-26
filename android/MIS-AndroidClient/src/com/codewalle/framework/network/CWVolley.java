@@ -64,7 +64,7 @@ public class CWVolley {
 
 
 
-    public RequestQueue getRequestQueue() {
+    public static RequestQueue getRequestQueue() {
         return sRequestQueue;
     }
 

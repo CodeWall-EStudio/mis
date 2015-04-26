@@ -11,7 +11,7 @@ import com.codewalle.mis.model.UserInfo;
  * Created by xiangzhipan on 15/4/21.
  */
 public interface LoginCallback {
-    public void onLoginSuccess(UserInfo user);
-    public void onLoginFail(UserInfo user);
-    public void onAutoLogined(UserInfo user);
+    void onLoginSuccess(UserInfo user);
+    void onLoginFail(UserInfo user);
+    void onAutoLogined(UserInfo user);
 }

@@ -2,11 +2,9 @@ package com.codewalle.framework;
 
 import android.app.Application;
 import android.util.Pair;
-import com.codewalle.framework.network.CWRequestBuilder;
 import com.codewalle.framework.network.CWVolley;
 import com.codewalle.framework.utils.SharePreferenceUtil;
-import com.codewalle.mis.LoginCallback;
-import com.codewalle.mis.controller.UserController;
+import com.codewalle.mis.controller.*;
 import com.codewalle.mis.model.UserInfo;
 
 import java.util.List;
@@ -20,13 +18,11 @@ public class CWApplication extends Application {
 
     private static CWApplication sApp;
     private UserController mUserController;
-    private UserInfo mUser;
+    private SubjectController mSubjectController;
 
     public CWApplication(){
         super();
         sApp = this;
-
-
     }
 
 
@@ -37,6 +33,7 @@ public class CWApplication extends Application {
 
         CWVolley.init(getApplicationContext());
         mUserController = new UserController(this);
+        mSubjectController = new SubjectController(this);
 
 
     }
@@ -55,6 +52,15 @@ public class CWApplication extends Application {
     public void saveCookies(Set<Pair<String, String>> headerSet) {
 
     }
+
+    public void getArticleList(long subjectId, int start, int limit, ArticleCallback callback) {
+        mSubjectController.getArticleList(subjectId, start, limit, callback);
+    }
+
+    public void getSubjectList(int type, int start, int limit, SubjectCallback callback) {
+        mSubjectController.getSubjectList(type, start, limit, callback);
+    }
+
 
 
     // DELEGATE UserController

@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.codewalle.mis.LoginCallback;
+import com.codewalle.framework.network.CWResponseListener;
 import com.codewalle.framework.CWApplication;
 import com.codewalle.mis.model.UserInfo;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -17,19 +14,32 @@ import org.json.JSONObject;
  * Created by xiangzhipan on 15/4/21.
  */
 public class UserController extends Controller{
+
+
+    private static final int CODE_SUCCESS = 0;
     private static final String SAVE_LOGIN = "SVAE_LOGIN";
-    private final CWApplication mApp;
     private UserInfo mUser = null;
 
+    private CWResponseListener mResponseListener = new CWResponseListener() {
+        @Override
+        public void onResponseJSON(int code, String msg, JSONObject data) {
+            if(code == CODE_SUCCESS){
+
+            }else{
+
+            }
+        }
+    };
+
     public UserController(CWApplication application) {
-        super();
-        mApp = application;
+        super(application);
     }
 
     public void setUser(UserInfo user){
         mUser = new UserInfo(user);
         SharedPreferences save = mApp.getSharedPreferences(SAVE_LOGIN, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = save.edit();
+        ed.putString("id",mUser.id);
         ed.putString("uid",mUser.uid);
         ed.putString("name",mUser.name);
         ed.putString("auth",mUser.auth);
@@ -41,6 +51,7 @@ public class UserController extends Controller{
             // 检查sharedReference
 
             SharedPreferences save = mApp.getSharedPreferences(SAVE_LOGIN, Context.MODE_PRIVATE);
+            String id = save.getString("id","");
             String uid = save.getString("uid","");
             String name = save.getString("name","");
             String auth = save.getString("auth","");
@@ -48,7 +59,7 @@ public class UserController extends Controller{
                     !TextUtils.isEmpty(name) &&
                     !TextUtils.isEmpty(auth)){
 
-                setUser(new UserInfo(uid,name,auth));
+                setUser(new UserInfo(id,uid,name,auth));
 
             }
         }
@@ -57,33 +68,29 @@ public class UserController extends Controller{
     }
 
     public void doLogin(final String uid,final String auth,final LoginCallback cb){
-        Request<String> loginRequest = requestBuilder.getLoginRequest(new Response.Listener<String>() {
+        Request<String> loginRequest = requestBuilder.getLoginRequest(new CWResponseListener() {
             @Override
-            public void onResponse(String response) {
-                String errMsg = "";
-
-                try {
-                    JSONObject object = new JSONObject(response);
-                    int code = object.optInt("code",1);
-
-
-                } catch (JSONException e) {
-                    errMsg = "返回格式不正确:\n"+response;
+            public void onResponseJSON(int code, String msg, JSONObject data) {
+                if (code == CODE_SUCCESS) {
+                    UserInfo userInfo = new UserInfo(data.optString("id",""),uid, data.optString("name", "unnamed"), auth);
+                    mApp.setUser(userInfo);
+                    cb.onLoginSuccess(userInfo);
+                } else {
+                    cb.onLoginFail(null);
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        },"uid",uid,"pwd",auth);
+        }, "uid", uid, "pwd", auth);
+        requestQueue.add(loginRequest);
+        requestQueue.start();
     }
     public void doLogout(){
     }
 
     public boolean doAutoLogin(LoginCallback cb){
         if(isValidUserInfo(mUser)){
-            cb.onAutoLogined(mUser);
+            // 要换新的sid，所以还是重新登录一下吧
+            doLogin(mUser.uid,mUser.auth,cb);
+//            cb.onAutoLogined(mUser);
         }else{
             return false;
         }
