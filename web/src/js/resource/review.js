@@ -89,6 +89,7 @@ review.prototype.showList = function(id){
 		list : this.listItem,
 		id : this.nowId
 	});
+	
 	this.reviewBlock.html(listHtml);
 }
 
@@ -177,6 +178,9 @@ review.prototype.show = function(){
 review.prototype.hide = function(){
 	this.bg.hide();
 	this.dom.hide();	
+	this.list = [];
+	this.listItem = [];
+	this.reviewBlock.html('');
 }
 
 //更换数据

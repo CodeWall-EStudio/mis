@@ -373,16 +373,19 @@ exports.search = function*(req, res) {
         yield req.conn.yieldQuery(sql);
     var total = rows[0].count;
 
-    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount ' + 'FROM subject s, user u WHERE ';
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName,'
+    sql += '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,';
+    sql += '(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount ' + 'FROM subject s, user u WHERE ';
 
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
 
     if(params.orderby){
-        sql += ' ORDER BY s.'+params.orderby+'';    
+        sql += ' ORDER BY s.'+params.orderby+' DESC';    
     }
     
-    sql += ' DESC LIMIT ?, ?';
+    sql += ' LIMIT ?, ?';
 
     //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
@@ -416,16 +419,19 @@ exports.list = function*(req, res) {
         yield req.conn.yieldQuery(sql);
     var total = rows[0].count;
 
-    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u WHERE s.creator = u.id and ';
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName, ',
+    sql +=  '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,';
+    sql += '(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u WHERE s.creator = u.id and ';
 
     //dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
 
     if(params.orderby){
-        sql += ' ORDER BY s.'+params.orderby+'';    
+        sql += ' ORDER BY s.'+params.orderby+' DESC';    
     }
     
-    sql += ' DESC LIMIT ?, ?';
+    sql += ' LIMIT ?, ?';
 
     //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
@@ -454,6 +460,7 @@ exports.info = function*(req, res) {
     //SELECT s.*,u.name,(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount FROM SUBJECT s,USER u WHERE s.id = 37 AND s.creator = u.id
     //醉了.....这数据来源太多了...by horde
     var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName, ',
     sql += '(SELECT COUNT(DISTINCT sf.user_id) FROM subject_follow sf WHERE sf.subject_id = s.id AND sf.user_id = ?) AS follow,'
     sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
     sql += '(SELECT COUNT(DISTINCT ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
@@ -544,7 +551,10 @@ exports.following = function*(req, res) {
     var rows =
         yield req.conn.yieldQuery(sql, sqlParams);
     var total = rows[0].count;
-    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName, ';
+    sql += '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,';
+    sql += '(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
 
     sql += ' ORDER BY ?? DESC LIMIT ?, ?';
     if (params.orderby) {
@@ -588,17 +598,19 @@ exports.invited = function*(req, res) {
         yield req.conn.yieldQuery(sql);
     var total = rows[0].count;
 
-    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_user su WHERE ';
+    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName, ';
+    sql += '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_user su WHERE ';
 
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
     // sql += ' GROUP BY s.id';
 
     if(params.orderby){
-        sql += ' ORDER BY s.'+params.orderby+'';    
+        sql += ' ORDER BY s.'+params.orderby+' DESC';    
     }
     
-    sql += ' DESC LIMIT ?, ?';
+    sql += '  LIMIT ?, ?';
 
     //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
@@ -661,10 +673,10 @@ exports.archived = function*(req, res, next) {
     sql += ' AND (s.creator = ? OR su.user_id = ?)';
 
     if(params.orderby){
-        sql += ' ORDER BY s.'+params.orderby+'';    
+        sql += ' ORDER BY s.'+params.orderby+' DESC';    
     }
     
-    sql += ' DESC LIMIT ?, ?';
+    sql += '  LIMIT ?, ?';
 
     //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 

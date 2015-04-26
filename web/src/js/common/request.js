@@ -2,6 +2,14 @@ function emptyFun(res){
 	console.log(res);
 }
 
+function checkUrl(url){
+	if(url.indexOf('?')>=0){
+		return url +='&_t='+new Date().getTime();
+	}else{
+		return url +='?_t='+new Date().getTime();
+	}
+}
+
 function post(url,param,callback,error){
 	if(typeof callback !== 'function'){
 		callback = emptyFun;
@@ -17,6 +25,8 @@ function post(url,param,callback,error){
 
 }
 
+
+
 function get(url,param,callback,error){
 	if(typeof callback !== 'function'){
 		callback = emptyFun;
@@ -25,7 +35,7 @@ function get(url,param,callback,error){
 		error = callback;
 	}
 	ajax({
-		url : url,
+		url : checkUrl(url),
 		type : 'GET',
 		data : param,
 	},callback);
@@ -42,7 +52,7 @@ function ajax(opt,callback,error){
 
 	$.ajax({
 		type : type,
-		url : url,
+		url : checkUrl(url),
 		data : data,
 		success : function(res){
 			callback(res);

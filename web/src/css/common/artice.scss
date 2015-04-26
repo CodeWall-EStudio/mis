@@ -28,6 +28,11 @@
 .artice-title-info{
 	background: url(../img/static/ico-1.png) no-repeat 10px center;
 	padding-left:60px;
+	dt{
+	  width: 800px;
+	  overflow: hidden;
+	  text-overflow: ellipsis;		
+	}
 }
 
 .artice-title{
@@ -229,6 +234,14 @@
 	position:relative;
 	display:inline-block;
 	margin-right:10px;
+
+
+}
+.artice-img-list{
+	img{
+		max-width:200px;
+		max-height:200px;
+	}
 }
 .artice-img-list div span{
 	position:absolute;
