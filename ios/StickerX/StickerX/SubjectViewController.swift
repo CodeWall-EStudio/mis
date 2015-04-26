@@ -33,7 +33,7 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
         
         let subjectId = STUser.shared.selectedSubjectId!
         getSubjectx("http://mis.codewalle.com/cgi/subject/info?id=\(subjectId)")
-        getArticles("http://mis.codewalle.com/cgi/article/search?start=0&limit=100&subjectId=\(subjectId)")
+        getArticles("http://mis.codewalle.com/cgi/article/search?start=0&orderby=updateTime&limit=100&subjectId=\(subjectId)")
         
         refreshControl.addTarget(self, action: "refreshData", forControlEvents: UIControlEvents.ValueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "松手刷新")
@@ -41,7 +41,7 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
     }
     
     func refreshData() {
-        getArticles("http://mis.codewalle.com/cgi/article/search?start=0&limit=100&subjectId=\(STUser.shared.selectedSubjectId!)")
+        getArticles("http://mis.codewalle.com/cgi/article/search?start=0&orderby=updateTime&limit=100&subjectId=\(STUser.shared.selectedSubjectId!)")
         refreshControl.endRefreshing()
     }
     
@@ -166,7 +166,7 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
                         println(resp["msg"].string)
                     } else {
                         println("success")
-                        self.getArticles("http://mis.codewalle.com/cgi/article/search?start=0&limit=100&subjectId=\(subjectId)")
+                        self.getArticles("http://mis.codewalle.com/cgi/article/search?start=0&orderby=updateTime&limit=100&subjectId=\(subjectId)")
                     }
                 })
             }, failure: {(error: NSError, response: HTTPResponse?) -> Void in
