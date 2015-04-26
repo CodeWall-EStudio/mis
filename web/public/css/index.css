@@ -607,8 +607,8 @@ textarea {
 }
 
 .review-img-block img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 900px;
+  max-height: 600px;
 }
 
 .dis-list-type .td2 i.icon-type1, i.icon-type1 {
@@ -1412,6 +1412,11 @@ td i.s {
 .artice-title-info {
   background: url(../img/static/ico-1.png) no-repeat 10px center;
   padding-left: 60px;
+}
+.artice-title-info dt {
+  width: 800px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .artice-title {

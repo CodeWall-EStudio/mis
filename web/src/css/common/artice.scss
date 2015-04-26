@@ -234,6 +234,11 @@
 	position:relative;
 	display:inline-block;
 	margin-right:10px;
+
+	img{
+		max-width:200px;
+		max-height:200px;
+	}
 }
 .artice-img-list div span{
 	position:absolute;
