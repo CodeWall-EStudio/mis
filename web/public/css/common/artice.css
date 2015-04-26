@@ -240,6 +240,11 @@
   background: url(../img/static/ico-1.png) no-repeat 10px center;
   padding-left: 60px;
 }
+.artice-title-info dt {
+  width: 800px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .artice-title {
   position: relative;
