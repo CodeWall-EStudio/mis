@@ -17,14 +17,19 @@
         <div class="artice-img-list">
           <%
             var first = true;
+            var imgnum = 0;
             for(var j=0,m=item.resource.length;j<m;j++){
               var obj = item.resource[j];
               
               if(obj.type === 1){
+                if(imgnum>2){
+                  break;
+                }
           %>
             <div>
               <img src="/cgi/resource/preview?id=<%-obj.id%>" data-pid="<%-item.id%>" data-id="<%-obj.id%>" data-action="review" />
               <%
+                imgnum++;
                 if(first){
                   first = false;
               %>
