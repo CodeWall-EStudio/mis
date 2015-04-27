@@ -219,7 +219,7 @@ body {
   overflow-x: hidden;
   font-family: '微软雅黑', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: #ecf0f1;
-  font-size: 14px;
+  font-size: 12px;
   -webkit-user-select: none;
   -webkit-user-drag: none;
   -webkit-text-size-adjust: 100%;
@@ -1102,7 +1102,7 @@ td i.s {
   background: grey;
   position: absolute;
   top: 4px;
-  left: 3px;
+  left: 8px;
   -webkit-transform: rotate(45deg);
 }
 .header-right span.arrow-up:after {
@@ -1113,7 +1113,7 @@ td i.s {
   background: grey;
   position: absolute;
   top: 4px;
-  left: 8px;
+  left: 3px;
   -webkit-transform: rotate(-45deg);
 }
 
@@ -1139,7 +1139,7 @@ td i.s {
 
 .header-top {
   position: relative;
-  height: 60px;
+  height: 40px;
   padding: 6px 12px;
   border-bottom: 1px solid #34495e;
 }
@@ -1410,10 +1410,12 @@ td i.s {
 }
 
 .artice-title-info {
+  padding-top: 10px;
   background: url(../img/static/ico-1.png) no-repeat 10px center;
   padding-left: 60px;
 }
 .artice-title-info dt {
+  font-size: 16px;
   width: 800px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1469,8 +1471,12 @@ td i.s {
 }
 
 .artice-act-btn {
+  padding-top: 5px;
   color: #fff;
   float: left;
+}
+.artice-act-btn .pat {
+  display: inline-block;
 }
 
 .artice-act-btn .btn {
@@ -1638,6 +1644,9 @@ td i.s {
   display: inline-block;
   margin-right: 6px;
   margin-top: 4px;
+}
+.artice-one .artice-dl dt {
+  font-size: 14px;
 }
 
 .artice-one-aside {

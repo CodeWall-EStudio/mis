@@ -98,10 +98,13 @@ Subject.area.prototype.pre = function(){
 
 //打开收起
 Subject.area.prototype.close = function(e){
+	var target = $(e.target);
 	if(this.listDom.hasClass('hide')){
 		this.listDom.removeClass('hide');
+		target.attr('class','arrow-down');
 	}else{
 		this.listDom.addClass('hide');
+		target.attr('class','arrow-up');
 	}
 }
 
