@@ -128,6 +128,8 @@ sCreate.create.prototype.getManageList = function(){
 sCreate.create.prototype.clear = function(){
 	$("#subjectTitle").val('');
 	$("#subjectMark").val('')
+	this.resMap = {};
+	this.resList = [];
 }
 
 sCreate.create.prototype.bindAction = function(param,cb){
