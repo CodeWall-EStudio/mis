@@ -44,7 +44,6 @@ var post = function(){
 	this.ctitDom = this.cDom.find('.modal-title');
 	this.model = 'post';//post 底部 pop 弹出窗口
 
-	console.log(this.cresDom);
 	this.isEdit = false;
 
 	var _this = this;
@@ -62,6 +61,8 @@ var post = function(){
 	});
 
 	this.cDom.on('hide.bs.modal', function (e) {
+		this.resList = [];
+		this.resMap = {};		
 		_this.model = 'post';
 	});
 
@@ -249,7 +250,9 @@ post.prototype.clear = function(){
 	this.cDom.find('input').val('');
 	this.cDom.find('textarea').val('');	
 
-	resList = [];
+	this.resList = [];
+	this.resMap = {};	
+	console.log(233333);
 }
 
 post.prototype.post = function(){
