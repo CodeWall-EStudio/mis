@@ -14,10 +14,9 @@ var ffmpeg = require('fluent-ffmpeg');
 
 exports.upload = function*(req, res) {
     var file = req.files.file;
+    var format = req.query.format || req.body.format || false;
     var loginUser = req.loginUser;
-    console.log('upload-------------------');
-    console.log(file);
-    console.log('-----------------------upload-------------------');
+
     if (!file || !file.path) {
         return res.json({
             code: ERR.UPLOAD_FAILURE,
@@ -60,7 +59,11 @@ exports.upload = function*(req, res) {
                 data: rows[0]
             };
 
-            res.write('<script>top.uploadComp(' + JSON.stringify(data) + ')</script>');
+            if(format === 'json'){
+                res.json(data);
+            }else{
+                res.write('<script>top.uploadComp(' + JSON.stringify(data) + ')</script>');
+            }
             res.end();
 
             // res.json({
