@@ -1,8 +1,12 @@
 package com.codewalle.framework.network;
 
+import android.app.DownloadManager;
 import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
+import com.codewalle.mis.widget.TagLayout;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,5 +30,11 @@ public abstract class CWRequestBuilder {
         }
         StringRequest req = new StringRequestWithParams(method,url,params,listener,errorListener);
         return req;
+    }
+
+    protected Request getFileStringRequest(String url,String filePath,Response.Listener listener,Response.ErrorListener errorListener, String... args) throws FileNotFoundException {
+
+            MultiPartStringRequest req = new MultiPartStringRequest(url,filePath,listener,errorListener,args);
+            return req;
     }
 }

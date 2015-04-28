@@ -12,8 +12,14 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.codewalle.framework.Utils;
 import org.apache.http.client.CookieStore;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.impl.cookie.BasicClientCookie2;
+import org.apache.http.params.BasicHttpParams;
 
 import java.io.*;
 
@@ -27,7 +33,19 @@ public class CWVolley {
     private static DefaultHttpClient mHttpClient;
     public static void init(Context context){
 
-        mHttpClient = new DefaultHttpClient();
+        final SchemeRegistry supportedSchemes = new SchemeRegistry();
+
+        // Register the "http" protocol scheme, it is required
+        // by the default operator to look up socket factories.
+        supportedSchemes.register(new Scheme("http", PlainSocketFactory
+                .getSocketFactory(), 80));
+        try{
+            supportedSchemes.register(new Scheme("https", SSLSocketFactory
+                    .getSocketFactory(), 443));
+        }catch(Exception ex){
+
+        }
+        mHttpClient = new DefaultHttpClient(new ThreadSafeClientConnManager(new BasicHttpParams(),supportedSchemes),new BasicHttpParams());
         // create the request queue
         sRequestQueue = Volley.newRequestQueue(context, new HttpClientStack(mHttpClient));
 

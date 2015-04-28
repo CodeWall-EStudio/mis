@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
+import com.actionbarsherlock.view.MenuItem;
 import com.codewalle.framework.ui.BaseFragmentActivity;
 import com.codewalle.framework.ui.TabFrame;
 import com.codewalle.mis.controller.SubjectCallback;
@@ -43,11 +44,12 @@ public class MainActivity extends BaseFragmentActivity implements SubjectCallbac
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
-        }
+    protected boolean onRightButtonClick() {
+        Intent i = new Intent(this,PostNewSubjectActivity_.class);
+        startActivity(i);
+        return false;
     }
+
 
     private void initTabs() {
 

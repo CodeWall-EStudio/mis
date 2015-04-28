@@ -2,11 +2,14 @@ package com.codewalle.framework;
 
 import android.app.Application;
 import android.util.Pair;
+import com.codewalle.framework.network.CWResponseListener;
 import com.codewalle.framework.network.CWVolley;
 import com.codewalle.framework.utils.SharePreferenceUtil;
 import com.codewalle.mis.controller.*;
 import com.codewalle.mis.model.UserInfo;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +64,13 @@ public class CWApplication extends Application {
         mSubjectController.getSubjectList(type, start, limit, callback);
     }
 
+    public void createArticle(String subjectId, String title, String content, ArrayList<Integer> labels, ArrayList<Integer> resources, CWResponseListener listener) {
+        mSubjectController.createArticle(subjectId, title, content, labels, resources, listener);
+    }
 
+    public void uploadResource(String filePath, CWResponseListener listener) throws FileNotFoundException {
+        mSubjectController.uploadResource(filePath, listener);
+    }
 
     // DELEGATE UserController
     public void setUser(UserInfo user) {

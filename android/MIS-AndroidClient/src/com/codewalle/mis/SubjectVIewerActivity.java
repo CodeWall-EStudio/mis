@@ -1,12 +1,14 @@
 package com.codewalle.mis;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.codewalle.framework.ui.BaseFragmentActivity;
 import com.codewalle.mis.controller.ArticleCallback;
 import com.codewalle.mis.model.Subject;
@@ -45,6 +47,14 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
 
     }
 
+    @Override
+    public boolean onRightButtonClick(){
+        Intent i = new Intent(this,PostNewArticleActivity_.class);
+        i.putExtra("data", mSubject.toString());
+        startActivity(i);
+        return false;
+    }
+
     private void initHeaderView() {
         mHeaderView = getLayoutInflater().inflate(
                 R.layout.subject_header,
@@ -63,8 +73,23 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK){
+            // 发表成功。刷新数据
+            app.getArticleList(mSubject.id,0,100,this);
+        }
+
+    }
+    @Override
     public void onGetArticles(long subjectId, int start, int length, JSONObject articles) {
         mArticleAdapter.updateData(articles,start);
+        try {
+            Log.e("SubjectViewerActivity", articles.toString(4));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

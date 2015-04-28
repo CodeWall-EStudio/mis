@@ -1,26 +1,32 @@
 package com.codewalle.framework.ui;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.codewalle.framework.CWApplication;
+import com.codewalle.framework.network.CWResponseListener;
 import com.codewalle.mis.R;
+import com.codewalle.mis.SplashActivity;
+import com.codewalle.mis.UploadActivity;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
 
 /**
  * Created by pxz on 13-12-28.
  */
 public class BaseFragmentActivity extends SherlockFragmentActivity {
     private static final int MESSAGE_CONFIRM_QUIT = 1;
+
+
     public CWApplication app;
     protected String TAG;
     private boolean mBackConfirm;
@@ -46,30 +52,41 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
             }
         }
     };
-    private boolean mIsShowAddMenu = true;
+    private boolean mIsShowRightMenu = true;
+    protected MenuItem mRightMenu;
 
 
-    public void setPostMenu(boolean show){
-        mIsShowAddMenu = show;
+    public void setmRightMenu(boolean show){
+        mIsShowRightMenu = show;
         invalidateOptionsMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-        if(mIsShowAddMenu) {
-            MenuItem mMenuItemSettings = menu.add("POST")
-                    //.setIcon(R.drawable.logout_icon);
+        if(mIsShowRightMenu) {
+            mRightMenu = menu.add("POST")
                     .setIcon(R.drawable.add);
-            mMenuItemSettings.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            if(mRightMenuText != null){
+                mRightMenu.setTitle(mRightMenuText);
+            }
+            mRightMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
 
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        if(item == mRightMenu && onRightButtonClick()){
+            onRightButtonClick();
+            return false;
+        }
+        return super.onMenuItemSelected(featureId, item);
+    }
+
+    protected boolean onRightButtonClick() {
+        return false;
     }
 
     @Override
@@ -104,8 +121,58 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
     }
 
 
+    String mRightMenuText = null;
+    public void setRightMenuText(String txt){
+        mRightMenuText = txt;
+        invalidateOptionsMenu();
+    }
 
     public void setBackConfirm(boolean backConfirm){
         mBackConfirm = backConfirm;
+    }
+
+
+    protected void doUpload(int type){
+        Intent i = new Intent(this, UploadActivity.class);
+        i.putExtra("type",type);
+        startActivityForResult(i, type);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK) {
+            final String filePath = data.getStringExtra(UploadActivity.KEY_FILE_PATH);
+            switch (requestCode) {
+                case UploadActivity.UPLOAD_TYPE_IMAGE:
+                case UploadActivity.UPLOAD_TYPE_IMAGE_CAPTURE:
+                case UploadActivity.UPLOAD_TYPE_VIDEO_CAPTURE:
+                case UploadActivity.UPLOAD_FILE:
+                    try {
+                        app.uploadResource(filePath, new CWResponseListener() {
+                            @Override
+                            public void onResponseJSON(int code, String msg, JSONObject data) {
+                                if (code == 0) {
+                                    onFileUploaded(requestCode,true, filePath, data, "");
+                                } else {
+                                    onFileUploaded(requestCode,false, filePath, data, msg);
+                                }
+                            }
+                        });
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        onFileUploaded(requestCode,false,filePath,null,"file not found");
+                    }
+                    break;
+                default:
+                    super.onActivityResult(requestCode,resultCode,data);
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    protected void onFileUploaded(int type,boolean success,String filePath,JSONObject resultData,String errorMsg){
+        // do nothing
     }
 }

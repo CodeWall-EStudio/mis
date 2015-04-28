@@ -11,6 +11,7 @@ import com.codewalle.framework.CWApplication;
  */
 public class BaseActivity extends SherlockActivity {
 
+    protected String TAG = getClass().getCanonicalName();
     protected CWApplication app;
 
     @Override

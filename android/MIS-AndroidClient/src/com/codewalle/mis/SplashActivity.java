@@ -34,6 +34,7 @@ public class SplashActivity extends BaseActivity implements LoginCallback {
     }
 
     private void gotoLogin() {
+//        startActivity(new Intent(this,PostNewArticleActivity_.class));
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
@@ -65,6 +66,7 @@ public class SplashActivity extends BaseActivity implements LoginCallback {
 
     private void gotoMain() {
         startActivity(new Intent(this,MainActivity.class));
+//        startActivity(new Intent(this,PostNewArticleActivity_.class));
         finish();
     }
 

@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.codewalle.framework.ui.CWListAdapter;
+import com.codewalle.mis.controller.RequestBuilder;
 import com.codewalle.mis.model.Article;
+import com.codewalle.mis.model.Resource;
 import com.codewalle.mis.model.Subject;
+import com.codewalle.mis.widget.FloatImageLayout;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -83,16 +86,34 @@ public class ArticleAdapter extends CWListAdapter{
         public TextView title;
         public TextView content;
 
+        public FloatImageLayout imageLayout;
+
         public ViewHolder(View parent) {
             creator = (TextView)parent.findViewById(R.id.creator);
             title = (TextView)parent.findViewById(R.id.title);
             content = (TextView)parent.findViewById(R.id.content);
+            imageLayout = (FloatImageLayout)parent.findViewById(R.id.resource);
         }
 
         public void update(Article item) {
             creator.setText(item.creatorName);
             title.setText(item.title);
             content.setText(item.content);
+
+            List<Resource> resources = item.resources;
+            if(resources != null && resources.size() != 0){
+
+                imageLayout.reset();
+                title.setText(item.title + resources.size());
+                imageLayout.setVisibility(View.VISIBLE);
+                for(Resource r:resources){
+                    imageLayout.addImage(RequestBuilder.BASE_URL+RequestBuilder.DOWNLOAD_PATH+"?id="+r.id,100,100);
+                }
+            }else{
+                imageLayout.setVisibility(View.GONE);
+            }
+
+
         }
     }
 }

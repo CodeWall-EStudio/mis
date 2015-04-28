@@ -5,6 +5,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.codewalle.framework.CWApplication;
 import com.codewalle.framework.network.CWResponseListener;
 import com.codewalle.framework.network.CWRequestBuilder;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.codewalle.mis.controller.SubjectController.*;
 
 
@@ -13,15 +18,20 @@ import static com.codewalle.mis.controller.SubjectController.*;
  */
 public class RequestBuilder extends CWRequestBuilder{
 
-    static final String BASE_URL = "http://mis.codewalle.com/";
-    static final String SUBJECT_SEARCH_PATH = "cgi/subject/search";
-    static final String SUBJECT_ARCHIVED_PATH = "cgi/subject/archived";
-    static final String SUBJECT_FOLLOWING_PATH = "cgi/subject/following";
-    static final String SUBJECT_INVITED_PATH = "cgi/subject/invited";
+    public static final String BASE_URL = "http://mis.codewalle.com/";
+    public static final String SUBJECT_SEARCH_PATH = "cgi/subject/search";
+    public static final String SUBJECT_ARCHIVED_PATH = "cgi/subject/archived";
+    public static final String SUBJECT_FOLLOWING_PATH = "cgi/subject/following";
+    public static final String SUBJECT_INVITED_PATH = "cgi/subject/invited";
 
-    static final String ARTICLE_PATH = "cgi/article/search";
+    public static final String ARTICLE_PATH = "cgi/article/search";
 
-    static final String LOGIN_PATH = "cgi/account/login";
+    public static final String CREATE_ARTICLE_PATH = "cgi/article/create";
+
+    public static final String LOGIN_PATH = "cgi/account/login";
+    public static final String UPLOAD_PATH = "cgi/resource/upload";
+
+    public static final String DOWNLOAD_PATH = "cgi/resource/download";
 
     private RequestBuilder(){
         super();
@@ -58,7 +68,7 @@ public class RequestBuilder extends CWRequestBuilder{
 
     public Request getArticles(long subjectId, int start, int limit, CWResponseListener listener) {
         StringRequest request = getSimpleStringRequest(
-                getArticlesUrl(subjectId,start,limit),
+                getArticlesUrl(subjectId, start, limit),
                 Request.Method.GET,
                 listener.getResponseListener(),
                 listener.getErrorListener()
@@ -97,6 +107,68 @@ public class RequestBuilder extends CWRequestBuilder{
         }
         String url = BASE_URL + path + query;
         return url;
+    }
+/*POST /cgi/article/create
+REQ
+    title:
+    content:
+    lables:[]
+    resources:[]
+    subjectId:
+RES
+    {
+        "code": 0,
+        "data": {
+        "id": 26,
+        "title": "这是标题啊",
+        "content": "内容主体",
+        "creator": 1,
+        "createTime": "2015-03-29T10:41:35.000Z",
+        "updator": 1,
+        "updateTime": "2015-03-29T10:41:35.000Z",
+        "subject_id": 1
+        }
+    }*/
+    public Request createArticle(String subjectId,String title,String content,ArrayList<Integer> labels,ArrayList<Integer> resources,CWResponseListener listener) {
+        String path = CREATE_ARTICLE_PATH;
+        String url = BASE_URL + path;
+        return getSimpleStringRequest(url, Request.Method.POST,listener.getResponseListener(),listener.getErrorListener(),
+                "subjectId",subjectId,
+                "title",title,
+                "content",content,
+                "lables",intArrayToJSONArray(labels),
+                "resources",intArrayToJSONArray(resources)
+                );
+    }
+
+    public Request uploadResource(String filePath, CWResponseListener listener,String... args) throws FileNotFoundException {
+        String url = BASE_URL + UPLOAD_PATH + "?format=json";
+        return getFileStringRequest(url,filePath,listener.getResponseListener(),listener.getErrorListener(),args);
+    }
+
+    public static String intArrayToJSONArray(List<Integer> arr){
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        for(int i:arr){
+            sb.append(i);
+            sb.append(",");
+        }
+
+        sb.append("]");
+        return sb.toString();
+    }
+
+    public static String stringArrayToJSONArray(String[] arr){
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        for(String str:arr){
+            sb.append("'"+str.replace("'","\\'")+"',");
+        }
+
+        sb.append("]");
+        return sb.toString();
     }
 
 }

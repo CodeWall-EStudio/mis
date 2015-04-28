@@ -58,6 +58,11 @@
         <activity android:name=".LoginActivity" android:theme="@style/Theme.Sherlock.Light.NoActionBar"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".SubjectViewerActivity"/>
-        <activity android:name=".PostNewSubjectActivity"/>
+        <activity android:name=".PostNewSubjectActivity_"
+                android:windowSoftInputMode="adjustResize"
+                />
+        <activity android:name=".PostNewArticleActivity_"
+                  android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".UploadActivity"/>
     </application>
 </manifest>

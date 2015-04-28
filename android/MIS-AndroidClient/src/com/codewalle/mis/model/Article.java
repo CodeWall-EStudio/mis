@@ -1,7 +1,11 @@
 package com.codewalle.mis.model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xiangzhipan on 15/4/26.
@@ -39,6 +43,8 @@ public class Article {
     public String creatorName;
     public String updatorName;
 
+    public List<Resource> resources = new ArrayList<Resource>();
+
     private String mJSONString;
 
     public Article(String jsonString) throws JSONException {
@@ -67,6 +73,16 @@ public class Article {
         updateTime = object.optString("updateTime", "-");
         creatorName = object.optString("creatorName", "-");
         updatorName = object.optString("updatorName", "-");
+
+        JSONArray resourcesObj = object.optJSONArray("resource");
+        if(resourcesObj != null){
+            for(int i=0;i<resourcesObj.length();++i){
+                JSONObject resource = resourcesObj.optJSONObject(i);
+                if(resource == null)continue;
+                Resource r = new Resource(resource);
+                resources.add(r);
+            }
+        }
     }
 
 
