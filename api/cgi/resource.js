@@ -15,6 +15,9 @@ var ffmpeg = require('fluent-ffmpeg');
 exports.upload = function*(req, res) {
     var file = req.files.file;
     var loginUser = req.loginUser;
+    console.log('upload-------------------');
+    console.log(file);
+    console.log('-----------------------upload-------------------');
     if (!file || !file.path) {
         return res.json({
             code: ERR.UPLOAD_FAILURE,
