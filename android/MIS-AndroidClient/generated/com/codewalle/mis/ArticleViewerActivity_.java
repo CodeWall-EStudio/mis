@@ -11,19 +11,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.EditText;
+import android.widget.TextView;
 import com.codewalle.mis.R.id;
 import com.codewalle.mis.R.layout;
-import com.codewalle.mis.widget.FloatImageLayout;
 import org.androidannotations.api.SdkVersionHelper;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
-public final class PostNewArticleActivity_
-    extends PostNewArticleActivity
+public final class ArticleViewerActivity_
+    extends ArticleViewerActivity
     implements HasViews, OnViewChangedListener
 {
 
@@ -35,12 +33,11 @@ public final class PostNewArticleActivity_
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
         OnViewChangedNotifier.replaceNotifier(previousNotifier);
-        setContentView(layout.activity_post_article);
+        setContentView(layout.activity_article_viewer);
     }
 
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
-        init();
     }
 
     @Override
@@ -61,16 +58,16 @@ public final class PostNewArticleActivity_
         onViewChangedNotifier_.notifyViewChanged(this);
     }
 
-    public static PostNewArticleActivity_.IntentBuilder_ intent(Context context) {
-        return new PostNewArticleActivity_.IntentBuilder_(context);
+    public static ArticleViewerActivity_.IntentBuilder_ intent(Context context) {
+        return new ArticleViewerActivity_.IntentBuilder_(context);
     }
 
-    public static PostNewArticleActivity_.IntentBuilder_ intent(android.app.Fragment fragment) {
-        return new PostNewArticleActivity_.IntentBuilder_(fragment);
+    public static ArticleViewerActivity_.IntentBuilder_ intent(android.app.Fragment fragment) {
+        return new ArticleViewerActivity_.IntentBuilder_(fragment);
     }
 
-    public static PostNewArticleActivity_.IntentBuilder_ intent(android.support.v4.app.Fragment supportFragment) {
-        return new PostNewArticleActivity_.IntentBuilder_(supportFragment);
+    public static ArticleViewerActivity_.IntentBuilder_ intent(android.support.v4.app.Fragment supportFragment) {
+        return new ArticleViewerActivity_.IntentBuilder_(supportFragment);
     }
 
     @Override
@@ -83,69 +80,11 @@ public final class PostNewArticleActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        mEtTitle = ((EditText) hasViews.findViewById(id.article_title));
-        mEtContent = ((EditText) hasViews.findViewById(id.article_content));
-        resources = ((FloatImageLayout) hasViews.findViewById(id.resources));
-        {
-            View view = hasViews.findViewById(id.upload_file);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        PostNewArticleActivity_.this.onUploadClicked(view);
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            View view = hasViews.findViewById(id.upload_image_from_camera);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        PostNewArticleActivity_.this.onUploadClicked(view);
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            View view = hasViews.findViewById(id.upload_image);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        PostNewArticleActivity_.this.onUploadClicked(view);
-                    }
-
-                }
-                );
-            }
-        }
-        {
-            View view = hasViews.findViewById(id.upload_video);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        PostNewArticleActivity_.this.onUploadClicked(view);
-                    }
-
-                }
-                );
-            }
-        }
+        tvContent = ((TextView) hasViews.findViewById(id.content));
+        tvCreatTime = ((TextView) hasViews.findViewById(id.createTime));
+        tvCreator = ((TextView) hasViews.findViewById(id.creator));
+        tvTitle = ((TextView) hasViews.findViewById(id.title));
+        initUI();
     }
 
     public static class IntentBuilder_ {
@@ -157,26 +96,26 @@ public final class PostNewArticleActivity_
 
         public IntentBuilder_(Context context) {
             context_ = context;
-            intent_ = new Intent(context, PostNewArticleActivity_.class);
+            intent_ = new Intent(context, ArticleViewerActivity_.class);
         }
 
         public IntentBuilder_(android.app.Fragment fragment) {
             fragment_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, PostNewArticleActivity_.class);
+            intent_ = new Intent(context_, ArticleViewerActivity_.class);
         }
 
         public IntentBuilder_(android.support.v4.app.Fragment fragment) {
             fragmentSupport_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, PostNewArticleActivity_.class);
+            intent_ = new Intent(context_, ArticleViewerActivity_.class);
         }
 
         public Intent get() {
             return intent_;
         }
 
-        public PostNewArticleActivity_.IntentBuilder_ flags(int flags) {
+        public ArticleViewerActivity_.IntentBuilder_ flags(int flags) {
             intent_.setFlags(flags);
             return this;
         }

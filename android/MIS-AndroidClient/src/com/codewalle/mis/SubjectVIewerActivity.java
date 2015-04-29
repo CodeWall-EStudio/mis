@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.view.MenuItem;
 import com.codewalle.framework.ui.BaseFragmentActivity;
 import com.codewalle.mis.controller.ArticleCallback;
+import com.codewalle.mis.model.Article;
 import com.codewalle.mis.model.Subject;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +20,7 @@ import org.json.JSONObject;
 /**
  * Created by xiangzhipan on 15/4/25.
  */
-public class SubjectViewerActivity extends BaseFragmentActivity implements ArticleCallback {
+public class SubjectViewerActivity extends BaseFragmentActivity implements ArticleCallback, AdapterView.OnItemClickListener {
     private Subject mSubject;
     private ListView mListView;
     private ArticleAdapter mArticleAdapter;
@@ -42,6 +44,7 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
         initHeaderView();
         mArticleAdapter = new ArticleAdapter();
         mListView.setAdapter(mArticleAdapter);
+        mListView.setOnItemClickListener(this);
 
         app.getArticleList(mSubject.id,0,100,this);
 
@@ -95,5 +98,13 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
     @Override
     public void onFail(int code, String msg, JSONObject data) {
         // TODO
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Article article = (Article)parent.getAdapter().getItem(position);
+        Intent i = new Intent(this,ArticleViewerActivity_.class);
+        i.putExtra("data",article.toString());
+        startActivity(i);
     }
 }

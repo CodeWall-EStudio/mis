@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -25,6 +26,9 @@ import java.io.FileNotFoundException;
  */
 public class BaseFragmentActivity extends SherlockFragmentActivity {
     private static final int MESSAGE_CONFIRM_QUIT = 1;
+
+    public static final int MENU_DONE = 1;
+    public static final int NEMU_ADD = 2;
 
 
     public CWApplication app;
@@ -56,7 +60,7 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
     protected MenuItem mRightMenu;
 
 
-    public void setmRightMenu(boolean show){
+    public void setRightMenu(boolean show){
         mIsShowRightMenu = show;
         invalidateOptionsMenu();
     }
@@ -65,12 +69,23 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
         if(mIsShowRightMenu) {
-            mRightMenu = menu.add("POST")
+
+            mRightMenu = menu.add(1,NEMU_ADD,Menu.NONE,"添加")
                     .setIcon(R.drawable.add);
             if(mRightMenuText != null){
                 mRightMenu.setTitle(mRightMenuText);
+                mRightMenu.setIcon(null);
             }
             mRightMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+            MenuItem doneMenu = menu.add(1,MENU_DONE,Menu.NONE,"完成");
+            doneMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            TextView tv = new TextView(this);
+            tv.setText("完成");
+
+            doneMenu.setActionView(tv);
+
+
         }
 
         return super.onCreateOptionsMenu(menu);
