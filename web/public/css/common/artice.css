@@ -393,6 +393,13 @@
   width: 100%;
 }
 
+.artice-aside .img-list .video {
+  display: block;
+  width: 100%;
+  height: 128px;
+  background: url(../img/static/video.png) no-repeat 10px center;
+}
+
 .artice-aside .img-list img {
   display: inline-block;
   width: 100%;
@@ -471,6 +478,9 @@
   display: inline-block;
   margin-right: 6px;
   margin-top: 4px;
+}
+.artice-one .artice-dl dt {
+  font-size: 14px;
 }
 
 .artice-one-aside {

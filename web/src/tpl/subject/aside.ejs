@@ -26,9 +26,7 @@
                 <a data-action="deleteResource"  data-id="<%-item.id%>">删除</a>
               <%}%>
             <%}else if(item.type === 4 || item.type ===3){%>
-              <video src="/cgi/resource/download?id=<%-item.id%>" controls="controls">
-              您的浏览器不支持 video 标签。
-              </video>
+              <div class="video"  data-id="<%-item.id%>"  data-action="review"></div>
               <a data-id="<%-item.id%>"  data-action="mark" style="">标注</a>  <a data-id="<%-item.id%>"  data-action="review">预览</a>  <a href="/cgi/resource/download?id=<%-item.id%>" target="_blank">下载</a>
               <%if(my.auth || my.id === creator){ %>
                 <a data-action="deleteResource"  data-id="<%-item.id%>">删除</a>

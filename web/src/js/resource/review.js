@@ -185,9 +185,10 @@ review.prototype.hide = function(){
 
 //更换数据
 review.prototype.changeData = function(data){
+	console.log(data);
 	this.checkData(data);
 	this.showList();
-	this.showOne();
+	this.showOne(data.id);
 	this.show();
 }
 

@@ -31,7 +31,6 @@ exports.upload = function*(req, res) {
     var filePath = saveDir + '/' + file.name;
     Util.moveFile(file.path, filePath, function(err) {
         if (err) {
-            console.log(err);
             return res.json({
                 code: ERR.UPLOAD_FAILURE,
                 msg: '上传成功, 保存文件失败'
@@ -60,7 +59,6 @@ exports.upload = function*(req, res) {
             };
 
             if(format === 'json'){
-                res.json(data);
             }else{
                 res.write('<script>top.uploadComp(' + JSON.stringify(data) + ')</script>');
             }

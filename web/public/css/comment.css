@@ -306,7 +306,7 @@ textarea {
 }
 
 #reviewWin {
-  position: absolute;
+  position: fixed;
   z-index: 201;
   width: 1000px;
   height: 100%;

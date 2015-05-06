@@ -78,14 +78,14 @@ textarea{
   opacity: 0.5;
   width:100%;
   height:100%;
-  position:absolute;
+  position:fixed;
   top:0;
   left:0;
   z-index:200;
 }
 
 #reviewWin{
-  position:absolute;
+  position:fixed;
   z-index:201;
   width:1000px;
   height:100%;
