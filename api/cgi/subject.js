@@ -26,7 +26,8 @@ exports.create = function*(req, res) {
                     'private': params['private'],
                     guest: params.guest,
                     creator: loginUser.id,
-                    updator: loginUser.id
+                    updator: loginUser.id,
+                    link: params.link
                 });
 
             var subjectId = result.insertId;

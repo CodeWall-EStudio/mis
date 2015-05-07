@@ -180,6 +180,7 @@ sCreate.create.prototype.bindAction = function(param,cb){
 		if(type === 'submit'){
 			var tit = $("#subjectTitle").val(),
 				mark = $("#subjectMark").val(),
+				link = $("#subjectLink").val(),
 				open = $("#subjectOpen").prop('checked')?1:0,
 				guest = $("#subjectGuest").prop('checked')?1:0;
 
@@ -191,6 +192,7 @@ sCreate.create.prototype.bindAction = function(param,cb){
 			var param = {
 				title : tit,
 				mark : mark,
+				link : link,
 				private : open,
 				guest : guest,
 				members : _this.getManageList(),
@@ -219,6 +221,8 @@ sCreate.create.prototype.bindAction = function(param,cb){
 						}
 					});					
 				}else{
+					// console.log(param);
+					// return;
 					cgi.create(param,function(res){
 						if(res.code === 0){
 							_this.dom.modal('hide');

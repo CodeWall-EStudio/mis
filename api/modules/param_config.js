@@ -59,6 +59,8 @@ module.exports = {
             type: '[number]'
         }, {
             name: 'mark'
+        },{
+            name: 'link'
         }]
     },
 

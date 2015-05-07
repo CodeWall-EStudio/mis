@@ -86,6 +86,11 @@ info.prototype.review = function(e){
 	}
 };
 
+info.prototype.link = function(e){
+	$("#linkIframe").attr('src',this.data.link);
+	$("#showLink").modal('show');
+}
+
 //预览主题相关资源
 info.prototype.mark = function(e){
 	var target = $(e.target),
