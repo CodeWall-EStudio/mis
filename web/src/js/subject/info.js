@@ -88,7 +88,12 @@ info.prototype.review = function(e){
 
 info.prototype.link = function(e){
 	$("#linkIframe").attr('src',this.data.link);
-	$("#showLink").modal('show');
+	$("#showLink").show();
+}
+
+info.prototype.closelink = function(e){
+	$("#linkIframe").attr('src','blank');
+	$("#showLink").hide();
 }
 
 //预览主题相关资源
@@ -121,6 +126,17 @@ info.prototype.articleorderbytime = function(e){
 
 info.prototype.bindAction = function(){
 	var _this = this;
+
+	$("#showLink").bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+
+		_this._selectDom = target;
+		if(_this[action]){
+			_this[action](e);
+		}
+	})
+
 	striker.bind('subjectUpdate',function(e,d){
 		_this.data = d;
 		var html = tmpl.head(d);

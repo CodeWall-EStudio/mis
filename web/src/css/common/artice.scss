@@ -300,3 +300,15 @@
 .post-height{
 	height:20px;
 }
+
+#showLink{
+	position:fixed;
+	top:20%;
+	left:0;
+	width:400px;
+	display:none;
+
+	.modal-dialog{
+		width:400px;
+	}
+}
