@@ -87,6 +87,8 @@ exports.create = function*(req, res) {
             var rows =
                 yield req.conn.yieldQuery('SELECT * FROM subject WHERE id = ?', subjectId);
 
+            console.log(params);
+
             // 提交事务
             conn.commit(function(err) {
                 if (err) {
@@ -474,6 +476,8 @@ exports.info = function*(req, res) {
         var sql = 'select sl.*,l.name from subject_label sl,label l where sl.label_id = l.id and sl.subject_id=?';
         var lrows =
             yield req.conn.yieldQuery(sql, [params.id]);
+
+        console.log(lrows);
         rows[0].labels = lrows;
 
         /*
@@ -492,6 +496,11 @@ exports.info = function*(req, res) {
 
         rows[0].subjectResourceCount = subjectResourceCount;
         rows[0].resourceList = resourceList;
+
+        var sql = 'select su.*,u.name from subject_user su,user u where su.user_id = u.id and su.subject_id=?';
+        var lrows =
+            yield req.conn.yieldQuery(sql, [params.id]);
+        rows[0].members = lrows;
 
 
         res.json({
