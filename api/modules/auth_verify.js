@@ -43,6 +43,7 @@ module.exports = function(req, res, next) {
     }
 
     req.loginUser = loginUser;
+    console.log('loginUser set',req.loginUser,loginUser);
     Logger.debug('[checkAuth]', 'loginUser: ', loginUser);
     next();
 

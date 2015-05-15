@@ -192,6 +192,7 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
             uri = "http://\(STUser.shared.server!)/cgi/subject/archived?start=0&limit=100"
         default:
             uri = "http://\(STUser.shared.server!)/cgi/subject/search?start=0&limit=100&private=1"
+
         }
         getSubjects(uri)
         refreshControl.endRefreshing()

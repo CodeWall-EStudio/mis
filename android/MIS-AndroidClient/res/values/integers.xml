@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="activity_animation_time_vertical">250</integer>
+    <integer name="activity_animation_time_horizontal">350</integer>
+    <integer name="breath_animation_time">1000</integer>
+    <integer name="backup_img_animation_time">200</integer>
+    <integer name="wifi_connect_level">1</integer>
+    <integer name="wifi_disconnect_level">2</integer>
+    <integer name="battery_10_level">10</integer>
+    <integer name="battery_15_level">15</integer>
+    <integer name="battery_30_level">30</integer>
+    <integer name="battery_60_level">60</integer>
+    <integer name="battery_100_level">100</integer>
+</resources>

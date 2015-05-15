@@ -38,32 +38,39 @@ function prepare(obj) {
 exports.connect = function(req, res, next) {
     Logger.debug('db.connect...');
 
-    pool.getConnection(function(err, connection) {
-        Logger.debug('db.connect...done');
-        if (err) {
-            res.json({
-                code: ERR.DB_ERROR,
-                msg: '没有可用的数据库连接, 请联系管理员',
-                detail: err
-            }, 500);
-        } else {
-            // connection.config.queryFormat = queryFormat;
-            connection.yieldQuery = wrapper(connection).query;
-            req.conn = connection;
-            // 语义不好,不用这个了
-            // 换 req.conn.yieldQuery
-            req.mysql = connection.yieldQuery;
-            req.dbPrepare = prepare;
-            next();
-        }
+    var connection = mysql.createConnection({
+        host: config.DB_SERVER,
+        port: config.DB_PORT,
+        database: config.DB_NAME,
+        user: config.DB_USER,
+        password: config.DB_PWD
     });
+    // pool.getConnection(function(err, connection) {
+    //     Logger.debug('db.connect...done');
+    //     if (err) {
+    //         res.json({
+    //             code: ERR.DB_ERROR,
+    //             msg: '没有可用的数据库连接, 请联系管理员',
+    //             detail: err
+    //         }, 500);
+    //     } else {
+    // connection.config.queryFormat = queryFormat;
+    connection.yieldQuery = wrapper(connection).query;
+    req.conn = connection;
+    // 语义不好,不用这个了
+    // 换 req.conn.yieldQuery
+    req.mysql = connection.yieldQuery;
+    req.dbPrepare = prepare;
+    next();
+    // }
+    // });
 };
 
 exports.release = function(req, res) {
     Logger.debug('db.release...');
     if (req.conn) {
         try {
-            req.conn.release();
+            req.conn.end();
             Logger.debug('db.release...done');
         } catch (e) {
             Logger.debug('db.release...fail: ', e.message);

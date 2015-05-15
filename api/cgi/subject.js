@@ -20,13 +20,14 @@ exports.create = function*(req, res) {
         co(function*() {
             // 插入主题
             var result =
-                yield req.conn.yieldQuery('INSERT INTO subject SET ? ', {
+                yield req.conn.yieldQuery('INSERT INTO subject SET ? ,createTime = CURRENT_TIME', {
                     title: params.title,
                     mark: params.mark,
                     'private': params['private'],
                     guest: params.guest,
                     creator: loginUser.id,
-                    updator: loginUser.id
+                    updator: loginUser.id,
+                    link: params.link
                 });
 
             var subjectId = result.insertId;
@@ -85,6 +86,8 @@ exports.create = function*(req, res) {
 
             var rows =
                 yield req.conn.yieldQuery('SELECT * FROM subject WHERE id = ?', subjectId);
+
+            console.log(params);
 
             // 提交事务
             conn.commit(function(err) {
@@ -373,15 +376,24 @@ exports.search = function*(req, res) {
         yield req.conn.yieldQuery(sql);
     var total = rows[0].count;
 
-    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount ' + 'FROM subject s, user u WHERE ';
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName,'
+    sql += '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,';
+    sql += '(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount ' + 'FROM subject s, user u WHERE ';
 
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
 
-    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+    if(params.orderby){
+        sql += ' ORDER BY s.'+params.orderby+' DESC';    
+    }
+    
+    sql += ' LIMIT ?, ?';
+
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
     rows =
-        yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.start, params.limit]);
 
     res.json({
         code: ERR.SUCCESS,
@@ -410,17 +422,26 @@ exports.list = function*(req, res) {
         yield req.conn.yieldQuery(sql);
     var total = rows[0].count;
 
-    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u WHERE ';
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName, ',
+    sql +=  '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,';
+    sql += '(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u WHERE s.creator = u.id and ';
 
     //dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
 
-    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+    if(params.orderby){
+        sql += ' ORDER BY s.'+params.orderby+' DESC';    
+    }
+    
+    sql += ' LIMIT ?, ?';
+
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
 
 
     rows =
-        yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.start, params.limit]);
 
     console.log(req.dbPrepare(dbParams),dbParams);
     console.log(loginUser);
@@ -442,6 +463,7 @@ exports.info = function*(req, res) {
     //SELECT s.*,u.name,(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount FROM SUBJECT s,USER u WHERE s.id = 37 AND s.creator = u.id
     //醉了.....这数据来源太多了...by horde
     var sql = 'SELECT s.*,u.name as creatorName,(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount,';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName, ',
     sql += '(SELECT COUNT(DISTINCT sf.user_id) FROM subject_follow sf WHERE sf.subject_id = s.id AND sf.user_id = ?) AS follow,'
     sql += '(SELECT COUNT(DISTINCT a.id) FROM article a WHERE a.subject_id = s.id) AS articleCount,';
     sql += '(SELECT COUNT(DISTINCT ar.id) FROM article_resource ar WHERE ar.subject_id = s.id) AS articleResourceCount,';
@@ -454,6 +476,8 @@ exports.info = function*(req, res) {
         var sql = 'select sl.*,l.name from subject_label sl,label l where sl.label_id = l.id and sl.subject_id=?';
         var lrows =
             yield req.conn.yieldQuery(sql, [params.id]);
+
+        console.log(lrows);
         rows[0].labels = lrows;
 
         /*
@@ -472,6 +496,11 @@ exports.info = function*(req, res) {
 
         rows[0].subjectResourceCount = subjectResourceCount;
         rows[0].resourceList = resourceList;
+
+        var sql = 'select su.*,u.name from subject_user su,user u where su.user_id = u.id and su.subject_id=?';
+        var lrows =
+            yield req.conn.yieldQuery(sql, [params.id]);
+        rows[0].members = lrows;
 
 
         res.json({
@@ -532,7 +561,10 @@ exports.following = function*(req, res) {
     var rows =
         yield req.conn.yieldQuery(sql, sqlParams);
     var total = rows[0].count;
-    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
+    sql = 'SELECT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName, ';
+    sql += '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,';
+    sql += '(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_follow sf WHERE sf.user_id = ? AND sf.subject_id = s.id AND s.creator = u.id';
 
     sql += ' ORDER BY ?? DESC LIMIT ?, ?';
     if (params.orderby) {
@@ -576,15 +608,24 @@ exports.invited = function*(req, res) {
         yield req.conn.yieldQuery(sql);
     var total = rows[0].count;
 
-    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ' + '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_user su WHERE ';
+    sql = 'SELECT DISTINCT s.*, u.name AS creatorName, ' + '(SELECT COUNT(DISTINCT su.user_id) FROM subject_user su WHERE su.subject_id = s.id) AS memberCount, ';
+    sql += '(select u.name from user u where s.updator = u.id) as updatorName, ';
+    sql += '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u, subject_user su WHERE ';
 
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
     // sql += ' GROUP BY s.id';
-    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+
+    if(params.orderby){
+        sql += ' ORDER BY s.'+params.orderby+' DESC';    
+    }
+    
+    sql += '  LIMIT ?, ?';
+
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
     rows =
-        yield req.conn.yieldQuery(sql, [params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [params.start, params.limit]);
 
     res.json({
         code: ERR.SUCCESS,
@@ -641,10 +682,16 @@ exports.archived = function*(req, res, next) {
     sql += req.dbPrepare(dbParams);
     sql += ' AND (s.creator = ? OR su.user_id = ?)';
 
-    sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+    if(params.orderby){
+        sql += ' ORDER BY s.'+params.orderby+' DESC';    
+    }
+    
+    sql += '  LIMIT ?, ?';
+
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
     rows =
-        yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.orderby ? ('s.' + params.orderby) : 's.updateTime', params.start, params.limit]);
+        yield req.conn.yieldQuery(sql, [loginUser.id, loginUser.id, params.start, params.limit]);
 
     res.json({
         code: ERR.SUCCESS,

@@ -25,6 +25,7 @@ var tmpl = {
 function resetFrom(target){
 	target.find('input[name=name]').val('');
 	target.find('textarea[name=content]').val('');
+	target.find('.pop-res').html('').hide();
 };
 
 aPost.init = function(id,module,tmp){
@@ -60,6 +61,8 @@ var post = function(){
 	});
 
 	this.cDom.on('hide.bs.modal', function (e) {
+		this.resList = [];
+		this.resMap = {};		
 		_this.model = 'post';
 	});
 
@@ -247,7 +250,9 @@ post.prototype.clear = function(){
 	this.cDom.find('input').val('');
 	this.cDom.find('textarea').val('');	
 
-	resList = [];
+	this.resList = [];
+	this.resMap = {};	
+	console.log(233333);
 }
 
 post.prototype.post = function(){
@@ -269,16 +274,17 @@ post.prototype.post = function(){
 		return;
 	}
 
+
 	if(this.isEdit){
 		param.subjectId = this.data.subject_id;
 		param.articleId = this.data.id;
 		cgi.edit(param,function(res){
 			_this.loading = false;
 			if(pTarget.hasClass('modal')){
-				aPost.reset(pTarget);
+				resetFrom(pTarget);
 			}
 			if(res.code === 0){
-				this.cDom.modal('hide');
+				_this.cDom.modal('hide');
 				striker.trigger('articleEdited',res.data);
 				//striker.article.appendToList(res.data);
 			}
@@ -287,8 +293,9 @@ post.prototype.post = function(){
 	}else{
 		cgi.create(param,function(res){
 			_this.loading = false;
+
 			if(pTarget.hasClass('modal')){
-				aPost.reset(pTarget);
+				resetFrom(pTarget);
 			}
 			_this.cDom.modal('hide');
 			if(res.code === 0){

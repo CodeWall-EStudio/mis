@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@android:color/darker_gray"
+              android:layout_height="wrap_content" android:weightSum="1">
+    <LinearLayout android:layout_width="match_parent"
+                  android:gravity="bottom"
+                  android:layout_height="50dp" android:weightSum="1">
+        <TextView android:layout_width="wrap_content"
+                  android:id="@+id/creator"
+                  android:maxWidth="200dp"
+                  android:text="陈小东"
+                  android:textSize="@dimen/creator_text_size"
+                  android:layout_height="wrap_content" android:layout_weight="0"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/createTime"
+                  android:text="12分钟前"
+                  android:layout_weight="1"/>
+        <TextView android:layout_width="wrap_content"
+                  android:text="置顶"
+                  style="@style/plainButton"
+                  android:layout_height="wrap_content" android:layout_weight="0"
+                  android:id="@+id/up" android:layout_gravity="bottom"/>
+
+        <TextView style="@style/plainButton" android:layout_width="wrap_content" android:text="排序"
+                  android:layout_height="wrap_content" android:id="@+id/textView4" android:layout_weight="0"
+                  android:layout_gravity="bottom"/>
+        <TextView style="@style/plainButton" android:layout_width="wrap_content" android:text="排序"
+                  android:layout_height="wrap_content" android:id="@+id/textView5" android:layout_weight="0"
+                  android:layout_gravity="bottom"/>
+        <TextView style="@style/plainButton" android:layout_width="wrap_content" android:text="排序"
+                  android:layout_height="wrap_content" android:id="@+id/textView6" android:layout_weight="0"
+                  android:gravity="right" android:layout_gravity="bottom"/>
+    </LinearLayout>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/title"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="178dp"
+            android:text="New Text"
+            android:id="@+id/content"/>
+    <com.codewalle.mis.widget.FloatImageLayout android:layout_width="wrap_content"
+                                               android:id="@+id/resources"
+                                               android:layout_height="wrap_content">
+    </com.codewalle.mis.widget.FloatImageLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp" android:gravity="right">
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit" android:src="@drawable/pencil"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/delete" android:src="@drawable/delete"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/favorite" android:src="@drawable/favorite"/>
+    </LinearLayout>
+</LinearLayout>

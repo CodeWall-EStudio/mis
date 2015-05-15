@@ -89,6 +89,7 @@ review.prototype.showList = function(id){
 		list : this.listItem,
 		id : this.nowId
 	});
+	
 	this.reviewBlock.html(listHtml);
 }
 
@@ -177,13 +178,17 @@ review.prototype.show = function(){
 review.prototype.hide = function(){
 	this.bg.hide();
 	this.dom.hide();	
+	this.list = [];
+	this.listItem = [];
+	this.reviewBlock.html('');
 }
 
 //更换数据
 review.prototype.changeData = function(data){
+	console.log(data);
 	this.checkData(data);
 	this.showList();
-	this.showOne();
+	this.showOne(data.id);
 	this.show();
 }
 

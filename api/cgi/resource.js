@@ -14,7 +14,9 @@ var ffmpeg = require('fluent-ffmpeg');
 
 exports.upload = function*(req, res) {
     var file = req.files.file;
+    var format = req.query.format || req.body.format || false;
     var loginUser = req.loginUser;
+
     if (!file || !file.path) {
         return res.json({
             code: ERR.UPLOAD_FAILURE,
@@ -29,7 +31,6 @@ exports.upload = function*(req, res) {
     var filePath = saveDir + '/' + file.name;
     Util.moveFile(file.path, filePath, function(err) {
         if (err) {
-            console.log(err);
             return res.json({
                 code: ERR.UPLOAD_FAILURE,
                 msg: '上传成功, 保存文件失败'
@@ -57,7 +58,10 @@ exports.upload = function*(req, res) {
                 data: rows[0]
             };
 
-            res.write('<script>top.uploadComp(' + JSON.stringify(data) + ')</script>');
+            if(format === 'json'){
+            }else{
+                res.write('<script>top.uploadComp(' + JSON.stringify(data) + ')</script>');
+            }
             res.end();
 
             // res.json({
@@ -152,12 +156,12 @@ exports.preview = function*(req, res) {
             //     'Content-Type': resource.type,
             //     'X-Accel-Redirect': filePath
             // });
-            res.set({
-                'Content-Type': resource.type,
-                'X-Accel-Redirect': filePath
-            });
-            res.send();
-            //res.sendfile(filePath);
+            // res.set({
+            //     'Content-Type': resource.type,
+            //     'X-Accel-Redirect': filePath
+            // });
+            // res.send();
+            res.sendfile(filePath);
             break;
         case 8: //text
             try {

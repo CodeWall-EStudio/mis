@@ -83,7 +83,17 @@ list.prototype.bindAction = function(){
 	});
 
 	this.dom.on('scroll',function(){
-		console.log(1);
+        var scrollDom = $(this)[0];
+        var pageHeight = $(this).height();
+        var scrollTop = scrollDom.scrollTop;
+        var scrollHeight = scrollDom.scrollHeight;		
+
+        //console.log(pageHeight,scrollTop,scrollHeight,scrollTop + pageHeight);
+        //判断是否到底了
+        if(scrollTop + pageHeight >= scrollHeight -30){
+            console.log('end');
+            //_this.loadMore();
+        }         
 	});
 }
 

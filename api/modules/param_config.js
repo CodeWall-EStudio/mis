@@ -59,6 +59,8 @@ module.exports = {
             type: '[number]'
         }, {
             name: 'mark'
+        },{
+            name: 'link'
         }]
     },
 
@@ -155,6 +157,9 @@ module.exports = {
             name: 'isFollow',
             required: true,
             type: 'number'
+        },{
+            name: 'orderby',
+            type: 'string'
         }]
     },
 
@@ -202,6 +207,9 @@ module.exports = {
             name: 'isArchive',
             required: true,
             type: 'number'
+        },{
+            name: 'orderby',
+            type: 'string'
         }]
     },
 
@@ -322,6 +330,9 @@ module.exports = {
             required: true,
             default: 10,
             type: 'number'
+        },{
+            name: 'orderby',
+            type: 'string'
         }]
     },
 

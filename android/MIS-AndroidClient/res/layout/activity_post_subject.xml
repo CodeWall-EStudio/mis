@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:rowCount="9" android:columnCount="3">
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:id="@+id/editText"
+            android:hint="hello world"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnSpan="2" android:inputType="text"
+            android:background="@color/login_bg"/>
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New CheckBox"
+            android:id="@+id/checkBox" android:layout_row="1" android:layout_column="0"/>
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New CheckBox"
+            android:id="@+id/checkBox2" android:layout_row="1" android:layout_column="1" android:checked="false"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:gravity="center_vertical"
+            android:weightSum="1"
+            android:layout_columnSpan="2"
+            android:id="@+id/member"
+            android:visibility="visible">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="主题成员"
+                android:layout_weight="0"
+                />
+        <com.codewalle.mis.widget.TagLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/members" />
+        <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:src="@android:drawable/ic_input_add"
+                     android:layout_weight="1"
+                />
+
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:gravity="center_vertical"
+            android:weightSum="1"
+            android:layout_columnSpan="2"
+            android:id="@+id/admin"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="主题管理员"
+                android:layout_weight="0"
+                />
+        <com.codewalle.mis.widget.TagLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/admins" />
+        <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:src="@android:drawable/ic_input_add"
+                     android:layout_weight="0"
+                />
+
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            android:layout_column="0"
+            android:gravity="center_vertical"
+            android:weightSum="1"
+            android:layout_columnSpan="2"
+            android:id="@+id/subject_tag"
+            >
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="主题管理员"
+                android:layout_weight="0"
+                />
+        <com.codewalle.mis.widget.TagLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/textView3" android:layout_weight="1" android:layout_margin="10dp"/>
+        <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:src="@android:drawable/ic_input_add"
+                     android:layout_weight="0"
+                />
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="5"
+            android:layout_column="0"
+            android:gravity="center_vertical"
+            android:weightSum="1"
+            android:layout_columnSpan="2"
+            android:id="@+id/article_tag"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="帖子标签"
+                android:layout_weight="0"
+                />
+        <com.codewalle.mis.widget.TagLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/article_tags" />
+        <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:src="@android:drawable/ic_input_add"
+                     android:layout_weight="0"
+                />
+
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="6"
+            android:layout_column="0"
+            android:gravity="center_vertical"
+            android:weightSum="1"
+            android:layout_columnSpan="2"
+            android:id="@+id/subject_resource"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="主题资源"
+                android:layout_weight="0"
+                />
+        <com.codewalle.mis.widget.TagLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/subject_resources" />
+        <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:src="@android:drawable/ic_input_add"
+                     android:layout_weight="0"
+                />
+
+    </LinearLayout>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/textView2" android:layout_row="0" android:layout_column="2"/>
+</GridLayout>

@@ -62,6 +62,28 @@ manage.prototype.showlist = function(){
 	}	
 }
 
+//显示管理员列表
+manage.prototype.showmlist = function(){
+	//如果还没有填列表.把列表填一下.
+	if(!this.manageHave){
+		var html = tmpl.manage({
+			list : data.list,
+			my : data.myInfo
+		});
+		this.listDom.html(html);
+		this.keyDom = this.listDom.find('input[name=managekey]');
+		this.keyupAction();
+		//bindManageAction();
+	}
+	if(this._selectDom.hasClass('fui-plus')){
+		this._selectDom.removeClass('fui-plus').addClass('fui-cross');
+		this.listDom.show();
+	}else{
+		this._selectDom.addClass('fui-plus').removeClass('fui-cross');
+		this.listDom.hide();
+	}	
+}
+
 //增加管理员
 manage.prototype.addDefManage = function(){
 	
@@ -106,7 +128,17 @@ manage.prototype.selectone = function(e){
 		this.idmap[id] = 1;
 		this.selectDom.append(html);			
 	}
-	
+}
+
+manage.prototype.addone = function(d){
+	if(d.id !== data.myInfo.id){
+		var html = tmpl.onemanage({
+			id : d.id,
+			name : d.name
+		});
+		this.idmap[data.id] = 1;
+		this.selectDom.append(html);			
+	}
 }
 
 //搜索按钮

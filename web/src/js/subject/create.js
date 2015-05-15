@@ -34,7 +34,9 @@ sCreate.create = function(id){
 	//把用户列表哪儿创建一下.
 	//console.log(striker.user);	
 	var manage = new window.striker.user.manage('manageArea');
+	var member = new window.striker.user.manage('memberArea');
 	this.manage = manage;
+	this.member = member;
 	this.label = window.striker.label;
 
 	this.dom.on('show.bs.modal', function (e) {
@@ -75,8 +77,24 @@ sCreate.create.prototype.edit = function(data){
 	$("#subjectTitle").val(data.title),
 	$("#subjectMark").val(data.mark),
 	$("#subjectOpen").prop('checked',data.private);
+	$("#subjectLink").val(data.link);
 	$("#subjectGuest").prop('checked',data.guest);
 	this.editData = data;
+
+	for(var i in data.members){
+		var item = data.members[i];
+		if(item.role === 1){
+			this.manage.addone({
+				id : item.id,
+				name : item.name
+			});
+		}else if (item.role === 2){
+			this.member.addone({
+				id : item.id,
+				name : item.name
+			});
+		}
+	}
 
 	//把管理员显示出来,貌似数据不支持?
 	this.isedit = true;
@@ -125,9 +143,17 @@ sCreate.create.prototype.getManageList = function(){
 	return this.manage.getManageList();
 }
 
+//取选中的管理远
+sCreate.create.prototype.getMemberList = function(){
+	return this.member.getManageList();
+}
+
+
 sCreate.create.prototype.clear = function(){
 	$("#subjectTitle").val('');
 	$("#subjectMark").val('')
+	this.resMap = {};
+	this.resList = [];
 }
 
 sCreate.create.prototype.bindAction = function(param,cb){
@@ -162,6 +188,15 @@ sCreate.create.prototype.bindAction = function(param,cb){
 		}
 	})	
 
+	$("#scfileName").bind('change',function(e){
+		var target = $(e.target);
+
+		if(target.val() !== ''){
+			_this.fileupload = true;
+			$("#scfileForm").submit();
+		}
+	})		
+
 	this.dom.bind('click',function(e){
 		var target = $(e.target),
 			action = target.data('action'),
@@ -178,8 +213,9 @@ sCreate.create.prototype.bindAction = function(param,cb){
 		if(type === 'submit'){
 			var tit = $("#subjectTitle").val(),
 				mark = $("#subjectMark").val(),
-				open = $("#subjectOpen").prop('checked')?1:0,
-				guest = $("#subjectGuest").prop('checked')?1:0;
+				link = $("#subjectLink").val(),
+				open = $("#subjectOpen").prop('checked')?0:1,
+				guest = $("#subjectGuest").prop('checked')?0:1;
 
 			if(tit == ''){
 				alert('还没有填写标题');
@@ -189,9 +225,11 @@ sCreate.create.prototype.bindAction = function(param,cb){
 			var param = {
 				title : tit,
 				mark : mark,
+				link : link,
 				private : open,
 				guest : guest,
-				members : _this.getManageList(),
+				manages : _this.getManageList(),
+				members : _this.getMemberList(),
 				subjectLabels : _this.getLabelList(),
 				articleLabels : [],
 				resources : _this.getResList()
@@ -217,6 +255,8 @@ sCreate.create.prototype.bindAction = function(param,cb){
 						}
 					});					
 				}else{
+					// console.log(param);
+					// return;
 					cgi.create(param,function(res){
 						if(res.code === 0){
 							_this.dom.modal('hide');

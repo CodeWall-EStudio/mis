@@ -36,3 +36,8 @@ DerivedData
 # Carthage/Checkouts
 
 Carthage/Build
+android/MIS-AndroidClient/.idea
+android/MIS-AndroidClient/gen
+android/MIS-AndroidClient/out
+android/MIS-AndroidClient/bin
+android/MIS-AndroidClient/MIS-test

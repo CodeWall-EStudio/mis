@@ -28,6 +28,7 @@ function article(){
 	this.length = 0;
 	this.end = false;
 	this.loading = false;
+	this.orderby = 'createTime';
 
 	this.subid = nowSubId;
 	this.msg = window.striker.msg;
@@ -64,6 +65,14 @@ article.prototype.bindAction = function(){
 		_this.prependToList(d);
 	})
 
+	striker.bind('article:orderbyupdate',function(e,d){
+		_this.orderByUpdate();
+	})
+
+	striker.bind('article:orderbycreate',function(e,d){
+		_this.orderByCreate();
+	})
+
     $(document).on('scroll',function(e){
         var scrollDom = document.body;
         var pageHeight = document.documentElement.clientHeight;
@@ -88,6 +97,32 @@ article.prototype.bindAction = function(){
 	})    
 }
 
+//按更新时间排序
+article.prototype.orderByUpdate = function(){
+	this.start = 0;
+	this.orderby = 'updateTime';
+	this.dom.html('');
+	this.search({
+		start : this.start,
+		limit : this.limit,
+		subjectId : this.subid,
+		orderby : this.orderby
+	});
+}
+//按发表时间排序
+article.prototype.orderByCreate = function(){
+	this.start = 0;
+	this.orderby = 'createTime';
+	this.dom.html('');
+	this.search({
+		start : this.start,
+		limit : this.limit,
+		subjectId : this.subid,
+		orderby : this.orderby
+	});	
+}
+
+
 //加载更多
 article.prototype.loadMore = function(){
 	if(this.loading || this.end){
@@ -97,10 +132,11 @@ article.prototype.loadMore = function(){
 		start : this.start,
 		limit : this.limit,
 		subjectId : this.subid,
-		orderby : 'createTime'
+		orderby : this.orderby
 	});
 }
 
+//验证数据
 article.prototype.checkData = function(data){
 	var list = [];
 	for(var i = 0,l=data.list.length;i<l;i++){
@@ -126,7 +162,7 @@ article.prototype.search = function(param){
 			start : this.start,
 			limit : this.limit,
 			subjectId : this.subid,
-			orderby : 'createTime'
+			orderby : this.orderby
 		}
 	}
 
@@ -243,44 +279,4 @@ article.prototype.review = function(e){
 	}
 };
 
-// //把新发布的帖子加到列表最前面
-// aList.prependToList = function(param){
-// 		var html = tmpl.list({list:[param]});
-// 		listDom.prepend(html);
-// }
-
 aList.article = article;
-
-//加载更多数据
-/*
-aList.loadMore = function(){
-	console.log(this.end);
-	if(loading || this.end){
-		return;
-	}
-	aList.search({
-		start : start,
-		limit : limit,
-		subjectId : nowSubId
-	})
-}
-
-
-
-//搜索数据
-aList.search = function(param){
-	loading = true;
-	cgi.search(param,function(res){
-		if(res.code === 0){
-			_this.total = res.total;
-			var html = tmpl.list(res.data);
-			start += limit;
-			loading = false;
-			listDom.append(html);
-		}else{
-
-		}
-
-	});
-}
-*/

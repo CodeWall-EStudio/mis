@@ -12,7 +12,6 @@ var db = require('../modules/db');
 
 
 function getRouter(uri, method) {
-
     var arr = uri.split('/'),
         module;
     if (config.DEBUG) {
@@ -22,6 +21,7 @@ function getRouter(uri, method) {
     try {
 
         module = require(path.join(__dirname, '../' + arr[1] + '/' + arr[2]));
+        console.log('moduls::::::::',module,arr);
         if (arr[3]) {
             return module[arr[3]];
         } else {
@@ -45,13 +45,13 @@ exports.route = function(req, res, next) {
 
     var router = getRouter(path, method);
     if (router) {
-        Logger.debug('route to ', path);
+        Logger.debug('route to ', path, ' method:',method);
         // router(req, res, next);
         co(router(req, res, next))
             .then(function() {
-                process.nextTick(function() {
+                setTimeout(function() {
                     db.release(req, res);
-                });
+                }, 1000); // 等待1s, 没执行完也释放db连接, 很挫, 目前没有其他好法子
             }).catch(function(err) {
                 db.handleError(req, res, err.message);
             });
