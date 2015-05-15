@@ -55,7 +55,7 @@ public class HTTPRequestSerializer: NSObject {
     
         :returns: A new NSMutableURLRequest with said options.
     */
-    func newRequest(url: NSURL, method: HTTPMethod) -> NSMutableURLRequest {
+    public func newRequest(url: NSURL, method: HTTPMethod) -> NSMutableURLRequest {
         var request = NSMutableURLRequest(URL: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
         request.HTTPMethod = method.rawValue
         request.cachePolicy = self.cachePolicy
@@ -79,7 +79,7 @@ public class HTTPRequestSerializer: NSObject {
         
         :returns: A new NSMutableURLRequest with said options or an error.
     */
-    func createRequest(url: NSURL, method: HTTPMethod, parameters: Dictionary<String,AnyObject>?) -> (request: NSURLRequest, error: NSError?) {
+    public func createRequest(url: NSURL, method: HTTPMethod, parameters: Dictionary<String,AnyObject>?) -> (request: NSURLRequest, error: NSError?) {
         
         var request = newRequest(url, method: method)
         var isMulti = false
@@ -124,7 +124,7 @@ public class HTTPRequestSerializer: NSObject {
     }
     
     ///check for multi form objects
-    func isMultiForm(params: Dictionary<String,AnyObject>) -> Bool {
+    public func isMultiForm(params: Dictionary<String,AnyObject>) -> Bool {
         for (name,object: AnyObject) in params {
             if object is HTTPUpload {
                 return true
@@ -136,19 +136,20 @@ public class HTTPRequestSerializer: NSObject {
         }
         return false
     }
+    
+    ///check if enum is a HTTPMethod that requires the params in the URL
+    public func isURIParam(method: HTTPMethod) -> Bool {
+        if(method == .GET || method == .HEAD || method == .DELETE) {
+            return true
+        }
+        return false
+    }
+    
     ///convert the parameter dict to its HTTP string representation
     func stringFromParameters(parameters: Dictionary<String,AnyObject>) -> String {
         return join("&", map(serializeObject(parameters, key: nil), {(pair) in
             return pair.stringValue()
             }))
-    }
-    
-    ///check if enum is a HTTPMethod that requires the params in the URL
-    func isURIParam(method: HTTPMethod) -> Bool {
-        if(method == .GET || method == .HEAD || method == .DELETE) {
-            return true
-        }
-        return false
     }
     
     ///the method to serialized all the objects
