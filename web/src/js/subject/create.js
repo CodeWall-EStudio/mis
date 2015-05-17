@@ -1,6 +1,7 @@
 //主题创建,删除等操作
 var data;
 var sCreate = {};
+
 var cgi,
 	tmpl;
 module.exports = sCreate;
@@ -72,6 +73,7 @@ sCreate.create.prototype.changeType = function(type){
 }
 
 sCreate.create.prototype.edit = function(data){
+	var myInfo = require('../data/data').user.myInfo;
 	//this.type = 'type';
 	this.titleDom.text('修改帖子');
 	$("#subjectTitle").val(data.title),
@@ -88,7 +90,7 @@ sCreate.create.prototype.edit = function(data){
 				id : item.id,
 				name : item.name
 			});
-		}else if (item.role === 2){
+		}else if (item.role === 2 && item.id !== myInfo.id){
 			this.member.addone({
 				id : item.id,
 				name : item.name
@@ -234,6 +236,7 @@ sCreate.create.prototype.bindAction = function(param,cb){
 				articleLabels : [],
 				resources : _this.getResList()
 			}		
+
 			
 			if(_this.isedit){
 				param.subjectId = _this.editData.id;

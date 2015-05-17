@@ -312,3 +312,16 @@
 		width:400px;
 	}
 }
+
+#reviewVideo{
+	position:fixed;
+	top:20px;
+	left:0;
+	width:400px;
+	display:none;
+	z-index:2000;
+
+	.modal-dialog{
+		width:400px;
+	}
+}

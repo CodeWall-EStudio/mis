@@ -224,9 +224,15 @@ review.prototype.showFile = function(e){
 		$("#review"+id).addClass('selected');
 		//list[this.nowIdx].addClass('selected');
 	}
-
-
 }
+
+// review.prototype.showVedio = function(e){
+//           // <source src="/cgi/resource/download?id=<%-id%>" type='video/mp4' />
+//           // <source src="/cgi/resource/download?id=<%-id%>" type='video/webm' />
+//           // <source src="/cgi/resource/download?id=<%-id%>" type='video/ogg' />
+//           // <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->
+//           // <track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->	
+// }
 
 review.prototype.bindAction = function(data){
 	var _this = this;
@@ -256,3 +262,11 @@ striker.bind('review',function(e,d){
 		rv.changeData(d);
 	}
 });
+
+// striker.bind('showVideo',function(e,d){
+// 	if(!rv){
+// 		rv = new review(d);
+// 	}else{
+// 		rv.showVedio(d);
+// 	}
+// });

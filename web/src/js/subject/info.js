@@ -86,6 +86,19 @@ info.prototype.review = function(e){
 	}
 };
 
+//视频预览
+info.prototype.showVideo = function(e){
+	var target = $(e.target),
+		id = target.data('id');
+
+	if(id){
+		striker.trigger('showVideo',{
+			id : id,
+			list : this.data.resourceList
+		})
+	}
+}
+
 info.prototype.link = function(e){
 	$("#linkIframe").attr('src',this.data.link);
 	$("#showLink").show();
@@ -142,10 +155,12 @@ info.prototype.bindAction = function(){
 		var html = tmpl.head(d);
 		_this.dom.html(html);
 
-		res.data.my = data.user.myInfo;
-		var html = tmpl.aside(d);
-		
-		_this.asideDom.html(html);			
+		if(d.data){
+			d.data.my = data.user.myInfo;
+			var html = tmpl.aside(d);
+			
+			_this.asideDom.html(html);			
+		}
 	});
 
 	

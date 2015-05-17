@@ -92,7 +92,9 @@ manage.prototype.addDefManage = function(){
 manage.prototype.getManageList = function(){
 	var list = [];
 	for(var i in this.idmap){
-		list.push(i);
+		if(i){
+			list.push(i);
+		}
 	}
 
 	return list;
@@ -136,7 +138,8 @@ manage.prototype.addone = function(d){
 			id : d.id,
 			name : d.name
 		});
-		this.idmap[data.id] = 1;
+
+		this.idmap[d.id] = 1;
 		this.selectDom.append(html);			
 	}
 }

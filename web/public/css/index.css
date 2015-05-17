@@ -1738,6 +1738,18 @@ td i.s {
   width: 400px;
 }
 
+#reviewVideo {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 400px;
+  display: none;
+  z-index: 2000;
+}
+#reviewVideo .modal-dialog {
+  width: 400px;
+}
+
 .manage-area {
   overflow-y: auto;
   max-height: 200px;
