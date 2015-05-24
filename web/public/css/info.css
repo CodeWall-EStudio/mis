@@ -1640,7 +1640,7 @@ td i.s {
 
 .info-action {
   position: absolute;
-  top: 10px;
+  top: 0;
   right: 10px;
 }
 
