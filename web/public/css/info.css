@@ -1716,6 +1716,13 @@ td i.s {
   width: 400px;
 }
 
+.have-new {
+  background-color: yellow;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #d0d012;
+}
+
 .mark-area {
   position: absolute;
   top: 200px;

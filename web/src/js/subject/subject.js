@@ -224,6 +224,7 @@ Subject.area.prototype.bindAction = function(){
 	});
 }
 
+
 Subject.init = function(type){
 	subjectList.init(type,cgi,tmpl);
 	subjectInfo.init(type,cgi,tmpl);

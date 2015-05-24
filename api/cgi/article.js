@@ -322,6 +322,11 @@ exports.search = function*(req, res) {
             yield req.conn.yieldQuery('select * from article where status = 100');
     }
 
+    var sql = 'select createTime from article order by createTime desc limit 1';
+    var trows = yield req.conn.yieldQuery(sql);
+
+    var lastTime = trows[0].createTime
+
     //取标签
     //         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
     if (rows.length) {
@@ -379,7 +384,8 @@ exports.search = function*(req, res) {
         data: {
             total: total,
             list: rows,
-            top: srows
+            top: srows,
+            lastTime : lastTime
         }
     });
 
@@ -578,6 +584,99 @@ exports.collected = function*(req, res) {
         }
     });
 };
+
+exports.newart = function*(req,res){
+    var params = req.parameter;
+    var loginUser = req.loginUser;    
+
+    var sql = 'SELECT a.*,';
+    sql += '(select name from user where id = a.creator) as creatorName,',
+    sql += '(select name from user where id = a.updator) as updatorName ',
+    sql += ' FROM article a WHERE a.subject_id = '+params.subjectId+' and a.createTime > "'+params.time+'" ORDER BY status ';
+  
+    rows =
+        yield req.conn.yieldQuery(sql);
+
+
+    var sql = 'select createTime from article where subject_id=? order by createTime desc limit 1';
+    var trows = yield req.conn.yieldQuery(sql,params.subjectId);
+
+    var lastTime = trows[0].createTime
+
+    var labelMap = [],
+        resMap = [],
+        userId = [],
+        articleId = [];     
+
+    for (var i in rows) {
+        articleId.push(rows[i].id);
+        resMap[rows[i].id] = i;
+        userId.push(rows[i].creator);
+        if (rows[i].createor !== rows[i].updator) {
+            userId.push(rows[i].updator);
+        }
+        labelMap[rows[i].id] = i;
+    }           
+
+    if (rows.length) {
+
+
+        var slist =
+            yield req.conn.yieldQuery('select ast.id,ast.article_id as aid from article_star ast where ast.article_id in (' + articleId.join(',') + ')');
+
+        for (var i = 0, l = slist.length; i < l; i++) {
+            var item = slist[i];
+            var idx = resMap[item.aid];
+            if (!rows[idx].isStar) {
+                rows[idx].isStar = 1;
+            }
+        }
+
+        var clist =
+            yield req.conn.yieldQuery('select ac.id,ac.article_id as aid from article_collect ac where ac.article_id in (' + articleId.join(',') + ')');
+
+        for (var i = 0, l = clist.length; i < l; i++) {
+            var item = clist[i];
+            var idx = resMap[item.aid];
+            if (!rows[idx].isCollect) {
+                rows[idx].isCollect = 1;
+            }
+        }
+
+        var llist =
+            yield req.conn.yieldQuery('SELECT a.article_id as aid,b.id,b.name,b.type FROM article_label a,label b WHERE label_id IN (' + articleId.join(',') + ') AND a.label_id = b.id');
+        for (var i = 0, l = llist.length; i < l; i++) {
+            var item = llist[i];
+            var idx = resMap[item.aid];
+            if (!rows[idx].labels) {
+                rows[idx].labels = [];
+            }
+            rows[idx].labels.push(item);
+        }
+
+        //取资源
+        //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
+        var rlist =
+            yield req.conn.yieldQuery('SELECT a.article_id as aid,b.* FROM article_resource a,resource b WHERE article_id IN (' + articleId.join(',') + ') AND a.resource_id = b.id');
+        for (var i = 0, l = rlist.length; i < l; i++) {
+            var item = rlist[i];
+            var idx = resMap[item.aid];
+            if (!rows[idx].resource) {
+                rows[idx].resource = [];
+            }
+            rows[idx].resource.push(item);
+        }
+    }
+
+    res.json({
+        code: ERR.SUCCESS,
+        data: {
+            list: rows,
+            lastTime : lastTime
+        }
+    });
+
+}
 
 exports.setTop = function*(req, res, next) {
     var params = req.parameter;

@@ -313,6 +313,18 @@ module.exports = {
             type: 'number'
         }]
     },
+    '/cgi/article/newart': {
+        method: 'GET',
+        params: [{
+            name: 'subjectId',
+            required: true,
+            type: 'number'
+        },{
+            name: 'time',
+            required: true,
+            type: 'string'
+        }]
+    },    
 
     '/cgi/article/search': {
         method: 'GET',

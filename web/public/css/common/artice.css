@@ -576,3 +576,10 @@
 #reviewVideo .modal-dialog {
   width: 400px;
 }
+
+.have-new {
+  background-color: yellow;
+  text-align: center;
+  padding: 3px;
+  border: 1px solid #d0d012;
+}

@@ -17,6 +17,8 @@ aList.init = function(id,module,tmp){
 	cgi = module;
 	tmpl = tmp;
 
+	console.log(cgi);
+
 	//return new article();
 }
 
@@ -29,6 +31,11 @@ function article(){
 	this.end = false;
 	this.loading = false;
 	this.orderby = 'createTime';
+	this.lasttime = 0;
+	this.newlist = [];
+	this.newDom;
+
+	this.reftime = 0;
 
 	this.subid = nowSubId;
 	this.msg = window.striker.msg;
@@ -58,6 +65,54 @@ article.prototype.getimg = function(data){
 	return num;
 }
 
+article.prototype.addnewArticle = function(){
+	var data = this.checkData({
+		list : this.newlist
+	});
+	var html = tmpl.list(data);	
+	this.dom.prepend(html);
+	this.newlist = [];
+}
+
+article.prototype.haveNew = function(){
+	var _this = this;
+	if(!this.newDom){
+		
+		$('.artice-info').prepend('<div class="have-new">有新的帖子</div>');
+		this.newDom = $(".have-new");
+		this.newDom.bind('click',function(){
+			_this.newDom.hide();
+			_this.addnewArticle();
+	
+		});
+	}else{
+		this.newDom.show();
+	}
+}
+
+article.prototype.getRef = function(){
+	var _this = this;
+	var param = {
+		subjectId : this.subid,
+		time : this.lasttime
+	}
+	cgi.ref(param,function(res){
+		if(res.code === 0){
+			if(res.data.list.length > 0){
+				_this.newlist = res.data.list;
+				_this.haveNew();
+			}
+		}
+	});
+}
+
+article.prototype.startRef = function(){
+	var _this = this;
+	_this.reftime = setInterval(function(){
+		_this.getRef();
+	},5000);	
+}
+
 //绑定事件
 article.prototype.bindAction = function(){
 	var _this = this;
@@ -72,6 +127,17 @@ article.prototype.bindAction = function(){
 	striker.bind('article:orderbycreate',function(e,d){
 		_this.orderByCreate();
 	})
+
+	striker.bind('autorefresh',function(e,d){
+		//自动刷新
+		if(d){
+			_this.reftime = setInterval(function(){
+				_this.startRef();
+			},5000);
+		}else{
+			clearInterval(_this.reftime);
+		}
+	})	
 
     $(document).on('scroll',function(e){
         var scrollDom = document.body;
@@ -141,8 +207,10 @@ article.prototype.checkData = function(data){
 	var list = [];
 	for(var i = 0,l=data.list.length;i<l;i++){
 		var item = data.list[i];
+		if(item.resource){
 		item.imgnum = this.getimg(item.resource);
-		this.rdata[item.id] = item.resource;
+			this.rdata[item.id] = item.resource;
+		}
 		list.push(item);
 	}
 	data.list = list;
@@ -169,6 +237,10 @@ article.prototype.search = function(param){
 	cgi.search(param,function(res){
 		
 		if(res.code === 0){
+			if(!_this.start){
+				_this.lasttime = res.data.lastTime;
+				_this.startRef();
+			}
 			_this.total = res.data.total;
 			_this.length += res.data.list.length;
 			_this.start += _this.limit;

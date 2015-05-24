@@ -34,6 +34,7 @@ var cgiList = {
 		collect : cgiPath+'article/collect', //收藏
 		'delete' : cgiPath+'article/delete', //收藏
 		'settop' : cgiPath+'article/setTop', //收藏
+		'ref' : cgiPath+'article/newart', //收藏
 		create : cgiPath+'article/create'
 	},
 	comment : {
@@ -217,6 +218,11 @@ db.article.star = function(param,callback){
 db.article.collect = function(param,callback){
 	var callback = checkCallback(callback,true);
 	request.post(cgiList.article.collect,param,callback);
+}
+
+db.article.ref = function(param,callback){
+	var callback = checkCallback(callback);
+	request.get(cgiList.article.ref,param,callback);
 }
 
 db.article.settop = function(param,callback){

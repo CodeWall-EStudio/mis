@@ -86,6 +86,12 @@ info.prototype.review = function(e){
 	}
 };
 
+info.prototype.autoref = function(e){
+	var target = $(e.target);
+	//console.log(target.prop('checked'));
+	striker.trigger('autorefresh',target.prop('checked'))
+}
+
 //视频预览
 info.prototype.showVideo = function(e){
 	var target = $(e.target),
@@ -135,6 +141,10 @@ info.prototype.articleorderbytime = function(e){
 	pdom.find('a').removeClass('active');
 	target.addClass('active');
 	striker.trigger('article:orderbycreate');
+}
+
+info.prototype.autorefresh = function(){
+	striker.trigger('autorefresh',true);
 }
 
 info.prototype.bindAction = function(){
