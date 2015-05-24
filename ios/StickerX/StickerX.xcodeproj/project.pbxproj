@@ -15,6 +15,8 @@
 		D418B7E91AD6CB9600601DCB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D418B7E71AD6CB9600601DCB /* LaunchScreen.xib */; };
 		D418B7F51AD6CB9600601DCB /* StickerXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418B7F41AD6CB9600601DCB /* StickerXTests.swift */; };
 		D43772BC1ADC9CE000355A11 /* STUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43772BB1ADC9CE000355A11 /* STUser.swift */; };
+		D488204C1AF31741006A09A5 /* LoginSwitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D488204B1AF31741006A09A5 /* LoginSwitchViewController.swift */; };
+		D488204E1AF327F7006A09A5 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = D488204D1AF327F7006A09A5 /* Server.swift */; };
 		D4AB335A1ADD831B00074665 /* Subjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB33591ADD831B00074665 /* Subjects.swift */; };
 		D4AFE87C1AE1D27100DACF48 /* SubjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AFE87B1AE1D27100DACF48 /* SubjectViewController.swift */; };
 		D4AFE8801AE1DF8400DACF48 /* Subjectx.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AFE87F1AE1DF8400DACF48 /* Subjectx.swift */; };
@@ -55,6 +57,8 @@
 		D418B7F31AD6CB9600601DCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D418B7F41AD6CB9600601DCB /* StickerXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerXTests.swift; sourceTree = "<group>"; };
 		D43772BB1ADC9CE000355A11 /* STUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STUser.swift; sourceTree = "<group>"; };
+		D488204B1AF31741006A09A5 /* LoginSwitchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginSwitchViewController.swift; sourceTree = "<group>"; };
+		D488204D1AF327F7006A09A5 /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		D4AB33591ADD831B00074665 /* Subjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subjects.swift; sourceTree = "<group>"; };
 		D4AFE87B1AE1D27100DACF48 /* SubjectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectViewController.swift; sourceTree = "<group>"; };
 		D4AFE87F1AE1DF8400DACF48 /* Subjectx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subjectx.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 				D4AFE8831AE1F2D600DACF48 /* ArticleTableViewCell.swift */,
 				D4AFE8891AE1FCD100DACF48 /* CommentTableViewCell.swift */,
 				D4B735C81AD6DEFD00D18A0D /* Login.storyboard */,
+				D488204B1AF31741006A09A5 /* LoginSwitchViewController.swift */,
 				D4B735CA1AD746D800D18A0D /* LoginViewController.swift */,
 				D4B671701AD93C7800A3777F /* StickerViewController.swift */,
 				D418B7E51AD6CB9500601DCB /* Images.xcassets */,
@@ -184,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				D4B671721AD96B1500A3777F /* User.swift */,
+				D488204D1AF327F7006A09A5 /* Server.swift */,
 				D4AB33591ADD831B00074665 /* Subjects.swift */,
 				D4AFE8811AE1E40300DACF48 /* Articles.swift */,
 				D4AFE8871AE1FB5A00DACF48 /* Comments.swift */,
@@ -365,8 +371,10 @@
 				D4B735CB1AD746D800D18A0D /* LoginViewController.swift in Sources */,
 				D4AFE88A1AE1FCD100DACF48 /* CommentTableViewCell.swift in Sources */,
 				D43772BC1ADC9CE000355A11 /* STUser.swift in Sources */,
+				D488204E1AF327F7006A09A5 /* Server.swift in Sources */,
 				D4B671731AD96B1500A3777F /* User.swift in Sources */,
 				D418B7E11AD6CB9500601DCB /* MainViewController.swift in Sources */,
+				D488204C1AF31741006A09A5 /* LoginSwitchViewController.swift in Sources */,
 				D4AFE8861AE1FAE000DACF48 /* ArticleViewController.swift in Sources */,
 				D418B7DF1AD6CB9500601DCB /* AppDelegate.swift in Sources */,
 				D4AFE8801AE1DF8400DACF48 /* Subjectx.swift in Sources */,

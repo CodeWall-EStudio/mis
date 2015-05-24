@@ -81,7 +81,7 @@ class LoginViewController: StickerViewController {
     // do user log
     func loginUser() {
         changeUserInterFace()
-        var uri = "http://mis.codewalle.com/cgi/account/login"
+        var uri = "http://\(STUser.shared.server!)/cgi/account/login"
         var params: Dictionary<String, AnyObject> = ["uid": uidTextField.text, "pwd": pwdTextField.text]
         self.postHTTP(
             uri,
@@ -133,9 +133,14 @@ class LoginViewController: StickerViewController {
         changeUserInterFace()
         
         let defaults = NSUserDefaults.standardUserDefaults()
+        if let server = defaults.stringForKey("server") {
+            STUser.shared.server = server
+        } else {
+            STUser.shared.server = "mis.codewalle.com"
+        }
         if let sid = defaults.stringForKey("sid") {
             STUser.shared.sid = sid
-            var uri = "http://mis.codewalle.com/cgi/user/info"
+            var uri = "http://\(STUser.shared.server!)/cgi/user/info"
             self.getHTTP(
                 uri,
                 success: {(response: HTTPResponse) -> Void in
@@ -224,6 +229,9 @@ class LoginViewController: StickerViewController {
             }
         }
         return ""
+    }
+    
+    @IBAction func unwindToLogin(segue:UIStoryboardSegue) {
     }
 
 }

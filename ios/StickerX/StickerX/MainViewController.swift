@@ -40,7 +40,7 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
         mainTableView.rowHeight = 98
         mainTabBar.selectedItem = mainTabBarItem1
         mainTabBar.delegate = self
-        getSubjects("http://mis.codewalle.com/cgi/subject/search?start=0&orderby=updateTime&limit=100&private=1")
+        getSubjects("http://\(STUser.shared.server!)/cgi/subject/search?start=0&limit=100&private=1")
         
         refreshControl.addTarget(self, action: "refreshData", forControlEvents: UIControlEvents.ValueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "松手刷新")
@@ -82,7 +82,7 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
     }
     
     func logout(sender:UIButton!) {
-        var uri = "http://mis.codewalle.com/cgi/account/logout"
+        var uri = "http://\(STUser.shared.server!)/cgi/account/logout"
         STUser.shared.user = nil
         STUser.shared.sid = nil
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -161,19 +161,19 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
         var uri: String
         switch (item.tag) {
         case 2:
-            uri = "http://mis.codewalle.com/cgi/subject/invited?start=0&orderby=updateTime&limit=100"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/invited?start=0&limit=100"
             tag = 2
         case 3:
-            uri = "http://mis.codewalle.com/cgi/subject/list?start=0&orderby=updateTime&limit=100"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/list?start=0&limit=100"
             tag = 3
         case 4:
-            uri = "http://mis.codewalle.com/cgi/subject/following?start=0&orderby=updateTime&limit=100"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/following?start=0&limit=100"
             tag = 4
         case 5:
-            uri = "http://mis.codewalle.com/cgi/subject/archived?start=0&orderby=updateTime&limit=100"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/archived?start=0&limit=100"
             tag = 5
         default:
-            uri = "http://mis.codewalle.com/cgi/subject/search?start=0&orderby=updateTime&limit=100&private=1"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/search?start=0&limit=100&private=1"
             tag = 1
         }
         getSubjects(uri)
@@ -183,15 +183,16 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
         var uri: String
         switch (tag) {
         case 2:
-            uri = "http://mis.codewalle.com/cgi/subject/invited?start=0&orderby=updateTime&limit=100"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/invited?start=0&limit=100"
         case 3:
-            uri = "http://mis.codewalle.com/cgi/subject/list?start=0&orderby=updateTime&limit=100"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/list?start=0&limit=100"
         case 4:
-            uri = "http://mis.codewalle.com/cgi/subject/following?start=0&orderby=updateTime&limit=100"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/following?start=0&limit=100"
         case 5:
-            uri = "http://mis.codewalle.com/cgi/subject/archived?start=0&orderby=updateTime&limit=100"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/archived?start=0&limit=100"
         default:
-            uri = "http://mis.codewalle.com/cgi/subject/search?start=0&orderby=updateTime&limit=100&private=1"
+            uri = "http://\(STUser.shared.server!)/cgi/subject/search?start=0&limit=100&private=1"
+
         }
         getSubjects(uri)
         refreshControl.endRefreshing()
@@ -233,7 +234,7 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
     }
     
     func postSubject(title: String, mark: String, priv: Int, guest: Int) {
-        var uri = "http://mis.codewalle.com/cgi/subject/create"
+        var uri = "http://\(STUser.shared.server!)/cgi/subject/create"
         var params: Dictionary<String, AnyObject> = [
             "title": title,
             "mark": mark,
@@ -251,7 +252,7 @@ class MainViewController: StickerViewController, UITableViewDelegate, UITableVie
                     } else {
                         println("success")
                         self.mainTabBar.selectedItem = self.mainTabBarItem1
-                        self.getSubjects("http://mis.codewalle.com/cgi/subject/search?start=0&orderby=updateTime&limit=100&private=1")
+                        self.getSubjects("http://\(STUser.shared.server!)/cgi/subject/search?start=0&limit=100&private=1")
                     }
                 })
             }, failure: {(error: NSError, response: HTTPResponse?) -> Void in

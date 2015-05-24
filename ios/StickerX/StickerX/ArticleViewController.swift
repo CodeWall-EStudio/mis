@@ -13,6 +13,7 @@ import JSONJoy
 class ArticleViewController: StickerViewController, UITableViewDelegate, UITableViewDataSource {
     
     var comments = [Comment]()
+    var imageId:Int = 0
     
     @IBOutlet weak var articleCreator: UILabel!
     @IBOutlet weak var articleTitle: UILabel!
@@ -21,6 +22,7 @@ class ArticleViewController: StickerViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var commentContent: UITextField!
     @IBOutlet weak var commentConfirm: UIButton!
+    @IBOutlet weak var imageShow: UIImageView!
     
     @IBAction func editDidBegin(sender: AnyObject) {
         activeTextField = sender as? UITextField
@@ -69,8 +71,8 @@ class ArticleViewController: StickerViewController, UITableViewDelegate, UITable
         mainTableView.rowHeight = 88
         beautifyUIView(commentConfirm, cornerRadius: Constants.radius, backgroundColor: Constants.green)
         let articleId = STUser.shared.selectedArticleId!
-        getArticle("http://mis.codewalle.com/cgi/article/info?id=\(articleId)")
-        getComments("http://mis.codewalle.com/cgi/comment/search?start=0&limit=100&articleId=\(articleId)")
+        getArticle("http://\(STUser.shared.server!)/cgi/article/info?id=\(articleId)")
+        getComments("http://\(STUser.shared.server!)/cgi/comment/search?start=0&limit=100&articleId=\(articleId)")
         
         refreshControl.addTarget(self, action: "refreshData", forControlEvents: UIControlEvents.ValueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "松手刷新")
@@ -79,7 +81,7 @@ class ArticleViewController: StickerViewController, UITableViewDelegate, UITable
     }
     
     func refreshData() {
-        getComments("http://mis.codewalle.com/cgi/comment/search?start=0&limit=100&articleId=\(STUser.shared.selectedArticleId!)")
+        getComments("http://\(STUser.shared.server!)/cgi/comment/search?start=0&limit=100&articleId=\(STUser.shared.selectedArticleId!)")
         refreshControl.endRefreshing()
     }
 
@@ -97,6 +99,54 @@ class ArticleViewController: StickerViewController, UITableViewDelegate, UITable
                     NSOperationQueue.mainQueue().addOperationWithBlock({
                         if (resp["code"].integer == 0) {
                             let data = Article(resp["data"])
+                            if let id = resp["data"]["resourceList"][0]["id"].integer {
+                                var request = HTTPTask()
+                                if let sid = STUser.shared.sid {
+                                    request.requestSerializer = HTTPRequestSerializer()
+                                    request.requestSerializer.headers["Cookie"] = "sid=\"\(sid)\""
+                                }
+                                let downloadTask = request.download("http://\(STUser.shared.server!)/cgi/resource/download?id=\(id)", parameters: nil, progress: {(complete: Double) in
+                                    println("percent complete: \(complete)")
+                                    }, success: {(response: HTTPResponse) in
+                                        if let url = response.responseObject as? NSURL {
+                                            var data:NSData = NSData(contentsOfURL: url)!
+                                            //println(data.length)
+                                            NSOperationQueue.mainQueue().addOperationWithBlock({
+                                                self.imageShow.image = UIImage(data: data)
+                                            })
+                                        }
+                                        /*if let url = response.responseObject as? NSURL {
+                                            if let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as? String {
+                                                if let fileName = response.suggestedFilename {
+                                                    if let newPath = NSURL(fileURLWithPath: "\(path)/\(fileName)") {
+                                                        let fileManager = NSFileManager.defaultManager()
+                                                        fileManager.removeItemAtURL(newPath, error: nil)
+                                                        fileManager.moveItemAtURL(url, toURL: newPath, error:nil)
+                                                        println(newPath)
+                                                    }
+                                                }
+                                            }
+                                        }*/
+                                                                               //self.imageShow.image = UIImage(contentsOfFile: response.text()!)
+                                        /*if response.responseObject != nil {
+                                            //we MUST copy the file from its temp location to a permanent location.
+                                            if let url = response.responseObject as? NSURL {
+                                                if let path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as? String {
+                                                    if let fileName = response.suggestedFilename {
+                                                        if let newPath = NSURL(fileURLWithPath: "\(path)/\(fileName)") {
+                                                            let fileManager = NSFileManager.defaultManager()
+                                                            fileManager.removeItemAtURL(newPath, error: nil)
+                                                            fileManager.moveItemAtURL(url, toURL: newPath, error:nil)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }*/
+                                        
+                                    } ,failure: {(error: NSError, response: HTTPResponse?) in
+                                        println("failure")
+                                })
+                            }
                             self.articleCreator.text = data.creatorName
                             self.articleTitle.text = data.title
                             self.articleContent.text = data.content
@@ -167,7 +217,7 @@ class ArticleViewController: StickerViewController, UITableViewDelegate, UITable
     
     func postComment(content: String) {
         let subjectId = STUser.shared.selectedSubjectId!
-        var uri = "http://mis.codewalle.com/cgi/comment/create"
+        var uri = "http://\(STUser.shared.server!)/cgi/comment/create"
         let articleIdx = STUser.shared.selectedArticleId!
         let subjectIdx = STUser.shared.selectedSubjectId!
         var params: Dictionary<String, AnyObject> = [
@@ -186,7 +236,7 @@ class ArticleViewController: StickerViewController, UITableViewDelegate, UITable
                         println(resp["msg"].string)
                     } else {
                         println("success")
-                        self.getComments("http://mis.codewalle.com/cgi/comment/search?start=0&limit=100&articleId=\(articleIdx)")
+                        self.getComments("http://\(STUser.shared.server!)/cgi/comment/search?start=0&limit=100&articleId=\(articleIdx)")
                     }
                 })
             }, failure: {(error: NSError, response: HTTPResponse?) -> Void in

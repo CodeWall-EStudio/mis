@@ -21,4 +21,5 @@ class STUser {
     var sid: String?
     var selectedSubjectId: Int?
     var selectedArticleId: Int?
+    var server: String?
 }

@@ -14,6 +14,8 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
 
     var articles = [Article]()
     
+    var subjectId = 0
+    
     @IBOutlet weak var subjectTitle: UILabel!
     @IBOutlet weak var subjectCreator: UILabel!
     @IBOutlet weak var subjectCreatTime: UILabel!
@@ -31,9 +33,9 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
         mainTableView.tableFooterView = UIView(frame:CGRectZero)
         mainTableView.rowHeight = 107
         
-        let subjectId = STUser.shared.selectedSubjectId!
-        getSubjectx("http://mis.codewalle.com/cgi/subject/info?id=\(subjectId)")
-        getArticles("http://mis.codewalle.com/cgi/article/search?start=0&orderby=updateTime&limit=100&subjectId=\(subjectId)")
+        subjectId = STUser.shared.selectedSubjectId!
+        getSubjectx("http://\(STUser.shared.server!)/cgi/subject/info?id=\(subjectId)")
+        getArticles("http://\(STUser.shared.server!)/cgi/article/search?start=0&limit=100&subjectId=\(subjectId)")
         
         refreshControl.addTarget(self, action: "refreshData", forControlEvents: UIControlEvents.ValueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "松手刷新")
@@ -41,7 +43,7 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
     }
     
     func refreshData() {
-        getArticles("http://mis.codewalle.com/cgi/article/search?start=0&orderby=updateTime&limit=100&subjectId=\(STUser.shared.selectedSubjectId!)")
+        getArticles("http://\(STUser.shared.server!)/cgi/article/search?start=0&limit=100&subjectId=\(STUser.shared.selectedSubjectId!)")
         refreshControl.endRefreshing()
     }
     
@@ -141,23 +143,68 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
             var svc = segue.sourceViewController as! ArticlePostViewController
             let title = svc.articleTitle.text
             let content = svc.articleContent.text
-            if (!title.isEmpty) {
-                postArticle(title, content: content)
+            if (svc.showImage.image != nil) {
+                //var imageData: NSData = UIImagePNGRepresentation(svc.showImage.image)
+                let imageData: NSData = UIImageJPEGRepresentation(svc.showImage.image, 0.4)
+                var request = HTTPTask()
+                if let sid = STUser.shared.sid {
+                    request.requestSerializer = HTTPRequestSerializer()
+                    request.requestSerializer.headers["Cookie"] = "sid=\"\(sid)\""
+                }
+                request.POST("http://\(STUser.shared.server!)/cgi/resource/upload", parameters:  ["aParam": "aValue", "file": HTTPUpload(data: imageData, fileName: "image", mimeType: "image/jpeg")], success: {(response: HTTPResponse) in
+                    
+                    println(response.text())
+                    NSOperationQueue.mainQueue().addOperationWithBlock({
+                        var nsString: NSString = response.text()!
+                        println(nsString)
+                        nsString = nsString.stringByReplacingOccurrencesOfString("<script>top.uploadComp(", withString: "")
+                        nsString = nsString.stringByReplacingOccurrencesOfString(")</script>", withString: "")
+                        let data = nsString.dataUsingEncoding(NSUTF8StringEncoding)
+                        let resp = JSONDecoder(data!)
+                        /*var error: NSError?
+                        var response: AnyObject? = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(), error: &error)*/
+                        if (resp["code"].integer == 0) {
+                            let res: Int = resp["data"]["id"].integer!
+                            if (!title.isEmpty) {
+                                self.postArticle(title, content: content, res: res)
+                            }
+                        }
+                    })
+                    },failure: {(error: NSError, response: HTTPResponse?) in
+                        println(NSError)
+                        println(response?.text())
+                        //error out on stuff
+                })
+            } else {
+                if (!title.isEmpty) {
+                    postArticle(title, content: content, res: 0)
+                }
             }
         }
     }
 
     
-    func postArticle(title: String, content: String) {
+    func postArticle(title: String, content: String, res: Int) {
         let subjectId = STUser.shared.selectedSubjectId!
-        var uri = "http://mis.codewalle.com/cgi/article/create"
-        var params: Dictionary<String, AnyObject> = [
-            "title": title,
-            "content": content,
-            //"labels": "[]",
-            //"resources": "[]",
-            "subjectId": "\(subjectId)"
-        ]
+        var uri = "http://\(STUser.shared.server!)/cgi/article/create"
+        var params: Dictionary<String, AnyObject> = ["test": "test"]
+        if (res == 0) {
+            params = [
+                "title": title,
+                "content": content,
+                //"labels": "[]",
+                //"resources": "[]",
+                "subjectId": "\(subjectId)"
+            ]
+        } else {
+            params = [
+                "title": title,
+                "content": content,
+                //"labels": "[]",
+                "resources": "[\(res)]",
+                "subjectId": "\(subjectId)"
+            ]
+        }
         postHTTP(uri, params: params,
             success: {(response: HTTPResponse) -> Void in
                 NSOperationQueue.mainQueue().addOperationWithBlock({
@@ -166,7 +213,7 @@ class SubjectViewController: StickerViewController, UITableViewDelegate, UITable
                         println(resp["msg"].string)
                     } else {
                         println("success")
-                        self.getArticles("http://mis.codewalle.com/cgi/article/search?start=0&orderby=updateTime&limit=100&subjectId=\(subjectId)")
+                        self.getArticles("http://\(STUser.shared.server!)/cgi/article/search?start=0&limit=100&subjectId=\(self.subjectId)")
                     }
                 })
             }, failure: {(error: NSError, response: HTTPResponse?) -> Void in
