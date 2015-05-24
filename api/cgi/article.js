@@ -322,10 +322,10 @@ exports.search = function*(req, res) {
             yield req.conn.yieldQuery('select * from article where status = 100');
     }
 
-    var sql = 'select createTime from article order by createTime desc limit 1';
+    var sql = 'select createTime from article where subject_id='+params.subjectId+' order by createTime desc limit 1';
     var trows = yield req.conn.yieldQuery(sql);
 
-    var lastTime = trows[0].createTime
+    var lastTime = new Date(trows[0].createTime).getTime();
 
     //取标签
     //         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
@@ -341,7 +341,7 @@ exports.search = function*(req, res) {
             if (!rows[idx].isStar) {
                 rows[idx].isStar = 1;
             }
-        }
+        }   
 
         var clist =
             yield req.conn.yieldQuery('select ac.id,ac.article_id as aid from article_collect ac where ac.article_id in (' + articleId.join(',') + ')');
@@ -593,7 +593,10 @@ exports.newart = function*(req,res){
     sql += '(select name from user where id = a.creator) as creatorName,',
     sql += '(select name from user where id = a.updator) as updatorName ',
     sql += ' FROM article a WHERE a.subject_id = '+params.subjectId+' and a.createTime > "'+params.time+'" ORDER BY status ';
-  
+    
+    //date('Y-m-d H:i:s', 1156219870)
+    
+
     rows =
         yield req.conn.yieldQuery(sql);
 
@@ -601,7 +604,9 @@ exports.newart = function*(req,res){
     var sql = 'select createTime from article where subject_id=? order by createTime desc limit 1';
     var trows = yield req.conn.yieldQuery(sql,params.subjectId);
 
-    var lastTime = trows[0].createTime
+    var lastTime = new Date(trows[0].createTime).getTime();
+
+console.log(new Date(params.time).getTime(),lastTime);
 
     var labelMap = [],
         resMap = [],

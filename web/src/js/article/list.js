@@ -32,6 +32,7 @@ function article(){
 	this.loading = false;
 	this.orderby = 'createTime';
 	this.lasttime = 0;
+	this.tmplasttime = 0;
 	this.newlist = [];
 	this.newDom;
 
@@ -72,6 +73,7 @@ article.prototype.addnewArticle = function(){
 	var html = tmpl.list(data);	
 	this.dom.prepend(html);
 	this.newlist = [];
+	this.lasttime = this.tmplasttime;
 }
 
 article.prototype.haveNew = function(){
@@ -92,14 +94,16 @@ article.prototype.haveNew = function(){
 
 article.prototype.getRef = function(){
 	var _this = this;
+	//this.lasttime = 1432461927000;
 	var param = {
 		subjectId : this.subid,
-		time : this.lasttime
+		time : new Date(this.lasttime).pattern('yyyy-MM-dd HH:mm:ss')
 	}
 	cgi.ref(param,function(res){
 		if(res.code === 0){
 			if(res.data.list.length > 0){
 				_this.newlist = res.data.list;
+				_this.tmplasttime = res.data.lastTime;
 				_this.haveNew();
 			}
 		}
@@ -110,7 +114,7 @@ article.prototype.startRef = function(){
 	var _this = this;
 	_this.reftime = setInterval(function(){
 		_this.getRef();
-	},5000);	
+	},10000);	
 }
 
 //绑定事件
@@ -133,7 +137,7 @@ article.prototype.bindAction = function(){
 		if(d){
 			_this.reftime = setInterval(function(){
 				_this.startRef();
-			},5000);
+			},10000);
 		}else{
 			clearInterval(_this.reftime);
 		}
