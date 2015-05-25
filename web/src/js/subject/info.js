@@ -10,6 +10,7 @@ var striker = $(window.striker);
 var subDom = $("#subjectHead");
 var subAsideDom = $("#subjectAside");
 var postArea = $("#postArticle");
+var myInfo;
 
 sInfo.init = function(type,module,tmp){
 	cgi = module;
@@ -38,6 +39,8 @@ var info = function(id){
 	this.updateBtn; //按更新时间排序
 
 	this.data = {};
+
+	myInfo = data.user.myInfo;
 
 	this._selectDom;
 	this.msg = window.striker.msg;
@@ -162,6 +165,7 @@ info.prototype.bindAction = function(){
 
 	striker.bind('subjectUpdate',function(e,d){
 		_this.data = d;
+		d.myInfo = myInfo;
 		var html = tmpl.head(d);
 		_this.dom.html(html);
 
@@ -201,7 +205,9 @@ info.prototype.getData = function(){
 	var _this = this;
 	cgi.info({id:id},function(res){
 		if(res.code === 0){
+			res.data.myInfo = myInfo;
 			var html = tmpl.head(res.data);
+
 			_this.dom.html(html);
 
 			res.data.my = data.user.myInfo;

@@ -1,4 +1,5 @@
 var cgi = require('../common/cgi').comment;
+var data = require('../data/data');
 var tmpl = {
 	list : require('../../tpl/comment/list.ejs')
 };
@@ -20,6 +21,8 @@ var list = function(id,sid){
 	this.post = window.striker.commentpost;
 	this.msg = window.striker.msg;
 
+	this.my = data.user.myInfo;
+
 	this.map = {};
 	this.rdata = {};
 	// articleList.init(id,cgi,tmpl);
@@ -39,7 +42,8 @@ list.prototype.saveData = function(data){
 list.prototype.update = function(data){
 	if(data){
 		var html = tmpl.list({
-			list : [data]
+			list : [data],
+			my : this.my
 		});	
 		$(".comment"+data.id).replaceWith(html);
 	}
@@ -61,6 +65,7 @@ list.prototype.getDate = function(){
 		if(res.code === 0){
 			_this.start += _this.limit;
 			_this.saveData(res.data);
+			res.data.my = _this.my;
 			var html = tmpl.list(res.data);
 			_this.dom.append(html);
 		}
@@ -175,7 +180,8 @@ list.prototype.delete = function(){
 
 list.prototype.append = function(data){
 	var html = tmpl.list({
-		list : [data]
+		list : [data],
+		my : this.my
 	});
 	this.artInfo.updateCount();
 	this.dom.prepend(html);

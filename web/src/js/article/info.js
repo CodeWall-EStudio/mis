@@ -1,4 +1,5 @@
 var cgi = require('../common/cgi').article;
+var data = require('../data/data');
 var tmpl = {
 	info : require('../../tpl/article/one.ejs')
 };
@@ -18,6 +19,8 @@ var articleInfo = function(id,sid){
 	this.cList = window.striker.commentlist;
 	this.cpost = window.striker.commentpost;
 
+	this.my = data.user.myInfo;
+
 	this.getDate();
 	this.bindAction();
 }
@@ -27,6 +30,7 @@ articleInfo.prototype.getDate = function(){
 	cgi.info({id: this.artId},function(res){
 		if(res.code === 0){
 			res.data.sid = _this.subId;
+			res.data.my = _this.my;
 			var html = tmpl.info(res.data);
 			
 			_this.data = res.data;
@@ -45,6 +49,7 @@ articleInfo.prototype.bindAction = function(){
 	striker.bind('articleEdited',function(e,d){
 		d.sid = _this.subId;
 		_this.data = d;
+		d.my = _this.my;
 		var html = tmpl.info(d);
 		_this.dom.html(html);
 	});

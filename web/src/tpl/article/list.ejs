@@ -1,4 +1,6 @@
-<%for(var i =0,l=list.length;i<l;i++){
+<%
+console.log(my);
+for(var i =0,l=list.length;i<l;i++){
   var item = list[i];
 %>
   <div class="artice-one article<%-item.id%>">
@@ -6,7 +8,10 @@
     <div class="artice-one-info">
       <div class="info-title">发帖 <%-item.creatorName%>   最后回复 <%-item.updatorName%></div>
       <div class="info-action">
-        <span class="up" data-id="<%-item.id%>" data-action="setup" data-status="<%-item.isStar%>"><span></span><%if(item.isStar){%>已赞<%}else{%>赞<%}%></span> <span class="post" data-action="replay" data-id="<%-item.id%>"><span></span>回复</span> <span class="delete" data-action="delete" data-id="<%-item.id%>"><span></span>删除</span>
+        <span class="up" data-id="<%-item.id%>" data-action="setup" data-status="<%-item.isStar%>"><span></span><%if(item.isStar){%>已赞<%}else{%>赞<%}%></span> <span class="post" data-action="replay" data-id="<%-item.id%>"><span></span>回复</span> 
+        <%if(my.id === item.creator || my.auth === 1){%>
+        <span class="delete" data-action="delete" data-id="<%-item.id%>"><span></span>删除</span>
+        <%}%>
       </div>          
       <dl class="artice-dl">
         <dt><a href="article.html?id=<%-item.id%>&sid=<%-item.subject_id%>"><%-item.title%></a></dt>

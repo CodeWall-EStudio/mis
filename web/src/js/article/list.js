@@ -41,6 +41,8 @@ function article(){
 	this.subid = nowSubId;
 	this.msg = window.striker.msg;
 
+	this.my = data.user.myInfo;
+
 	this.rdata = {};
 
 	this.bindAction();
@@ -68,7 +70,8 @@ article.prototype.getimg = function(data){
 
 article.prototype.addnewArticle = function(){
 	var data = this.checkData({
-		list : this.newlist
+		list : this.newlist,
+		my : this.my
 	});
 	var html = tmpl.list(data);	
 	this.dom.prepend(html);
@@ -251,6 +254,7 @@ article.prototype.search = function(param){
 			_this.loading = false;
 
 			var data = _this.checkData(res.data);
+			data.my = _this.my;
 			var html = tmpl.list(data);
 
 			if(res.data.top.length){
@@ -335,7 +339,7 @@ article.prototype.replay = function(){
 
 //把新发布的帖子加到列表最前面
 article.prototype.prependToList = function(param){
-	var data = this.checkData({list:[param]});
+	var data = this.checkData({list:[param],my:this.my});
 	var html = tmpl.list(data);
 
 	this.dom.prepend(html);
