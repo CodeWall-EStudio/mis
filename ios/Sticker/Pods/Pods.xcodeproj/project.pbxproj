@@ -1,0 +1,835 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1018F417F4C00BE5D3EFD34C /* NibDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89408782951E20A1C4A500D6 /* NibDesignable.swift */; };
+		304FF65031B090AA534D18F0 /* Pods-Sticker-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EE41FB1AB4D185E101EFAF3 /* Pods-Sticker-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A4C8213338AAC143ABD513A /* HTTPResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DD55AF5E8EFFCDD37B74DA /* HTTPResponseSerializer.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3BCC09EBF3394A1F320D949B /* Pods-Sticker-SwiftHTTP-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EAEAA87255193D268EA78EC /* Pods-Sticker-SwiftHTTP-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		476766515812D6EEA56FE0D9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4489129B31B05190BCB09018 /* Foundation.framework */; };
+		6EA79D67E466F938BCF6C2BD /* Pods-Sticker-JSONJoy-Swift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 50135B39F8CB4F1F87F9EF8E /* Pods-Sticker-JSONJoy-Swift-dummy.m */; };
+		7AAE4F99933BD91D6308ADE5 /* HTTPTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96792FC48739A866F25BAD8A /* HTTPTask.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		7CBEE74847B897B00AC16307 /* JSONJoy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8776B15B6CC87E0772BDB364 /* JSONJoy.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		7F19174940D9D2A53732BB64 /* Pods-Sticker-NibDesignable-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 609875C792F2CB9FF7F6A100 /* Pods-Sticker-NibDesignable-dummy.m */; };
+		85F8542BAD598242A55DE8BC /* Pods-Sticker-SwiftHTTP-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C893BFAAB122F216D014D58E /* Pods-Sticker-SwiftHTTP-dummy.m */; };
+		90585E6B66157BA9DD775702 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4489129B31B05190BCB09018 /* Foundation.framework */; };
+		91AF873680B7907560951F7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4489129B31B05190BCB09018 /* Foundation.framework */; };
+		BA732AB7B0CFC636745F524D /* HTTPUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E0CB75BB7DB42BA58B3D2E /* HTTPUpload.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		D5C931767C6EA2ADAB5BED7B /* Pods-Sticker-JSONJoy-Swift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E7318B251107DD89FFB3CE /* Pods-Sticker-JSONJoy-Swift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC4CCF9B542FC689F79B9BA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4489129B31B05190BCB09018 /* Foundation.framework */; };
+		E40533911C069E45B410352B /* Pods-Sticker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA9313A1821A24F6E0FF6DC /* Pods-Sticker-dummy.m */; };
+		F03CD91BAFAB2B472A35A985 /* Pods-Sticker-NibDesignable-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B141A931C7C795B2341159A8 /* Pods-Sticker-NibDesignable-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F03F5C69B7B36F91D667C330 /* HTTPRequestSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F170728FAF37CA8FC82D4B /* HTTPRequestSerializer.swift */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0DA4F2701E94341802871395 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F51ACACC1CA73D4435D82C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 02A983084CB35BFA9CF8458F;
+			remoteInfo = "Pods-Sticker-NibDesignable";
+		};
+		321571F808335BD1791D7ED6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F51ACACC1CA73D4435D82C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 051C484E1EB73F88C94E68C1;
+			remoteInfo = "Pods-Sticker-SwiftHTTP";
+		};
+		4E58F77F213637C71D630EBA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F51ACACC1CA73D4435D82C91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE4C56F167175AB5443DFAB3;
+			remoteInfo = "Pods-Sticker-JSONJoy-Swift";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		09B999FBEB21838344E725D8 /* Pods-Sticker-SwiftHTTP.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Sticker-SwiftHTTP.modulemap"; sourceTree = "<group>"; };
+		144E6DE7C17DFF7FD6AE2C79 /* Pods-Sticker-NibDesignable.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Sticker-NibDesignable.modulemap"; sourceTree = "<group>"; };
+		1EE41FB1AB4D185E101EFAF3 /* Pods-Sticker-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Sticker-umbrella.h"; sourceTree = "<group>"; };
+		247A1925EE421E491CA75CFA /* Pods-Sticker-SwiftHTTP.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Sticker-SwiftHTTP.xcconfig"; sourceTree = "<group>"; };
+		28DD55AF5E8EFFCDD37B74DA /* HTTPResponseSerializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HTTPResponseSerializer.swift; sourceTree = "<group>"; };
+		28DDB0A37C58D7BEF49FB68F /* Pods-Sticker-NibDesignable-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Sticker-NibDesignable-Private.xcconfig"; sourceTree = "<group>"; };
+		2AB3E58245EE910A18864B04 /* Pods-Sticker-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Sticker-frameworks.sh"; sourceTree = "<group>"; };
+		30F8E43D9E8EE19602974510 /* Pods-Sticker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Sticker.release.xcconfig"; sourceTree = "<group>"; };
+		341F217EC5F400A7F5ED580B /* Pods-Sticker-NibDesignable-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Sticker-NibDesignable-prefix.pch"; sourceTree = "<group>"; };
+		36B4AB42719CEEE0B97B892C /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3EA256F3B576D8B2DEA26642 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		40E5E8E2901791DE53CEA527 /* Pods-Sticker-NibDesignable.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Sticker-NibDesignable.xcconfig"; sourceTree = "<group>"; };
+		4489129B31B05190BCB09018 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		50135B39F8CB4F1F87F9EF8E /* Pods-Sticker-JSONJoy-Swift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Sticker-JSONJoy-Swift-dummy.m"; sourceTree = "<group>"; };
+		5A7ACDF34AE637C4A0E176E9 /* Pods-Sticker-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Sticker-resources.sh"; sourceTree = "<group>"; };
+		5AF6D0166467B60A862E6B55 /* SwiftHTTP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftHTTP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		609875C792F2CB9FF7F6A100 /* Pods-Sticker-NibDesignable-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Sticker-NibDesignable-dummy.m"; sourceTree = "<group>"; };
+		6783B141DA4633F4ED057EF6 /* Pods-Sticker-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Sticker-acknowledgements.markdown"; sourceTree = "<group>"; };
+		69E7318B251107DD89FFB3CE /* Pods-Sticker-JSONJoy-Swift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Sticker-JSONJoy-Swift-umbrella.h"; sourceTree = "<group>"; };
+		6FB4674115F550425400A05F /* JSONJoy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JSONJoy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7523D1CB9E8F87559C8E41BC /* Pods-Sticker-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Sticker-acknowledgements.plist"; sourceTree = "<group>"; };
+		78F170728FAF37CA8FC82D4B /* HTTPRequestSerializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HTTPRequestSerializer.swift; sourceTree = "<group>"; };
+		7EAEAA87255193D268EA78EC /* Pods-Sticker-SwiftHTTP-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Sticker-SwiftHTTP-umbrella.h"; sourceTree = "<group>"; };
+		8776B15B6CC87E0772BDB364 /* JSONJoy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = JSONJoy.swift; sourceTree = "<group>"; };
+		89408782951E20A1C4A500D6 /* NibDesignable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NibDesignable.swift; sourceTree = "<group>"; };
+		9000BA84537FE17EC43E4995 /* NibDesignable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NibDesignable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		96792FC48739A866F25BAD8A /* HTTPTask.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HTTPTask.swift; sourceTree = "<group>"; };
+		A13AC5ADF52519019D727DA3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A4922743EC7D0785C5CB1F73 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B141A931C7C795B2341159A8 /* Pods-Sticker-NibDesignable-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Sticker-NibDesignable-umbrella.h"; sourceTree = "<group>"; };
+		C0D3AB2FF08C2E90525DEB5C /* Pods-Sticker-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Sticker-environment.h"; sourceTree = "<group>"; };
+		C67B96C03D588BC4B346AFB3 /* Pods-Sticker-SwiftHTTP-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Sticker-SwiftHTTP-Private.xcconfig"; sourceTree = "<group>"; };
+		C688BAE09CC9DB3147CCA8CD /* Pods-Sticker-JSONJoy-Swift-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Sticker-JSONJoy-Swift-Private.xcconfig"; sourceTree = "<group>"; };
+		C893BFAAB122F216D014D58E /* Pods-Sticker-SwiftHTTP-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Sticker-SwiftHTTP-dummy.m"; sourceTree = "<group>"; };
+		C9F7233F9719CC91CD608658 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		CAA9313A1821A24F6E0FF6DC /* Pods-Sticker-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Sticker-dummy.m"; sourceTree = "<group>"; };
+		CBC0B980FD3AFC3BBD065502 /* Pods-Sticker-JSONJoy-Swift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Sticker-JSONJoy-Swift-prefix.pch"; sourceTree = "<group>"; };
+		CF3CE879383F99FC971DE63D /* Pods-Sticker.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Sticker.modulemap"; sourceTree = "<group>"; };
+		D05CF89287A4AC044C752695 /* Pods-Sticker-JSONJoy-Swift.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Sticker-JSONJoy-Swift.xcconfig"; sourceTree = "<group>"; };
+		D3F9295FFBD8D2E9D3C969CB /* Pods-Sticker-SwiftHTTP-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Sticker-SwiftHTTP-prefix.pch"; sourceTree = "<group>"; };
+		DB4F514AB97598ED76864E36 /* Pods_Sticker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sticker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5E0CB75BB7DB42BA58B3D2E /* HTTPUpload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HTTPUpload.swift; sourceTree = "<group>"; };
+		E95C63B27BF556073971301A /* Pods-Sticker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Sticker.debug.xcconfig"; sourceTree = "<group>"; };
+		FB286DD33998EE1A4562C1CF /* Pods-Sticker-JSONJoy-Swift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Sticker-JSONJoy-Swift.modulemap"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		78209A04F92257A1191E84A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC4CCF9B542FC689F79B9BA7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		97F5A5F0F5D66C2A94ED93B7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90585E6B66157BA9DD775702 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C506A9126660C114513FA0F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91AF873680B7907560951F7D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CCC94D5D39BE5B6FED8BAA20 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				476766515812D6EEA56FE0D9 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		160E009C8EC9C2D49B1D5B6E /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				A4922743EC7D0785C5CB1F73 /* Info.plist */,
+				FB286DD33998EE1A4562C1CF /* Pods-Sticker-JSONJoy-Swift.modulemap */,
+				D05CF89287A4AC044C752695 /* Pods-Sticker-JSONJoy-Swift.xcconfig */,
+				C688BAE09CC9DB3147CCA8CD /* Pods-Sticker-JSONJoy-Swift-Private.xcconfig */,
+				50135B39F8CB4F1F87F9EF8E /* Pods-Sticker-JSONJoy-Swift-dummy.m */,
+				CBC0B980FD3AFC3BBD065502 /* Pods-Sticker-JSONJoy-Swift-prefix.pch */,
+				69E7318B251107DD89FFB3CE /* Pods-Sticker-JSONJoy-Swift-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Sticker-JSONJoy-Swift";
+			sourceTree = "<group>";
+		};
+		171A7DFC2A993B11F1E8E50E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FB4674115F550425400A05F /* JSONJoy.framework */,
+				9000BA84537FE17EC43E4995 /* NibDesignable.framework */,
+				DB4F514AB97598ED76864E36 /* Pods_Sticker.framework */,
+				5AF6D0166467B60A862E6B55 /* SwiftHTTP.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2089786B667A2081271FD890 /* Pods-Sticker */ = {
+			isa = PBXGroup;
+			children = (
+				36B4AB42719CEEE0B97B892C /* Info.plist */,
+				CF3CE879383F99FC971DE63D /* Pods-Sticker.modulemap */,
+				6783B141DA4633F4ED057EF6 /* Pods-Sticker-acknowledgements.markdown */,
+				7523D1CB9E8F87559C8E41BC /* Pods-Sticker-acknowledgements.plist */,
+				CAA9313A1821A24F6E0FF6DC /* Pods-Sticker-dummy.m */,
+				C0D3AB2FF08C2E90525DEB5C /* Pods-Sticker-environment.h */,
+				2AB3E58245EE910A18864B04 /* Pods-Sticker-frameworks.sh */,
+				5A7ACDF34AE637C4A0E176E9 /* Pods-Sticker-resources.sh */,
+				1EE41FB1AB4D185E101EFAF3 /* Pods-Sticker-umbrella.h */,
+				E95C63B27BF556073971301A /* Pods-Sticker.debug.xcconfig */,
+				30F8E43D9E8EE19602974510 /* Pods-Sticker.release.xcconfig */,
+			);
+			name = "Pods-Sticker";
+			path = "Target Support Files/Pods-Sticker";
+			sourceTree = "<group>";
+		};
+		6A117341F3847E43DBC5A0EC /* SwiftHTTP */ = {
+			isa = PBXGroup;
+			children = (
+				78F170728FAF37CA8FC82D4B /* HTTPRequestSerializer.swift */,
+				28DD55AF5E8EFFCDD37B74DA /* HTTPResponseSerializer.swift */,
+				96792FC48739A866F25BAD8A /* HTTPTask.swift */,
+				E5E0CB75BB7DB42BA58B3D2E /* HTTPUpload.swift */,
+				FC411D2E6FE1046323A2ABD2 /* Support Files */,
+			);
+			path = SwiftHTTP;
+			sourceTree = "<group>";
+		};
+		6C95928F6E97747ED0BDF4A9 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				4489129B31B05190BCB09018 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		7004E7D9ECD0F96E97B96E46 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3EA256F3B576D8B2DEA26642 /* Info.plist */,
+				144E6DE7C17DFF7FD6AE2C79 /* Pods-Sticker-NibDesignable.modulemap */,
+				40E5E8E2901791DE53CEA527 /* Pods-Sticker-NibDesignable.xcconfig */,
+				28DDB0A37C58D7BEF49FB68F /* Pods-Sticker-NibDesignable-Private.xcconfig */,
+				609875C792F2CB9FF7F6A100 /* Pods-Sticker-NibDesignable-dummy.m */,
+				341F217EC5F400A7F5ED580B /* Pods-Sticker-NibDesignable-prefix.pch */,
+				B141A931C7C795B2341159A8 /* Pods-Sticker-NibDesignable-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Sticker-NibDesignable";
+			sourceTree = "<group>";
+		};
+		98D8972673DE1A2784E28D24 /* NibDesignable */ = {
+			isa = PBXGroup;
+			children = (
+				89408782951E20A1C4A500D6 /* NibDesignable.swift */,
+				7004E7D9ECD0F96E97B96E46 /* Support Files */,
+			);
+			path = NibDesignable;
+			sourceTree = "<group>";
+		};
+		A5CE591305FF81DF56FD4E3C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6C95928F6E97747ED0BDF4A9 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AB64953B78EDA111B7BA40E2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DE789505C888230241AE354E /* JSONJoy-Swift */,
+				98D8972673DE1A2784E28D24 /* NibDesignable */,
+				6A117341F3847E43DBC5A0EC /* SwiftHTTP */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CC12012B58DC44B2B6A99BAE /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				2089786B667A2081271FD890 /* Pods-Sticker */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		DE789505C888230241AE354E /* JSONJoy-Swift */ = {
+			isa = PBXGroup;
+			children = (
+				8776B15B6CC87E0772BDB364 /* JSONJoy.swift */,
+				160E009C8EC9C2D49B1D5B6E /* Support Files */,
+			);
+			path = "JSONJoy-Swift";
+			sourceTree = "<group>";
+		};
+		E40FBAE3298545D8DCC2424A = {
+			isa = PBXGroup;
+			children = (
+				C9F7233F9719CC91CD608658 /* Podfile */,
+				A5CE591305FF81DF56FD4E3C /* Frameworks */,
+				AB64953B78EDA111B7BA40E2 /* Pods */,
+				171A7DFC2A993B11F1E8E50E /* Products */,
+				CC12012B58DC44B2B6A99BAE /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		FC411D2E6FE1046323A2ABD2 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				A13AC5ADF52519019D727DA3 /* Info.plist */,
+				09B999FBEB21838344E725D8 /* Pods-Sticker-SwiftHTTP.modulemap */,
+				247A1925EE421E491CA75CFA /* Pods-Sticker-SwiftHTTP.xcconfig */,
+				C67B96C03D588BC4B346AFB3 /* Pods-Sticker-SwiftHTTP-Private.xcconfig */,
+				C893BFAAB122F216D014D58E /* Pods-Sticker-SwiftHTTP-dummy.m */,
+				D3F9295FFBD8D2E9D3C969CB /* Pods-Sticker-SwiftHTTP-prefix.pch */,
+				7EAEAA87255193D268EA78EC /* Pods-Sticker-SwiftHTTP-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Sticker-SwiftHTTP";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2105318CBEE5CF6B9B79C26C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5C931767C6EA2ADAB5BED7B /* Pods-Sticker-JSONJoy-Swift-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60886953491B2819C39634E2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				304FF65031B090AA534D18F0 /* Pods-Sticker-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8432B5174B6B4C0D3A821723 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F03CD91BAFAB2B472A35A985 /* Pods-Sticker-NibDesignable-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF1C1B9E2BC344D1DF27538D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BCC09EBF3394A1F320D949B /* Pods-Sticker-SwiftHTTP-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		02A983084CB35BFA9CF8458F /* Pods-Sticker-NibDesignable */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAFD72B3F57474BC97553FA2 /* Build configuration list for PBXNativeTarget "Pods-Sticker-NibDesignable" */;
+			buildPhases = (
+				D9AB6E708A6249E4400F45A7 /* Sources */,
+				78209A04F92257A1191E84A5 /* Frameworks */,
+				8432B5174B6B4C0D3A821723 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Sticker-NibDesignable";
+			productName = "Pods-Sticker-NibDesignable";
+			productReference = 9000BA84537FE17EC43E4995 /* NibDesignable.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		051C484E1EB73F88C94E68C1 /* Pods-Sticker-SwiftHTTP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE4D035BDCBF5D61A74307B5 /* Build configuration list for PBXNativeTarget "Pods-Sticker-SwiftHTTP" */;
+			buildPhases = (
+				E30AFC22529C18FE77AAED40 /* Sources */,
+				C506A9126660C114513FA0F3 /* Frameworks */,
+				BF1C1B9E2BC344D1DF27538D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Sticker-SwiftHTTP";
+			productName = "Pods-Sticker-SwiftHTTP";
+			productReference = 5AF6D0166467B60A862E6B55 /* SwiftHTTP.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		4A4DCEA6A9CFD69575CFFB45 /* Pods-Sticker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9685CB2303AF1ED37EC838F1 /* Build configuration list for PBXNativeTarget "Pods-Sticker" */;
+			buildPhases = (
+				8A36738ACA441375AB7AF914 /* Sources */,
+				CCC94D5D39BE5B6FED8BAA20 /* Frameworks */,
+				60886953491B2819C39634E2 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9ECFB7FA5E936DA38BC05545 /* PBXTargetDependency */,
+				9AEBA544FA9B6F1478E484C4 /* PBXTargetDependency */,
+				4A7995BA2E8450881EEAB4BE /* PBXTargetDependency */,
+			);
+			name = "Pods-Sticker";
+			productName = "Pods-Sticker";
+			productReference = DB4F514AB97598ED76864E36 /* Pods_Sticker.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BE4C56F167175AB5443DFAB3 /* Pods-Sticker-JSONJoy-Swift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D8827F3AC0BC3F466CBF0F4 /* Build configuration list for PBXNativeTarget "Pods-Sticker-JSONJoy-Swift" */;
+			buildPhases = (
+				2ECE2390BAB123D02E3215CD /* Sources */,
+				97F5A5F0F5D66C2A94ED93B7 /* Frameworks */,
+				2105318CBEE5CF6B9B79C26C /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Sticker-JSONJoy-Swift";
+			productName = "Pods-Sticker-JSONJoy-Swift";
+			productReference = 6FB4674115F550425400A05F /* JSONJoy.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F51ACACC1CA73D4435D82C91 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+			};
+			buildConfigurationList = 0D09BE4378F7444C5E1A8242 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E40FBAE3298545D8DCC2424A;
+			productRefGroup = 171A7DFC2A993B11F1E8E50E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4A4DCEA6A9CFD69575CFFB45 /* Pods-Sticker */,
+				BE4C56F167175AB5443DFAB3 /* Pods-Sticker-JSONJoy-Swift */,
+				02A983084CB35BFA9CF8458F /* Pods-Sticker-NibDesignable */,
+				051C484E1EB73F88C94E68C1 /* Pods-Sticker-SwiftHTTP */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2ECE2390BAB123D02E3215CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CBEE74847B897B00AC16307 /* JSONJoy.swift in Sources */,
+				6EA79D67E466F938BCF6C2BD /* Pods-Sticker-JSONJoy-Swift-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A36738ACA441375AB7AF914 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E40533911C069E45B410352B /* Pods-Sticker-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9AB6E708A6249E4400F45A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1018F417F4C00BE5D3EFD34C /* NibDesignable.swift in Sources */,
+				7F19174940D9D2A53732BB64 /* Pods-Sticker-NibDesignable-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E30AFC22529C18FE77AAED40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F03F5C69B7B36F91D667C330 /* HTTPRequestSerializer.swift in Sources */,
+				3A4C8213338AAC143ABD513A /* HTTPResponseSerializer.swift in Sources */,
+				7AAE4F99933BD91D6308ADE5 /* HTTPTask.swift in Sources */,
+				BA732AB7B0CFC636745F524D /* HTTPUpload.swift in Sources */,
+				85F8542BAD598242A55DE8BC /* Pods-Sticker-SwiftHTTP-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4A7995BA2E8450881EEAB4BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Sticker-SwiftHTTP";
+			target = 051C484E1EB73F88C94E68C1 /* Pods-Sticker-SwiftHTTP */;
+			targetProxy = 321571F808335BD1791D7ED6 /* PBXContainerItemProxy */;
+		};
+		9AEBA544FA9B6F1478E484C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Sticker-NibDesignable";
+			target = 02A983084CB35BFA9CF8458F /* Pods-Sticker-NibDesignable */;
+			targetProxy = 0DA4F2701E94341802871395 /* PBXContainerItemProxy */;
+		};
+		9ECFB7FA5E936DA38BC05545 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Sticker-JSONJoy-Swift";
+			target = BE4C56F167175AB5443DFAB3 /* Pods-Sticker-JSONJoy-Swift */;
+			targetProxy = 4E58F77F213637C71D630EBA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		22C46FF9AD228FE13DFDA334 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		4D10C81EF3FA52DA6B825D77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28DDB0A37C58D7BEF49FB68F /* Pods-Sticker-NibDesignable-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Sticker-NibDesignable/Pods-Sticker-NibDesignable-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-Sticker-NibDesignable/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Sticker-NibDesignable/Pods-Sticker-NibDesignable.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = NibDesignable;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		57ABAD41B9BB72460EA53F12 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28DDB0A37C58D7BEF49FB68F /* Pods-Sticker-NibDesignable-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Sticker-NibDesignable/Pods-Sticker-NibDesignable-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-Sticker-NibDesignable/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Sticker-NibDesignable/Pods-Sticker-NibDesignable.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = NibDesignable;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		9101EE49814B598DF8549E3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C688BAE09CC9DB3147CCA8CD /* Pods-Sticker-JSONJoy-Swift-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Sticker-JSONJoy-Swift/Pods-Sticker-JSONJoy-Swift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-Sticker-JSONJoy-Swift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Sticker-JSONJoy-Swift/Pods-Sticker-JSONJoy-Swift.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = JSONJoy;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A52CAC9D43AC15CA645F19C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C688BAE09CC9DB3147CCA8CD /* Pods-Sticker-JSONJoy-Swift-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Sticker-JSONJoy-Swift/Pods-Sticker-JSONJoy-Swift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-Sticker-JSONJoy-Swift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Sticker-JSONJoy-Swift/Pods-Sticker-JSONJoy-Swift.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = JSONJoy;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B39C1DF847FA871FD34EAEA7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C67B96C03D588BC4B346AFB3 /* Pods-Sticker-SwiftHTTP-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Sticker-SwiftHTTP/Pods-Sticker-SwiftHTTP-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-Sticker-SwiftHTTP/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Sticker-SwiftHTTP/Pods-Sticker-SwiftHTTP.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SwiftHTTP;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D10E1A4131CBD0F48BF58D4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C67B96C03D588BC4B346AFB3 /* Pods-Sticker-SwiftHTTP-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Sticker-SwiftHTTP/Pods-Sticker-SwiftHTTP-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-Sticker-SwiftHTTP/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Sticker-SwiftHTTP/Pods-Sticker-SwiftHTTP.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = SwiftHTTP;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D99EC10702351018F2E2FA7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E43EE793991F939EF8F13C10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 30F8E43D9E8EE19602974510 /* Pods-Sticker.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Sticker/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Sticker/Pods-Sticker.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_Sticker;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F12EDE88E38A8809B7A484DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E95C63B27BF556073971301A /* Pods-Sticker.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Sticker/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Sticker/Pods-Sticker.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_Sticker;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0D09BE4378F7444C5E1A8242 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22C46FF9AD228FE13DFDA334 /* Debug */,
+				D99EC10702351018F2E2FA7D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9685CB2303AF1ED37EC838F1 /* Build configuration list for PBXNativeTarget "Pods-Sticker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F12EDE88E38A8809B7A484DA /* Debug */,
+				E43EE793991F939EF8F13C10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D8827F3AC0BC3F466CBF0F4 /* Build configuration list for PBXNativeTarget "Pods-Sticker-JSONJoy-Swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9101EE49814B598DF8549E3F /* Debug */,
+				A52CAC9D43AC15CA645F19C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAFD72B3F57474BC97553FA2 /* Build configuration list for PBXNativeTarget "Pods-Sticker-NibDesignable" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57ABAD41B9BB72460EA53F12 /* Debug */,
+				4D10C81EF3FA52DA6B825D77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE4D035BDCBF5D61A74307B5 /* Build configuration list for PBXNativeTarget "Pods-Sticker-SwiftHTTP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D10E1A4131CBD0F48BF58D4D /* Debug */,
+				B39C1DF847FA871FD34EAEA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F51ACACC1CA73D4435D82C91 /* Project object */;
+}

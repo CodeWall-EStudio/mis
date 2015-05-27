@@ -10,6 +10,12 @@ import UIKit
 
 class ArticleTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var articleBackgroundView: UIView!
+    @IBOutlet weak var creatorNameLabel: UILabel!
+    @IBOutlet weak var creatTimeLabel: UILabel!
+    @IBOutlet weak var articleTitleLabel: UILabel!
+    @IBOutlet weak var articleContentLabel: UILabel!
+    @IBOutlet weak var articleContentHeight: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

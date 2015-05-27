@@ -8,8 +8,9 @@
 
 import UIKit
 
-class SubjectCreateViewController: StickerViewController {
+class SubjectCreateViewController: StickerViewController, UITabBarDelegate {
 
+    @IBOutlet weak var mainNavigationItem: UINavigationItem!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,6 +22,13 @@ class SubjectCreateViewController: StickerViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func cancel(sender: AnyObject) {
+        performSegueWithIdentifier("unwindToMain", sender: self)
+    }
+    
+    func done() {
+        
+    }
 
     /*
     // MARK: - Navigation

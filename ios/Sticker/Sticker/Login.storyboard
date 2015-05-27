@@ -1,7 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7uV-ll-x9H">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
-    <scenes/>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="nHz-qU-yEv">
+            <objects>
+                <viewController id="AkE-bg-GD9" customClass="LoginViewController" customModule="Sticker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ptW-Dv-BDV"/>
+                        <viewControllerLayoutGuide type="bottom" id="01x-z3-lj4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hhK-0T-5pU" customClass="LoginView" customModule="Sticker" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                    </view>
+                    <navigationItem key="navigationItem" id="IWk-1E-LkJ"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="loginView" destination="hhK-0T-5pU" id="j3Y-8W-PDc"/>
+                        <segue destination="Q6g-1b-anx" kind="presentation" identifier="presentServerSwitch" id="Dl4-WK-fx7"/>
+                        <segue destination="2kC-jT-i23" kind="unwind" identifier="unwindToLogin" unwindAction="unwindToLogin:" id="dZI-cu-Nbi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3l6-tC-Wds" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="2kC-jT-i23" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1367" y="375"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="AFS-fG-vUz">
+            <objects>
+                <navigationController storyboardIdentifier="LoginEntryNav" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="7uV-ll-x9H" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lz5-Vh-4eu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="AkE-bg-GD9" kind="relationship" relationship="rootViewController" id="RM9-Ic-mZ5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QmB-P7-hdT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="631" y="375"/>
+        </scene>
+        <!--选择学校-->
+        <scene sceneID="zKJ-eQ-KX4">
+            <objects>
+                <viewController id="V63-gD-SHR" customClass="ServerViewController" customModule="Sticker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wA0-ck-yie"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nlq-TS-JDR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="63P-ga-vkq">
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="196-Xg-p7W">
+                                <rect key="frame" x="0.0" y="219" width="600" height="162"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="196-Xg-p7W" secondAttribute="centerX" id="8RM-nZ-Oi1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="196-Xg-p7W" secondAttribute="trailing" constant="-16" id="Toa-Nz-Tzt"/>
+                            <constraint firstAttribute="centerY" secondItem="196-Xg-p7W" secondAttribute="centerY" id="YfC-GY-NJY"/>
+                            <constraint firstItem="196-Xg-p7W" firstAttribute="leading" secondItem="63P-ga-vkq" secondAttribute="leadingMargin" constant="-16" id="n2E-d3-z4G"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="选择学校" id="U6H-dQ-XTd">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="hsw-b7-ma4">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="sXl-6f-FUi" kind="unwind" unwindAction="unwindToLogin:" id="WC4-SN-YlW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="serverPickerView" destination="196-Xg-p7W" id="dQp-DY-6ss"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y5G-JB-gbU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="sXl-6f-FUi" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2833" y="375"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="UNJ-2g-ePX">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Q6g-1b-anx" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Qe-3d-065">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="V63-gD-SHR" kind="relationship" relationship="rootViewController" id="PiY-kx-3Op"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yF8-14-hvt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2113" y="375"/>
+        </scene>
+    </scenes>
 </document>

@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+class Server {
+    
+    var title: String
+    var domain: String
+    
+    init(title: String, domain: String) {
+        self.title = title
+        self.domain = domain
+    }
+    
+}
