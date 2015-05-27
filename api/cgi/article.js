@@ -325,7 +325,9 @@ exports.search = function*(req, res) {
     var sql = 'select createTime from article where subject_id='+params.subjectId+' order by createTime desc limit 1';
     var trows = yield req.conn.yieldQuery(sql);
 
-    var lastTime = new Date(trows[0].createTime).getTime();
+    if(trows.length){
+        var lastTime = new Date(trows[0].createTime).getTime();
+    }
 
     //取标签
     //         //SELECT a.*,b.name FROM article_resource a,resource b WHERE article_id IN (33,34) AND a.resource_id = b.id;
@@ -604,9 +606,9 @@ exports.newart = function*(req,res){
     var sql = 'select createTime from article where subject_id=? order by createTime desc limit 1';
     var trows = yield req.conn.yieldQuery(sql,params.subjectId);
 
-    var lastTime = new Date(trows[0].createTime).getTime();
-
-console.log(new Date(params.time).getTime(),lastTime);
+    if(trows.length){
+        var lastTime = new Date(trows[0].createTime).getTime();
+    }
 
     var labelMap = [],
         resMap = [],
