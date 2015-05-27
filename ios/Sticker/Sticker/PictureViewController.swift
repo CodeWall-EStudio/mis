@@ -10,6 +10,10 @@ import UIKit
 
 class PictureViewController: UIViewController {
 
+    @IBOutlet weak var picImageView: UIImageView!
+    @IBAction func backAction(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion:nil)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 

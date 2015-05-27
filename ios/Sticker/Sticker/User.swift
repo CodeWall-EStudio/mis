@@ -7,3 +7,19 @@
 //
 
 import Foundation
+
+class User {
+    
+    var id: Int
+    var uid: String
+    var name: String
+    var auth: Int
+    
+    init(id: Int, uid: String, name: String, auth: Int) {
+        self.id = id
+        self.uid = uid
+        self.name = name
+        self.auth = auth
+    }
+    
+}
