@@ -59,6 +59,7 @@ exports.upload = function*(req, res) {
             };
 
             if(format === 'json'){
+                res.json(data);                
             }else{
                 res.write('<script>top.uploadComp(' + JSON.stringify(data) + ')</script>');
             }
