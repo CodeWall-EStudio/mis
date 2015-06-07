@@ -1,62 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView android:layout_width="match_parent" android:layout_height="30dp"
-              android:drawableLeft="@drawable/users"
-              android:text="这是标题呀..."
-              android:singleLine="true"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="10dp"
-              android:id="@+id/title" android:gravity="center_vertical"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="30dp" android:layout_below="@id/title"
-                  android:orientation="horizontal"
+    <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/subject05"/>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="match_parent"
+                  android:orientation="vertical">
+        <TextView android:layout_width="match_parent" android:layout_height="20dp"
+                  android:text="这是标题呀..."
+                  android:singleLine="true"
                   android:layout_marginLeft="10dp"
                   android:layout_marginRight="10dp"
-                  android:id="@+id/layout1">
+                  android:id="@+id/title"
+                  android:gravity="center_vertical"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="20dp" android:layout_below="@id/title"
+                      android:orientation="horizontal"
+                      android:layout_marginLeft="10dp"
+                      android:layout_marginRight="10dp"
+                      android:id="@+id/layout1">
 
-        <TextView android:layout_width="match_parent" android:layout_height="30dp"
-                  android:layout_weight="1"
-                  android:text="这是内容..."
-                  android:singleLine="true"
-                  android:id="@+id/creator" android:gravity="center_vertical"/>
-        <TextView android:layout_width="match_parent" android:layout_height="30dp"
-                  android:layout_weight="1"
-                  android:text="这是内容..."
-                  android:singleLine="true"
-                  android:id="@+id/memberCount" android:gravity="center_vertical|right"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="20dp"
+                      android:text="这是内容..."
+                      android:singleLine="true"
+                      android:layout_marginRight="5dp"
+                      android:id="@+id/articleCount" android:gravity="center_vertical|right"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="20dp"
+                      android:drawableLeft="@drawable/users"
+                      android:text="4"
+                      android:singleLine="true"
+                      android:layout_marginRight="5dp"
+                      android:id="@+id/memberCount" android:gravity="center_vertical|right"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:drawableLeft="@drawable/folder"
+                      android:singleLine="true"
+                      android:text="1"
+                      android:id="@+id/resourceCount" android:gravity="center_vertical|right"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="20dp" android:layout_below="@id/layout1"
+                      android:orientation="horizontal"
+                      android:layout_marginLeft="10dp"
+                      android:layout_marginRight="10dp"
+                      android:weightSum="2"
+                      android:id="@+id/layout2">
+            <TextView android:layout_width="wrap_content" android:layout_height="20dp"
+                      android:text="creator..."
+                      android:singleLine="true"
+                      android:layout_marginRight="5dp"
+                      android:id="@+id/creator" android:gravity="center_vertical"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="20dp"
+                      android:text="创建于"
+                      android:singleLine="true"
+                      android:layout_marginRight="5dp"
+                      android:gravity="center_vertical"/>
+            <TextView android:layout_width="match_parent" android:layout_height="20dp"
+                      android:layout_weight="1"
+                      android:text="2014-05-23"
+                      android:singleLine="true"
+                      android:id="@+id/createTime" android:gravity="center_vertical"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="20dp" android:layout_below="@id/layout2"
+                      android:orientation="horizontal"
+                      android:layout_marginLeft="10dp"
+                      android:layout_marginRight="10dp"
+                      android:weightSum="2"
+                      android:id="@+id/layout3">
+            <TextView android:layout_width="wrap_content" android:layout_height="20dp"
+                                                          android:text="最后更新于"
+                                                          android:singleLine="true"
+                                                          android:layout_marginRight="5dp"
+                                                          android:gravity="center_vertical"/>
+            <TextView android:layout_width="match_parent" android:layout_height="20dp"
+                      android:layout_weight="1"
+                      android:singleLine="true"
+                      android:id="@+id/lastUpdator" android:gravity="center_vertical"/>
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="30dp" android:layout_below="@id/layout1"
-                  android:orientation="horizontal"
-                  android:layout_marginLeft="10dp"
-                  android:layout_marginRight="10dp"
-                  android:weightSum="2"
-                  android:id="@+id/layout2">
-        <TextView android:layout_width="match_parent" android:layout_height="30dp"
-                  android:layout_weight="1"
-                  android:text="\t\t\t\t...\t\t"
-                  android:singleLine="true"
-                  android:id="@+id/createTime" android:gravity="center_vertical"/>
-        <TextView android:layout_width="match_parent" android:layout_height="30dp"
-                  android:layout_weight="1"
-                  android:text="这是内容..."
-                  android:singleLine="true"
-                  android:id="@+id/articleCount" android:gravity="center_vertical|right"/>
-    </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="30dp" android:layout_below="@id/layout2"
-                  android:orientation="horizontal"
-                  android:layout_marginLeft="10dp"
-                  android:layout_marginRight="10dp"
-                  android:weightSum="2"
-                  android:id="@+id/layout3">
-        <TextView android:layout_width="match_parent" android:layout_height="30dp"
-                  android:layout_weight="1"
-                  android:singleLine="true"
-                  android:id="@+id/lastUpdator" android:gravity="center_vertical"/>
-        <TextView android:layout_width="match_parent" android:layout_height="30dp"
-                  android:layout_weight="1"
-                  android:singleLine="true"
-                  android:id="@+id/resourceCount" android:gravity="center_vertical|right"/>
-    </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

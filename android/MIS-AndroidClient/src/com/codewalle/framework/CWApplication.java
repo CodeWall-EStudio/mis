@@ -6,6 +6,7 @@ import com.codewalle.framework.network.CWResponseListener;
 import com.codewalle.framework.network.CWVolley;
 import com.codewalle.framework.utils.SharePreferenceUtil;
 import com.codewalle.mis.controller.*;
+import com.codewalle.mis.model.Article;
 import com.codewalle.mis.model.UserInfo;
 
 import java.io.FileNotFoundException;
@@ -68,6 +69,9 @@ public class CWApplication extends Application {
         mSubjectController.createArticle(subjectId, title, content, labels, resources, listener);
     }
 
+    public void getComments(long  articleId,int start,int limit, ArticleCallback callback) {
+        mSubjectController.getComments(articleId,start,limit,callback);
+    }
     public void uploadResource(String filePath, CWResponseListener listener) throws FileNotFoundException {
         mSubjectController.uploadResource(filePath, listener);
     }

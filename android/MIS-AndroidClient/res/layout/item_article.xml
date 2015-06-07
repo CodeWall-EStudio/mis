@@ -3,24 +3,41 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content" android:paddingLeft="10dp" android:paddingRight="10dp">
+    <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:layout_width="40dp" android:layout_height="40dp"
+                android:src="@drawable/users"
+                   android:layout_alignParentLeft="true"
+                   android:id="@+id/avatar"
+                />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="creator"
+                android:id="@+id/creator" android:layout_alignParentTop="true" android:layout_toRightOf="@+id/avatar"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="create time"
+
+                android:id="@+id/createTime"
+                android:layout_below="@+id/creator" android:layout_toRightOf="@+id/avatar"/>
+    </RelativeLayout>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/creator"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text="title"
             android:id="@+id/title" android:layout_marginLeft="10dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="content"
             android:id="@+id/content" android:layout_marginLeft="10dp"/>
     <com.codewalle.mis.widget.FloatImageLayout android:layout_width="wrap_content"
                                                android:id="@+id/resource"

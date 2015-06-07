@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary_color">#7BDFA3</color>
+    <color name="primary_color">#15B28A</color>
 
     <color name="login_bg">@color/primary_color</color>
     <color name="title_bg">#6777a7</color>

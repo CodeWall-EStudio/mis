@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.actionbarsherlock.view.MenuItem;
 import com.codewalle.framework.ui.BaseFragmentActivity;
 import com.codewalle.mis.controller.ArticleCallback;
@@ -60,19 +57,44 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
 
     private void initHeaderView() {
         mHeaderView = getLayoutInflater().inflate(
-                R.layout.subject_header,
+                R.layout.item_subject,
                 mListView,
                 false
         );
-        ((TextView)mHeaderView.findViewById(R.id.title)).setText(mSubject.title);
-        ((TextView)mHeaderView.findViewById(R.id.creator)).setText(
-                String.format("创建人   %s",mSubject.creator));
-        ((TextView)mHeaderView.findViewById(R.id.createTime)).setText(
-                String.format("创建时间 %s",mSubject.createTime));
-        ((TextView)mHeaderView.findViewById(R.id.lastUpdateTime)).setText(
-                String.format("更新时间 %s", mSubject.lastUpdateTime));
+
+        mHeaderView.setClickable(false);
+        mHeaderView.setFocusableInTouchMode(false);
+
+        ImageView imageView = (ImageView) mHeaderView.findViewById(R.id.imageView);
+        TextView creator = getTextView(mHeaderView, R.id.creator);
+        TextView title = getTextView(mHeaderView, R.id.title);
+        TextView createTime = getTextView(mHeaderView, R.id.createTime);
+        TextView lastUpdateUser = getTextView(mHeaderView, R.id.lastUpdator);
+        TextView member = getTextView(mHeaderView, R.id.memberCount);
+        TextView articleCount = getTextView(mHeaderView, R.id.articleCount);
+        TextView resourceCount = getTextView(mHeaderView, R.id.resourceCount);
+
+        title.setText(mSubject.title);
+        creator.setText(String.format("%s",mSubject.creator));
+        member.setText(String.format("%d员",mSubject.memberCount));
+        createTime.setText(String.format("%s",mSubject.createTime));
+        articleCount.setText(String.format("%d",mSubject.articleCount));
+        lastUpdateUser.setText(String.format("%s",mSubject.updatorName));
+        resourceCount.setText(String.format("%d",mSubject.resourceCount));
+
+//        ((TextView)mHeaderView.findViewById(R.id.title)).setText(mSubject.title);
+//        ((TextView)mHeaderView.findViewById(R.id.creator)).setText(
+//                String.format("创建人   %s",mSubject.creator));
+//        ((TextView)mHeaderView.findViewById(R.id.createTime)).setText(
+//                String.format("创建时间 %s",mSubject.createTime));
+//        ((TextView)mHeaderView.findViewById(R.id.lastUpdateTime)).setText(
+//                String.format("更新时间 %s", mSubject.lastUpdateTime));
 
         mListView.addHeaderView(mHeaderView);
+    }
+
+    private TextView getTextView(View parent, int resId) {
+        return (TextView)parent.findViewById(resId);
     }
 
     @Override
@@ -102,6 +124,7 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(view == mHeaderView)return;
         Article article = (Article)parent.getAdapter().getItem(position);
         Intent i = new Intent(this,ArticleViewerActivity_.class);
         i.putExtra("data",article.toString());

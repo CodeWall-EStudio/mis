@@ -103,14 +103,14 @@
 
         <item name="android:clickable">true</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@android:color/holo_blue_bright</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:background">@android:color/darker_gray</item>
+        <item name="android:background">@color/primary_color</item>
     </style>
 
 
-    <style name="app_theme" parent="android:Theme.Black">
+    <style name="app_theme" parent="@style/Theme.Sherlock.Light">
     </style>
     <style name="plainButton">
         <item name="android:clickable">true</item>

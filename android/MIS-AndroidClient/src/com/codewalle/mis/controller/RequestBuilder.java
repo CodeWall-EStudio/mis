@@ -171,4 +171,20 @@ RES
         return sb.toString();
     }
 
+    public Request getComments(long articleId, int start, int limit, CWResponseListener listener) {
+        StringRequest request = getSimpleStringRequest(
+                getCommentUrl(articleId, start, limit),
+                Request.Method.GET,
+                listener.getResponseListener(),
+                listener.getErrorListener()
+        );
+        return request;
+    }
+
+    private String getCommentUrl(long articleId, int start, int limit) {
+        String path = "cgi/comment/search";
+        String query = "?start="+start+"&limit="+limit+"&orderby=updateTime&articleId="+articleId;
+        String url = BASE_URL + path + query;
+        return url;
+    }
 }

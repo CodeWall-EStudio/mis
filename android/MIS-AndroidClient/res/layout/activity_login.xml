@@ -8,9 +8,10 @@
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="100dp"
             android:layout_alignParentTop="true"
             android:id="@+id/login_school_name"
+            android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"/>
 
     <LinearLayout
@@ -19,14 +20,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="2dp"
+            android:padding="20dp"
+
             android:layout_centerHorizontal="true"
-            android:background="@android:color/white"
+            android:background="@android:color/darker_gray"
             >
         <EditText
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/username"
+                android:drawableLeft="@drawable/login_user"
                 android:layout_centerVertical="true"
                 android:hint="请输入帐号"
                 android:singleLine="true"
@@ -34,17 +37,13 @@
                 android:textColor="@android:color/black"
                 android:padding="10dp"
                 android:textCursorDrawable="@null"
+                android:layout_marginBottom="20dp"
                 android:text="az"/>
-        <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:background="@android:color/darker_gray"
-                ></View>
+
 
         <EditText
-                android:layout_width="wrap_content"
+                android:drawableLeft="@drawable/login_pwd"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
@@ -61,18 +60,25 @@
                 android:textCursorDrawable="@null"
                 android:layout_centerHorizontal="true"/>
 
+            <Button
+                    style="@style/buttonBlue"
+                    android:id="@+id/login_button"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_below="@+id/inputlayout"
+                    android:layout_alignRight="@+id/inputlayout"
+                    android:layout_alignLeft="@+id/inputlayout"
+                    android:text="登录"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="获取帐号"
+                    android:id="@+id/textView7" android:layout_marginTop="20dp"
+                    android:textColor="@color/primary_color"/>
+
     </LinearLayout>
 
-    <Button
-            style="@style/buttonBlue"
-            android:id="@+id/login_button"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_below="@+id/inputlayout"
-            android:layout_alignRight="@+id/inputlayout"
-            android:layout_alignLeft="@+id/inputlayout"
-            android:text="登录"/>
 
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.codewalle.framework.ui.CWListAdapter;
 import com.codewalle.mis.model.Subject;
@@ -125,6 +126,7 @@ public class MISListAdapter extends CWListAdapter {
 
         Subject subject;
 
+        public ImageView imageView;
         public TextView creator;
         public TextView title;
         public TextView createTime;
@@ -134,6 +136,7 @@ public class MISListAdapter extends CWListAdapter {
         public TextView resourceCount;
 
         public ViewHolder(View view) {
+            imageView = (ImageView)view.findViewById(R.id.imageView);
             creator = getTextView(view,R.id.creator);
             title = getTextView(view,R.id.title);
             createTime = getTextView(view,R.id.createTime);
@@ -148,14 +151,21 @@ public class MISListAdapter extends CWListAdapter {
         }
 
         public void update(Subject subject){
+            imageView.setImageResource(R.drawable.subject05);
             this.subject = subject;
             title.setText(subject.title);
-            creator.setText(String.format("创建人\t\t\t%s",subject.creator));
-            member.setText(String.format("%d\t个成员",subject.memberCount));
-            createTime.setText(String.format("创建时间\t%s",subject.createTime));
-            articleCount.setText(String.format("%d\t个帖子",subject.articleCount));
-            lastUpdateUser.setText(String.format("最近更新\t%s",subject.updatorName));
-            resourceCount.setText(String.format("%d\t个资源",subject.resourceCount));
+            creator.setText(String.format("%s",subject.creator));
+            member.setText(String.format("%d员",subject.memberCount));
+            createTime.setText(String.format("%s",subject.createTime));
+            articleCount.setText(String.format("%d",subject.articleCount));
+            lastUpdateUser.setText(String.format("%s",subject.updatorName));
+            resourceCount.setText(String.format("%d",subject.resourceCount));
+//            creator.setText(String.format("创建人\t\t\t%s",subject.creator));
+//            member.setText(String.format("%d\t个成员",subject.memberCount));
+//            createTime.setText(String.format("创建时间\t%s",subject.createTime));
+//            articleCount.setText(String.format("%d\t个帖子",subject.articleCount));
+//            lastUpdateUser.setText(String.format("最近更新\t%s",subject.updatorName));
+//            resourceCount.setText(String.format("%d\t个资源",subject.resourceCount));
         }
     }
 }

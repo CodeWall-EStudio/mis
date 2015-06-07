@@ -88,4 +88,14 @@ RES
         requestQueue.start();
     }
 
+    public void getComments(long articleId, int start, int limit, ArticleCallback callback) {
+        Request req = requestBuilder.getComments(articleId,start,limit, new CWResponseListener() {
+            @Override
+            public void onResponseJSON(int code, String msg, JSONObject data) {
+
+            }
+        });
+        requestQueue.add(req);
+        requestQueue.start();
+    }
 }

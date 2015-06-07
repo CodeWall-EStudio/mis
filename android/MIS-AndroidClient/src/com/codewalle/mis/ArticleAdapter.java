@@ -20,6 +20,8 @@ import java.util.List;
 /**
  * Created by xiangzhipan on 15/4/25.
  */
+
+
 public class ArticleAdapter extends CWListAdapter{
 
     List<Article> mArticles = new ArrayList<Article>();
@@ -35,6 +37,7 @@ public class ArticleAdapter extends CWListAdapter{
 
     @Override
     public Object getItem(int i) {
+        if(i>=mArticles.size())return null;
         return mArticles.get(i);
     }
 

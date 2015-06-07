@@ -84,8 +84,8 @@ public final class PostNewArticleActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         mEtTitle = ((EditText) hasViews.findViewById(id.article_title));
-        mEtContent = ((EditText) hasViews.findViewById(id.article_content));
         resources = ((FloatImageLayout) hasViews.findViewById(id.resources));
+        mEtContent = ((EditText) hasViews.findViewById(id.article_content));
         {
             View view = hasViews.findViewById(id.upload_file);
             if (view!= null) {

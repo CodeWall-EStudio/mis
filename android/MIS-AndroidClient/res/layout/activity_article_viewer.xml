@@ -3,11 +3,11 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <include layout="@layout/article_detail" ></include>
-    <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
+    <include layout="@layout/item_article" ></include>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:layout_width="match_parent"
             android:id="@+id/listview"
             android:layout_height="match_parent">
 
-    </com.handmark.pulltorefresh.library.PullToRefreshExpandableListView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 </LinearLayout>

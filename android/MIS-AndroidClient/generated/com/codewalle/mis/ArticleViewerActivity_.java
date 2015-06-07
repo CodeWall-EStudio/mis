@@ -15,6 +15,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 import com.codewalle.mis.R.id;
 import com.codewalle.mis.R.layout;
+import com.codewalle.mis.widget.FloatImageLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import org.androidannotations.api.SdkVersionHelper;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
@@ -80,8 +82,10 @@ public final class ArticleViewerActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
+        imageLayout = ((FloatImageLayout) hasViews.findViewById(id.resource));
         tvContent = ((TextView) hasViews.findViewById(id.content));
         tvCreatTime = ((TextView) hasViews.findViewById(id.createTime));
+        listview = ((PullToRefreshListView) hasViews.findViewById(id.listview));
         tvCreator = ((TextView) hasViews.findViewById(id.creator));
         tvTitle = ((TextView) hasViews.findViewById(id.title));
         initUI();
