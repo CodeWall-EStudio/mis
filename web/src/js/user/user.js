@@ -52,10 +52,9 @@ var myAct = {
 			sDom = $("#searchBlockDom");
 			sInput = sDom.find('input');
 			bindSdom();
+			
 		}
-
 		sDom.show();
-
 	}
 }
 
@@ -68,9 +67,10 @@ var bindSdom = function(){
 			var key = sInput.val();
 			if(key !== ''){
 				striker.trigger('startSearch',key);
+				sDom.hide();
 			}
 		}
-		sDom.hide();
+		
 	});
 
 	sInput.bind('keyup',function(e){
@@ -78,9 +78,10 @@ var bindSdom = function(){
 			var key = sInput.val();
 			if(key !== ''){
 				striker.trigger('startSearch',key);
+				sDom.hide();
 			}
 		}
-		sDom.hide();
+		
 	});
 }
 
