@@ -360,6 +360,7 @@ exports.delete = function*(req, res) {
 
 exports.search = function*(req, res) {
     var params = req.parameter;
+    var key = params['keyword'];
 
 
     var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s WHERE ';
@@ -371,6 +372,10 @@ exports.search = function*(req, res) {
         dbParams['s.creator'] = params.creator;
     }
     sql += req.dbPrepare(dbParams);
+    if(key){
+        key = '%'+key+'%';
+        sql += ' and s.title like '+req.escape(key)+' ';
+    }
 
     var rows =
         yield req.conn.yieldQuery(sql);
@@ -384,16 +389,26 @@ exports.search = function*(req, res) {
     dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);
 
+    if(key){
+        sql += ' and s.title like '+req.escape(key)+' ';
+    }
+
     if(params.orderby){
         sql += ' ORDER BY s.'+params.orderby+' DESC';    
     }
     
     sql += ' LIMIT ?, ?';
 
-    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+    console.log(req.escape(key));
 
-    rows =
-        yield req.conn.yieldQuery(sql, [params.start, params.limit]);
+    //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
+    if(key !== ''){
+        rows =
+            yield req.conn.yieldQuery(sql, [params.start, params.limit]);
+    }else{
+        rows =
+            yield req.conn.yieldQuery(sql, [params.start, params.limit]);
+    }
 
     res.json({
         code: ERR.SUCCESS,
@@ -409,14 +424,21 @@ exports.search = function*(req, res) {
  */
 exports.list = function*(req, res) {
     var params = req.parameter;
+    var key = params.keyword;
     var loginUser = req.loginUser;
 
-    var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s WHERE ';
+    var sql = 'SELECT COUNT(DISTINCT s.id) AS count FROM subject s WHERE '; 
+
     var dbParams = {
         isArchive: 0,
         's.creator': loginUser.id
     };
     sql += req.dbPrepare(dbParams);
+
+    if(key){
+        key = '%'+key+'%';
+        sql += ' and s.title like '+req.escape(key)+' ';
+    }      
 
     var rows =
         yield req.conn.yieldQuery(sql);
@@ -426,6 +448,10 @@ exports.list = function*(req, res) {
     sql += '(select u.name from user u where s.updator = u.id) as updatorName, ',
     sql +=  '(SELECT COUNT(DISTINCT sr.id) FROM subject_resource sr WHERE sr.subject_id = s.id) AS resourceCount,';
     sql += '(SELECT COUNT(art.id) FROM article art WHERE art.subject_id = s.id) AS articleCount  ' + 'FROM subject s, user u WHERE s.creator = u.id and ';
+
+    if(key){
+        sql += ' s.title like '+req.escape(key)+' and ';
+    }
 
     //dbParams['s.creator'] = 'u.id';
     sql += req.dbPrepare(dbParams);

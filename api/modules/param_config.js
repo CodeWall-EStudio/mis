@@ -127,6 +127,9 @@ module.exports = {
         }, {
             name: 'private',
             type: 'number'
+        }, {
+            name: 'keyword',
+            type: 'string'
         }]
     },
     '/cgi/subject/list': {
@@ -143,6 +146,9 @@ module.exports = {
             type: 'number'
         }, {
             name: 'orderby'
+        }, {
+            name: 'keyword',
+            type: 'string'
         }]
     },
 
@@ -345,6 +351,9 @@ module.exports = {
         },{
             name: 'orderby',
             type: 'string'
+        }, {
+            name: 'keyword',
+            type: 'string'
         }]
     },
 
@@ -496,6 +505,9 @@ module.exports = {
             type: 'number'
         }, {
             name: 'orderby'
+        }, {
+            name: 'keyword',
+            type: 'string'
         }]
     },
 

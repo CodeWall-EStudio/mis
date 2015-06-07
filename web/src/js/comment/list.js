@@ -59,6 +59,9 @@ list.prototype.getDate = function(){
 		articleId : this.artId,
 		orderby : this.order
 	};
+	if(this.key){
+		param.keyword = this.key;
+	}
 
 	cgi.search(param,function(res){
 		this.loading = false;
@@ -203,6 +206,16 @@ list.prototype.bindAction = function(){
 			_this[action](e);
 		}
 	});
+
+
+	striker.bind('startSearch',function(e,d){
+		_this.key = d;
+		_this.start = 0;
+
+		_this.dom.html('');
+		_this.getDate();
+
+	});		
 
 	var _this = this;
     $(document).on('scroll',function(e){

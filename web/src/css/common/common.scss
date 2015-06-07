@@ -399,4 +399,18 @@ td i.s{
 }
 
 
+.fix-dom{
+  position:absolute;
+  width:100%;
+  top:0;
+  z-index:2000;
+}
+#searchBlockDom{
+  position: relative;
+  left: 799px;
+  top: 50px;
+  padding:4px;
+  background:#fff;
+  width:200px;  
+}
   /**/

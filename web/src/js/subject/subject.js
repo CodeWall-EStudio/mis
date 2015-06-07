@@ -49,6 +49,8 @@ Subject.area = function(domname){
 	this.limit = 5; //一页的条数
 	this.order = 'createTime';//0 按时间排序,1 按更新时间排序
 	this.listDom; //列表的位置
+	this.key;
+
 	var html = tmpl.area({
 		proText : proMap[domname],
 		proName : domname
@@ -195,6 +197,7 @@ Subject.area.prototype.getDate = function(param){
 		_this.loading = false;
 		if(res.code === 0){
 			var html = tmpl.list(res.data);
+			console.log(html);
 			_this.listDom.html(html);
 			_this.changeNum(res.data.total);
 			_this.checkPage();
@@ -222,6 +225,20 @@ Subject.area.prototype.bindAction = function(){
 			_this.changeNum(_this.allNum);
 		}
 	});
+
+	striker.bind('startSearch',function(e,d){
+		_this.key = d;
+		_this.page = 0;
+
+		if(_this.proName === 'mySubject'){
+			_this.getDate({
+				start : _this.page*_this.limit,
+				limit : _this.limit,
+				orderby : _this.order,
+				keyword : _this.key
+			});		
+		}
+	});	
 }
 
 

@@ -312,6 +312,7 @@ exports.delete = function*(req, res) {
 
 exports.search = function*(req, res) {
     var params = req.parameter;
+    var key = params.keyword;
 
     var loginUser = req.loginUser;
 
@@ -323,12 +324,21 @@ exports.search = function*(req, res) {
         subjectId = params.subjectId;
 
     var sql = 'SELECT COUNT(*) FROM comment WHERE article_id = ?';
+    if(key){
+        key = '%'+key+'%';
+        sql += ' and title like '+req.escape(key)+' ';
+    }  
+
     var rows =
         yield req.conn.yieldQuery(sql, articleId);
 
     var total = rows[0].count;
 
     sql = 'select c.*,u.name as creatorName from comment c,user u where c.creator = u.id and article_id =?';
+    if(key){
+        sql += ' and c.title like '+req.escape(key)+' ';
+    }
+
     if (params.creatorId) {
         sql += ' and creator =? ORDER BY ?? DESC LIMIT ?, ?';
         rows =

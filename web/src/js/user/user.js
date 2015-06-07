@@ -19,9 +19,8 @@ window.striker.user = User;
 
 //管理员设置显示等等
 User.manage = userManage.manage;
-// User.addmanage = userManage.show;
 
-// User.addDefManage = userManage.addDefManage;
+var sDom,sInput;
 
 User.getMyInfo = function(cb){
 	cgi.info(function(res){
@@ -45,7 +44,44 @@ var myAct = {
 				window.location.href = '/login.html';
 			}
 		});
+	},
+	'search' : function(){
+
+		if(!sDom){
+			$('body').append('<div class="fix-dom"><div id="searchBlockDom"><input type="text" placeholder="请输入关键字" /><button data-action="startsearch" class="btn btn-primary">搜索</button></div></div>');
+			sDom = $("#searchBlockDom");
+			sInput = sDom.find('input');
+			bindSdom();
+		}
+
+		sDom.show();
+
 	}
+}
+
+var bindSdom = function(){
+	sDom.bind('click',function(e){
+		var target = $(e.target),
+			action = target.data('action');
+
+		if(action){
+			var key = sInput.val();
+			if(key !== ''){
+				console.log(key);
+				striker.trigger('startSearch',key);
+			}
+		}
+	});
+
+	sInput.bind('keyup',function(e){
+		if(e.keyCode === 13){
+			var key = sInput.val();
+			if(key !== ''){
+				console.log(key);
+				striker.trigger('startSearch',key);
+			}
+		}
+	});
 }
 
 var bindAction = function(){

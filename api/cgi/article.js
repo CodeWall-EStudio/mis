@@ -280,21 +280,31 @@ exports.delete = function*(req, res) {
 
 exports.search = function*(req, res) {
     var params = req.parameter;
+    var key = params.keyword;
+
     Logger.info('[do article search: ', params);
+    var sql = 'SELECT COUNT(*) AS count FROM article WHERE subject_id = ?';
+    if(key){
+        key = '%'+key+'%';
+        sql += ' and title like '+req.escape(key)+' ';
+    }    
     var rows =
-        yield req.conn.yieldQuery('SELECT COUNT(*) AS count FROM article WHERE subject_id = ?', params.subjectId);
+        yield req.conn.yieldQuery(sql, params.subjectId);
     var total = rows[0].count;
 
     var sql = 'SELECT a.*,';
     sql += '(select name from user where id = a.creator) as creatorName,',
         sql += '(select name from user where id = a.updator) as updatorName ',
-        sql += ' FROM article a WHERE subject_id = ? ORDER BY status ';
+        sql += ' FROM article a WHERE subject_id = ? ';
 
-    if(params.orderby){
-        sql += ', a.'+params.orderby+'';    
+    if(key){
+        sql += ' and a.title like '+req.escape(key)+' ';
     }
-    
-    sql += ' DESC LIMIT ?, ?';
+    // if(params.orderby){
+    //     sql += ', a.'+params.orderby+'';    
+    // }
+
+    sql += ' ORDER BY status DESC LIMIT ?, ?';
     //sql += ' ORDER BY ?? DESC LIMIT ?, ?';
 
     rows =
@@ -321,6 +331,8 @@ exports.search = function*(req, res) {
         srows =
             yield req.conn.yieldQuery('select * from article where status = 100');
     }
+
+
 
     var sql = 'select createTime from article where subject_id='+params.subjectId+' order by createTime desc limit 1';
     var trows = yield req.conn.yieldQuery(sql);

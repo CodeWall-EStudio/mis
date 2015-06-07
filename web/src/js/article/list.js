@@ -135,6 +135,19 @@ article.prototype.bindAction = function(){
 		_this.orderByCreate();
 	})
 
+	striker.bind('startSearch',function(e,d){
+		_this.key = d;
+		_this.start = 0;
+
+		_this.dom.html('');
+		_this.search({
+			start : _this.start,
+			limit : _this.limit,
+			subjectId : _this.subid,
+			orderby : _this.orderby
+		});	
+	});	
+
 	striker.bind('autorefresh',function(e,d){
 		//自动刷新
 		if(d){
@@ -239,6 +252,9 @@ article.prototype.search = function(param){
 			subjectId : this.subid,
 			orderby : this.orderby
 		}
+	}
+	if(this.key){
+		param.keyword = this.key;
 	}
 
 	cgi.search(param,function(res){

@@ -34,6 +34,8 @@ function prepare(obj) {
 //     }.bind(this));
 // };
 
+//exports.escape = mysql.escape;
+
 
 exports.connect = function(req, res, next) {
     Logger.debug('db.connect...');
@@ -57,6 +59,7 @@ exports.connect = function(req, res, next) {
     // connection.config.queryFormat = queryFormat;
     connection.yieldQuery = wrapper(connection).query;
     req.conn = connection;
+    req.escape = mysql.escape;
     // 语义不好,不用这个了
     // 换 req.conn.yieldQuery
     req.mysql = connection.yieldQuery;
