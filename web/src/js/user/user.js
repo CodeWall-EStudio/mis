@@ -67,20 +67,20 @@ var bindSdom = function(){
 		if(action){
 			var key = sInput.val();
 			if(key !== ''){
-				console.log(key);
 				striker.trigger('startSearch',key);
 			}
 		}
+		sDom.hide();
 	});
 
 	sInput.bind('keyup',function(e){
 		if(e.keyCode === 13){
 			var key = sInput.val();
 			if(key !== ''){
-				console.log(key);
 				striker.trigger('startSearch',key);
 			}
 		}
+		sDom.hide();
 	});
 }
 
