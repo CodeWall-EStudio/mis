@@ -83,7 +83,7 @@ exports.create = function*(req, res) {
             //         yield req.conn.yieldQuery('INSERT INTO article_label (??) VALUES ?', [columns, values]);
 
             // }
-            if (params.labels) {
+            if (params.labels && params.labels.length > 0) {
                 yield insertArticleLables(req, articleId, params.labels);
             }
 
@@ -96,7 +96,7 @@ exports.create = function*(req, res) {
             //     }
             //     yield req.conn.yieldQuery('INSERT INTO article_resource (??) VALUES ?', [columns, values]);
             // }
-            if (params.resources) {
+            if (params.resources && params.resources.length > 0) {
                 yield insertArticleResource(req, articleId, params.resources, params.subjectId);
             }
 
@@ -165,13 +165,13 @@ exports.edit = function*(req, res) {
 
             Logger.info('update article', articleId, params);
 
-            if(params.labels){
+            if(params.labels && params.labels.length > 0){
                 // 清除所有对应标签
                 yield clearArticleLables(req, articleId);
                 // 更新标签
                 yield insertArticleLables(req, articleId, params.labels);
             }
-            if(params.resources){
+            if(params.resources && params.resources.length > 0){
                 // 清除所有对应资源
                 yield clearArticleResources(req, articleId);
                 // 更新资源

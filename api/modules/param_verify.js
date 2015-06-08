@@ -114,6 +114,7 @@ var checkers = {
         } catch (e) {
             throw new Error('value parse error: ' + value);
         }
+        console.log(value);
         if (!value.forEach) {
             return callback(notAnArrayMsg);
         }

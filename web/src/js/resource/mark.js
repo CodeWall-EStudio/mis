@@ -174,8 +174,6 @@ mark.prototype.showmark = function(){
 mark.prototype.cut = function(){
 	this.videoFrom;
 
-
-
 	var rid = this.rid;	
 	var times = this.mark.get();
 	if(this.mark){
@@ -217,7 +215,7 @@ mark.prototype.submit = function(){
 }
 
 mark.prototype.startmark = function(){
-	this.play.play();
+	//this.play.play();
 
 	this.mark = new pat(this.pdom);
 	this.mark.setTime(this.play.duration());
