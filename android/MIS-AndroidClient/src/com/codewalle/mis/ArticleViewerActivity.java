@@ -1,21 +1,21 @@
 package com.codewalle.mis;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
+import com.codewalle.framework.Utils;
 import com.codewalle.framework.ui.BaseFragmentActivity;
-import com.codewalle.mis.controller.ArticleCallback;
 import com.codewalle.mis.controller.RequestBuilder;
 import com.codewalle.mis.model.Article;
 import com.codewalle.mis.model.Resource;
 import com.codewalle.mis.widget.FloatImageLayout;
-import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
@@ -27,7 +27,7 @@ import java.util.List;
  * Created by xiangzhipan on 15/4/29.
  */
 @EActivity(R.layout.activity_article_viewer)
-public class ArticleViewerActivity extends BaseFragmentActivity implements ArticleCallback {
+public class ArticleViewerActivity extends BaseFragmentActivity implements CommentCallback, CreateCommentCallback {
 
 
     @ViewById(R.id.title)
@@ -43,14 +43,29 @@ public class ArticleViewerActivity extends BaseFragmentActivity implements Artic
     TextView tvCreatTime;
 
     @ViewById
-    PullToRefreshListView listview;
+    ListView listview;
 
     @ViewById(R.id.resource)
     FloatImageLayout imageLayout;
 
 
+    @ViewById
+    EditText commentInput;
+
+    @Click
+    public void send(View view){
+        if(TextUtils.isEmpty(commentInput.getText().toString())){
+            Toast.makeText(this,"请先输入评论",Toast.LENGTH_SHORT).show();
+        }else {
+            app.createComment(mArticle, commentInput.getText().toString(), this);
+            view.setEnabled(false);
+        }
+    }
+
     private Article mArticle;
     private CommentAdapter mAdapter;
+
+
 
     @AfterViews
     public void initUI(){
@@ -88,32 +103,52 @@ public class ArticleViewerActivity extends BaseFragmentActivity implements Artic
         listview.setAdapter(mAdapter);
 
         app.getComments(mArticle.id,0,100,this);
+
+
+        setTitle("查看帖子");
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuItem item =  menu.add("?");
-        item.setIcon(R.drawable.alarm);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-        item = menu.add("search");
-        item.setIcon(R.drawable.search);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//        MenuItem item =  menu.add("?");
+//        item.setIcon(R.drawable.alarm);
+//        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//
+//        item = menu.add("search");
+//        item.setIcon(R.drawable.search);
+//        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         return true;
     }
 
+
+
     @Override
-    public void onGetArticles(long subjectId, int start, int length, JSONObject articles) {
-        if(start == 0) {
-            mAdapter.clearData();
-        }
+    public void onGetComment(long articleId, int begin, int num, JSONObject data) {
+        mAdapter.updateData(data, begin);
     }
 
     @Override
-    public void onFail(int code, String msg, JSONObject data) {
+    public void onFail(long articleId, String message, JSONObject data) {
+        Toast.makeText(this,"获取数据失败",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCreateFail(Article article, String msg, JSONObject data) {
+        Toast.makeText(this,"发送失败",Toast.LENGTH_SHORT).show();
+        findViewById(R.id.send).setEnabled(true);
+    }
+
+    @Override
+    public void onCommentCreated(Article article, JSONObject data) {
+        Utils.hideKeyBoard(this);
+        commentInput.setText("");
+        Toast.makeText(this,"发送成功",Toast.LENGTH_SHORT).show();
+        findViewById(R.id.send).setEnabled(true);
+        app.getComments(mArticle.id,0,100,this);
+        commentInput.setText("");
 
     }
 }

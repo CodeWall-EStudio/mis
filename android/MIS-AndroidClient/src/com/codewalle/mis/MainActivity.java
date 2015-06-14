@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.actionbarsherlock.view.MenuItem;
@@ -53,6 +54,7 @@ public class MainActivity extends BaseFragmentActivity implements SubjectCallbac
 
     private void initTabs() {
 
+        setRightMenu(false);
         if(!mTabInited){
             mTabInited = true;
         }else{
@@ -129,7 +131,7 @@ public class MainActivity extends BaseFragmentActivity implements SubjectCallbac
             tf.setActivity(this,mHandler);
             tf.setType(typeInt);
             mTabFrames.put(classTag, tf);
-            return tf.onCreateView(getLayoutInflater());
+            return tf.onCreateView(getLayoutInflater(),(ViewGroup)findViewById(android.R.id.tabcontent));
 
         } catch (Exception e){
             // do nothing

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import com.actionbarsherlock.view.MenuItem;
 import com.codewalle.framework.ui.BaseFragmentActivity;
 import com.codewalle.mis.controller.ArticleCallback;
 import com.codewalle.mis.model.Article;
@@ -18,6 +17,7 @@ import org.json.JSONObject;
  * Created by xiangzhipan on 15/4/25.
  */
 public class SubjectViewerActivity extends BaseFragmentActivity implements ArticleCallback, AdapterView.OnItemClickListener {
+    private static final int CODE_JUMP_NEXT = 1001;
     private Subject mSubject;
     private ListView mListView;
     private ArticleAdapter mArticleAdapter;
@@ -32,35 +32,37 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
             mSubject = new Subject(data);
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(this,"错误数据.",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "错误数据.", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
 
-        mListView = (ListView)findViewById(R.id.listview);
+        mListView = (ListView) findViewById(R.id.listview);
         initHeaderView();
         mArticleAdapter = new ArticleAdapter();
         mListView.setAdapter(mArticleAdapter);
         mListView.setOnItemClickListener(this);
 
-        app.getArticleList(mSubject.id,0,100,this);
-
     }
 
     @Override
-    public boolean onRightButtonClick(){
-        Intent i = new Intent(this,PostNewArticleActivity_.class);
-        i.putExtra("data", mSubject.toString());
-        startActivity(i);
-        return false;
+    public void onResume(){
+        super.onResume();
+        setTitle("浏览主题");
+        app.getArticleList(mSubject.id, 0, 100, this);
+
     }
 
+
+    @Override
+    public boolean onRightButtonClick() {
+        Intent i = new Intent(this, PostNewArticleActivity_.class);
+        i.putExtra("data", mSubject.toString());
+        startActivityForResult(i, CODE_JUMP_NEXT);
+        return false;
+    }
     private void initHeaderView() {
-        mHeaderView = getLayoutInflater().inflate(
-                R.layout.item_subject,
-                mListView,
-                false
-        );
+        mHeaderView = findViewById(R.id.include);
 
         mHeaderView.setClickable(false);
         mHeaderView.setFocusableInTouchMode(false);
@@ -75,12 +77,12 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
         TextView resourceCount = getTextView(mHeaderView, R.id.resourceCount);
 
         title.setText(mSubject.title);
-        creator.setText(String.format("%s",mSubject.creator));
-        member.setText(String.format("%d员",mSubject.memberCount));
-        createTime.setText(String.format("%s",mSubject.createTime));
-        articleCount.setText(String.format("%d",mSubject.articleCount));
-        lastUpdateUser.setText(String.format("%s",mSubject.updatorName));
-        resourceCount.setText(String.format("%d",mSubject.resourceCount));
+        creator.setText(String.format("%s", mSubject.creator));
+        member.setText(String.format("%d", mSubject.memberCount));
+        createTime.setText(String.format("%s", mSubject.createTime));
+        articleCount.setText(String.format("%d", mSubject.articleCount));
+        lastUpdateUser.setText(String.format("%s", mSubject.updatorName));
+        resourceCount.setText(String.format("%d", mSubject.resourceCount));
 
 //        ((TextView)mHeaderView.findViewById(R.id.title)).setText(mSubject.title);
 //        ((TextView)mHeaderView.findViewById(R.id.creator)).setText(
@@ -90,26 +92,17 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
 //        ((TextView)mHeaderView.findViewById(R.id.lastUpdateTime)).setText(
 //                String.format("更新时间 %s", mSubject.lastUpdateTime));
 
-        mListView.addHeaderView(mHeaderView);
+//        mListView.addHeaderView(mHeaderView);
     }
 
     private TextView getTextView(View parent, int resId) {
-        return (TextView)parent.findViewById(resId);
+        return (TextView) parent.findViewById(resId);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == Activity.RESULT_OK){
-            // 发表成功。刷新数据
-            app.getArticleList(mSubject.id,0,100,this);
-        }
-
-    }
     @Override
     public void onGetArticles(long subjectId, int start, int length, JSONObject articles) {
-        mArticleAdapter.updateData(articles,start);
+        if (isFinishing()) return;
+        mArticleAdapter.updateData(articles, start);
         try {
             Log.e("SubjectViewerActivity", articles.toString(4));
         } catch (JSONException e) {
@@ -124,10 +117,10 @@ public class SubjectViewerActivity extends BaseFragmentActivity implements Artic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(view == mHeaderView)return;
-        Article article = (Article)parent.getAdapter().getItem(position);
-        Intent i = new Intent(this,ArticleViewerActivity_.class);
-        i.putExtra("data",article.toString());
-        startActivity(i);
+        if (view == mHeaderView) return;
+        Article article = (Article) parent.getAdapter().getItem(position);
+        Intent i = new Intent(this, ArticleViewerActivity_.class);
+        i.putExtra("data", article.toString());
+        startActivityForResult(i, CODE_JUMP_NEXT);
     }
 }

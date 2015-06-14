@@ -1,5 +1,6 @@
 package com.codewalle.mis.model;
 
+import com.codewalle.framework.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,14 +38,14 @@ public class Subject {
     private void init(JSONObject object) {
         creator = object.optString("creatorName", "-");
         title = object.optString("title", "-");
-        createTime = object.optString("createTime", "-");
+        createTime = Utils.timeFormat(object.optString("createTime", "-"));
         id = object.optLong("id", 0);
         lastUpdateUserId = object.optLong("updator", 0);
         memberCount = object.optLong("memberCount", 0);
         updatorName = object.optString("updatorName", "无");
         resourceCount = object.optLong("resourceCount", 0);
         articleCount = object.optLong("articleCount", 0);
-        lastUpdateTime = object.optString("updateTime","-");
+        lastUpdateTime = Utils.timeFormat(object.optString("updateTime","-"));
     }
 
 

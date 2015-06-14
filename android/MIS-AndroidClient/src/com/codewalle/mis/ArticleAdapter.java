@@ -46,24 +46,34 @@ public class ArticleAdapter extends CWListAdapter{
         return 0;
     }
 
+//    @Override
+//    public View getView(int i, View convertView, ViewGroup parent) {
+//        if (convertView == null || convertView.getTag() == null) {
+//            LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService
+//                    (Context.LAYOUT_INFLATER_SERVICE);
+//
+//            convertView = inflater.inflate(R.layout.item_article, parent, false);
+//        }
+//
+//        ViewHolder holder = (ViewHolder) convertView.getTag();
+//        if (holder == null) {
+//            holder = new ViewHolder(convertView);
+//            convertView.setTag(holder);
+//        }
+//        holder.update((Article) getItem(i));
+//
+//
+//        return convertView;
+//    }
+
     @Override
-    public View getView(int i, View convertView, ViewGroup parent) {
-        if (convertView == null || convertView.getTag() == null) {
-            LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService
-                    (Context.LAYOUT_INFLATER_SERVICE);
+    protected int getLayoutRes() {
+        return R.layout.item_article;
+    }
 
-            convertView = inflater.inflate(R.layout.item_article, parent, false);
-        }
-
-        ViewHolder holder = (ViewHolder) convertView.getTag();
-        if (holder == null) {
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        }
-        holder.update((Article) getItem(i));
-
-
-        return convertView;
+    @Override
+    protected CWListAdapter.ViewHolder getViewHolder(View convertView) {
+        return new MyViewHolder(convertView);
     }
 
     @Override
@@ -83,25 +93,30 @@ public class ArticleAdapter extends CWListAdapter{
         return mArticles.size();
     }
 
-    private class ViewHolder {
+    private class MyViewHolder extends ViewHolder {
 
         public TextView creator;
         public TextView title;
         public TextView content;
+        public TextView createTime;
 
         public FloatImageLayout imageLayout;
 
-        public ViewHolder(View parent) {
+        public MyViewHolder(View parent) {
             creator = (TextView)parent.findViewById(R.id.creator);
             title = (TextView)parent.findViewById(R.id.title);
             content = (TextView)parent.findViewById(R.id.content);
             imageLayout = (FloatImageLayout)parent.findViewById(R.id.resource);
+            createTime = (TextView)parent.findViewById(R.id.createTime);
         }
 
-        public void update(Article item) {
+        @Override
+        public void update(Object object) {
+            Article item = (Article)object;
             creator.setText(item.creatorName);
             title.setText(item.title);
             content.setText(item.content);
+            createTime.setText(item.createTime);
 
             List<Resource> resources = item.resources;
             if(resources != null && resources.size() != 0){
@@ -118,5 +133,6 @@ public class ArticleAdapter extends CWListAdapter{
 
 
         }
+
     }
 }

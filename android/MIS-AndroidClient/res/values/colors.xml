@@ -7,5 +7,6 @@
     <color name="title_bg">#6777a7</color>
     <color name="default_bg">#f8f8f8</color>
     <color name="subject_header">#e8ebee</color>
+    <color name="listbg">#aaaaaa</color>
 
 </resources>

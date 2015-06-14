@@ -3,8 +3,15 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <ListView android:layout_width="match_parent" android:layout_height="match_parent"
-            android:id="@+id/listview">
+    <include android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/include"
+             layout="@layout/item_subject" android:layout_gravity="center_horizontal"/>
+    <ListView android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              style="@style/list_style"
+              android:layout_marginTop="5dp"
+              android:id="@+id/listview">
 
     </ListView>
 </LinearLayout>

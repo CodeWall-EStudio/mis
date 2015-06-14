@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
+              style="@style/item_style"
               android:layout_height="match_parent">
     <ImageView
             android:layout_width="80dp"
@@ -27,6 +28,7 @@
                       android:text="这是内容..."
                       android:singleLine="true"
                       android:layout_marginRight="5dp"
+                      android:maxHeight="200dp"
                       android:id="@+id/articleCount" android:gravity="center_vertical|right"/>
             <TextView android:layout_width="wrap_content" android:layout_height="20dp"
                       android:drawableLeft="@drawable/users"
@@ -69,7 +71,7 @@
                       android:weightSum="2"
                       android:id="@+id/layout3">
             <TextView android:layout_width="wrap_content" android:layout_height="20dp"
-                                                          android:text="最后更新于"
+                                                          android:text="最后更新"
                                                           android:singleLine="true"
                                                           android:layout_marginRight="5dp"
                                                           android:gravity="center_vertical"/>

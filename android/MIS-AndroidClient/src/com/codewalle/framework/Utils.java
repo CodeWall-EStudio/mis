@@ -1,8 +1,10 @@
 package com.codewalle.framework;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.view.inputmethod.InputMethodManager;
 import com.codewalle.framework.utils.Const;
 
 import java.io.*;
@@ -19,6 +21,11 @@ public class Utils {
     public static final Charset US_ASCII = Charset.forName("US-ASCII");;
     public static final Charset UTF_8 = Charset.forName("UTF-8");
 
+    public static void hideKeyBoard(Activity ctx){
+        try{
+            ((InputMethodManager)ctx.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(ctx.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }catch(Exception e){}
+    }
 
     public static String[] getStorageDirectories()
     {
@@ -175,5 +182,14 @@ public class Utils {
             }
         }
 
+    }
+
+    // 2015-06-07T14:20:03.000Z   => 2015-06-07
+    public static String timeFormat(String old){
+        if(old.length() >=10) {
+            return old.substring(0, 10);
+        }else{
+            return old;
+        }
     }
 }

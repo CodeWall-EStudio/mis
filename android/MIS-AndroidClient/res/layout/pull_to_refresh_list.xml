@@ -2,11 +2,13 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
+                android:background="@color/listbg"
                 android:layout_height="match_parent">
     <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@android:color/white"
+            style="@style/list_style"
             android:id="@+id/listview"
+            android:background="@color/listbg"
             ></com.handmark.pulltorefresh.library.PullToRefreshListView>
 </RelativeLayout>

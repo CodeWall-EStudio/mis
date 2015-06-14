@@ -4,6 +4,8 @@ import android.net.Uri;
 import com.android.volley.Request;
 import com.codewalle.framework.CWApplication;
 import com.codewalle.framework.network.CWResponseListener;
+import com.codewalle.mis.CommentCallback;
+import com.codewalle.mis.CreateCommentCallback;
 import com.codewalle.mis.model.Article;
 import org.json.JSONObject;
 
@@ -24,14 +26,14 @@ public class SubjectController extends Controller {
         super(app);
     }
 
-    public void getSubjectList(final int type,final int start,final int limit, final SubjectCallback callback){
+    public void getSubjectList(final int type, final int start, final int limit, final SubjectCallback callback) {
         Request req = requestBuilder.getSubjects(type, start, limit, new CWResponseListener() {
             @Override
             public void onResponseJSON(int code, String msg, final JSONObject data) {
-                if(code == 0){
-                    callback.onGetSubjects(type,start,limit,data);
-                }else{
-                    callback.onFail(code,msg,data);
+                if (code == 0) {
+                    callback.onGetSubjects(type, start, limit, data);
+                } else {
+                    callback.onFail(code, msg, data);
                 }
             }
         });
@@ -40,7 +42,7 @@ public class SubjectController extends Controller {
         requestQueue.start();
     }
 
-    public void getArticleList(final long subjectId,final int start,final int limit,final ArticleCallback callback){
+    public void getArticleList(final long subjectId, final int start, final int limit, final ArticleCallback callback) {
         Request req = requestBuilder.getArticles(subjectId, start, limit, new CWResponseListener() {
             @Override
             public void onResponseJSON(int code, String msg, final JSONObject data) {
@@ -56,13 +58,13 @@ public class SubjectController extends Controller {
         requestQueue.start();
     }
 
-    public void createArticle(String subjectId, String title, String content, ArrayList<Integer> labels, ArrayList<Integer> resources, final CWResponseListener listener){
+    public void createArticle(String subjectId, String title, String content, ArrayList<Integer> labels, ArrayList<Integer> resources, final CWResponseListener listener) {
         Request req = requestBuilder.createArticle(subjectId, title, content, labels, resources, listener);
         requestQueue.add(req);
         requestQueue.start();
     }
 
-    public void uploadResource(String filePath,CWResponseListener listener) throws FileNotFoundException {
+    public void uploadResource(String filePath, CWResponseListener listener) throws FileNotFoundException {
         /*
 POST /cgi/resource/upload
 REQ
@@ -83,16 +85,35 @@ RES
     }
 */
 
-        Request req = requestBuilder.uploadResource(filePath,listener);
+        Request req = requestBuilder.uploadResource(filePath, listener);
         requestQueue.add(req);
         requestQueue.start();
     }
 
-    public void getComments(long articleId, int start, int limit, ArticleCallback callback) {
-        Request req = requestBuilder.getComments(articleId,start,limit, new CWResponseListener() {
+    public void getComments(final long articleId, final int start, final int limit, final CommentCallback callback) {
+        Request req = requestBuilder.getComments(articleId, start, limit, new CWResponseListener() {
             @Override
             public void onResponseJSON(int code, String msg, JSONObject data) {
+                if (code == 0) {
+                    callback.onGetComment(articleId, start, limit, data);
+                } else {
+                    callback.onFail(articleId, msg, data);
+                }
+            }
+        });
+        requestQueue.add(req);
+        requestQueue.start();
+    }
 
+    public void createComment(final Article article, final String commentContent, final CreateCommentCallback callback) {
+        Request req = requestBuilder.getCreateComment(article, commentContent, new CWResponseListener() {
+            @Override
+            public void onResponseJSON(int code, String msg, JSONObject data) {
+                if (code == 0) {
+                    callback.onCommentCreated(article, data);
+                } else {
+                    callback.onCreateFail(article, msg, data);
+                }
             }
         });
         requestQueue.add(req);

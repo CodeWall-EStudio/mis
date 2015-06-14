@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <include layout="@layout/item_article" ></include>
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_height="match_parent">
+    <include layout="@layout/item_article" android:id="@+id/include"></include>
+
+    <ListView
             android:layout_width="match_parent"
             android:id="@+id/listview"
-            android:layout_height="match_parent">
+            style="@style/list_style"
+            android:layout_above="@+id/inputLayout"
+            android:layout_height="match_parent" android:layout_below="@+id/include" android:layout_marginTop="5dp">
 
-    </com.handmark.pulltorefresh.library.PullToRefreshListView>
-</LinearLayout>
+    </ListView>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_margin="5dp"
+            android:layout_height="45dp" android:layout_alignParentBottom="true"
+            android:id="@+id/inputLayout">
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/commentInput" android:layout_weight="1" android:hint="评论"/>
+        <Button
+                style="@style/buttonBlue"
+                android:layout_width="62dp"
+                android:layout_height="wrap_content"
+                android:text="发送"
+                android:id="@+id/send"/>
+    </LinearLayout>
+</RelativeLayout>

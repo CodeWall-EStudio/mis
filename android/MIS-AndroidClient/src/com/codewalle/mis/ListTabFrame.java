@@ -2,15 +2,16 @@ package com.codewalle.mis;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.codewalle.framework.ui.TabFrame;
 import com.codewalle.mis.controller.SubjectCallback;
-import com.codewalle.mis.model.Subject;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import org.json.JSONException;
@@ -31,9 +32,9 @@ public class ListTabFrame extends TabFrame implements AdapterView.OnItemClickLis
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent) {
 
-        mView = inflater.inflate(R.layout.pull_to_refresh_list,null);
+        mView = inflater.inflate(R.layout.pull_to_refresh_list,parent,false);
         mPullToRefreshListView = (PullToRefreshListView)findViewById(R.id.listview);
         mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
 
@@ -97,9 +98,18 @@ public class ListTabFrame extends TabFrame implements AdapterView.OnItemClickLis
         }
     };
 
-    private void getData(int startIndex) {
-        mIsPullingData = true;
-        app.getSubjectList(type, startIndex, mIncreasement, subjectCallback);
+    private void getData(final int startIndex) {
+        Handler h = mHandlerRef.get();
+        if(h == null)return;
+        h.post(new Runnable() {
+            @Override
+            public void run() {
+                mIsPullingData = true;
+                Log.d(TAG, "getData " + type + " " + startIndex);
+                app.getSubjectList(type, startIndex, mIncreasement, subjectCallback);
+            }
+        });
+
     }
 
 

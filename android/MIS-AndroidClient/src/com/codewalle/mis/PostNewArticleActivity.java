@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.codewalle.framework.Utils;
 import com.codewalle.framework.network.CWResponseListener;
 import com.codewalle.framework.ui.BaseFragmentActivity;
 import com.codewalle.mis.model.Subject;
@@ -43,8 +44,8 @@ public class PostNewArticleActivity extends BaseFragmentActivity {
         @Override
         public void onResponseJSON(int code, String msg, JSONObject data) {
             if(code == 0) {
-                finish();
                 setResult(Activity.RESULT_OK);
+                finish();
             }else{
                 Toast.makeText(PostNewArticleActivity.this,"发表失败",Toast.LENGTH_SHORT).show();
             }
@@ -102,14 +103,15 @@ public class PostNewArticleActivity extends BaseFragmentActivity {
 
     }
 
-    @AfterInject
-    public void init(){
-
+    @AfterViews
+    public void initUI(){
+        setTitle("发表帖子");
         setRightMenuText("完成");
 
         Intent i =getIntent();
         try {
             mSubject = new Subject(i.getStringExtra("data"));
+            setTitle("发表帖子-"+mSubject.title);
         } catch (JSONException e) {
             e.printStackTrace();
             finish();
@@ -126,7 +128,7 @@ public class PostNewArticleActivity extends BaseFragmentActivity {
         if(TextUtils.isEmpty(title) || TextUtils.isEmpty(content)){
             return false;
         }
-
+        Utils.hideKeyBoard(this);
         app.createArticle(subjectId,title,content,mLabels,mResources,mResponseListener);
         return super.onRightButtonClick();
     }

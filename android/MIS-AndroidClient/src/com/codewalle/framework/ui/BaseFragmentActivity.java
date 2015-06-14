@@ -36,20 +36,20 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
     private boolean mBackConfirm;
     private long mLastBackTime;
     private static final long DOUBLE_BACK_QUIT_INTERVAL = 2500;
-    protected Handler mHandler = new Handler(){
+    protected Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case MESSAGE_CONFIRM_QUIT:
-                    if(mLastBackTime == 0){
+                    if (mLastBackTime == 0) {
                         mLastBackTime = System.currentTimeMillis();
                         Toast.makeText(BaseFragmentActivity.this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
-                    }else{
-                        if(System.currentTimeMillis() - mLastBackTime <= DOUBLE_BACK_QUIT_INTERVAL){
+                    } else {
+                        if (System.currentTimeMillis() - mLastBackTime <= DOUBLE_BACK_QUIT_INTERVAL) {
                             finish();
-                        }else{
+                        } else {
                             mLastBackTime = System.currentTimeMillis();
-                            Toast.makeText(BaseFragmentActivity.this,"再按一次返回键退出",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BaseFragmentActivity.this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
                         }
                     }
                     break;
@@ -60,40 +60,53 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
     protected MenuItem mRightMenu;
 
 
-    public void setRightMenu(boolean show){
+    public void setRightMenu(boolean show) {
         mIsShowRightMenu = show;
         invalidateOptionsMenu();
+    }
+
+    /**
+     * Change the title associated with this activity.  If this is a
+     * top-level activity, the title for its window will change.  If it
+     * is an embedded activity, the parent can do whatever it wants
+     * with it.
+     *
+     * @param title
+     */
+    @Override
+    public void setTitle(CharSequence title) {
+        ((TextView) findViewById(R.id.tv_title)).setText(title);
+        getSupportActionBar().setTitle(title);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-        if(mIsShowRightMenu) {
+        if (mIsShowRightMenu) {
 
-            mRightMenu = menu.add(1,NEMU_ADD,Menu.NONE,"添加")
+            mRightMenu = menu.add(1, NEMU_ADD, Menu.NONE, "添加")
                     .setIcon(R.drawable.add);
-            if(mRightMenuText != null){
+            if (mRightMenuText != null) {
                 mRightMenu.setTitle(mRightMenuText);
                 mRightMenu.setIcon(null);
             }
             mRightMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-            MenuItem doneMenu = menu.add(1,MENU_DONE,Menu.NONE,"完成");
-            doneMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            TextView tv = new TextView(this);
-            tv.setText("完成");
-
-            doneMenu.setActionView(tv);
+//            MenuItem doneMenu = menu.add(1,MENU_DONE,Menu.NONE,"完成");
+//            doneMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//            TextView tv = new TextView(this);
+//            tv.setText("完成");
+//
+//            doneMenu.setActionView(tv);
 
 
         }
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        if(item == mRightMenu && onRightButtonClick()){
+        if (item == mRightMenu && onRightButtonClick()) {
             onRightButtonClick();
             return false;
         }
@@ -111,9 +124,8 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
         TAG = getClass().getName();
 
 
-
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setCustomView(R.layout.title_bar);
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO);
@@ -124,10 +136,11 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
         setBackConfirm(false);
 
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if(mBackConfirm && keyCode == KeyEvent.KEYCODE_BACK){
+        if (mBackConfirm && keyCode == KeyEvent.KEYCODE_BACK) {
             mHandler.sendEmptyMessage(MESSAGE_CONFIRM_QUIT);
             return true;
         }
@@ -137,25 +150,26 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
 
 
     String mRightMenuText = null;
-    public void setRightMenuText(String txt){
+
+    public void setRightMenuText(String txt) {
         mRightMenuText = txt;
         invalidateOptionsMenu();
     }
 
-    public void setBackConfirm(boolean backConfirm){
+    public void setBackConfirm(boolean backConfirm) {
         mBackConfirm = backConfirm;
     }
 
 
-    protected void doUpload(int type){
+    protected void doUpload(int type) {
         Intent i = new Intent(this, UploadActivity.class);
-        i.putExtra("type",type);
+        i.putExtra("type", type);
         startActivityForResult(i, type);
     }
 
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
             final String filePath = data.getStringExtra(UploadActivity.KEY_FILE_PATH);
             switch (requestCode) {
                 case UploadActivity.UPLOAD_TYPE_IMAGE:
@@ -167,27 +181,27 @@ public class BaseFragmentActivity extends SherlockFragmentActivity {
                             @Override
                             public void onResponseJSON(int code, String msg, JSONObject data) {
                                 if (code == 0) {
-                                    onFileUploaded(requestCode,true, filePath, data, "");
+                                    onFileUploaded(requestCode, true, filePath, data, "");
                                 } else {
-                                    onFileUploaded(requestCode,false, filePath, data, msg);
+                                    onFileUploaded(requestCode, false, filePath, data, msg);
                                 }
                             }
                         });
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
-                        onFileUploaded(requestCode,false,filePath,null,"file not found");
+                        onFileUploaded(requestCode, false, filePath, null, "file not found");
                     }
                     break;
                 default:
-                    super.onActivityResult(requestCode,resultCode,data);
+                    super.onActivityResult(requestCode, resultCode, data);
             }
-            return;
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
 
-    protected void onFileUploaded(int type,boolean success,String filePath,JSONObject resultData,String errorMsg){
+    protected void onFileUploaded(int type, boolean success, String filePath, JSONObject resultData, String errorMsg) {
         // do nothing
     }
 }

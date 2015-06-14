@@ -1,12 +1,18 @@
 package com.codewalle.mis;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import com.codewalle.framework.ui.CWListAdapter;
+import com.codewalle.mis.model.Article;
 import com.codewalle.mis.model.ArticleComment;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +33,19 @@ public class CommentAdapter extends CWListAdapter {
 
     @Override
     protected void addJSONData(JSONArray newData) {
+        try {
+            Log.i("CommentAdapter",newData.toString(2));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        for(int i=0;i<newData.length();++i){
+            try {
+                mCommentList.add(new ArticleComment(newData.optJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -69,27 +87,35 @@ public class CommentAdapter extends CWListAdapter {
         return 0;
     }
 
-    /**
-     * Get a View that displays the data at the specified position in the data set. You can either
-     * create a View manually or inflate it from an XML layout file. When the View is inflated, the
-     * parent View (GridView, ListView...) will apply default layout parameters unless you use
-     * {@link LayoutInflater#inflate(int, ViewGroup, boolean)}
-     * to specify a root view and to prevent attachment to the root.
-     *
-     * @param position    The position of the item within the adapter's data set of the item whose view
-     *                    we want.
-     * @param convertView The old view to reuse, if possible. Note: You should check that this view
-     *                    is non-null and of an appropriate type before using. If it is not possible to convert
-     *                    this view to display the correct data, this method can create a new view.
-     *                    Heterogeneous lists can specify their number of view types, so that this View is
-     *                    always of the right type (see {@link #getViewTypeCount()} and
-     *                    {@link #getItemViewType(int)}).
-     * @param parent      The parent that this view will eventually be attached to
-     * @return A View corresponding to the data at the specified position.
-     */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    protected int getLayoutRes() {
+        return R.layout.item_comment;
+    }
 
-        return null;
+    @Override
+    protected ViewHolder getViewHolder(View convertView) {
+        return new MyViewHolder(convertView);
+    }
+
+    private static class MyViewHolder extends ViewHolder{
+
+        private TextView createTime;
+        private TextView creator;
+        private TextView content;
+
+        public MyViewHolder(View parent){
+            createTime = findTextView(parent, R.id.createTime);
+            creator = findTextView(parent,R.id.creator);
+            content = findTextView(parent,R.id.content);
+
+        }
+        @Override
+        public void update(Object obj) {
+            ArticleComment comment = (ArticleComment)obj;
+
+            createTime.setText(comment.createTime);
+            creator.setText(comment.creator);
+            content.setText(comment.content);
+        }
     }
 }

@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
               android:layout_height="match_parent" android:weightSum="1">
 
     <EditText
@@ -25,24 +27,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_weight="0" android:weightSum="4">
         <Button
+                style="@style/buttonBlue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="拍照"
                 android:id="@+id/upload_image_from_camera" android:layout_weight="1"/>
         <Button
+                style="@style/buttonBlue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="相册"
                 android:id="@+id/upload_image" android:layout_weight="1"/>
         <Button
+                style="@style/buttonBlue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="拍视频"
-                android:id="@+id/upload_video" android:layout_weight="1"/>
+                android:id="@+id/upload_video" android:layout_weight="1" android:visibility="gone"/>
         <Button
+                style="@style/buttonBlue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="文件"
-                android:id="@+id/upload_file" android:layout_weight="1"/>
+                android:id="@+id/upload_file" android:layout_weight="1" android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

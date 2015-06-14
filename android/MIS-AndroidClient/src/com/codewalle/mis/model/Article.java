@@ -1,5 +1,6 @@
 package com.codewalle.mis.model;
 
+import com.codewalle.framework.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,8 +70,8 @@ public class Article {
 
         title = object.optString("title", "-");
         content = object.optString("content", "-");
-        createTime = object.optString("createTime", "-");
-        updateTime = object.optString("updateTime", "-");
+        createTime = Utils.timeFormat(object.optString("createTime", "-"));
+        updateTime = Utils.timeFormat(object.optString("updateTime", "-"));
         creatorName = object.optString("creatorName", "-");
         updatorName = object.optString("updatorName", "-");
 

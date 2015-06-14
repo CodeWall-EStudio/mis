@@ -1,6 +1,13 @@
 package com.codewalle.framework.ui;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
+import com.codewalle.mis.R;
+import com.codewalle.mis.model.Article;
 import com.codewalle.mis.model.Subject;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,8 +46,36 @@ public abstract class CWListAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null || convertView.getTag() == null) {
+            LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService
+                    (Context.LAYOUT_INFLATER_SERVICE);
+
+            convertView = inflater.inflate(getLayoutRes(),parent,false);
+//            convertView = getConverView();
+        }
+
+        ViewHolder holder = (ViewHolder) convertView.getTag();
+        if (holder == null) {
+            holder = getViewHolder(convertView);
+            convertView.setTag(holder);
+        }
+        holder.update( getItem(position));
+        return convertView;
+    }
+
+    protected abstract int getLayoutRes();
+    protected abstract ViewHolder getViewHolder(View convertView);
     protected abstract void clearData();
     protected abstract void addJSONData(JSONArray newData);
     protected abstract int getDataCount();
 
+
+    public abstract static class ViewHolder{
+        public TextView findTextView(View parent,int resId){
+            return (TextView)parent.findViewById(resId);
+        }
+        public abstract void update(Object item);
+    }
 }

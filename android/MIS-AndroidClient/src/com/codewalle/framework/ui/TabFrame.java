@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import com.codewalle.framework.CWApplication;
 
 import java.lang.ref.WeakReference;
@@ -63,7 +64,7 @@ public abstract class TabFrame {
         }
 
     }
-    public abstract View onCreateView(LayoutInflater inflater);
+    public abstract View onCreateView(LayoutInflater inflater, ViewGroup parent);
 
     public void setType(int type) {
         this.type = type;

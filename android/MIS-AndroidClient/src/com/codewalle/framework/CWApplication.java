@@ -5,6 +5,9 @@ import android.util.Pair;
 import com.codewalle.framework.network.CWResponseListener;
 import com.codewalle.framework.network.CWVolley;
 import com.codewalle.framework.utils.SharePreferenceUtil;
+import com.codewalle.mis.ArticleViewerActivity;
+import com.codewalle.mis.CommentCallback;
+import com.codewalle.mis.CreateCommentCallback;
 import com.codewalle.mis.controller.*;
 import com.codewalle.mis.model.Article;
 import com.codewalle.mis.model.UserInfo;
@@ -24,11 +27,10 @@ public class CWApplication extends Application {
     private UserController mUserController;
     private SubjectController mSubjectController;
 
-    public CWApplication(){
+    public CWApplication() {
         super();
         sApp = this;
     }
-
 
 
     @Override
@@ -42,16 +44,16 @@ public class CWApplication extends Application {
 
     }
 
-    public static CWApplication getApp(){
+    public static CWApplication getApp() {
         return sApp;
     }
-
 
 
     // TODO:返回网络请求所需要的header
     public static Map<String, String> getRequestHeaders() {
         return null;
     }
+
     // TODO 保存cookies
     public void saveCookies(Set<Pair<String, String>> headerSet) {
 
@@ -69,9 +71,14 @@ public class CWApplication extends Application {
         mSubjectController.createArticle(subjectId, title, content, labels, resources, listener);
     }
 
-    public void getComments(long  articleId,int start,int limit, ArticleCallback callback) {
-        mSubjectController.getComments(articleId,start,limit,callback);
+    public void getComments(long articleId, int start, int limit, CommentCallback callback) {
+        mSubjectController.getComments(articleId, start, limit, callback);
     }
+
+    public void createComment(Article article, String commentContent, CreateCommentCallback callback) {
+        mSubjectController.createComment(article, commentContent, callback);
+    }
+
     public void uploadResource(String filePath, CWResponseListener listener) throws FileNotFoundException {
         mSubjectController.uploadResource(filePath, listener);
     }
@@ -80,12 +87,15 @@ public class CWApplication extends Application {
     public void setUser(UserInfo user) {
         mUserController.setUser(user);
     }
-    public UserInfo getUser(){
+
+    public UserInfo getUser() {
         return mUserController.getUser();
     }
+
     public boolean doAutoLogin(LoginCallback cb) {
         return mUserController.doAutoLogin(cb);
     }
+
     public void doLogout() {
         mUserController.doLogout();
     }
@@ -100,6 +110,7 @@ public class CWApplication extends Application {
 
     // DELEGATE SharePreferenceUtil
     SharePreferenceUtil mSPUtil = new SharePreferenceUtil();
+
     public String getCachedData(String cacheType, String key, String defaultValue) {
         return mSPUtil.getCachedData(cacheType, key, defaultValue, this);
     }

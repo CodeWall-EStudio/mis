@@ -56,7 +56,7 @@ public class MISListAdapter extends CWListAdapter {
                 LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService
                         (Context.LAYOUT_INFLATER_SERVICE);
 
-                convertView = inflater.inflate(R.layout.item_subject, parent, false);
+                convertView = inflater.inflate(R.layout.item_subject, parent,false);
             }
 
             ViewHolder holder = (ViewHolder) convertView.getTag();
@@ -85,6 +85,16 @@ public class MISListAdapter extends CWListAdapter {
 
             return mMoreView;
         }
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return 0;
+    }
+
+    @Override
+    protected CWListAdapter.ViewHolder getViewHolder(View convertView) {
+        return null;
     }
 
     @Override
@@ -155,7 +165,7 @@ public class MISListAdapter extends CWListAdapter {
             this.subject = subject;
             title.setText(subject.title);
             creator.setText(String.format("%s",subject.creator));
-            member.setText(String.format("%d员",subject.memberCount));
+            member.setText(String.format("%d",subject.memberCount));
             createTime.setText(String.format("%s",subject.createTime));
             articleCount.setText(String.format("%d",subject.articleCount));
             lastUpdateUser.setText(String.format("%s",subject.updatorName));

@@ -5,6 +5,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.codewalle.framework.CWApplication;
 import com.codewalle.framework.network.CWResponseListener;
 import com.codewalle.framework.network.CWRequestBuilder;
+import com.codewalle.mis.model.Article;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -181,10 +182,30 @@ RES
         return request;
     }
 
+    public Request getCreateComment(Article article, String commentContent, CWResponseListener listener) {
+        StringRequest request = getSimpleStringRequest(
+                getCreateCommentUrl(),
+                Request.Method.POST,
+                listener.getResponseListener(),
+                listener.getErrorListener(),
+                "title","",
+                "content",commentContent,
+                "subjectId",""+article.subjectId,
+                "articleId",""+article.id
+        );
+        return request;
+    }
     private String getCommentUrl(long articleId, int start, int limit) {
         String path = "cgi/comment/search";
         String query = "?start="+start+"&limit="+limit+"&orderby=updateTime&articleId="+articleId;
         String url = BASE_URL + path + query;
         return url;
     }
+
+    public String getCreateCommentUrl() {
+        String path = "cgi/comment/create";
+        String url = BASE_URL + path;
+        return url;
+    }
+
 }
