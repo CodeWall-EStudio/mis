@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_android-volley" default="compile.module.android-volley">
+  <dirname property="module.android-volley.basedir" file="${ant.file.module_android-volley}"/>
+  
+  <property name="module.jdk.home.android-volley" value="${jdk.home.android_4.2.2_google_apis}"/>
+  <property name="module.jdk.bin.android-volley" value="${jdk.bin.android_4.2.2_google_apis}"/>
+  <property name="module.jdk.classpath.android-volley" value="jdk.classpath.android_4.2.2_google_apis"/>
+  
+  <property name="compiler.args.android-volley" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="android-volley.output.dir" value="${module.android-volley.basedir}/../out/production/android-volley"/>
+  <property name="android-volley.testoutput.dir" value="${module.android-volley.basedir}/../out/test/android-volley"/>
+  
+  <path id="android-volley.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="android-volley.module.production.classpath">
+    <path refid="${module.jdk.classpath.android-volley}"/>
+  </path>
+  
+  <path id="android-volley.runtime.production.module.classpath">
+    <pathelement location="${android-volley.output.dir}"/>
+  </path>
+  
+  <path id="android-volley.module.classpath">
+    <path refid="${module.jdk.classpath.android-volley}"/>
+    <pathelement location="${android-volley.output.dir}"/>
+  </path>
+  
+  <path id="android-volley.runtime.module.classpath">
+    <pathelement location="${android-volley.testoutput.dir}"/>
+    <pathelement location="${android-volley.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.android-volley">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.android-volley">
+    <patternset refid="excluded.from.module.android-volley"/>
+  </patternset>
+  
+  <path id="android-volley.module.sourcepath">
+    <dirset dir="${module.android-volley.basedir}">
+      <include name="gen"/>
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.android-volley" depends="compile.module.android-volley.production,compile.module.android-volley.tests" description="Compile module android-volley"/>
+  
+  <target name="compile.module.android-volley.production" description="Compile module android-volley; production classes">
+    <mkdir dir="${android-volley.output.dir}"/>
+    <javac destdir="${android-volley.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.android-volley}/javac">
+      <compilerarg line="${compiler.args.android-volley}"/>
+      <bootclasspath refid="android-volley.module.bootclasspath"/>
+      <classpath refid="android-volley.module.production.classpath"/>
+      <src refid="android-volley.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.android-volley"/>
+    </javac>
+    
+    <copy todir="${android-volley.output.dir}">
+      <fileset dir="${module.android-volley.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.android-volley.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.android-volley.tests" depends="compile.module.android-volley.production" description="compile module android-volley; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.android-volley" description="cleanup module">
+    <delete dir="${android-volley.output.dir}"/>
+    <delete dir="${android-volley.testoutput.dir}"/>
+  </target>
+</project>
