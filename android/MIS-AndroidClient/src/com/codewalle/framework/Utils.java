@@ -3,6 +3,7 @@ package com.codewalle.framework;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Environment;
 import android.view.inputmethod.InputMethodManager;
 import com.codewalle.framework.utils.Const;
@@ -190,6 +191,25 @@ public class Utils {
             return old.substring(0, 10);
         }else{
             return old;
+        }
+    }
+
+    public static boolean compressBitmapToPath(Bitmap image, String filePath) {
+        try {
+            // Use the compress method on the Bitmap object to write image to
+            // the OutputStream
+            FileOutputStream fos = new FileOutputStream(filePath);
+            // Writing the bitmap to the output stream
+            if(image.getWidth() >480 || image.getHeight() > 480)
+                image = Bitmap.createScaledBitmap(image, 480, 480, false);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+
         }
     }
 }

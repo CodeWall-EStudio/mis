@@ -2,14 +2,19 @@ package com.codewalle.mis;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
+import com.codewalle.framework.Utils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 
 /**
@@ -46,7 +51,7 @@ public class UploadActivity extends Activity {
 
     private void enterImageCapture() {
         Intent intent;
-        mCachePath = getCameraPath();
+        mCachePath = getTempPath();
         Uri uploadPhotoUri = Uri.fromFile(new File(mCachePath));
         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uploadPhotoUri);
@@ -62,7 +67,7 @@ public class UploadActivity extends Activity {
         }
     }
 
-    private String getCameraPath() {
+    private String getTempPath() {
         Calendar calendar = Calendar.getInstance();
         StringBuilder sb = new StringBuilder(Environment.getExternalStorageDirectory()
                 .getAbsolutePath()+"/TRACache/");
@@ -127,18 +132,39 @@ public class UploadActivity extends Activity {
                     return;
                 }
                 Uri uri = data.getData();
-                String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = managedQuery(uri, proj, // Which
-                        // columns
-                        // to return
-                        null, // WHERE clause; which rows to return (all rows)
-                        null, // WHERE clause selection arguments (none)
-                        null); // Order-by clause (ascending by name)
+//                String[] proj = {MediaStore.Images.Media.DATA};
+//                Cursor cursor = managedQuery(uri, proj, // Which
+//                        null, // WHERE clause; which rows to return (all rows)
+//                        null, // WHERE clause selection arguments (none)
+//                        null); // Order-by clause (ascending by name)
+//
+//                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                cursor.moveToFirst();
+//                filePath = cursor.getString(column_index);
 
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                filePath = cursor.getString(column_index);
 
+                InputStream stream = null;
+                try {
+                    stream = getContentResolver().openInputStream(
+                            data.getData());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Bitmap bitmap = BitmapFactory.decodeStream(stream);
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                filePath = getTempPath();
+                boolean isCompressSuccess = Utils.compressBitmapToPath(bitmap, filePath);
+                bitmap.recycle();
+
+                if(!isCompressSuccess){
+                    setResultAndFinish();
+                    Toast.makeText(this,"获取图片失败",Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
                 break;
             case UPLOAD_TYPE_IMAGE_CAPTURE:
